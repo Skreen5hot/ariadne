@@ -38,6 +38,8 @@
 | SFS | 2.2 | Draft | Function schema | 2026-01-30 | PASS |
 | TagTeam Roadmap | 6.6.0 | Active | Perception roadmap | 2026-01-30 | PASS |
 | Epistemic Vocabulary Mapping | 1.0 | Draft | Epistemic quality alignment | 2026-01-30 | New (Round 4, addresses T-010) |
+| HIRI Protocol Spec | 2.1.0 | Specification | Verifiable claim identifiers | 2026-01-31 | PASS (flags resolved: F-S15-1/2/3 addressed, T-011 open) |
+| IRIS | 1.2 | Impl-Ready Draft | Direct perception layer | 2026-01-31 | PASS (flags resolved: F-S16-1/2/3/4 addressed) |
 
 ## Foundation Layer
 

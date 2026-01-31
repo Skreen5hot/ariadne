@@ -521,6 +521,7 @@ All services communicate via CloudEvents with FNSR-specific extensions:
 
 | Service | Consumes Events | Produces Events |
 |---------|-----------------|-----------------|
+| **IRIS** | `fnsr.sensor.configured` | `fnsr.observation.created`, `fnsr.sensor.degraded`, `fnsr.model.drift_detected`, `fnsr.model.suspended` |
 | **SIS** | `fnsr.document.submitted` | `fnsr.document.sanitized`, `fnsr.input.quarantined` |
 | **ECCPS** | `fnsr.document.sanitized` | `fnsr.document.validated`, `fnsr.input.rejected` |
 | **TagTeam** | `fnsr.document.validated` | `fnsr.claim.extracted`, `fnsr.entity.mentioned` |
@@ -574,7 +575,8 @@ For machine-readable linking between specifications:
     "mdre": "https://mdre.spec/v1.3/",
     "iee": "https://iee.spec/v1/",
     "eccps": "https://eccps.spec/v1/",
-    "hiri": "https://hiri.spec/v1/"
+    "hiri": "https://hiri-protocol.org/spec/v2.1",
+    "iris": "https://iris.spec/v1.2/"
   },
   "@graph": [
     {
@@ -590,6 +592,19 @@ For machine-readable linking between specifications:
       "fnsr:feedbackLoop": true,
       "fnsr:reportingOnly": false,
       "fnsr:driftRecord": "D-001"
+    },
+    {
+      "@id": "hiri:ResolutionManifest",
+      "fnsr:usedFor": "fnsr:ProvenanceSigning",
+      "hiri:version": "2.1.0",
+      "hiri:features": ["chain-compaction", "privacy-accumulators", "materialized-entailment"],
+      "fnsr:headerFormat": "hiri://<authority>/<type>/<identifier>"
+    },
+    {
+      "@id": "iris:ObservationNode",
+      "fnsr:producesEvent": "fnsr.observation.created",
+      "iris:taintSubLevels": ["L0-RAW", "L1-PERCEIVED", "L1-INTERNAL", "L1-ASSERTED"],
+      "hiri:signedVia": "hiri:ResolutionManifest"
     },
     {
       "@id": "fnsr:AdversarialDetection",

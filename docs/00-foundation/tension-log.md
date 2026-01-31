@@ -72,6 +72,13 @@
 - **Current resolution**: **Resolved.** Standalone Epistemic Vocabulary Mapping spec (v1.0) documents all four systems as operating at different architectural levels (linguistic → assertion → pipeline → function) with directional mappings between them. Systems remain independent; mapping clarifies relationships without forcing unification.
 - **Status**: Resolved — Round 4 (2026-01-30)
 
+### T-011: Privacy Budget Authority vs. Distributed Governance
+- **First identified**: 2026-01-31 (ARIADNE coherence review, HIRI Protocol Spec v2.1)
+- **Specs involved**: HIRI Protocol Spec §9.5, ARCHON, FNSR Architecture (distributed authority principle)
+- **Nature**: HIRI's Privacy Accumulator model introduces a centralized Privacy Authority for enforcing privacy budgets across verifiers. This is architecturally at odds with the cross-cutting design principle "no single decision-maker at any layer." HIRI acknowledges this (§9.5.7: federated authorities as mitigation, §1.2: explicit limitations) but the FNSR ecosystem hasn't decided whether a Privacy Authority is a governance entity under ARCHON's jurisdiction or an infrastructure primitive outside it.
+- **Current resolution**: Unresolved. HIRI documents the trade-off honestly. Three possible resolutions: (1) Privacy Authority as ARCHON-governed entity, (2) Privacy Authority as infrastructure primitive (like DNS), (3) Federated model accepting some budget gaming.
+- **Status**: Open
+
 ## Resolved Tensions (Archived)
 
 [Move tensions here when fully resolved and validated]

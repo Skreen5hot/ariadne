@@ -4,7 +4,7 @@
 **Version:** 3.0.0  
 **Date:** December 30, 2025  
 **Status:** Draft for Review  
-**Author:** Aaron Brookner  
+**Author:** Aaron Damaino  
 **Document Type:** Functional Requirements
 
 ---
@@ -14,12 +14,12 @@
 ### Version History
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 3.0.0 | 2025-12-30 | Aaron Brookner | Initial draft for new architecture |
+| 3.0.0 | 2025-12-30 | Aaron Damaino | Initial draft for new architecture |
 
 ### Review & Approval
 | Role | Name | Signature | Date |
 |------|------|-----------|------|
-| Product Owner | Aaron Brookner | | |
+| Product Owner | Aaron Damaino | | |
 | Technical Lead | | | |
 | Integration Lead | | | |
 

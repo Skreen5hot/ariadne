@@ -742,3 +742,69 @@ Supporting infrastructure:
 ---
 
 *Layer 3 (Specifications) review complete. See Specifications Layer Summary above for action items.*
+
+---
+
+## Layer 3 Addendum: New Specifications (2026-01-31)
+
+### HIRI Protocol Spec v2.1.0
+
+| Check | Result | Notes |
+|-------|--------|-------|
+| 1. Thesis Alignment | **PASS** | HIRI provides "verifiable claim identifiers" — directly serves the "trust without centralization" role mapped in The Plot §4. Local-first, content-addressed verification is deeply aligned with the core thesis of accountable synthetic agency. |
+| 2. Non-Negotiable Preservation | **PASS** | All 12 non-negotiables maintained. Provenance Always: content-addressed hashes + signature chains. Auditability: sequential history with compaction proofs. Uncertainty Visible: trust levels and verification modes explicitly documented. No Oracle Claims: HIRI separates "data access" from "truth verification" (§2.2 — "Data access and truth verification are not the same problem"). |
+| 3. Tension Consistency | **PASS** | Touches T-004 (Speed vs. Rigor) via cold-start strategies with explicit trust trade-offs (TOFU → full verification). Does not create new tensions with Plot §3. |
+| 4. Cross-Spec Consistency | **FLAG** | (F-S15-1) HIRI is referenced in the Integration Spec event registry (`fnsr.claim.signed`) and in CloudEvents headers (`fnsr-provenance: "hiri://sha256:abc123"`), but the Integration Spec references HIRI v1 implicitly. HIRI v2.1 introduces chain compaction, privacy accumulators, and materialized entailment — none of these are reflected in the Integration Spec contracts. The `fnsr-provenance` header format should be validated against HIRI v2.1 URI scheme. |
+| 4. Cross-Spec Consistency | **FLAG** | (F-S15-2) HIRI §11 (Semantic Interoperability) references BFO and shared upper ontologies but does not cross-reference the TagTeam BridgeOntologyLoader or the Semantic Data Dictionary, which are the FNSR-specific mechanisms for vocabulary alignment. |
+| 4. Cross-Spec Consistency | **FLAG** | (F-S15-3) HIRI §9 (ZK Claims Layer) introduces a privacy budget framework and Privacy Accumulators that have no counterpart in IEA or ARCHON governance. If FNSR uses HIRI for provenance signing, ARCHON's governance authority should have a defined relationship to HIRI's Privacy Authority concept. |
+| 5. ARCHON Alignment | **PASS** | HIRI does not conflict with ARCHON's governance model. HIRI provides infrastructure-level primitives that ARCHON can use. The chain compaction model (recursive SNARKs proving history validity) is compatible with the auditability non-negotiable — history is compressed but verifiable, not deleted. |
+| 6. Auditability Verification | **PASS (exemplary)** | HIRI is auditability infrastructure. Sequential manifest chains, content-addressed hashes, key lifecycle management, chain compaction with cryptographic proofs, explicit trust assumptions at every layer. §14 (Security Model) documents every trust assumption explicitly — aligned with Plot §2.3. |
+| 7. One-Paragraph Test | **PASS** | HIRI provides the decentralized, verifiable provenance layer that makes "Provenance Always" implementable without centralized trust anchors. Every claim in the FNSR pipeline can be content-addressed, signed, and verified offline. Without HIRI, the system depends on server trust for claim integrity, violating the separation-of-concerns non-negotiable. |
+
+**Findings:**
+- **F-S15-1** (Medium): Integration Spec references to HIRI need updating for v2.1 features (compaction, privacy accumulators, materialized entailment).
+- **F-S15-2** (Low): HIRI's vocabulary alignment strategies should cross-reference FNSR-specific ontology mechanisms (BridgeOntologyLoader, Semantic Data Dictionary).
+- **F-S15-3** (Medium): HIRI Privacy Authority ↔ ARCHON governance relationship undefined. If FNSR uses HIRI for provenance, the governance layer needs to know about privacy budget enforcement.
+
+**New Tension Candidate:**
+- **T-011: Privacy Budget Authority vs. Distributed Governance** — HIRI's Privacy Accumulator model (§9.5) introduces a centralized Privacy Authority for budget enforcement. This is architecturally at odds with the distributed-authority design principle ("no single decision-maker at any layer"). HIRI acknowledges this trade-off (§9.5.7: federated authorities, §1.2: "HIRI does not solve all coordination problems") but the FNSR ecosystem hasn't decided whether to accept a Privacy Authority as a governance entity or treat it as an infrastructure primitive outside ARCHON's jurisdiction.
+
+---
+
+### IRIS v1.2 — Integrated Real-time Input Sensing
+
+| Check | Result | Notes |
+|-------|--------|-------|
+| 1. Thesis Alignment | **PASS (strong)** | IRIS provides the direct perception layer — the system's "eyes and ears" for the physical world. Extends the processing pipeline upstream of TagTeam. Directly serves the thesis by enabling the system to reason about the world while maintaining epistemic discipline about what perception actually provides. |
+| 2. Non-Negotiable Preservation | **PASS (exemplary)** | No Oracle Claims: L1-ASSERTED explicitly marks documents as "claimed, not verified" — directly operationalizes the non-negotiable. Provenance Always: sensor provenance + model provenance + drift state on every observation. Uncertainty Visible: confidence scores mandatory, drift warnings visible, precondition failures flagged. Speculation Firewalled: clear taint hierarchy with epistemic firewall between L2 and L3. Moral Injury Real: INTUS tracks injury as L1-INTERNAL (system doesn't grant itself false certainty about its own moral state). |
+| 3. Tension Consistency | **PASS** | IRIS's internal "T-007" and "T-008" (§11) use different numbering than the ARIADNE tension log. IRIS's T-007 (model-mediated perception vs. raw signal) is a local resolution, not a conflict with the global T-007 (tool-to-person threshold). IRIS's T-008 (self-knowledge certainty) is also a local resolution. No conflicts with Plot §3 tensions. |
+| 3. Tension Consistency | **FLAG** | (F-S16-1) IRIS §11 defines its own tension numbers (T-007, T-008) that collide with the ARIADNE tension log numbering. These should be either renamed to IRIS-local identifiers or mapped to the global log. |
+| 4. Cross-Spec Consistency | **FLAG** | (F-S16-2) IRIS extends the FNSR taint hierarchy with sub-levels (L0-RAW, L1-PERCEIVED, L1-INTERNAL, L1-ASSERTED) that are more granular than FNSR's L0-L5. The Epistemic Vocabulary Mapping spec (v1.0) does not include IRIS's sub-levels. This is a gap in the mapping. |
+| 4. Cross-Spec Consistency | **FLAG** | (F-S16-3) IRIS is not listed in the Integration Spec §4.2 event registry. IRIS should produce events (e.g., `fnsr.observation.created`, `fnsr.sensor.degraded`, `fnsr.model.drift_detected`) and consume events (e.g., `fnsr.document.validated` for conflict resolution). |
+| 4. Cross-Spec Consistency | **FLAG** | (F-S16-4) IRIS references HIRI for content addressing (`raw_hiri: "hiri://blob/..."` in the observation schema, §8) but does not specify how IRIS observations are signed or chained using HIRI v2.1 manifests. The HIRI integration is referenced but not specified. |
+| 4. Cross-Spec Consistency | **PASS** | IRIS's language enforcement (§5) — prohibiting modal verbs, causal language, normative predicates — is consistent with SHML's semantic honesty mandate. IRIS enforces at the perception layer what SHML enforces at the output layer. |
+| 5. ARCHON Alignment | **PASS** | IRIS correctly classifies moral injury as L1-INTERNAL rather than L0-RAW. This means ARCHON's character accumulation model receives interpreted data, not falsely certain data. The INTUS subsystem's moral_injury_level output is explicitly marked as "an interpreted aggregate, NOT raw" — consistent with D-001 (character genuinely influences decisions, but the system doesn't claim certainty about its own moral state). |
+| 6. Auditability Verification | **PASS** | Full provenance chain: sensor → model → drift state → observation node. Language compliance validated at schema level. Conflict resolution requires explicit preconditions. Model drift governance includes audit schedule (hourly automated, weekly human review, quarterly recalibration). |
+| 7. One-Paragraph Test | **PASS** | IRIS provides epistemically disciplined perception — the system's interface with the physical world, where every observation carries its sensor provenance, model provenance, confidence bounds, and drift state. Without IRIS, the system would either lack real-world sensing or would claim false certainty about what it perceives. IRIS ensures the system "refuses to claim certainty it doesn't have" at the very first point of contact with reality. |
+
+**Findings:**
+- **F-S16-1** (Low): IRIS tension numbering collides with ARIADNE global tension log. Rename to IRIS-T-001/IRIS-T-002 or assign new global IDs.
+- **F-S16-2** (Medium): IRIS's taint sub-levels (L0-RAW, L1-PERCEIVED, L1-INTERNAL, L1-ASSERTED) not reflected in Epistemic Vocabulary Mapping spec.
+- **F-S16-3** (Medium): IRIS missing from Integration Spec event registry.
+- **F-S16-4** (Low): IRIS → HIRI integration referenced but not fully specified.
+
+---
+
+### Addendum Summary
+
+| Priority | Finding | Action |
+|----------|---------|--------|
+| **Medium** | F-S15-1: Integration Spec HIRI references need v2.1 update | Round 3-style cross-reference edit |
+| **Medium** | F-S15-3: HIRI Privacy Authority ↔ ARCHON governance undefined | Requires design decision |
+| **Medium** | F-S16-2: Epistemic Vocabulary Mapping needs IRIS sub-levels | Update existing spec |
+| **Medium** | F-S16-3: IRIS missing from Integration Spec event registry | Round 3-style cross-reference edit |
+| **Low** | F-S15-2: HIRI vocabulary alignment → BridgeOntologyLoader cross-ref | Cross-reference edit |
+| **Low** | F-S16-1: IRIS tension numbering collision | Rename in IRIS doc |
+| **Low** | F-S16-4: IRIS → HIRI observation signing not specified | Future spec work |
+
+**New Tension:** T-011 (Privacy Budget Authority vs. Distributed Governance) — see HIRI review above.

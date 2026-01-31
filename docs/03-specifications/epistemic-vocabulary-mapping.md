@@ -33,6 +33,21 @@ Taint levels track epistemic contamination as information flows through the proc
 
 **Contamination rule:** L3 + L0 → L3 (speculation contaminates).
 
+**IRIS Sub-Levels (Perception Layer):**
+
+IRIS v1.2 refines the L0 and L1 levels with perception-specific sub-types that operate *upstream* of the main pipeline:
+
+| Sub-Level | Name | Meaning | Maps to Pipeline Level |
+|-----------|------|---------|----------------------|
+| L0-RAW | Raw Signal | Direct sensor hardware readings (pixels, voltage, clock ticks) — semantically empty | L0 (Verified) |
+| L1-PERCEIVED | Perceived Feature | Model-mediated perception of external world (probabilistic) | L1 (Derived) |
+| L1-INTERNAL | Internal Feature | Model-mediated self-observation (aggregated metrics, moral injury level) | L1 (Derived) |
+| L1-ASSERTED | Asserted Claim | Documentary claims — explicitly "claimed, not verified" | L1-L2 (Derived/Defeasible) |
+
+These sub-levels exist only within IRIS and are collapsed to standard pipeline levels (L0-L5) when observations enter the main FNSR processing pipeline. The sub-levels preserve finer-grained epistemic provenance at the perception boundary.
+
+Source: IRIS v1.2 §2
+
 ### 2.2 MDRE Evidence Tiers (Assertion-Level)
 
 Source: MDRE Technical Specification v1.3 §7-8
