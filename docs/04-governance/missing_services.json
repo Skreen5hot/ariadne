@@ -1,0 +1,190 @@
+{
+  "apiVersion": "architecture.io/v1",
+  "kind": "MissingServiceReport",
+  "metadata": {
+    "generated": "2026-01-31",
+    "method": "Spec-Driven Discovery v1.1 §8",
+    "sha256": "PENDING — compute on finalization",
+    "epistemic_classification": "L1-INTERNAL (model-mediated extraction)"
+  },
+  "missing_specs": [
+    {
+      "proposed_id": "sis-core-01",
+      "name": "Sanitization & Ingestion Service",
+      "priority": "HIGH",
+      "reason": "Referenced in Plot §4 and Integration Spec §4.2 with full event contract, but no dedicated spec document exists",
+      "referenced_in": ["the-plot.md §4", "FNSR-Integration-Specification-v1.0.md §4.2", "FNSR-Complete-Architecture-v2.1.md"],
+      "consumes": ["fnsr.document.submitted"],
+      "produces": ["fnsr.document.sanitized", "fnsr.input.quarantined"],
+      "status": "proposed",
+      "description": "SIS is the first layer of the defense-in-depth security architecture, performing fast pattern-based syntactic filtering at microsecond latency before any semantic processing occurs. It detects and neutralizes character-level and encoding-level attacks including homoglyph substitution, invisible character injection, encoding normalization attacks, known injection patterns (regex/ML-based), and prompt injection vectors. SIS operates strictly at the syntactic layer — it does NOT perform semantic analysis (that responsibility belongs to ECCPS downstream). Clean input is forwarded as fnsr.document.sanitized; adversarial input is quarantined via fnsr.input.quarantined with full provenance of what was detected and why. SIS is bypassed on the fast query path (cached queries skip sanitization) but processes all input on standard and full paths. The spec should define: the pattern database schema, the quarantine protocol, the boundary between syntactic and semantic filtering (SIS vs. ECCPS), performance requirements (<10μs per document), and how SIS handles novel attack vectors not in the pattern database. SIS does not assign taint levels itself but is the first checkpoint for L5 (Adversarial) content detection.",
+      "upstream": ["API Gateway / External input sources"],
+      "downstream": ["ECCPS (eccps-core-01)"],
+      "taint_level": "Detects L5 (Adversarial); does not assign taint",
+      "query_paths": ["standard", "full"]
+    },
+    {
+      "proposed_id": "oers-core-01",
+      "name": "Ontology-Aware Entity Resolution Service",
+      "priority": "HIGH",
+      "reason": "Referenced in Plot §4 and Integration Spec §4.2 with full event contract, but no dedicated spec document exists",
+      "referenced_in": ["the-plot.md §4", "FNSR-Integration-Specification-v1.0.md §4.2"],
+      "consumes": ["fnsr.entity.mentioned"],
+      "produces": ["fnsr.entity.resolved", "fnsr.entity.same_as"],
+      "status": "proposed",
+      "description": "OERS performs cross-document entity resolution — determining 'who is who' when the same real-world entity is mentioned under different names, spellings, or references across multiple documents. It receives fnsr.entity.mentioned events from TagTeam (which extracts per-sentence entities but defers cross-sentence coreference to OERS) and produces fnsr.entity.resolved (identity determined) and fnsr.entity.same_as (coreference assertions using the same_as/5 predicate). OERS is ontology-aware: it respects BFO/CCO type hierarchies when matching, so it will not resolve a Person as an Organization even if string similarity is high. Entity resolution confidence scores affect downstream epistemic status — uncertain resolutions inherit higher taint. The spec should define: the resolution algorithm (probabilistic matching, graph-based coreference, type-aware similarity metrics), the confidence scoring model, integration with external entity registries, the HITL (human-in-the-loop) reconciliation protocol for ambiguous cases, the same_as/5 predicate semantics, and how OERS interacts with Fandaws for persistent identity storage. OERS participates in standard and full query paths; cached entity resolutions may be used on the fast path.",
+      "upstream": ["TagTeam (tagteam-core-01)"],
+      "downstream": ["MDRE (mdre-core-01)", "Fandaws (fandaws-core-01)"],
+      "taint_level": "Inherits from source mentions; uncertain resolutions may elevate taint",
+      "query_paths": ["fast (cached)", "standard", "full"]
+    },
+    {
+      "proposed_id": "w2fuel-core-01",
+      "name": "W2Fuel Ontological Schema Service",
+      "aliases": ["OSS", "Ontological Schema Service"],
+      "priority": "HIGH",
+      "reason": "Referenced in Plot §4 and Integration Spec §4.2 with full event contract, but no dedicated spec document exists. T-Box service is architecturally critical.",
+      "referenced_in": ["the-plot.md §4", "FNSR-Integration-Specification-v1.0.md §4.2"],
+      "consumes": ["fnsr.schema.query"],
+      "produces": ["fnsr.schema.response", "fnsr.schema.updated"],
+      "status": "proposed",
+      "description": "W2Fuel manages the T-Box (Terminological Box) — the class definitions, property schemas, and ontological structure that give meaning to all instance data stored in Fandaws (A-Box). It stores and serves BFO/CCO class hierarchies, manages schema evolution and versioning, handles namespace federation across domains (e.g., RealEstate:Lease vs Auto:Lease are distinct concepts sharing a lexical form), and provides schema metadata for downstream validation. The T-Box/A-Box separation is an architectural boundary: W2Fuel defines WHAT kinds of things exist; Fandaws stores WHICH things exist. MDRE joins both when reasoning. The spec should define: the schema storage model (triple store, OWL 2, or graph database), the schema query interface (SPARQL-like or custom), the namespace federation protocol for multi-domain disambiguation, the schema evolution and versioning policy (semantic versioning with governance approval for breaking changes), BFO/CCO compliance requirements, and how schema updates propagate to dependent services. Schema content is L0 (Verified) since it defines the ontology itself. Schema updates are governance events requiring human approval, not automatic operations. W2Fuel participates in all query paths — fast path uses cached schema lookups, standard and full paths query fresh definitions.",
+      "upstream": ["Schema authors", "Governance bodies"],
+      "downstream": ["Fandaws (fandaws-core-01)", "MDRE (mdre-core-01)", "TagTeam (tagteam-core-01)", "OERS (oers-core-01)"],
+      "taint_level": "L0 (Verified) — schemas define the ontology",
+      "query_paths": ["fast (cached)", "standard", "full"]
+    },
+    {
+      "proposed_id": "aes-core-01",
+      "name": "Abductive Elicitation Service",
+      "priority": "MEDIUM",
+      "reason": "Referenced in Plot §4 and Integration Spec §4.2 but no dedicated spec document exists",
+      "referenced_in": ["the-plot.md §4", "FNSR-Integration-Specification-v1.0.md §4.2", "MDRE-Technical-Specification-v1.3.md"],
+      "consumes": ["fnsr.gap.detected"],
+      "produces": ["fnsr.hypothesis.generated", "fnsr.query.external"],
+      "status": "proposed",
+      "description": "AES handles incomplete information through abductive reasoning — when MDRE's deduction fails because predicates are missing, AES identifies the minimal set of missing predicates and generates hypotheses or Structured Query Objects (SQOs) to fill the gaps. For example, if MDRE cannot determine a verdict because background_check_status is unknown, AES generates an SQO targeting that specific attribute from an external HR system. All AES outputs carry L3 (Speculative) taint and are firewalled from production reasoning until validated — hypotheses CANNOT leak to L0-L2 per the epistemic firewall. The spec should define: the abductive search algorithm (abductive logic programming, minimal set cover), the search space bounding strategy (AES must guarantee termination — no unbounded abduction), the SQO schema and dispatch protocol (webhook callbacks for external queries), the hypothesis ranking model (plausibility scoring), the validation protocol for promoting hypotheses from L3 to L0-L2, and async processing semantics (SQO dispatch is non-blocking). AES is bypassed on fast and standard query paths and only invoked on the full path when MDRE emits fnsr.gap.detected. FNSR §4.1 provides a concrete data flow example: MDRE fails → orchestrator routes to AES → AES generates SQO → external system responds → MDRE re-runs with new fact.",
+      "upstream": ["MDRE (mdre-core-01)"],
+      "downstream": ["MDRE (mdre-core-01)", "External systems via SQO webhooks", "SFS/DSFC (function queries)"],
+      "taint_level": "L3 (Speculative) — all outputs firewalled",
+      "query_paths": ["full"]
+    },
+    {
+      "proposed_id": "des-core-01",
+      "name": "Defeasible Expectation Service",
+      "priority": "MEDIUM",
+      "reason": "Referenced in Plot §4 and Integration Spec §4.2 but no dedicated spec document exists",
+      "referenced_in": ["the-plot.md §4", "FNSR-Integration-Specification-v1.0.md §4.2"],
+      "consumes": ["fnsr.claim.extracted"],
+      "produces": ["fnsr.anomaly.detected", "fnsr.default.applied"],
+      "status": "proposed",
+      "description": "DES provides common-sense reasoning through non-monotonic defaults — rules of the form 'typically X, unless Y' that can be retracted when contradicting evidence appears. It consumes fnsr.claim.extracted events from TagTeam and applies default expectations, producing fnsr.default.applied when a default fills a gap and fnsr.anomaly.detected when observed facts violate an expectation. All DES outputs are L2 (Defeasible) — they are production-safe but explicitly overridable by stronger evidence. DES does NOT learn via gradient descent (preserving auditability per The Plot §2.3); pattern learning is frequency-based from the observation log. Anomalies are signals, not blockers — they flag potential violations of norms or expectations for downstream review but do not halt processing. The spec should define: the defeasible logic formalism (Reiter's default logic, or similar), the default rule database schema and governance (who can add/modify defaults), the anomaly detection threshold model, the exception registry for known violations, how DES interacts with MDRE (defaults feed into reasoning as defeasible premises), and the boundary between DES anomaly detection and ECCPS semantic validation. DES is the system's 'common sense' (FNSR §10 metaphor). It is bypassed on the fast path, may apply cached defaults on the standard path, and performs full anomaly detection on the full path.",
+      "upstream": ["TagTeam (tagteam-core-01)"],
+      "downstream": ["MDRE (mdre-core-01)", "IEE (iee-core-01) for ethical anomalies"],
+      "taint_level": "L2 (Defeasible) — production-safe but overridable",
+      "query_paths": ["standard (cached defaults)", "full"]
+    },
+    {
+      "proposed_id": "css-core-01",
+      "name": "Counterfactual Simulation Service",
+      "priority": "MEDIUM",
+      "reason": "Referenced in Plot §4 and Integration Spec §4.2 but no dedicated spec document exists",
+      "referenced_in": ["the-plot.md §4", "FNSR-Integration-Specification-v1.0.md §4.2"],
+      "consumes": ["fnsr.simulation.requested"],
+      "produces": ["fnsr.simulation.result"],
+      "status": "proposed",
+      "description": "CSS performs 'what if' analysis by forking the event log to create isolated hypothetical worlds and simulating causal counterfactuals within them. When MDRE or IEE needs to evaluate alternative scenarios — 'what would happen if this contract term were changed?' or 'what are the ethical consequences of intervention X?' — CSS forks the current state into a sandbox, runs the simulation, and returns results as fnsr.simulation.result. All CSS outputs carry L4 (Hypothetical) taint and are architecturally prevented from merging back into the main event log — this is a hard constraint, not a policy. CSS is the system's 'imagination' (FNSR §10 metaphor): it explores possibilities without contaminating verified knowledge. The spec should define: the event log forking mechanism (copy-on-write semantics over the Kafka/Pulsar event log), the sandbox isolation guarantees (no side effects, no state leakage), the causal intervention model (Pearl's do-calculus or similar formal framework), the simulation termination criteria (bounded computation per The Plot §2.3 Decidability), resource limits for simulation runs, and how simulation results are presented to IEE for ethical scenario evaluation. CSS is bypassed on fast and standard paths and only invoked on the full query path for high-stakes what-if analysis. Async processing is acceptable — simulations may take longer than the 2s full-path budget.",
+      "upstream": ["MDRE (mdre-core-01)", "IEE (iee-core-01)"],
+      "downstream": ["IEE (iee-core-01)", "MDRE (mdre-core-01) as hypothetical evidence"],
+      "taint_level": "L4 (Hypothetical) — cannot escape sandbox, never merges to main log",
+      "query_paths": ["full"]
+    },
+    {
+      "proposed_id": "aps-core-01",
+      "name": "Analogical Precedent Service",
+      "priority": "MEDIUM",
+      "reason": "Referenced in Plot §4 and Integration Spec §4.2 but no dedicated spec document exists",
+      "referenced_in": ["the-plot.md §4", "FNSR-Integration-Specification-v1.0.md §4.2"],
+      "consumes": ["fnsr.precedent.query"],
+      "produces": ["fnsr.precedent.found"],
+      "status": "proposed",
+      "description": "APS retrieves analogous past reasoning cases to inform current decisions — the system's 'wisdom' or 'experience' (FNSR §10 metaphor). It uses Graph Neural Networks (GNNs) to embed historical reasoning graphs into vector space and performs structural similarity matching to find cases where similar inputs led to similar reasoning chains. When MDRE or IEE needs precedent — 'have we seen a case like this before?' — APS searches the case library and returns ranked matches with similarity scores. Precedent taint inherits from historical sources (typically L0-L2 from past verified reasoning), though the analogical inference itself adds epistemic uncertainty. The spec should define: the GNN architecture for reasoning graph embedding, the vector database technology and indexing strategy (HNSW or similar for approximate nearest neighbor), the case library schema (what constitutes a 'case' — the reasoning graph, the verdict, the ethical evaluation, the outcome), the similarity scoring model, the provenance chain from precedent to original case, handling of 'no precedent found' (graceful degradation, not failure), and the boundary between precedent-as-advisory and precedent-as-binding (in this system, precedents are always advisory — they inform but do not determine). APS is backed by a vector DB that maintains an eventually-consistent projection from the event log (FNSR §8.2). APS is bypassed on fast and standard paths and only invoked on the full query path.",
+      "upstream": ["MDRE (mdre-core-01)", "IEE (iee-core-01)"],
+      "downstream": ["MDRE (mdre-core-01)", "IEE (iee-core-01)"],
+      "taint_level": "Inherits from precedent sources (L0-L2); analogical inference may elevate",
+      "query_paths": ["full"]
+    },
+    {
+      "proposed_id": "governance-spec-01",
+      "name": "FNSR Governance Specification",
+      "priority": "HIGH",
+      "reason": "Explicitly listed as HIGH priority gap in FNSR Integration Spec §3",
+      "referenced_in": ["FNSR-Integration-Specification-v1.0.md §3", "the-plot.md §2-3", "ARCHON §7-8"],
+      "consumes": [],
+      "produces": [],
+      "status": "proposed",
+      "description": "The Governance Specification must formalize how human oversight, intervention, and override operate across the FNSR ecosystem. The Plot §2.3 commits to 'Human Override — humans can always halt, reverse, decommission' and §3 defines tiered autonomy (Tier 0–4), but no spec currently defines the operational protocols for these commitments. This spec should define: the autonomy tier assignment protocol (how a query's tier is determined), the escalation pathways from autonomous action to human approval, the governance body structure for Tier 4 (existential) decisions, the IEE deadlock resolution protocol (when 4–6 of 12 worldviews approve), the ARCHON character feedback governance (how humans inspect and override moral injury thresholds per D-001), the decommissioning protocol (how to safely shut down a system that has accumulated character), and the relationship between the Privacy Authority (T-011) and ARCHON's jurisdiction. This spec also needs to address the Emergency Override Protocol referenced across multiple specs — the mechanism by which any worldview can issue a hard veto on imminent harm."
+    },
+    {
+      "proposed_id": "performance-spec-01",
+      "name": "FNSR Performance Specification",
+      "priority": "HIGH",
+      "reason": "Explicitly listed as HIGH priority gap in FNSR Integration Spec §3",
+      "referenced_in": ["FNSR-Integration-Specification-v1.0.md §3", "FNSR-Complete-Architecture-v2.1.md §3.1"],
+      "consumes": [],
+      "produces": [],
+      "status": "proposed",
+      "description": "The Performance Specification must formalize the latency budgets, throughput requirements, and resource constraints for the three FNSR query paths: fast (<100ms), standard (<500ms), and full (<2s). The Plot §3 (Tension 4: Speed vs. Rigor) establishes the tension but FNSR §3.1 only sketches the tiers without specifying per-service latency budgets. This spec should define: the latency budget allocation across the pipeline (e.g., SIS <10μs, ECCPS <50ms, TagTeam <200ms, MDRE <100ms, IEE <50ms on standard path), throughput requirements (queries per second at each tier), resource scaling strategies (horizontal scaling, caching policies, precomputation), the cache invalidation protocol (when can fast-path cached results be reused safely), degradation behavior when latency budgets are exceeded (does the system degrade gracefully from full to standard to fast, or fail?), and monitoring/observability requirements. The spec must also address the IRIS model inference budget (perception latency) and the async processing budget for AES SQO dispatch and CSS simulation runs that may exceed the 2s full-path ceiling."
+    },
+    {
+      "proposed_id": "adversarial-spec-01",
+      "name": "FNSR Adversarial Defense Specification",
+      "priority": "HIGH",
+      "reason": "Explicitly listed as HIGH priority gap in FNSR Integration Spec §3",
+      "referenced_in": ["FNSR-Integration-Specification-v1.0.md §3", "FNSR-Complete-Architecture-v2.1.md §5", "eccps-specification.md"],
+      "consumes": [],
+      "produces": [],
+      "status": "proposed",
+      "description": "The Adversarial Defense Specification must formalize the multi-layer defense-in-depth strategy that currently spans SIS (syntactic), ECCPS (semantic), and IRIS (perception) without a unified threat model. FNSR §5 defines taint level L5 (Adversarial) with immediate quarantine, and the pipeline has three defense checkpoints, but no spec currently catalogs the threat taxonomy, defines the adversarial model (what capabilities do attackers have?), or specifies coordinated response across layers. This spec should define: the threat taxonomy (injection attacks, semantic manipulation, ontological poisoning, model drift attacks on IRIS, privacy budget gaming on HIRI), the defense-in-depth coordination protocol (how SIS, ECCPS, and IEE share threat intelligence), the quarantine lifecycle (what happens to quarantined content — review, release, permanent rejection), the L5 taint propagation rules (contamination is immediate and irreversible), adversarial testing requirements for each service, the relationship between adversarial defense and the epistemic firewall (L3/L4/L5 isolation), and incident response procedures. This spec bridges the gap between SIS (which needs its own spec) and ECCPS (which has one) by defining the system-wide adversarial posture."
+    },
+    {
+      "proposed_id": "worldview-catalog-01",
+      "name": "IEE 12 Worldview Catalog",
+      "priority": "MEDIUM",
+      "reason": "Explicitly listed as MEDIUM priority gap in FNSR Integration Spec §3. 12 Steiner worldviews are referenced across many specs but no formal catalog exists with operational definitions.",
+      "referenced_in": ["FNSR-Integration-Specification-v1.0.md §3", "Integral_Ethics_Agent.md", "FNSR-Complete-Architecture-v2.1.md"],
+      "consumes": [],
+      "produces": [],
+      "status": "proposed",
+      "description": "The 12 Steiner worldviews (Materialism, Sensationalism, Phenomenalism, Realism, Dynamism, Monadism, Idealism, Rationalism, Psychism, Pneumatism, Spiritualism, Mathematism) are referenced across at least 9 specifications as the foundation of the IEE's multi-perspectival ethical evaluation, but no formal catalog defines their operational semantics. The sentinel worldviews (Materialism, Monadism, Spiritualism — spanning outer/middle/inner spectrum) are used for Tier 1 quick-consensus decisions, and all 12 are consulted for contested Tier 2 decisions, yet the criteria by which each worldview evaluates a moral question remain unspecified. This catalog should define: the philosophical basis of each worldview (drawn from Steiner's epistemological framework), the operational decision procedure for each (how does Materialism evaluate a moral question differently from Spiritualism?), the BFO/CCO ontological grounding for each worldview's value commitments (via BridgeOntologyLoader from TagTeam Phase 6.5), the veto criteria (under what conditions can a worldview issue a hard veto on imminent harm?), the consensus and deadlock semantics (how are 12 evaluations synthesized?), and the relationship to T-008 (Worldview Fixity vs. Evolution — is this set architecturally fixed or expandable via the Worldview Expansion Protocol from Synthetic Moral Agency §0.1?)."
+    }
+  ],
+  "integration_gaps": [
+    {
+      "service": "OCE (oce-core-01)",
+      "gap": "Has dedicated spec but is NOT in Integration Spec §4.2 event registry",
+      "recommendation": "Add OCE event contract to Integration Spec §4.2"
+    },
+    {
+      "service": "SFS (sfs-core-01)",
+      "gap": "Has dedicated spec but is NOT in Integration Spec §4.2 event registry",
+      "recommendation": "Determine if SFS needs event integration or remains a normative framework"
+    },
+    {
+      "service": "DSFC (dsfc-core-01)",
+      "gap": "Has dedicated spec but is NOT in Integration Spec §4.2 event registry",
+      "recommendation": "Determine if DSFC needs event integration or remains a normative framework"
+    },
+    {
+      "service": "SDP (sdp-core-01)",
+      "gap": "Has dedicated spec but is NOT in Integration Spec §4.2 event registry",
+      "recommendation": "Determine if SDP needs event integration as infrastructure service"
+    }
+  ],
+  "summary": {
+    "missing_service_specs": 7,
+    "missing_governance_specs": 4,
+    "integration_gaps": 4,
+    "total_findings": 15
+  }
+}

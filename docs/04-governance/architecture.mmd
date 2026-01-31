@@ -1,0 +1,95 @@
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#2d3748', 'lineColor': '#4a5568'}}}%%
+graph TD
+    subgraph Perception["Perception Layer"]
+        IRIS["IRIS<br/>(Direct Perception)"]
+    end
+
+    subgraph Defense["Defense Layer"]
+        SIS["SIS ⚠️<br/>(Syntactic Sanitization)"]
+        ECCPS["ECCPS<br/>(Semantic Validation)"]
+    end
+
+    subgraph Extraction["Extraction Layer"]
+        TagTeam["TagTeam<br/>(NL → Structured)"]
+        OERS["OERS ⚠️<br/>(Entity Resolution)"]
+    end
+
+    subgraph Knowledge["Knowledge Layer"]
+        W2Fuel["W2Fuel ⚠️<br/>(T-Box / Schema)"]
+        Fandaws["Fandaws<br/>(A-Box / Instances)"]
+    end
+
+    subgraph Reasoning["Reasoning Layer"]
+        MDRE["MDRE<br/>(Modal/Deontic)"]
+        AES["AES ⚠️<br/>(Abduction)"]
+        DES["DES ⚠️<br/>(Defaults)"]
+        OCE["OCE 🔗<br/>(Constraints)"]
+        CSS["CSS ⚠️<br/>(Counterfactuals)"]
+        APS["APS ⚠️<br/>(Precedents)"]
+    end
+
+    subgraph Ethics["Ethics Layer"]
+        IEE["IEE<br/>(12 Worldviews)"]
+    end
+
+    subgraph Output["Output Layer"]
+        SHML["SHML<br/>(Semantic Honesty)"]
+        HIRI["HIRI<br/>(Provenance Signing)"]
+    end
+
+    subgraph Governance["Governance Overlay"]
+        ARCHON["ARCHON<br/>(Moral Personhood)"]
+        FNSR["FNSR<br/>(Orchestrator)"]
+    end
+
+    subgraph Infrastructure["Infrastructure"]
+        SFS["SFS 🔗<br/>(Function Schema)"]
+        DSFC["DSFC 🔗<br/>(Function Commons)"]
+        PFCF["PFCF 🔗<br/>(Classification)"]
+        SDP["SDP 🔗<br/>(Data Platform)"]
+        SDD["SDD<br/>(Data Dictionary)"]
+    end
+
+    %% Happy Path
+    IRIS -->|"fnsr.observation.created"| SIS
+    SIS -->|"fnsr.document.sanitized"| ECCPS
+    ECCPS -->|"fnsr.document.validated"| TagTeam
+    TagTeam -->|"fnsr.claim.extracted"| MDRE
+    TagTeam -->|"fnsr.entity.mentioned"| OERS
+    OERS -->|"fnsr.entity.resolved"| MDRE
+    MDRE -->|"fnsr.verdict.rendered"| IEE
+    IEE -->|"fnsr.ethics.approved"| SHML
+    SHML -->|"fnsr.output.framed"| HIRI
+    HIRI -->|"fnsr.claim.signed"| Output
+
+    %% Reasoning branches
+    MDRE -->|"fnsr.gap.detected"| AES
+    AES -->|"fnsr.hypothesis.generated"| MDRE
+    TagTeam -->|"fnsr.claim.extracted"| DES
+    TagTeam -->|"fnsr.claim.extracted"| OCE
+
+    %% Knowledge interactions
+    MDRE <-->|"fnsr.schema.query"| W2Fuel
+    MDRE <-->|"fnsr.fact.query"| Fandaws
+
+    %% Governance
+    ARCHON -.->|"intervention thresholds"| IEE
+    ARCHON -.->|"character accumulation"| FNSR
+    FNSR -.->|"orchestration"| MDRE
+    FNSR -.->|"orchestration"| IEE
+
+    %% IEE outputs
+    IEE -->|"fnsr.ethics.vetoed"| FNSR
+    IEE -->|"fnsr.ethics.deadlock"| FNSR
+
+    %% Styling
+    classDef missing fill:#fed7d7,stroke:#c53030,stroke-width:2px
+    classDef integration_gap fill:#fefcbf,stroke:#d69e2e,stroke-width:2px
+    classDef normal fill:#c6f6d5,stroke:#2f855a,stroke-width:1px
+    classDef governance fill:#e9d8fd,stroke:#6b46c1,stroke-width:1px
+    classDef infra fill:#e2e8f0,stroke:#4a5568,stroke-width:1px
+
+    class SIS,OERS,W2Fuel,AES,DES,CSS,APS missing
+    class OCE,SFS,DSFC,PFCF,SDP integration_gap
+    class IRIS,ECCPS,TagTeam,Fandaws,MDRE,IEE,SHML,HIRI,SDD normal
+    class ARCHON,FNSR governance
