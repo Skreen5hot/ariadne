@@ -41,6 +41,12 @@
 | HIRI Protocol Spec | 2.1.0 | Specification | Verifiable claim identifiers | 2026-01-31 | PASS (flags resolved: F-S15-1/2/3 addressed, T-011 open) |
 | IRIS | 1.2 | Impl-Ready Draft | Direct perception layer | 2026-01-31 | PASS (flags resolved: F-S16-1/2/3/4 addressed) |
 
+## Governance Layer
+
+| Spec | Version | Status | Thesis Alignment | Last Review | Review Result |
+|------|---------|--------|------------------|-------------|---------------|
+| Spec-Driven Discovery | 1.1 | Draft | Architectural audit tooling | 2026-01-31 | Aligned (ARIADNE preamble, epistemic constraints, HIRI provenance added) |
+
 ## Foundation Layer
 
 | Spec | Version | Status | Thesis Alignment | Last Review | Review Result |
