@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//tmp/claude/c--Users-aaron-OneDrive-Documents-ariadne/tasks/**)"
+    ]
+  }
+}

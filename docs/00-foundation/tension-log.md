@@ -79,6 +79,20 @@
 - **Current resolution**: Unresolved. HIRI documents the trade-off honestly. Three possible resolutions: (1) Privacy Authority as ARCHON-governed entity, (2) Privacy Authority as infrastructure primitive (like DNS), (3) Federated model accepting some budget gaming.
 - **Status**: Open
 
+### T-012: Accountability vs. Privacy (Identity Handling)
+- **First identified**: 2026-02-02 (ARIADNE coherence review, 6-document batch)
+- **Specs involved**: Witness Architecture v1.1, APQC-SFS v2.0, SHACL event shape, W2Fuel v1.3.1
+- **Nature**: Witness Architecture mandates pseudonymized identity via an Identity Resolution Service for GDPR compliance. However, multiple specs use plain email identifiers in governance fields (e.g., SHACL shape `approved_by: "jane.smith@example.org"`, APQC-SFS attribution fields). The tension is between full accountability traceability (knowing exactly who approved what) and privacy-by-design (pseudonymizing all personal identifiers). Internal governance records may require different treatment than external-facing data.
+- **Current resolution**: Unresolved. Possible approaches: (1) pseudonymize all identifiers and resolve via Identity Resolution Service, (2) distinguish internal governance context (plain identifiers acceptable) from external-facing context (pseudonymization required), (3) use opaque identifiers everywhere with a separate authorization-gated resolution service.
+- **Status**: Open
+
+### T-013: Engagement Verification Ownership
+- **First identified**: 2026-02-02 (ARIADNE coherence review, 6-document batch)
+- **Specs involved**: Witness Architecture v1.1, APQC-SFS v2.0
+- **Nature**: Witness Architecture defines composite engagement verification as a normative (MUST-level) component of the witness layer. APQC-SFS describes its own engagement verification at SHOULD-level as part of execution context. Both define the concept but at different normative strengths and in different architectural locations. Which spec is the authoritative source?
+- **Current resolution**: Unresolved. Likely resolution: Witness Architecture owns the normative definition; APQC-SFS defers to it. But this needs to be made explicit.
+- **Status**: Open
+
 ## Resolved Tensions (Archived)
 
 [Move tensions here when fully resolved and validated]

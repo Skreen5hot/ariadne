@@ -808,3 +808,228 @@ Supporting infrastructure:
 | **Low** | F-S16-4: IRIS → HIRI observation signing not specified | Future spec work |
 
 **New Tension:** T-011 (Privacy Budget Authority vs. Distributed Governance) — see HIRI review above.
+
+---
+
+## Layer 3 Addendum: New Specifications (2026-02-02)
+
+Six new documents reviewed in this batch:
+
+1. The-Witness-Architecture-v1.1.md (02-architecture)
+2. APQC-SFS-Execution-Spec-v2.0.md (03-specifications)
+3. OERS-Specificaiton.md (03-specifications)
+4. SIS-Specification-v2.md (03-specifications)
+5. fnsr-schema-updated-event.shacl.ttl (03-specifications)
+6. w2fuel-core-01-v1.3.1.md (03-specifications)
+
+---
+
+### A-05: The Witness Architecture v1.1
+
+**File:** `docs/02-architecture/The-Witness-Architecture-v1.1.md`
+**Thesis Alignment Role:** AI as accountability infrastructure — witnessing, not deciding
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Directly implements "guardian not sovereign." Five principles (Verification not Trust, Human Agency Preserved, Proportional Witnessing, Accountability without Surveillance, Transparent Governance) faithfully extend the core thesis. |
+| Non-Negotiables | **PASS** | Human Override: human decider always retains authority. Auditability: attested record with tamper-evident logs. No Oracle Claims: witness layer observes, does not adjudicate truth. Guardian Not Sovereign: explicit in Principle 2. |
+| Tension Consistency | **PASS** | T-003 (Autonomy vs Safety): risk-tiered witnessing Tiers 0-4 directly implements tiered autonomy. T-004 (Speed vs Rigor): proportional witnessing applies more scrutiny to higher-stakes actions. |
+| Cross-Spec Consistency | **FLAG** | See XS-1, XS-2, XS-3 below. |
+| ARCHON Alignment | **PASS** | Witness layer does not accumulate character or bear moral costs — correctly positioned as infrastructure beneath ARCHON's personhood layer. |
+| Auditability | **PASS (exemplary)** | Attested Record component with tamper-evident logs, composite engagement verification, dysfunction dashboard. |
+| One-Paragraph Test | **PASS** | The Witness Architecture ensures that capable systems act only under human authority, with every significant action independently witnessed and attested — extending the guardian principle into operational accountability infrastructure. |
+
+**Findings:**
+
+- **XS-1 [MEDIUM]: Terminology conflict — Witness Tiers vs APQC-SFS Trust Levels.** Witness Architecture defines risk-tiered witnessing at Tiers 0-4 (based on risk/stakes). APQC-SFS uses Trust Levels HIGH/MEDIUM/LOW/NONE (based on data provenance confidence). These are different axes (risk vs. epistemic trust) but share the word "tier/level" and both influence processing depth. **Action: document the orthogonality explicitly — Witness Tiers govern oversight depth, Trust Levels govern epistemic confidence. Cross-reference in both specs.**
+
+- **XS-2 [MEDIUM]: Duplicate engagement verification concept.** Witness Architecture §[engagement verification] defines composite engagement verification as normative (MUST). APQC-SFS references engagement verification at SHOULD-level as part of execution context. **Action: clarify that APQC-SFS defers to Witness Architecture as the authoritative source for engagement verification, or unify the definitions.**
+
+- **XS-3 [HIGH]: Identity handling divergence.** Witness Architecture specifies pseudonymized identity via an Identity Resolution Service for GDPR compliance. APQC-SFS uses plain email in governance_approval fields. SHACL event shape (Doc 5) uses plain email (`approved_by: "jane.smith@example.org"`). W2Fuel (Doc 6) uses plain identifiers. **Action: establish a consistent identity representation policy — either all specs use pseudonymized references (aligned with Witness Architecture), or document when pseudonymization applies (external-facing) vs. doesn't (internal governance).**
+
+---
+
+### S-15: APQC-SFS Execution Spec v2.0
+
+**File:** `docs/03-specifications/APQC-SFS-Execution-Spec-v2.0.md`
+**Thesis Alignment Role:** Semantic compiler from APQC process models to SFS capabilities
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Compiles human-readable process models into machine-executable semantic functions while preserving accountability at every stage. 6-layer responsibility attribution ensures "morally answerable." Ralph Wiggum Loop enables iterative refinement without false confidence. |
+| Non-Negotiables | **PASS** | Auditability: 6-layer attribution (Process Owner → System Architect → Compilation Engine → Capability Executor → Governance Framework → End User). Human Override: human approval gates at compilation and execution. Decidability: deterministic compilation with bounded validation. |
+| Tension Consistency | **PASS** | T-004 (Speed vs Rigor): Trust Levels govern validation depth. |
+| Cross-Spec Consistency | **FLAG** | See XS-1, XS-2, XS-6 below. |
+| ARCHON Alignment | **PASS** | Does not externalize responsibility — attribution chain traces moral costs to specific actors. |
+| Auditability | **PASS** | Role Runtime Artifact provides complete compilation provenance. |
+| One-Paragraph Test | **PASS** | |
+
+**Findings:**
+
+- **XS-6 [LOW]: Missing cross-reference to Witness Architecture.** APQC-SFS describes execution oversight but does not reference the Witness Architecture, which defines the authoritative model for human-AI accountability. The dependency is one-directional. **Action: add Witness Architecture cross-reference in APQC-SFS §related-specifications.**
+
+---
+
+### S-16: OERS Specification v2.1.0
+
+**File:** `docs/03-specifications/OERS-Specificaiton.md`
+**Thesis Alignment Role:** Ontology-aware entity resolution — cross-document "who is who"
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Entity resolution grounded in BFO/CCO. Hypothesis lifecycle (proposed → active → merged/split/retired) treats identity as epistemically uncertain, not assumed. Directly serves "semantically honest about what they know." |
+| Non-Negotiables | **PASS** | Uncertainty Visible: confidence scores on all matches. Provenance Always: dual-function SDC model tracks evidence. Speculation Firewalled: hypothesis lifecycle separates tentative from confirmed identity. Human Override: trust model with property-level overrides. |
+| Tension Consistency | **PASS** | |
+| Cross-Spec Consistency | **FLAG** | See XS-7 through XS-11, XS-13 below. |
+| ARCHON Alignment | **PASS** | Does not accumulate character — correctly positioned as infrastructure. |
+| Auditability | **PASS** | Union-Find with full merge history. Negative evidence with trust override requires explicit justification. |
+| One-Paragraph Test | **PASS** | |
+
+**Findings:**
+
+- **XS-7 [LOW]: Filename typo.** File is `OERS-Specificaiton.md` — should be `OERS-Specification.md`. **Action: rename file.**
+
+- **XS-8 [LOW]: Duplicate section numbering.** Doc has two §4.3 sections. **Action: renumber second §4.3 to §4.4 and cascade.**
+
+- **XS-9 [LOW]: Missing Appendix C.** Referenced in body but not present. **Action: add placeholder or remove reference.**
+
+- **XS-10 [LOW]: Diagram version mismatch.** ASCII diagram labels "OERS v2.0" but document version is v2.1.0. **Action: update diagram label.**
+
+- **XS-11 [LOW]: Structural issue — changelog after "End of Specification" marker.** **Action: move changelog before end marker or remove end marker.**
+
+- **XS-13 [MEDIUM]: Unverified upstream dependencies.** OERS references TagTeam, MDRE, Fandaws, IEE, and ECCPS as consumers/producers. Several of these (particularly the OERS→TagTeam handoff noted in F-A04-3) lack defined interface contracts. **Action: document interface contracts in Integration Spec or as addenda to each spec.**
+
+---
+
+### S-17: SIS Specification v2.0
+
+**File:** `docs/03-specifications/SIS-Specification-v2.md`
+**Thesis Alignment Role:** Syntactic-layer security — defense against injection and manipulation
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Protects the system's epistemic integrity at the syntactic boundary. Fail-secure default (reject on uncertainty) aligns with "failure preferred over false certainty." |
+| Non-Negotiables | **PASS** | Auditability: 7-stage detection pipeline with per-stage logging. Decidability: DFA-only regex guarantees bounded execution. Human Override: pattern DB governance requires human approval for rule changes. |
+| Tension Consistency | **PASS** | T-004 (Speed vs Rigor): tiered processing applies appropriate scrutiny levels. |
+| Cross-Spec Consistency | **FLAG** | See XS-12, FLAG-A-1 below. |
+| ARCHON Alignment | **N/A** | Security infrastructure — does not engage with moral costs. |
+| Auditability | **PASS** | Position mapping API enables traceability from detection to source location. Chaos testing validates pipeline integrity. |
+| One-Paragraph Test | **PASS** | |
+
+**Findings:**
+
+- **XS-12 [LOW]: Date anomaly.** Document dated 2025-02-01 but ecosystem context is January-February 2026. Likely a typo. **Action: verify and correct date.**
+
+- **FLAG-A-1 [INFO]: ML stage partial explainability.** SIS Stage 6 (async ML analysis) uses machine learning models with inherently limited explainability. The spec mitigates this correctly: ML is defense-in-depth (not sole decision-maker), DFA stages handle primary detection, ML results are advisory. This is an acceptable trade-off within the auditability non-negotiable — noted but not flagged as a concern.
+
+---
+
+### S-18: SHACL Event Shape — fnsr.schema.updated
+
+**File:** `docs/03-specifications/fnsr-schema-updated-event.shacl.ttl`
+**Thesis Alignment Role:** Validates schema update events for W2Fuel → downstream cache invalidation
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Governance approval required on all schema updates — no autonomous schema changes. CI verification required — no unvalidated schemas enter the ecosystem. |
+| Non-Negotiables | **PASS** | Human Override: governance_approval mandatory. Auditability: CI verification with pipeline_run_id. Decidability: SHACL validation is decidable. |
+| Tension Consistency | **PASS** | |
+| Cross-Spec Consistency | **FLAG** | See XS-4, XS-5 below. |
+| ARCHON Alignment | **N/A** | Infrastructure validation artifact. |
+| Auditability | **PASS (exemplary)** | SPARQL cross-field constraints enforce conditional requirements (major update → bridge_uri, breaking → migration_required). |
+| One-Paragraph Test | **PASS** | |
+
+**Findings:**
+
+- **XS-4 [CRITICAL]: SHACL version mismatch.** The SHACL shape header says "aligned with w2fuel-core-01-v1.1.1" but the W2Fuel document reviewed is v1.3.1. This is a significant version gap — the shape may not validate events produced by the current W2Fuel version. **Action: update SHACL shape to align with w2fuel-core-01-v1.3.1, or verify that the v1.1.1 shape is still valid for v1.3.1 events.**
+
+- **XS-5 [LOW]: Event namespace convention inconsistency.** FNSR uses dot-notation (`fnsr.schema.updated`) in event type names. The SHACL shape uses RDF namespace URIs (`https://fnsr.spec/v2/events#`). The JSON-LD example uses a hybrid. All three representations should be explicitly documented as equivalent. **Action: add a namespace convention note to the SHACL file header or to the Integration Spec event registry.**
+
+---
+
+### S-19: W2Fuel Core Specification v1.3.1
+
+**File:** `docs/03-specifications/w2fuel-core-01-v1.3.1.md`
+**Thesis Alignment Role:** T-Box service — schema definitions and ontological coherence
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Maintains the conceptual backbone (T-Box) that all other services depend on for semantic interoperability. Governance-gated schema updates prevent silent ontological drift. |
+| Non-Negotiables | **PASS** | Auditability: CI/CD pipeline with reasoner + compliance + SHACL generation. Human Override: governance approval required for all schema updates. Decidability: OWL 2 RL profile ensures tractable reasoning. Separation of Concerns: namespace federation separates domain vocabularies. |
+| Tension Consistency | **PASS** | |
+| Cross-Spec Consistency | **FLAG** | See XS-4, XS-3 below. |
+| ARCHON Alignment | **N/A** | Infrastructure service. |
+| Auditability | **PASS** | Inference parity testing between Oxigraph and Nemo. Golden-rule translation tests. HA/DR with active-standby failover. |
+| One-Paragraph Test | **PASS** | |
+
+**Findings:**
+
+- **XS-4** (repeated from S-18): W2Fuel is v1.3.1 but the companion SHACL shape targets v1.1.1. See S-18 finding.
+
+- **XS-14 [LOW]: Missing companion document.** W2Fuel references "Toward Synthetic Moral Agency" as a philosophical companion. This document exists as `synthetic-moral-agency.md` in the philosophy layer but is titled differently. **Action: verify the reference matches the actual filename/title, or add a cross-reference note.**
+
+- **XS-15 [POSITIVE]: Ed25519 consistency.** W2Fuel uses Ed25519 for SHACL signing, consistent with HIRI's cryptographic choices. No conflict.
+
+- **XS-16 [POSITIVE]: BFO/CCO alignment.** W2Fuel's OWL 2 RL profile with BFO/CCO upper ontology is consistent with the entire ecosystem's ontological foundation. No conflict.
+
+---
+
+## 2026-02-02 Review Summary
+
+### Overall Assessment: STRONG ALIGNMENT WITH VERSION DRIFT
+
+All 6 documents are well-aligned with the core thesis and non-negotiables. The primary issues are:
+1. One critical version mismatch (SHACL shape vs W2Fuel)
+2. Identity handling inconsistency across specs
+3. Minor structural/formatting issues in OERS
+
+### Issues Requiring Action
+
+#### Critical
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| XS-4 | SHACL shape targets v1.1.1 but W2Fuel is v1.3.1 | Update SHACL shape or verify backward compatibility | fnsr-schema-updated-event.shacl.ttl, w2fuel-core-01 |
+
+#### High Priority
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| XS-3 | Identity handling divergence (pseudonymized vs plain) | Establish consistent identity policy | Witness Architecture, APQC-SFS, SHACL shape, W2Fuel |
+
+#### Medium Priority
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| XS-1 | Witness Tiers vs APQC-SFS Trust Levels terminology overlap | Document orthogonality | Witness Architecture, APQC-SFS |
+| XS-2 | Duplicate engagement verification definitions | Clarify authoritative source | Witness Architecture, APQC-SFS |
+| XS-13 | Unverified upstream dependencies in OERS | Document interface contracts | OERS, Integration Spec |
+
+#### Low Priority
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| XS-5 | Event namespace convention inconsistency | Document equivalence | SHACL shape, Integration Spec |
+| XS-6 | APQC-SFS missing Witness Architecture cross-ref | Add cross-reference | APQC-SFS |
+| XS-7 | OERS filename typo | Rename file | OERS |
+| XS-8 | OERS duplicate §4.3 | Renumber | OERS |
+| XS-9 | OERS missing Appendix C | Add placeholder or remove ref | OERS |
+| XS-10 | OERS diagram version label mismatch | Update label | OERS |
+| XS-11 | OERS changelog after end marker | Restructure | OERS |
+| XS-12 | SIS date anomaly (2025 vs 2026) | Verify and correct | SIS |
+| XS-14 | W2Fuel companion doc title mismatch | Verify reference | W2Fuel |
+
+### New Tensions Discovered
+
+| ID | Tension | Source |
+|----|---------|--------|
+| T-012 (candidate) | **Accountability vs. Privacy**: Witness Architecture mandates pseudonymized identity for GDPR compliance, but multiple specs (APQC-SFS, SHACL shape, W2Fuel) use plain email identifiers in governance fields. The tension is between full accountability traceability and privacy-by-design. | XS-3 |
+| T-013 (candidate) | **Engagement Verification Ownership**: Witness Architecture defines composite engagement verification as normative architecture, while APQC-SFS describes its own engagement verification at SHOULD-level. Which spec owns this concept? | XS-2 |
+
+### Positive Findings
+
+| ID | Finding | Specs |
+|----|---------|-------|
+| XS-15 | Ed25519 cryptographic consistency across W2Fuel and HIRI | W2Fuel, HIRI |
+| XS-16 | BFO/CCO alignment consistent across all 6 documents | All |
+| FLAG-A-1 | SIS ML stage correctly positioned as defense-in-depth, not sole authority | SIS |

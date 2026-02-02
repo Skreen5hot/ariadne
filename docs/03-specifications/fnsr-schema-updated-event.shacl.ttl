@@ -1,0 +1,382 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fnsr: <https://fnsr.spec/v2/events#> .
+@prefix w2fuel: <https://w2fuel.fnsr.org/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# ============================================================================
+# SHACL Shape for fnsr.schema.updated Event
+# ============================================================================
+#
+# Purpose: Validates that schema update events emitted by W2Fuel conform to
+#          the event contract defined in w2fuel-core-01 §9.2
+#
+# Usage: Downstream services (Fandaws, MDRE, TagTeam) can validate incoming
+#        fnsr.schema.updated events before processing cache invalidation
+#
+# Version: 1.1.1 (aligned with w2fuel-core-01-v1.1.1)
+# ============================================================================
+
+# -----------------------------------------------------------------------------
+# Main Event Shape
+# -----------------------------------------------------------------------------
+
+fnsr:SchemaUpdatedEventShape a sh:NodeShape ;
+    sh:targetClass fnsr:SchemaUpdatedEvent ;
+    rdfs:label "Schema Updated Event Shape" ;
+    rdfs:comment "Validates fnsr.schema.updated CloudEvents from W2Fuel" ;
+    
+    # Required fields (sh:Violation if missing)
+    sh:property [
+        sh:path fnsr:event_id ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" ;
+        sh:severity sh:Violation ;
+        sh:message "event_id must be a valid UUID"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:timestamp ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:dateTime ;
+        sh:severity sh:Violation ;
+        sh:message "timestamp is required and must be ISO 8601 dateTime"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:update_type ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ( "major" "minor" "patch" ) ;
+        sh:severity sh:Violation ;
+        sh:message "update_type must be one of: major, minor, patch"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:affected_namespaces ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "affected_namespaces must contain at least one namespace"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:version_info ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node fnsr:VersionInfoShape ;
+        sh:severity sh:Violation ;
+        sh:message "version_info is required"
+    ] ;
+    
+    # Conditional: breaking flag
+    sh:property [
+        sh:path fnsr:breaking ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:severity sh:Violation ;
+        sh:message "breaking must be a boolean if present"
+    ] ;
+    
+    # Governance approval (required)
+    sh:property [
+        sh:path fnsr:governance_approval ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node fnsr:GovernanceApprovalShape ;
+        sh:severity sh:Violation ;
+        sh:message "governance_approval is required for all schema updates"
+    ] ;
+    
+    # CI verification (V1.1.1 - required)
+    sh:property [
+        sh:path fnsr:ci_verification ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node fnsr:CIVerificationShape ;
+        sh:severity sh:Violation ;
+        sh:message "ci_verification is required - schema must pass CI/CD pipeline"
+    ] ;
+    
+    # Migration fields (conditional on breaking=true)
+    sh:property [
+        sh:path fnsr:migration_required ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:severity sh:Violation
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:bridge_uri ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:anyURI ;
+        sh:severity sh:Warning ;
+        sh:message "bridge_uri recommended for major updates"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:migration_guide_uri ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:anyURI ;
+        sh:severity sh:Warning ;
+        sh:message "migration_guide_uri recommended for major updates"
+    ] ;
+    
+    # SHACL invalidation (V1.1.1)
+    sh:property [
+        sh:path fnsr:shacl_invalidation ;
+        sh:maxCount 1 ;
+        sh:node fnsr:ShaclInvalidationShape ;
+        sh:severity sh:Info ;
+        sh:message "shacl_invalidation helps downstream services refresh SHACL cache"
+    ] ;
+    
+    # Cache invalidation
+    sh:property [
+        sh:path fnsr:cache_invalidation ;
+        sh:maxCount 1 ;
+        sh:node fnsr:CacheInvalidationShape ;
+        sh:severity sh:Info
+    ] .
+
+# -----------------------------------------------------------------------------
+# Nested Shapes
+# -----------------------------------------------------------------------------
+
+fnsr:VersionInfoShape a sh:NodeShape ;
+    rdfs:label "Version Info Shape" ;
+    
+    sh:property [
+        sh:path fnsr:previous_version ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:severity sh:Violation ;
+        sh:message "previous_version must be semantic version (X.Y.Z)"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:new_version ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:severity sh:Violation ;
+        sh:message "new_version must be semantic version (X.Y.Z)"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:changelog_uri ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:anyURI ;
+        sh:severity sh:Info ;
+        sh:message "changelog_uri recommended for traceability"
+    ] .
+
+fnsr:GovernanceApprovalShape a sh:NodeShape ;
+    rdfs:label "Governance Approval Shape" ;
+    
+    sh:property [
+        sh:path fnsr:approved_by ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:minLength 1 ;
+        sh:severity sh:Violation ;
+        sh:message "approved_by must identify the human approver"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:approval_timestamp ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:dateTime ;
+        sh:severity sh:Violation ;
+        sh:message "approval_timestamp is required"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:approval_reference ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:severity sh:Warning ;
+        sh:message "approval_reference should link to governance decision"
+    ] .
+
+fnsr:CIVerificationShape a sh:NodeShape ;
+    rdfs:label "CI Verification Shape" ;
+    rdfs:comment "V1.1.1: Confirms schema passed CI/CD pipeline" ;
+    
+    sh:property [
+        sh:path fnsr:reasoner_passed ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue true ;
+        sh:severity sh:Violation ;
+        sh:message "reasoner_passed must be true - schema must be logically consistent"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:compliance_passed ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue true ;
+        sh:severity sh:Violation ;
+        sh:message "compliance_passed must be true - schema must be BFO/CCO compliant"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:shacl_generated ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:severity sh:Violation ;
+        sh:message "shacl_generated indicates whether SHACL shapes were created"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:bridge_consistency_passed ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:severity sh:Warning ;
+        sh:message "bridge_consistency_passed should be true if bridge ontology exists"
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:pipeline_run_id ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:severity sh:Info ;
+        sh:message "pipeline_run_id enables CI/CD audit trail"
+    ] .
+
+fnsr:ShaclInvalidationShape a sh:NodeShape ;
+    rdfs:label "SHACL Invalidation Shape" ;
+    rdfs:comment "V1.1.1: Helps downstream services refresh SHACL cache" ;
+    
+    sh:property [
+        sh:path fnsr:invalidate_namespaces ;
+        sh:severity sh:Info
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:new_shacl_hash ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^sha256:[a-f0-9]{64}$" ;
+        sh:severity sh:Info ;
+        sh:message "new_shacl_hash should be sha256:{hex} format"
+    ] .
+
+fnsr:CacheInvalidationShape a sh:NodeShape ;
+    rdfs:label "Cache Invalidation Shape" ;
+    
+    sh:property [
+        sh:path fnsr:invalidate_all ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:severity sh:Info
+    ] ;
+    
+    sh:property [
+        sh:path fnsr:invalidate_prefixes ;
+        sh:severity sh:Info
+    ] .
+
+# -----------------------------------------------------------------------------
+# Cross-Field Constraints (SPARQL-based)
+# -----------------------------------------------------------------------------
+
+# If update_type is "major", bridge_uri SHOULD be present
+fnsr:MajorUpdateBridgeConstraint a sh:NodeShape ;
+    sh:targetClass fnsr:SchemaUpdatedEvent ;
+    sh:sparql [
+        sh:message "Major updates should include bridge_uri for cross-version reasoning" ;
+        sh:severity sh:Warning ;
+        sh:select """
+            PREFIX fnsr: <https://fnsr.spec/v2/events#>
+            SELECT $this
+            WHERE {
+                $this fnsr:update_type "major" .
+                FILTER NOT EXISTS { $this fnsr:bridge_uri ?bridge }
+            }
+        """
+    ] .
+
+# If breaking=true, migration_required should also be true
+fnsr:BreakingMigrationConstraint a sh:NodeShape ;
+    sh:targetClass fnsr:SchemaUpdatedEvent ;
+    sh:sparql [
+        sh:message "Breaking changes should set migration_required=true" ;
+        sh:severity sh:Warning ;
+        sh:select """
+            PREFIX fnsr: <https://fnsr.spec/v2/events#>
+            SELECT $this
+            WHERE {
+                $this fnsr:breaking true .
+                OPTIONAL { $this fnsr:migration_required ?mig }
+                FILTER (!bound(?mig) || ?mig = false)
+            }
+        """
+    ] .
+
+# If bridge_uri exists, bridge_consistency_passed should be true
+fnsr:BridgeConsistencyConstraint a sh:NodeShape ;
+    sh:targetClass fnsr:SchemaUpdatedEvent ;
+    sh:sparql [
+        sh:message "If bridge_uri is provided, bridge_consistency_passed must be true" ;
+        sh:severity sh:Violation ;
+        sh:select """
+            PREFIX fnsr: <https://fnsr.spec/v2/events#>
+            SELECT $this
+            WHERE {
+                $this fnsr:bridge_uri ?bridge .
+                $this fnsr:ci_verification ?ci .
+                OPTIONAL { ?ci fnsr:bridge_consistency_passed ?passed }
+                FILTER (!bound(?passed) || ?passed = false)
+            }
+        """
+    ] .
+
+# -----------------------------------------------------------------------------
+# Usage Example (JSON-LD)
+# -----------------------------------------------------------------------------
+#
+# A valid fnsr.schema.updated event:
+#
+# {
+#   "@context": "https://fnsr.spec/v2/events",
+#   "@type": "fnsr:SchemaUpdatedEvent",
+#   "fnsr:event_id": "550e8400-e29b-41d4-a716-446655440000",
+#   "fnsr:timestamp": "2026-02-01T15:30:00Z",
+#   "fnsr:update_type": "minor",
+#   "fnsr:breaking": false,
+#   "fnsr:affected_namespaces": ["realestate"],
+#   "fnsr:version_info": {
+#     "fnsr:previous_version": "1.0.0",
+#     "fnsr:new_version": "1.1.0",
+#     "fnsr:changelog_uri": "https://w2fuel.fnsr.org/changelog/realestate/v1.1.0"
+#   },
+#   "fnsr:governance_approval": {
+#     "fnsr:approved_by": "jane.smith@example.org",
+#     "fnsr:approval_timestamp": "2026-02-01T14:00:00Z",
+#     "fnsr:approval_reference": "GOV-2026-0042"
+#   },
+#   "fnsr:ci_verification": {
+#     "fnsr:reasoner_passed": true,
+#     "fnsr:compliance_passed": true,
+#     "fnsr:shacl_generated": true,
+#     "fnsr:pipeline_run_id": "ci-run-12345"
+#   },
+#   "fnsr:shacl_invalidation": {
+#     "fnsr:invalidate_namespaces": ["realestate"],
+#     "fnsr:new_shacl_hash": "sha256:a1b2c3d4e5f6..."
+#   }
+# }
+#
+# -----------------------------------------------------------------------------
