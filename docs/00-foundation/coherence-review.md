@@ -1033,3 +1033,138 @@ All 6 documents are well-aligned with the core thesis and non-negotiables. The p
 | XS-15 | Ed25519 cryptographic consistency across W2Fuel and HIRI | W2Fuel, HIRI |
 | XS-16 | BFO/CCO alignment consistent across all 6 documents | All |
 | FLAG-A-1 | SIS ML stage correctly positioned as defense-in-depth, not sole authority | SIS |
+
+---
+
+## Layer 3 Addendum: Reasoning Engine Triad (2026-02-03)
+
+Three new reasoning engine specifications reviewed:
+
+1. AES-Technical-Specification-v2.1.0.md (Abductive Elicitation Service)
+2. DES-Specificaiton-v1.2.md (Defeasible Expectation Service) — v2.0.0 content
+3. CSS-Specification-v2.0.md (Counterfactual Simulation Service)
+
+These three specs form the system's **reasoning engine triad**: AES handles incomplete information (hypotheses), DES handles common-sense defaults, and CSS handles "what if" scenarios. Together they extend the system's reasoning capacity while maintaining strict epistemic discipline.
+
+---
+
+### S-20: AES (Abductive Elicitation Service) v2.1.0
+
+**File:** `docs/03-specifications/AES-Technical-Specification-v2.1.0.md`
+**Thesis Alignment Role:** Handles incomplete information through abductive inference — hypothesis generation and knowledge gap resolution
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Directly serves "epistemically bounded in what they claim." AES produces L3 (speculative) hypotheses that cannot contaminate verified facts without explicit promotion. The epistemic firewall (§5.1) directly implements "Speculation Firewalled." |
+| Non-Negotiables | **PASS** | Uncertainty Visible: all hypotheses carry plausibility scores, taint levels, expiration times. Provenance Always: every hypothesis traces to its gap origin and evidence chain. Auditability: deterministic pure functions enable replay. Decidability: bounded by termination guarantees (§11). |
+| Tension Consistency | **PASS** | T-002 (Decidability vs Expressiveness): AES has explicit termination guarantees (maxHypothesesPerGap, maxRecursionDepth, maxProcessingIterations). T-004 (Speed vs Rigor): offline-first semantics allow graceful degradation. |
+| Cross-Spec Consistency | **FLAG** | See XS-17, XS-18 below. |
+| ARCHON Alignment | **PASS** | AES does not accumulate character or bear moral costs — correctly positioned as reasoning infrastructure beneath ARCHON's personhood layer. |
+| Auditability | **PASS (exemplary)** | Pure function model: `(Event, State, Config) → (Result, State')` with no side effects. Determinism guarantee enables exact replay. State-as-value with JSON-LD serialization. |
+| One-Paragraph Test | **PASS** | AES enables the system to reason about what it doesn't know while being explicit about uncertainty — extending the guardian's capacity without pretending to have certainty it lacks. |
+
+**Findings:**
+
+- **XS-17 [MEDIUM]: Taint level documentation.** AES uses L0-L5 taint levels (matching FNSR). AES outputs are "always L3" until promoted. This aligns with IRIS and FNSR taint hierarchies. However, the Epistemic Vocabulary Mapping spec should be updated to include AES taint semantics explicitly. **Action: add AES to epistemic-vocabulary-mapping.md.**
+
+- **XS-18 [LOW]: MDRE orchestration boundary.** AES §2.8 clearly states "AES never calls itself, MDRE, or any external system" — host drives the loop. This is well-aligned but should be cross-referenced in the Integration Spec event registry for the MDRE↔AES protocol. **Action: document MDRE↔AES orchestration in Integration Spec.**
+
+---
+
+### S-21: DES (Defeasible Expectation Service) v2.0.0
+
+**File:** `docs/03-specifications/DES-Specificaiton-v1.2.md` (filename shows v1.2, content is v2.0.0)
+**Thesis Alignment Role:** Common-sense reasoning through non-monotonic defaults
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Directly serves "semantically honest about what they know." DES infers "what was probably meant" while explicitly flagging it as defeasible (L2). The L2-only output constraint ensures defaults never masquerade as facts. |
+| Non-Negotiables | **PASS** | Auditability: comprehensive audit trace schema (§6.4), snapshot reproducibility. Uncertainty Visible: epistemic state classification (confirmed/consistent-by-absence/contradicted). Speculation Firewalled: L2 outputs cannot become L1 without external evidence. |
+| Tension Consistency | **PASS** | T-004 (Speed vs Rigor): fast/standard/full query paths (§12). T-002 (Decidability vs Expressiveness): single-pass evaluation guarantees termination — no internal chaining. |
+| Cross-Spec Consistency | **FLAG** | See XS-20, XS-21, XS-22 below. |
+| ARCHON Alignment | **PASS** | DES does not accumulate character — correctly positioned as reasoning infrastructure. "Rules are auditable institutional knowledge" (§5.1). |
+| Auditability | **PASS (exemplary)** | Formal invariants with machine-checkable definitions (§3.2). Observation snapshots enable replay. Compaction preserves aggregates while respecting retention. |
+| One-Paragraph Test | **PASS** | DES provides the system's institutionalized common sense — "usually true" knowledge that prevents naive literal interpretation while remaining transparent and defeasible. |
+
+**Findings:**
+
+- **XS-20 [RESOLVED]: Filename/version mismatch.** ~~Filename was `DES-Specificaiton-v1.2.md` but document content shows version 2.0.0.~~ **Resolved:** File renamed to `DES-Specification-v2.0.md` (corrected typo and version).
+
+- **XS-21 [MEDIUM]: Taint level system difference.** DES uses L1/L2/L3 (§2.1) while AES and FNSR use L0-L5. The Epistemic Vocabulary Mapping spec should clarify the mapping: DES L1 = FNSR L1, DES L2 = FNSR L2, DES L3 = FNSR L3. **Action: update epistemic-vocabulary-mapping.md with DES-specific mappings.**
+
+- **XS-22 [LOW]: Integration Spec event registry.** DES events (`fnsr.claim.extracted`, `fnsr.default.applied`, `fnsr.anomaly.detected`) are defined in §11 but should be confirmed in the Integration Spec event registry. **Action: verify DES events in Integration Spec §4.2.**
+
+---
+
+### S-22: CSS (Counterfactual Simulation Service) v2.0.0
+
+**File:** `docs/03-specifications/CSS-Specification-v2.0.md`
+**Thesis Alignment Role:** Disciplined "what if?" reasoning — counterfactual simulation with indelible L4 taint
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS (exemplary)** | Directly implements "Speculation Firewalled" at the strongest level. The L4 taint is "indelible" — hypothetical content can never become evidence. §1.1: "L4 outputs cannot become L1-L3 inputs." This is the system's imagination, disciplined. |
+| Non-Negotiables | **PASS** | Speculation Firewalled: L4 terminal taint, adapter-level enforcement (§5.5). Auditability: deterministic arithmetic (§1.4), cross-platform reproducibility, golden trace artifacts. Decidability: explicit resource limits and termination guarantees (§8). |
+| Tension Consistency | **PASS** | T-002 (Decidability vs Expressiveness): bounded computation with explicit limits. T-004 (Speed vs Rigor): exact vs fast execution modes with clear labeling. |
+| Cross-Spec Consistency | **FLAG** | See XS-24, XS-26 below. |
+| ARCHON Alignment | **PASS** | CSS operates at L4 (hypothetical) — below the level where moral costs accumulate. Correctly positioned as reasoning infrastructure. |
+| Auditability | **PASS (exemplary)** | Deterministic arithmetic with 34-digit precision. Seed derivation via HKDF for reproducibility. Cross-platform CI matrix. Golden trace artifacts. Abduction quality metrics. |
+| One-Paragraph Test | **PASS** | CSS is how the system dreams responsibly — it imagines possibilities without confusing them with facts. The indelible L4 taint permits exploration of any scenario because hypotheticals cannot contaminate knowledge. |
+
+**Findings:**
+
+- **XS-24 [MEDIUM]: Taint level extension.** CSS introduces "L4-fast" alongside L4. This is a valid sub-level for exploratory mode but should be documented in the Epistemic Vocabulary Mapping spec. **Action: add L4-fast to epistemic-vocabulary-mapping.md with semantics.**
+
+- **XS-26 [LOW]: Date discrepancy.** Document shows dates like "2025-02-03" but ecosystem context is February 2026. Likely a typo. **Action: verify and correct date if needed.**
+
+---
+
+## 2026-02-03 Reasoning Triad Review Summary
+
+### Overall Assessment: STRONG COHERENCE WITH MINOR HOUSEKEEPING
+
+All 3 documents are excellently aligned with the core thesis and non-negotiables. The reasoning triad (AES/DES/CSS) demonstrates remarkable architectural consistency:
+- Pure function model
+- Edge-first design
+- Coherent taint stratification (L2 < L3 < L4)
+- BFO/CCO grounding
+- Determinism emphasis
+
+### Issues Requiring Action
+
+#### Critical
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| ~~XS-20~~ | ~~DES filename has typo AND wrong version~~ | ✅ **RESOLVED** — renamed to `DES-Specification-v2.0.md` | DES |
+
+#### Medium Priority
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| ~~XS-17~~ | ~~AES taint semantics not in EVM~~ | ✅ **RESOLVED** — Added AES §2.5.1 to EVM v1.1 | AES, EVM |
+| ~~XS-21~~ | ~~DES L1/L2/L3 vs FNSR L0-L5 mapping unclear~~ | ✅ **RESOLVED** — Added DES §2.5.2 to EVM v1.1 | DES, EVM |
+| ~~XS-24~~ | ~~CSS L4-fast sub-level not documented~~ | ✅ **RESOLVED** — Added CSS §2.5.3 + L4-fast to EVM v1.1 | CSS, EVM |
+
+#### Low Priority
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| XS-18 | MDRE↔AES orchestration not in Integration Spec | Document orchestration protocol | AES, Integration Spec |
+| XS-22 | DES events not verified in Integration Spec | Verify event registry | DES, Integration Spec |
+| XS-26 | CSS date shows 2025 instead of 2026 | Correct date | CSS |
+
+### New Tensions Discovered
+
+None. All three documents handle existing tensions (T-002, T-004) well and don't introduce new conflicts.
+
+### Positive Findings
+
+| ID | Finding | Specs |
+|----|---------|-------|
+| XS-P1 | **Pure function model consistency.** AES, DES, and CSS all follow the pure-function-over-explicit-state pattern — `(Input, State, Config) → (Output, State')`. | AES, DES, CSS |
+| XS-P2 | **Edge-first design consistency.** All three specs are designed to run in browser or Node.js with no external dependencies. | AES, DES, CSS |
+| XS-P3 | **Taint hierarchy alignment.** AES produces L3, DES produces L2, CSS produces L4. Coherent epistemic stratification: L2 (defeasible) < L3 (speculative) < L4 (hypothetical). | AES, DES, CSS |
+| XS-P4 | **BFO/CCO grounding.** All three specs use BFO/CCO ontological foundations. | AES, DES, CSS |
+| XS-P5 | **Determinism emphasis.** All three specs prioritize deterministic behavior for auditability and reproducibility. | AES, DES, CSS |
+| XS-27 | **HKDF/Ed25519 consistency.** CSS uses HKDF-SHA256 for seed derivation, consistent with cryptographic choices elsewhere. | CSS, HIRI |

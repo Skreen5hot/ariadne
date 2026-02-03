@@ -37,9 +37,18 @@
 | Semantic Data Platform | 1.1 | Draft | Data platform | 2026-01-30 | PASS |
 | SFS | 2.2 | Draft | Function schema | 2026-01-30 | PASS |
 | TagTeam Roadmap | 6.6.0 | Active | Perception roadmap | 2026-01-30 | PASS |
-| Epistemic Vocabulary Mapping | 1.0 | Draft | Epistemic quality alignment | 2026-01-30 | New (Round 4, addresses T-010) |
+| Epistemic Vocabulary Mapping | 1.1 | Draft | Epistemic quality alignment | 2026-02-03 | Updated (v1.1 adds AES/DES/CSS; resolves XS-17/21/24) |
 | HIRI Protocol Spec | 2.1.0 | Specification | Verifiable claim identifiers | 2026-01-31 | PASS (flags resolved: F-S15-1/2/3 addressed, T-011 open) |
 | IRIS | 1.2 | Impl-Ready Draft | Direct perception layer | 2026-01-31 | PASS (flags resolved: F-S16-1/2/3/4 addressed) |
+| Witness Architecture | 1.1 | Draft | Accountability infrastructure | 2026-02-02 | PASS (3 flags: XS-1/2/3) |
+| APQC-SFS Execution Spec | 2.0 | Draft | Semantic compiler | 2026-02-02 | PASS (1 flag: XS-6) |
+| OERS Specification | 2.1.0 | Draft | Entity resolution | 2026-02-02 | PASS (5 low flags: structural) |
+| SIS Specification | 2.0 | Draft | Syntactic-layer security | 2026-02-02 | PASS (1 low flag) |
+| SHACL Event Shape | — | Draft | Schema update validation | 2026-02-02 | PASS (1 critical: XS-4 version mismatch) |
+| W2Fuel Core | 1.3.1 | Draft | T-Box service | 2026-02-02 | PASS |
+| AES Technical Spec | 2.1.0 | Proposed | Abductive hypothesis generation | 2026-02-03 | PASS (2 flags: XS-17/18) |
+| DES Specification | 2.0.0 | Release Candidate | Defeasible common-sense reasoning | 2026-02-03 | PASS (XS-20 RESOLVED, 2 flags: XS-21/22) |
+| CSS Specification | 2.0.0 | Final | Counterfactual simulation | 2026-02-03 | PASS (2 flags: XS-24/26) |
 
 ## Governance Layer
 
@@ -76,3 +85,12 @@
 - **Terminology**: Canonical definitions
 - **Data platform**: Data infrastructure
 - **Coherence process**: ARIADNE process itself
+- **Accountability infrastructure**: Witnessing and attestation
+- **Semantic compiler**: Process model → semantic function translation
+- **Entity resolution**: Cross-document "who is who"
+- **Syntactic-layer security**: Input sanitization and injection defense
+- **Schema update validation**: Governance-gated schema changes
+- **T-Box service**: Schema definitions and ontological coherence
+- **Abductive hypothesis generation**: Handling incomplete information
+- **Defeasible common-sense reasoning**: Non-monotonic defaults
+- **Counterfactual simulation**: "What if" analysis

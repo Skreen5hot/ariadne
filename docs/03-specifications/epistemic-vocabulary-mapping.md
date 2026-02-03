@@ -1,16 +1,20 @@
 # Epistemic Vocabulary Mapping
 
-**Version:** 1.0
-**Date:** January 2026
-**Purpose:** Unified mapping across the four epistemic quality systems in the ARIADNE ecosystem
+**Version:** 1.1
+**Date:** February 2026
+**Purpose:** Unified mapping across the epistemic quality systems in the ARIADNE ecosystem
 **Status:** Draft
-**Addresses:** T-010 (Epistemic Quality Vocabulary Fragmentation)
+**Addresses:** T-010 (Epistemic Quality Vocabulary Fragmentation), XS-17, XS-21, XS-24
 
 ---
 
 ## 1. Problem Statement
 
-Four specifications describe epistemic quality using different vocabularies, scales, and conceptual frames. While each serves a distinct purpose, the lack of explicit mapping creates integration ambiguity when information flows between components.
+Multiple specifications describe epistemic quality using different vocabularies, scales, and conceptual frames. While each serves a distinct purpose, the lack of explicit mapping creates integration ambiguity when information flows between components.
+
+This document covers:
+- **Core systems**: FNSR taint levels, MDRE evidence tiers, PFCF uncertainty types, TagTeam certainty markers
+- **Reasoning triad**: AES (abductive), DES (defeasible), CSS (counterfactual) — added in v1.1
 
 ---
 
@@ -90,13 +94,91 @@ TagTeam detects lexical markers of certainty in natural language input. These ar
 | Hedges | "might," "possibly," "seems" | Reduce certainty |
 | Boosters | "definitely," "clearly," "must" | Increase certainty |
 
+### 2.5 Reasoning Triad: AES, DES, CSS (Reasoning-Level)
+
+The reasoning triad (AES, DES, CSS) produces outputs at specific taint levels within the FNSR hierarchy. Each service has a **fixed output taint** that cannot be elevated without external evidence.
+
+#### 2.5.1 AES (Abductive Elicitation Service)
+
+Source: AES Technical Specification v2.1.0 §4.1, §5.1
+
+AES generates hypotheses to fill knowledge gaps. All AES outputs are **L3 (Speculative)** until explicitly promoted via evidence integration.
+
+| AES Concept | FNSR Taint | Meaning |
+|-------------|-----------|---------|
+| Hypothesis | L3 | Plausible value inferred from available evidence |
+| SQO (Structured Query Object) | L3 | Declarative request for external information |
+| Evidence (integrated) | L1-L2 | External response that may promote hypothesis |
+
+**Key constraint:** AES maintains an *epistemic firewall* — L3 outputs cannot cross into production (L0-L2) without explicit promotion via `integrateEvidence`. The promotion is host-controlled, not AES-controlled.
+
+**Promotion paths:**
+- L3 → L1: Evidence from authoritative source
+- L3 → L2: Multiple corroborating sources or human attestation
+- L3 → L0: Governance decision
+
+#### 2.5.2 DES (Defeasible Expectation Service)
+
+Source: DES Specification v2.0.0 §2.1
+
+DES provides common-sense reasoning through defeasible defaults. All DES outputs are **L2 (Defeasible)** — they can be overridden by stronger evidence but are production-safe.
+
+| DES Concept | FNSR Taint | Meaning |
+|-------------|-----------|---------|
+| AppliedDefault | L2 | Inference that "typically X" applies |
+| AnomalyDetected | L2 | Expectation violation flagged for review |
+
+**DES taint invariant:** `∀ DES output O: O.taintLevel = 'L2'` — regardless of input taint.
+
+**DES uses a simplified 3-level system internally:**
+
+| DES Level | FNSR Equivalent | DES Can Produce | DES Can Consume |
+|-----------|-----------------|-----------------|-----------------|
+| L1 (Verified) | L0-L1 | No | Yes |
+| L2 (Defeasible) | L2 | **Yes (always)** | Yes |
+| L3 (Unverified) | L3+ | No | Yes |
+
+The simplification is intentional: DES operates entirely within the production zone (L2) and cannot produce speculative content.
+
+#### 2.5.3 CSS (Counterfactual Simulation Service)
+
+Source: CSS Specification v2.0.0 §1.1, §3.4, §5
+
+CSS performs "what if" reasoning through counterfactual simulation. All CSS outputs are **L4 (Hypothetical)** — they can *never* be promoted to any other level.
+
+| CSS Concept | FNSR Taint | Meaning |
+|-------------|-----------|---------|
+| SimulationResult | L4 | Consequence trace from hypothetical intervention |
+| ConsequenceTrace | L4 | Causal effects of simulated intervention |
+
+**L4-fast sub-level (v2.0):**
+
+CSS introduces an execution mode sub-level for exploratory use:
+
+| Level | Arithmetic | Use Case | Restrictions |
+|-------|------------|----------|--------------|
+| L4 | Decimal128 (exact) | Audits, canonical runs, production | None |
+| L4-fast | IEEE 754 double | Exploration, prototyping | Cannot be used for audits, cross-platform comparison, or reproducibility claims |
+
+**Taint terminal property:** L4 is a *terminal* taint level. The `canPromoteTo` array is empty. This is structural, not policy — CSS outputs cannot become evidence by design.
+
+```json
+{
+  "taint:level": {
+    "@id": "taint:L4",
+    "taint:canPromoteTo": [],
+    "taint:isTerminal": true
+  }
+}
+```
+
 ---
 
 ## 3. Cross-System Mapping
 
 ### 3.1 Conceptual Relationship
 
-These four systems operate at **different architectural levels** and are not interchangeable:
+These systems operate at **different architectural levels** and are not interchangeable:
 
 ```
 Linguistic level:   TagTeam certainty markers (hedges/boosters)
@@ -106,6 +188,22 @@ Assertion level:    MDRE evidence tiers (what kind of evidence backs an assertio
 Pipeline level:     FNSR taint levels (how contaminated is this information)
                          ↓ (functions process claims)
 Function level:     PFCF uncertainty types (what kind of uncertainty does processing add)
+                         ↓ (reasoning engines extend pipeline)
+Reasoning level:    AES (L3) / DES (L2) / CSS (L4) — fixed output taint levels
+```
+
+**Reasoning Triad Taint Stratification:**
+
+```
+Production Zone (can affect decisions):
+  L0 ─ Verified
+  L1 ─ Derived
+  L2 ─ Defeasible  ←── DES outputs here
+  ════════════════════ EPISTEMIC FIREWALL ════════════════════
+Sandbox Zone (cannot affect decisions without promotion):
+  L3 ─ Speculative ←── AES outputs here (promotable)
+  L4 ─ Hypothetical ←── CSS outputs here (terminal, never promotable)
+  L5 ─ Adversarial
 ```
 
 ### 3.2 Directional Mappings
@@ -143,6 +241,29 @@ PFCF uncertainty types affect taint propagation through functions:
 | Epistemic | Taint level may increase (model uncertainty adds epistemic contamination) |
 | Mixed | Taint level may increase (epistemic component dominates) |
 
+#### Reasoning Triad → FNSR
+
+The reasoning triad services have **fixed output taint levels**:
+
+| Service | Output Taint | Can Cross Firewall? | Promotion Mechanism |
+|---------|-------------|---------------------|---------------------|
+| DES | L2 (always) | N/A (already production) | None needed |
+| AES | L3 (always) | Yes, with evidence | `integrateEvidence` with authoritative response |
+| CSS | L4 (always) | **No (terminal)** | None — by design |
+
+**Reasoning triad composition:**
+
+When reasoning services compose (e.g., AES uses DES defaults, or CSS simulates AES hypotheses):
+
+| Composition | Result Taint | Rationale |
+|-------------|--------------|-----------|
+| DES + AES | L3 | Speculation dominates |
+| DES + CSS | L4 | Hypothetical dominates |
+| AES + CSS | L4 | Hypothetical dominates |
+| Any + L5 | L5 | Adversarial always dominates |
+
+**Contamination rule generalization:** `max(taint₁, taint₂, ...) = result_taint`
+
 ### 3.3 What This Mapping Does NOT Do
 
 - **Does not unify the vocabularies.** Each system serves a distinct purpose at a distinct level.
@@ -171,4 +292,17 @@ All four systems are visible in the final output via CloudEvents headers and cla
 - MDRE Technical Specification v1.3, §7-8 (Evidence Tier System)
 - PFCF v2.1, §4.5 (Epistemic Properties)
 - TagTeam Roadmap v6.6.0, §7.2 (Certainty Markers)
+- AES Technical Specification v2.1.0, §4.1, §5.1 (Taint Levels, Epistemic Firewall)
+- DES Specification v2.0.0, §2.1 (Taint Level System)
+- CSS Specification v2.0.0, §1.1, §3.4, §5 (L4 Taint, L4-fast)
+- IRIS v1.2, §2 (Perception-Level Sub-Types)
 - The Plot §2.1 (Epistemic Non-Negotiables)
+
+---
+
+## Changelog
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0 | January 2026 | Initial specification — FNSR, MDRE, PFCF, TagTeam |
+| 1.1 | February 2026 | Added reasoning triad (AES, DES, CSS); addresses XS-17, XS-21, XS-24 |
