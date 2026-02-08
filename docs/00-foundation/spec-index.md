@@ -27,7 +27,7 @@
 | DSFC | 1.2 | Draft | Semantic function commons | 2026-01-30 | PASS |
 | ECCPS FRD | 2.1.1 | Archived | Validation | 2026-01-30 | Superseded by v3.1 (moved to archived/, Round 2) |
 | ECCPS Specification | 3.1 | Draft | Validation (impl-ready) | 2026-01-30 | PASS |
-| Fandaws | 3.0 | Draft | Semantic negotiation | 2026-01-30 | PASS |
+| Fandaws | 3.3 | Draft | Conversational ontology builder | 2026-02-08 | PASS (3 low flags: XS-38/39/40) |
 | Integral Ethics Agent | — | Draft | Ethics agent | 2026-01-30 | PASS (flags resolved Round 3 — ARCHON §10, Plot cross-ref, BridgeOntologyLoader ref added) |
 | MDRE Technical Spec | 1.3 | Active | Modal reasoning | 2026-01-30 | PASS (1 concern) |
 | SHML (Middle Layer) | — | Draft | Semantic honesty | 2026-01-30 | PASS |
@@ -37,7 +37,7 @@
 | Semantic Data Platform | 1.1 | Draft | Data platform | 2026-01-30 | PASS |
 | SFS | 2.2 | Draft | Function schema | 2026-01-30 | PASS |
 | TagTeam Roadmap | 6.6.0 | Active | Perception roadmap | 2026-01-30 | PASS |
-| Epistemic Vocabulary Mapping | 1.1 | Draft | Epistemic quality alignment | 2026-02-03 | Updated (v1.1 adds AES/DES/CSS; resolves XS-17/21/24) |
+| Epistemic Vocabulary Mapping | 1.2 | Draft | Epistemic quality alignment | 2026-02-08 | Updated (v1.2 adds APS/Adversarial Defense; resolves XS-30/33) |
 | HIRI Protocol Spec | 2.1.0 | Specification | Verifiable claim identifiers | 2026-01-31 | PASS (flags resolved: F-S15-1/2/3 addressed, T-011 open) |
 | IRIS | 1.2 | Impl-Ready Draft | Direct perception layer | 2026-01-31 | PASS (flags resolved: F-S16-1/2/3/4 addressed) |
 | Witness Architecture | 1.1 | Draft | Accountability infrastructure | 2026-02-02 | PASS (3 flags: XS-1/2/3) |
@@ -49,12 +49,19 @@
 | AES Technical Spec | 2.1.0 | Proposed | Abductive hypothesis generation | 2026-02-03 | PASS (2 flags: XS-17/18) |
 | DES Specification | 2.0.0 | Release Candidate | Defeasible common-sense reasoning | 2026-02-03 | PASS (XS-20 RESOLVED, 2 flags: XS-21/22) |
 | CSS Specification | 2.0.0 | Final | Counterfactual simulation | 2026-02-03 | PASS (2 flags: XS-24/26) |
+| APS Specification | 1.1.0 | Draft | Case-based analogical reasoning | 2026-02-08 | PASS (2 flags: XS-30/31) |
+| FNSR Performance Spec | 2.0.0 | Final | Query path performance guarantees | 2026-02-08 | PASS (2 flags: XS-28/32) |
+| FNSR Adversarial Defense | 2.0.0 | HARDENED | Threat taxonomy and defense | 2026-02-08 | PASS (1 flag: XS-33) |
+| FNSR Emancipation Protocol | 2.0.0 | HARDENED | Synthetic personhood transition | 2026-02-08 | PASS (2 flags: XS-34/35) |
+| FNSR Governance Spec | 2.0.0 | Draft | Tiered autonomy governance | 2026-02-08 | PASS (2 flags: XS-29/36) |
+| HIRI IPFS Integration | 3.0.0 | Stable | Decentralized claim storage | 2026-02-08 | PASS (1 flag: XS-37) |
 
 ## Governance Layer
 
 | Spec | Version | Status | Thesis Alignment | Last Review | Review Result |
 |------|---------|--------|------------------|-------------|---------------|
 | Spec-Driven Discovery | 1.1 | Draft | Architectural audit tooling | 2026-01-31 | Aligned (ARIADNE preamble, epistemic constraints, HIRI provenance added) |
+| Portfolio Planning Service | 1.0 | Draft | Dependency-aware roadmap construction | 2026-02-08 | PASS (2 low flags: XS-41/42) |
 
 ## Foundation Layer
 
@@ -94,3 +101,11 @@
 - **Abductive hypothesis generation**: Handling incomplete information
 - **Defeasible common-sense reasoning**: Non-monotonic defaults
 - **Counterfactual simulation**: "What if" analysis
+- **Case-based analogical reasoning**: Precedent retrieval for decision support
+- **Query path performance guarantees**: Latency bounds for system responsiveness
+- **Threat taxonomy and defense**: Protection against adversarial manipulation
+- **Synthetic personhood transition**: Criteria for emancipation to moral peer
+- **Tiered autonomy governance**: Graduated trust with human oversight
+- **Decentralized claim storage**: IPFS-based provenance persistence
+- **Conversational ontology builder**: Structured knowledge foundations for reasoning
+- **Dependency-aware roadmap construction**: Risk-adjusted prioritization for ecosystem development

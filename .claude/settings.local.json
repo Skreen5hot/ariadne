@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Read(//tmp/claude/c--Users-aaron-OneDrive-Documents-ariadne/tasks/**)"
+      "Read(//tmp/claude/c--Users-aaron-OneDrive-Documents-ariadne/tasks/**)",
+      "Bash(git mv:*)"
     ]
   }
 }

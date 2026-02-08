@@ -1,10 +1,10 @@
 # Epistemic Vocabulary Mapping
 
-**Version:** 1.1
+**Version:** 1.2
 **Date:** February 2026
 **Purpose:** Unified mapping across the epistemic quality systems in the ARIADNE ecosystem
 **Status:** Draft
-**Addresses:** T-010 (Epistemic Quality Vocabulary Fragmentation), XS-17, XS-21, XS-24
+**Addresses:** T-010 (Epistemic Quality Vocabulary Fragmentation), XS-17, XS-21, XS-24, XS-30, XS-33
 
 ---
 
@@ -15,6 +15,7 @@ Multiple specifications describe epistemic quality using different vocabularies,
 This document covers:
 - **Core systems**: FNSR taint levels, MDRE evidence tiers, PFCF uncertainty types, TagTeam certainty markers
 - **Reasoning triad**: AES (abductive), DES (defeasible), CSS (counterfactual) — added in v1.1
+- **Extended systems**: APS (precedent retrieval), Adversarial Defense (quarantine taint) — added in v1.2
 
 ---
 
@@ -172,6 +173,90 @@ CSS introduces an execution mode sub-level for exploratory use:
 }
 ```
 
+#### 2.5.4 APS (Analogical Precedent Service)
+
+Source: APS Specification v1.1.0 §3.2, §4.5
+
+APS retrieves case-based precedents for ethical reasoning. All APS outputs carry an **L2+ taint floor** — precedents are never presented as verified facts, only as defeasible historical evidence.
+
+| APS Concept | FNSR Taint | Meaning |
+|-------------|-----------|---------|
+| PrecedentMatch | L2+ | Retrieved case with similarity scores |
+| AnalogicalMapping | L2+ | Structural correspondence to current situation |
+| FeedbackIntegration | L2 | Updated case weights from outcome feedback |
+
+**L2+ taint floor semantics:**
+
+The "+" notation indicates a *minimum* taint level. APS outputs are at least L2 but may inherit higher taint from their source cases:
+
+| Source Case Taint | APS Output Taint | Rationale |
+|-------------------|------------------|-----------|
+| L0-L1 (historical verified) | L2 | Historical cases become defeasible when applied analogically |
+| L2 (defeasible) | L2 | Taint preserved |
+| L3+ (speculative/hypothetical) | L3+ | Higher taint inherited |
+
+**Analogical Firewall (§4.5):**
+
+Precedents inform but do not constrain deliberation. The APS output includes similarity scores but explicitly cannot:
+- Override IEE worldview evaluations
+- Bypass ARCHON governance
+- Substitute for current-situation ethical analysis
+
+This firewall ensures that "this is how we handled it before" cannot suppress "but should we handle it that way now?"
+
+### 2.6 Adversarial Defense Taint Extensions
+
+Source: FNSR Adversarial Defense Specification v2.0.0 §4, §6
+
+The Adversarial Defense Specification introduces taint sub-levels for quarantine management. These operate within the existing L0-L5 hierarchy but add quarantine-specific semantics.
+
+#### 2.6.1 L2-FLAGGED (Quarantine Sub-Level)
+
+| Level | Name | Meaning | Production Use |
+|-------|------|---------|----------------|
+| L2-FLAGGED | Quarantined Defeasible | Content flagged by threat detection, pending review | Limited (probationary) |
+
+**L2-FLAGGED semantics:**
+
+L2-FLAGGED is a *sub-level* of L2 (Defeasible) that indicates content has been quarantined by the adversarial defense system. It shares L2's epistemic status (could be overridden) but adds operational restrictions.
+
+| Property | L2 (Normal) | L2-FLAGGED |
+|----------|-------------|------------|
+| Epistemic status | Defeasible | Defeasible |
+| Production use | Yes | Limited (probationary) |
+| Requires review | No | Yes (human or automated) |
+| Quarantine lifecycle | N/A | Detection → Quarantine → Probation → Release |
+
+**Quarantine lifecycle:**
+
+```
+Threat Detected → L2-FLAGGED (quarantined)
+                      ↓
+              Review (human/automated)
+                      ↓
+         ┌───────────┴───────────┐
+         ↓                       ↓
+    Cleared → L2 (normal)   Confirmed → L5 (adversarial)
+```
+
+**Cumulative risk computation:**
+
+L2-FLAGGED content carries a cumulative risk score from the 9-threat taxonomy (INJ, SEM, ONT, PER, DFT, PRV, TNT, SIM, GOV). This score determines quarantine priority and review urgency.
+
+| Risk Score | Priority | Review SLA |
+|------------|----------|------------|
+| < 0.3 | Low | 7 days |
+| 0.3-0.7 | Medium | 24 hours |
+| > 0.7 | High | 4 hours |
+| GOV-class | Critical | Immediate escalation |
+
+**Governance degradation:**
+
+When quarantine capacity is exceeded, the system degrades gracefully:
+1. Lower-risk L2-FLAGGED content may be auto-cleared with extended monitoring
+2. Higher-risk content is prioritized for human review
+3. GOV-class threats always escalate regardless of capacity
+
 ---
 
 ## 3. Cross-System Mapping
@@ -192,18 +277,21 @@ Function level:     PFCF uncertainty types (what kind of uncertainty does proces
 Reasoning level:    AES (L3) / DES (L2) / CSS (L4) — fixed output taint levels
 ```
 
-**Reasoning Triad Taint Stratification:**
+**Reasoning and Precedent Taint Stratification:**
 
 ```
 Production Zone (can affect decisions):
   L0 ─ Verified
   L1 ─ Derived
   L2 ─ Defeasible  ←── DES outputs here
+       └─ L2-FLAGGED ←── Adversarial Defense quarantine (probationary)
+       └─ L2+ floor  ←── APS precedent outputs (minimum L2)
   ════════════════════ EPISTEMIC FIREWALL ════════════════════
 Sandbox Zone (cannot affect decisions without promotion):
   L3 ─ Speculative ←── AES outputs here (promotable)
   L4 ─ Hypothetical ←── CSS outputs here (terminal, never promotable)
-  L5 ─ Adversarial
+       └─ L4-fast   ←── CSS exploratory mode (non-auditable)
+  L5 ─ Adversarial  ←── Confirmed threats (immediate quarantine)
 ```
 
 ### 3.2 Directional Mappings
@@ -241,15 +329,28 @@ PFCF uncertainty types affect taint propagation through functions:
 | Epistemic | Taint level may increase (model uncertainty adds epistemic contamination) |
 | Mixed | Taint level may increase (epistemic component dominates) |
 
-#### Reasoning Triad → FNSR
+#### Reasoning Triad + APS → FNSR
 
-The reasoning triad services have **fixed output taint levels**:
+The reasoning services have **fixed output taint levels**:
 
 | Service | Output Taint | Can Cross Firewall? | Promotion Mechanism |
 |---------|-------------|---------------------|---------------------|
 | DES | L2 (always) | N/A (already production) | None needed |
+| APS | L2+ (floor) | N/A (already production) | None needed — precedents are advisory |
 | AES | L3 (always) | Yes, with evidence | `integrateEvidence` with authoritative response |
 | CSS | L4 (always) | **No (terminal)** | None — by design |
+
+#### Adversarial Defense → FNSR
+
+The adversarial defense system modifies taint levels for flagged content:
+
+| Detection Result | Taint Effect | Lifecycle |
+|------------------|--------------|-----------|
+| Cleared | No change | N/A |
+| Flagged (low risk) | → L2-FLAGGED | Quarantine → Review → L2 or L5 |
+| Flagged (high risk) | → L2-FLAGGED | Quarantine → Urgent Review → L2 or L5 |
+| Confirmed threat | → L5 | Immediate quarantine |
+| GOV-class threat | → L5 + escalation | Governance notification |
 
 **Reasoning triad composition:**
 
@@ -295,6 +396,8 @@ All four systems are visible in the final output via CloudEvents headers and cla
 - AES Technical Specification v2.1.0, §4.1, §5.1 (Taint Levels, Epistemic Firewall)
 - DES Specification v2.0.0, §2.1 (Taint Level System)
 - CSS Specification v2.0.0, §1.1, §3.4, §5 (L4 Taint, L4-fast)
+- APS Specification v1.1.0, §3.2, §4.5 (L2+ Taint Floor, Analogical Firewall)
+- FNSR Adversarial Defense Specification v2.0.0, §4, §6 (L2-FLAGGED, Quarantine Lifecycle)
 - IRIS v1.2, §2 (Perception-Level Sub-Types)
 - The Plot §2.1 (Epistemic Non-Negotiables)
 
@@ -306,3 +409,4 @@ All four systems are visible in the final output via CloudEvents headers and cla
 |---------|------|---------|
 | 1.0 | January 2026 | Initial specification — FNSR, MDRE, PFCF, TagTeam |
 | 1.1 | February 2026 | Added reasoning triad (AES, DES, CSS); addresses XS-17, XS-21, XS-24 |
+| 1.2 | February 2026 | Added APS (L2+ floor), Adversarial Defense (L2-FLAGGED); addresses XS-30, XS-33 |

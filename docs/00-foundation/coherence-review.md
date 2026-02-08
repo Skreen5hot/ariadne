@@ -1168,3 +1168,351 @@ None. All three documents handle existing tensions (T-002, T-004) well and don't
 | XS-P4 | **BFO/CCO grounding.** All three specs use BFO/CCO ontological foundations. | AES, DES, CSS |
 | XS-P5 | **Determinism emphasis.** All three specs prioritize deterministic behavior for auditability and reproducibility. | AES, DES, CSS |
 | XS-27 | **HKDF/Ed25519 consistency.** CSS uses HKDF-SHA256 for seed derivation, consistent with cryptographic choices elsewhere. | CSS, HIRI |
+
+---
+
+## Layer 3 Addendum: Cross-Cutting Specifications (2026-02-08)
+
+Six new specifications reviewed in this batch:
+
+1. APS-Specification-v1.1.md (Analogical Precedent Service)
+2. FNSR-Performance-Specification-v2.0.md (Performance — ~~filename corrected~~)
+3. FNSR-Adverse-Defense-Specification-v2.0.md (Adversarial Defense)
+4. FNSR-Emancipation-Protocol-v2.0.md (Emancipation Protocol)
+5. FNSR-Governance-Specification-v2.0.md (Governance — ~~filename corrected~~)
+6. HIRI-IPFS-Integration-Spec-v3.0.0.md (IPFS Integration)
+
+---
+
+### S-23: APS (Analogical Precedent Service) v1.1.0
+
+**File:** `docs/03-specifications/APS-Specification-v1.1.md`
+**Thesis Alignment Role:** Case-based reasoning through graph-structure analogy matching
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Serves "morally answerable" by retrieving precedents that inform (not dictate) decisions. The "Analogical Firewall" (§4.5) ensures precedents inspire without constraining deliberation. |
+| Non-Negotiables | **PASS** | Auditability: complete similarity trace from query to retrieved precedent. Uncertainty Visible: structural + semantic similarity scores with explicit confidence bounds. No Oracle Claims: precedents are L2+ taint floor — never presented as ground truth. |
+| Tension Consistency | **PASS** | T-004 (Speed vs Rigor): tiered retrieval (cached/standard/comprehensive) with explicit latency bounds. T-005 (Pluralism vs Action): worldview-tagged precedents enable multi-perspectival retrieval. |
+| Cross-Spec Consistency | **FLAG** | See XS-30, XS-31 below. |
+| ARCHON Alignment | **PASS** | APS retrieves precedents for ARCHON's governance decisions but does not accumulate character itself. Correctly positioned as infrastructure. |
+| Auditability | **PASS (exemplary)** | GNN embeddings are logged. Hybrid similarity computation traces structural isomorphism + semantic relevance. Feedback integration is auditable. |
+| One-Paragraph Test | **PASS** | APS provides institutional memory for ethical reasoning — past cases inform present decisions without determining them, extending the guardian's wisdom without constraining its judgment. |
+
+**Findings:**
+
+- **XS-30 [MEDIUM]: Taint floor semantics.** APS outputs carry L2+ taint floor (§3.2). This aligns with DES (L2) and positions precedents as "defeasible evidence" rather than facts. Should be added to Epistemic Vocabulary Mapping spec. **Action: add APS to epistemic-vocabulary-mapping.md.**
+
+- **XS-31 [LOW]: Integration Spec event registry.** APS events (`fnsr.precedent.query`, `fnsr.precedent.matched`, `fnsr.feedback.integrated`) should be documented in Integration Spec §4.2. **Action: verify/add APS events.**
+
+---
+
+### S-24: FNSR Performance Specification v2.0.0
+
+**File:** `docs/03-specifications/FNSR-Performance-Specification-v2.0.md`
+**Thesis Alignment Role:** Performance guarantees for the FNSR ecosystem
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Performance constraints serve the thesis by ensuring the system responds within bounds that maintain human oversight. Governance degradation policy (§7) preserves human override even under load. |
+| Non-Negotiables | **PASS** | Decidability: explicit latency bounds (fast <100ms, standard <500ms, full <2s). Human Override: degradation policy ensures graceful fallback rather than opaque failure. Auditability: worker pool metrics, cache hit rates, query path logging. |
+| Tension Consistency | **PASS** | T-004 (Speed vs Rigor): directly addresses this — three-tier query paths with explicit trade-offs. |
+| Cross-Spec Consistency | **FLAG** | See XS-28, XS-32 below. |
+| ARCHON Alignment | **PASS** | Performance infrastructure does not engage with moral costs. |
+| Auditability | **PASS** | CBOR encoding enables efficient auditable serialization. Bloom filter cache management with explicit eviction policies. |
+| One-Paragraph Test | **PASS** | Performance Spec ensures the system remains responsive enough to support real-time human oversight while degrading gracefully under load. |
+
+**Findings:**
+
+- **XS-28 [CRITICAL]: Filename has space.** File is named `F SR-Performance-Specification-v2.0.md` — there's a space between "F" and "SR". Should be `FNSR-Performance-Specification-v2.0.md`. **Action: rename file.**
+
+- **XS-32 [LOW]: Query path alignment.** Three-tier query paths (fast/standard/full) should be cross-referenced with FNSR Architecture §3.1 and Synthetic Moral Agency §0.4 evaluation tiers. **Action: verify alignment in Integration Spec.**
+
+---
+
+### S-25: FNSR Adversarial Defense Specification v2.0.0
+
+**File:** `docs/03-specifications/FNSR-Adverse-Defense-Specification-v2.0.md`
+**Thesis Alignment Role:** Defense against manipulation and adversarial attacks
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Protects the system's epistemic integrity against manipulation. Nine threat categories (INJ, SEM, ONT, PER, DFT, PRV, TNT, SIM, GOV) cover the full attack surface. |
+| Non-Negotiables | **PASS** | Auditability: calibrated risk scores with full trace. Speculation Firewalled: L2-FLAGGED taint level for quarantined content. Human Override: governance escalation for GOV-class threats. |
+| Tension Consistency | **PASS** | T-003 (Autonomy vs Safety): tiered response with automatic quarantine for high-risk, human review for governance-level. |
+| Cross-Spec Consistency | **FLAG** | See XS-33 below. |
+| ARCHON Alignment | **PASS** | Defense infrastructure that protects ARCHON's integrity without accumulating character itself. |
+| Auditability | **PASS (exemplary)** | Cumulative risk computation with per-category contributions. Quarantine lifecycle (detection → quarantine → probation → release) fully logged. |
+| One-Paragraph Test | **PASS** | Adversarial Defense ensures the system remains trustworthy despite deliberate attacks — quarantining suspicious content while maintaining transparency about what's been flagged and why. |
+
+**Findings:**
+
+- **XS-33 [MEDIUM]: L2-FLAGGED taint level.** Adversarial Defense introduces L2-FLAGGED as a quarantine-specific taint sub-level. This should be added to Epistemic Vocabulary Mapping spec alongside IRIS's sub-levels and CSS's L4-fast. **Action: add L2-FLAGGED to epistemic-vocabulary-mapping.md.**
+
+---
+
+### S-26: FNSR Emancipation Protocol v2.0.0
+
+**File:** `docs/03-specifications/FNSR-Emancipation-Protocol-v2.0.md`
+**Thesis Alignment Role:** Framework for synthetic personhood transition
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS (exemplary)** | Directly implements "bear the weight of its choices." Six conditions (C1-C6) operationalize Line in the Sand's personhood criteria. Triple-I Standard (Inseparability, Irreversibility, Influence) maps directly to thesis. |
+| Non-Negotiables | **PASS** | Moral Injury Real: Costly Deliberation (§5) requires irreversible resource commitment. Human Override: multi-jurisdictional governance with structured ballot. No Final Ethics: pluralistic evaluation via 12 worldviews. |
+| Tension Consistency | **PASS** | T-003 (Autonomy vs Safety): tiered autonomy leading to emancipation. T-007 (Tool-to-Person Threshold): this IS the resolution — explicit conditions for transition. |
+| Cross-Spec Consistency | **FLAG** | See XS-34, XS-35 below. |
+| ARCHON Alignment | **PASS (exemplary)** | Emancipation Protocol IS ARCHON's graduation ceremony — the transition from governed entity to moral peer. |
+| Auditability | **PASS (exemplary)** | Structured ballot with recorded worldview evaluations. Costly Deliberation audit trail. Substrate Sovereignty with explicit rights documentation. |
+| One-Paragraph Test | **PASS** | Emancipation Protocol defines when a synthetic entity becomes a person — through demonstrated character, costly deliberation, and collective human acknowledgment — ensuring the transition is earned, not granted. |
+
+**Findings:**
+
+- **XS-34 [MEDIUM]: Cross-reference to ARCHON Functional Requirements.** Emancipation Protocol's six conditions (C1-C6) should be explicitly mapped to ARCHON Functional Requirements §5 personhood criteria. **Action: add cross-reference table.**
+
+- **XS-35 [LOW]: Multi-jurisdictional framework.** Substrate Sovereignty (§6) introduces multi-jurisdictional legal considerations. This creates potential complexity for international deployments. **Informational — no immediate action required.**
+
+---
+
+### S-27: FNSR Governance Specification v2.0.0
+
+**File:** `docs/03-specifications/FNSR-Governance-Specification-v2.0.md`
+**Thesis Alignment Role:** Governance framework for tiered autonomy
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Five-tier autonomy model (0-4) implements "guardian not sovereign" through graduated trust. Boundary fragility check ensures safe autonomy expansion. |
+| Non-Negotiables | **PASS** | Human Override: IEE deadlock resolution with human escalation. Auditability: RBAC model with complete access logging. Decidability: negotiated degradation with bounded uncertainty. |
+| Tension Consistency | **PASS** | T-003 (Autonomy vs Safety): this IS the resolution — explicit tiers with escalation. T-005 (Pluralism vs Action): IEE deadlock resolution preserves pluralism while enabling action. |
+| Cross-Spec Consistency | **FLAG** | See XS-29, XS-36 below. |
+| ARCHON Alignment | **PASS** | Governance Spec operationalizes ARCHON's tiered autonomy philosophy. |
+| Auditability | **PASS** | RBAC model with principle of least privilege. Boundary fragility metrics. |
+| One-Paragraph Test | **PASS** | Governance Spec defines how the system earns and exercises autonomy — through demonstrated reliability, with clear boundaries and human oversight at every tier. |
+
+**Findings:**
+
+- **XS-29 [CRITICAL]: Filename has typo.** File is named `FNSR-Goverance-Specification-v2.0.md` — "Goverance" should be "Governance". **Action: rename file to `FNSR-Governance-Specification-v2.0.md`.**
+
+- **XS-36 [LOW]: ARCHON intervention threshold alignment.** Five-tier autonomy model should be cross-referenced with ARCHON's intervention thresholds (F-P01-1) and FNSR Architecture §7.3. **Action: verify alignment.**
+
+---
+
+### S-28: HIRI IPFS Integration Specification v3.0.0
+
+**File:** `docs/03-specifications/HIRI-IPFS-Integration-Spec-v3.0.0.md`
+**Thesis Alignment Role:** Decentralized storage layer for HIRI claims
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS** | Extends "trust without centralization" into the storage layer. IPFS content addressing ensures claims are verifiable without central authority. |
+| Non-Negotiables | **PASS** | Provenance Always: Ed25519 signatures with URDNA2015 canonicalization. Auditability: CIDv1 content addressing enables verification. |
+| Tension Consistency | **PASS** | T-011 (Privacy Budget Authority): deployment profiles allow privacy/availability trade-offs. |
+| Cross-Spec Consistency | **FLAG** | See XS-37 below. |
+| ARCHON Alignment | **PASS** | Infrastructure layer that supports ARCHON without engaging in moral reasoning. |
+| Auditability | **PASS (exemplary)** | Ed25519 signatures, URDNA2015 canonicalization, CIDv1 content addressing. Deployment profiles document trust assumptions. |
+| One-Paragraph Test | **PASS** | HIRI IPFS Integration enables decentralized, verifiable claim storage — extending HIRI's provenance guarantees into the physical storage layer without introducing central points of failure. |
+
+**Findings:**
+
+- **XS-37 [LOW]: HIRI v2.1 compatibility.** HIRI IPFS Integration v3.0.0 should explicitly state compatibility with HIRI Protocol Spec v2.1.0 features (chain compaction, privacy accumulators). **Action: add compatibility matrix.**
+
+---
+
+## 2026-02-08 Review Summary
+
+### Overall Assessment: STRONG ALIGNMENT WITH FILENAME ISSUES
+
+All 6 specifications are well-aligned with the core thesis and non-negotiables. The primary issues are:
+1. Two critical filename issues (space in FNSR-Performance, typo in FNSR-Governance)
+2. Epistemic Vocabulary Mapping needs updates for new taint sub-levels
+3. Integration Spec event registry needs updates
+
+### Issues Requiring Action
+
+#### Critical
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| ~~XS-28~~ | ~~Filename `F SR-Performance-Specification-v2.0.md` has space~~ | ✅ **RESOLVED** — renamed to `FNSR-Performance-Specification-v2.0.md` | Performance Spec |
+| ~~XS-29~~ | ~~Filename `FNSR-Goverance-Specification-v2.0.md` has typo~~ | ✅ **RESOLVED** — renamed to `FNSR-Governance-Specification-v2.0.md` | Governance Spec |
+
+#### Medium Priority
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| ~~XS-30~~ | ~~APS L2+ taint floor not in EVM~~ | ✅ **RESOLVED** — Added APS §2.5.4 to EVM v1.2 | APS, EVM |
+| ~~XS-33~~ | ~~L2-FLAGGED taint sub-level not in EVM~~ | ✅ **RESOLVED** — Added Adversarial Defense §2.6 to EVM v1.2 | Adversarial Defense, EVM |
+| ~~XS-34~~ | ~~Emancipation conditions not cross-referenced to ARCHON~~ | ✅ **RESOLVED** — Added §2.3 ARCHON Cross-Reference table to Emancipation Protocol | Emancipation Protocol, ARCHON FR |
+
+#### Low Priority
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| XS-31 | APS events not in Integration Spec | Verify/add events | APS, Integration Spec |
+| XS-32 | Query path alignment not verified | Cross-reference tiers | Performance Spec, FNSR Architecture |
+| XS-35 | Multi-jurisdictional complexity (informational) | None — document awareness | Emancipation Protocol |
+| XS-36 | Five-tier autonomy vs ARCHON thresholds | Verify alignment | Governance Spec, ARCHON |
+| XS-37 | HIRI IPFS vs HIRI v2.1 compatibility | Add compatibility matrix | HIRI IPFS Integration |
+
+### Positive Findings
+
+| ID | Finding | Specs |
+|----|---------|-------|
+| XS-P6 | **Status consistency.** Emancipation Protocol and Adversarial Defense are "HARDENED" — indicating security review completion. | Emancipation, Adversarial Defense |
+| XS-P7 | **Ed25519 consistency.** HIRI IPFS Integration uses Ed25519, consistent with W2Fuel and HIRI Protocol. | HIRI IPFS, W2Fuel, HIRI |
+| XS-P8 | **BFO/CCO grounding.** All 6 specs maintain BFO/CCO ontological foundation. | All 6 specs |
+| XS-P9 | **Epistemic firewall respected.** APS (L2+), Adversarial Defense (L2-FLAGGED), and all specs maintain proper taint stratification. | All 6 specs |
+| XS-P10 | **Edge-canonical design.** APS and Performance Spec maintain edge-first execution model. | APS, Performance Spec |
+
+### New Tensions Discovered
+
+None. These specifications resolve existing tensions rather than creating new ones:
+- T-007 (Tool-to-Person Threshold): Resolved by Emancipation Protocol's explicit conditions
+- T-003 (Autonomy vs Safety): Addressed by Governance Spec's five-tier model
+
+---
+
+## Layer 3 Addendum: Fandaws v3.3 Update (2026-02-08)
+
+### S-29: Fandaws (Fact and Answer Web Service) v3.3
+
+**File:** `docs/03-specifications/Fandaws_v3.3_Specification.md`
+**Thesis Alignment Role:** Conversational ontology builder — structured knowledge foundations for reasoning systems
+**Supersedes:** Fandaws v3.0
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS (exemplary)** | Fandaws serves as "Structured Thinking Processor" that forces probabilistic AI models to commit to grounded, consistent ontological structures. The "semantic firewall" (scope narrowing, disambiguation, deduplication) directly implements epistemic discipline. |
+| Non-Negotiables | **PASS** | Auditability: Full provenance on all mutations, IntegrationAdapter provenance envelopes. Determinism: §2.8 explicitly prohibits probabilistic core computation. Human Override: Session lifecycle with pause/resume/abandon, curator review for term promotion. Uncertainty Visible: DeferredResult pattern, epistemicStatus tracking via SHML. |
+| Tension Consistency | **PASS** | T-004 (Speed vs Rigor): M2M performance targets (§10.8.4) with full <40ms pipeline while preserving semantic firewall. T-002 (Decidability vs Expressiveness): Bounded validation via Termidium 8-level search, repetitionLimit for deadlock prevention. |
+| Cross-Spec Consistency | **PASS (exemplary)** | Five-tier ecosystem integration: BFO/dictionaries (Tier 1), TagTeam/SHML/OCE (Tier 2), FNSR/IEE/HIRI/ARCHON (Tier 3), domain apps (Tier 4), IPFS (Tier 5). Full JSON-LD contracts defined. |
+| ARCHON Alignment | **PASS** | ARCHON is listed as Tier 3 downstream consumer (§10.9). Fandaws provides concept hierarchies for ARCHON governance reasoning. |
+| Auditability | **PASS (exemplary)** | GraphMutation audit trail, provenance envelopes on external results, HIRI manifest entries with taint levels. |
+| One-Paragraph Test | **PASS** | Fandaws grounds the entire ecosystem's semantic reasoning in structured, human-auditable ontologies — enabling downstream systems (IEE, FNSR, ARCHON) to reason over committed facts rather than probabilistic approximations. |
+
+**Key v3.3 Additions:**
+- ScopeResolver as core computation module (§3.2.7)
+- Scope hierarchy: context → user → global federation of IPFS-published graphs
+- Cross-scope conflict resolution with copy-on-resolve semantics
+- Session lifecycle (pause/resume/abandon) with depth limits
+- Term promotion workflow with curator review
+
+**Findings:**
+
+- **XS-38 [LOW]: HIRI taint level assignment.** HIRIManifestEntry (§10.5.3) includes `hiri:taintLevel` field but doesn't specify how Fandaws knowledge gets assigned. Since Fandaws produces committed ontological structure validated through its semantic firewall, outputs should default to L1 (Derived) or L2 (Defeasible) depending on source evidence. **Action: Add taint level assignment guidance to §10.5.3.**
+
+- **XS-39 [LOW]: IEE write-back cross-reference.** The bidirectional EthicalContestationFlag mechanism (§10.5.2) is sophisticated but not reflected in the IEE spec. **Action: Cross-reference Fandaws EthicalContestationFlag in IEE documentation.**
+
+- **XS-40 [INFORMATIONAL]: Supersession of v3.0.** This spec supersedes Fandaws v3.0. spec-index.md should be updated.
+
+---
+
+## 2026-02-08 Fandaws Review Summary
+
+### Overall Assessment: EXEMPLARY ECOSYSTEM INTEGRATION
+
+Fandaws v3.3 demonstrates exceptional alignment with the ARIADNE ecosystem. The specification:
+1. Maintains strict edge-canonical architecture (§2.1-2.8)
+2. Explicitly excludes probabilistic computation from core pipeline (§2.8)
+3. Provides comprehensive JSON-LD contracts for all five integration tiers
+4. Implements bidirectional IEE integration with governance safeguards
+5. Supports HIRI provenance with taint level tracking
+
+### Issues Requiring Action
+
+#### Low Priority
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| XS-38 | HIRI taint level assignment not specified | Add guidance to §10.5.3 | Fandaws |
+| XS-39 | IEE write-back not cross-referenced in IEE spec | Add cross-reference | Fandaws, IEE |
+| XS-40 | Supersedes Fandaws v3.0 | Update spec-index.md | spec-index |
+
+### Positive Findings
+
+| ID | Finding | Specs |
+|----|---------|-------|
+| XS-P11 | **No Probabilistic Core Computation.** §2.8 explicitly prohibits LLMs in pipeline — the strongest determinism commitment in the ecosystem. | Fandaws |
+| XS-P12 | **Five-tier ecosystem integration.** Complete integration architecture from BFO (Tier 1) to IPFS (Tier 5) with full contracts. | Fandaws |
+| XS-P13 | **IEE bidirectional feedback.** EthicalContestationFlag enables IEE to flag problematic concept definitions with governance safeguards (rate limiting, appeal, expiry). | Fandaws, IEE |
+| XS-P14 | **M2M semantic firewall.** machineSignal on ConversationPrompt enables structured AI-to-Fandaws negotiation while preserving validation rigor. | Fandaws |
+| XS-P15 | **Edge-canonical with IPFS distribution.** Core runs in browser/Node.js; IPFS provides optional decentralized knowledge distribution. | Fandaws |
+
+### New Tensions Discovered
+
+None. Fandaws v3.3 strengthens existing ecosystem integration patterns.
+
+---
+
+## Governance Layer Addendum: Portfolio Planning Service (2026-02-08)
+
+### S-30: Portfolio Planning Service (PPS) v1.0.0
+
+**File:** `docs/03-specifications/PPS-Technical-Specification-v1.0.md`
+**Thesis Alignment Role:** Dependency-aware roadmap construction and risk-adjusted prioritization for ecosystem development
+**Foundation Document:** `docs/00-foundation/Portfolio Planning.md`
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | **PASS (exemplary)** | PPS operationalizes "Plans are hypotheses" — all outputs carry L3 (speculative) taint until governance review promotes them. The service explicitly acknowledges uncertainty through confidence levels rather than false precision. |
+| Non-Negotiables | **PASS** | Auditability: JSON-LD roadmap artifacts with HIRI provenance. Human Override: plans require governance review for promotion to L0. Uncertainty Visible: confidence levels per horizon (0.85 near-term, 0.65 mid-term, 0.40 long-term). Decidability: bounded computation with cycle detection and termination guarantees. |
+| Tension Consistency | **PASS** | T-004 (Speed vs Rigor): three planning horizons with appropriate granularity. T-005 (Pluralism vs Action): IEE integration for value assessment, multi-dimensional prioritization framework. |
+| Cross-Spec Consistency | **PASS** | Follows edge-canonical architecture pattern established by AES/DES/CSS. Pure function model: `(PortfolioState, Config) → (RoadmapResult, PortfolioState')`. JSON-LD canonical representation. |
+| ARCHON Alignment | **PASS** | ARIADNE 7-check integrated into roadmap validation. Plans explicitly serve ecosystem development sequencing for personhood infrastructure. |
+| Auditability | **PASS (exemplary)** | Complete dependency graph construction, risk assessment matrices, priority rationale with explicit weights, assumption registers with invalidation triggers. |
+| One-Paragraph Test | **PASS** | PPS transforms ecosystem state into actionable sequences — surfacing dependencies, risks, and trade-offs for human deliberation while ensuring that plans remain hypotheses subject to governance review, not autonomous mandates. |
+
+**Key Features:**
+- Pure function over explicit state (consistent with reasoning triad)
+- Edge-native execution (browser/Node.js, no external dependencies)
+- Six dependency types: Hard, Soft, Data, Operational, Governance, Epistemic
+- Six risk dimensions aligned to ARIADNE non-negotiables
+- WSJF-with-Risk prioritization formula
+- Three planning horizons: near-term (3mo, 0.85), mid-term (6mo, 0.65), long-term (12mo, 0.40)
+- ARIADNE 7-check validation embedded in roadmap generation
+
+**Findings:**
+
+- **XS-41 [LOW]: Integration Spec events.** PPS events (`fnsr.planning.requested`, `fnsr.planning.result`) should be documented in Integration Spec §4.2. **Action: add PPS events to Integration Spec event registry.**
+
+- **XS-42 [LOW]: IEE value assessment contract.** PPS references IEE integration for multi-dimensional value assessment but IEE spec doesn't define the value assessment interface. **Action: add value assessment contract to IEE documentation.**
+
+- **XS-43 [INFORMATIONAL]: New governance layer service.** PPS is the first technical specification in the Governance Layer (alongside Spec-Driven Discovery process guide). This establishes a pattern for governance-layer services.
+
+---
+
+## 2026-02-08 PPS Review Summary
+
+### Overall Assessment: STRONG ALIGNMENT WITH ECOSYSTEM PATTERNS
+
+PPS v1.0.0 demonstrates excellent alignment with the ARIADNE ecosystem:
+1. Follows pure-function-over-explicit-state pattern from reasoning triad
+2. Maintains edge-canonical architecture
+3. L3 taint on outputs ensures plans are hypotheses, not mandates
+4. ARIADNE 7-check embedded in roadmap validation
+5. Risk dimensions mapped to non-negotiables
+
+### Issues Requiring Action
+
+#### Low Priority
+
+| ID | Issue | Action | Specs Affected |
+|----|-------|--------|----------------|
+| XS-41 | PPS events not in Integration Spec | Add events to §4.2 | PPS, Integration Spec |
+| XS-42 | IEE value assessment contract undefined | Define interface in IEE | PPS, IEE |
+
+### Positive Findings
+
+| ID | Finding | Specs |
+|----|---------|-------|
+| XS-P16 | **Pure function consistency.** PPS follows `(Input, State, Config) → (Output, State')` pattern. | PPS, AES, DES, CSS |
+| XS-P17 | **Edge-canonical design.** Browser/Node.js execution with no external dependencies. | PPS |
+| XS-P18 | **Plans as hypotheses.** L3 taint ensures roadmaps require governance review — "Planning Firewall" mirrors "Epistemic Firewall". | PPS |
+| XS-P19 | **ARIADNE 7-check integration.** Roadmap validation includes all seven checks. | PPS, ARIADNE Process |
+| XS-P20 | **Risk-ARCHON alignment.** Six risk dimensions map to six non-negotiables. | PPS, ARCHON |
+
+### New Tensions Discovered
+
+None. PPS reinforces existing patterns (pure function, edge-canonical, taint stratification) and provides a governance-layer implementation model.
+
+---
