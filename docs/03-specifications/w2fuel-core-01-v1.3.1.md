@@ -1,37 +1,46 @@
-# W2Fuel Ontological Schema Service (OSS) Specification
+# W2Fuel Ontological Schema Service — Core Specification
 
-**Document ID:** `w2fuel-core-01`  
-**Version:** 1.3.1  
-**Status:** DRAFT — Pending Rust Spike Validation  
-**Classification:** FNSR Core Memory/Identity Layer Component  
-**Stack:** Rust (Oxigraph/Nemo) — High-Performance Implementation
+**Document ID:** `w2fuel-core-01`
+**Version:** 2.0.0
+**Status:** DRAFT
+**Classification:** FNSR Core Memory/Identity Layer Component
+**Supersedes:** `w2fuel-core-01` v1.3.1
 
 ---
 
-## Version 1.3.0 Summary: Rust Stack Adoption
+## Version 2.0.0 Summary: Architectural Alignment
 
-> **MAJOR CHANGE:** This version adopts a high-performance Rust-based implementation stack (Oxigraph for storage, Nemo for reasoning) replacing the legacy Java stack (Jena/HermiT). This change **eliminates significant defensive complexity** from v1.2.x while preserving all logical architecture, event contracts, and consumer semantics.
+> **MAJOR CHANGE:** This version refactors the W2Fuel specification to comply with the FNSR Architectural Principles. All infrastructure assumptions have been removed from the normative specification. What remains is *pure computation*: deterministic functions that take JSON-LD in and produce JSON-LD out, executable in a browser or via `node index.js` with no required infrastructure.
+>
+> The Rust/Oxigraph/Nemo stack from v1.3.1 is preserved as a **non-normative deployment optimization** in the companion document `w2fuel-deploy-01`. Consumer semantics, event contracts, and all downstream-visible behavior are unchanged.
 
-### What Changed from v1.2.3
+### What Changed from v1.3.1
 
-| Area | v1.2.3 (Java Stack) | v1.3.0 (Rust Stack) | Impact |
-|------|---------------------|---------------------|--------|
-| **Storage** | Apache Jena Fuseki | Oxigraph (RocksDB) | Persistent, crash-safe, no rebuild |
-| **Reasoning** | HermiT (Tableau) | Nemo (Datalog) | Sub-second classification |
-| **OWL Profile** | OWL 2 DL | OWL 2 RL (with DL authoring) | Simplified, aligned with SHACL |
-| **CI Model** | 3-tier (Fast/Heavy/Deferred) | Single-tier (all commits) | No L0-PENDING state |
-| **Rebuild Strategy** | Ephemeral Blue/Green | Persistent with transactions | ~570 lines of spec removed |
+| Area | v1.3.1 | v2.0.0 | Impact |
+|------|--------|--------|--------|
+| **Scope** | Computation + infrastructure unified | Computation only (normative) | Clean separation of concerns |
+| **Execution model** | Assumes Oxigraph, Redis, Kafka, K8s | Runs in browser or `node index.js` | Edge-canonical |
+| **Data format** | Mixed (Turtle, YAML, bare JSON, N-Quads) | JSON-LD canonical for all I/O | Single authoritative format |
+| **Infrastructure** | Normative requirements | Adapter boundaries (pluggable) | No required infrastructure |
+| **Offline behavior** | Undefined | Explicit contracts per function | First-class offline mode |
+| **Reasoning engine** | Nemo (Rust) required | Abstract Datalog semantics | Any conforming engine |
+| **Graph store** | Oxigraph required | Abstract GraphStore adapter | Any conforming store |
 
 ### What Did NOT Change
 
 - T-Box / A-Box architecture
-- Event contracts (`fnsr.schema.updated`, `sequence_id`)
-- Consumer semantics (TagTeam, MDRE, Fandaws behavior)
-- SHACL generation and distribution
-- Namespace disambiguation
-- Governance and approval workflows
-- RBAC and security model
-- Manual SHACL cookbook
+- Ontological foundations (BFO/CCO alignment)
+- OWL 2 RL profile selection and rationale
+- OWL → Datalog transpilation semantics
+- OWL → SHACL generation mappings
+- Namespace disambiguation logic
+- Event semantic content (what changed, sequence_id)
+- Consumer behavioral contracts
+- Governance change classification
+- RBAC role model
+- SHACL dual-semantics (OWA/CWA)
+- Golden-rule translation tests
+- Inference parity comparison logic
 
 ---
 
@@ -39,15 +48,41 @@
 
 W2Fuel is the **Terminological Box (T-Box)** service for the FNSR architecture. It manages the class definitions, property schemas, and ontological structure that give meaning to all instance data stored in Fandaws (A-Box). W2Fuel defines *what kinds of things exist*; Fandaws stores *which things exist*. MDRE joins both when reasoning.
 
-**Core Responsibilities:**
-- Store and serve BFO/CCO class hierarchies
-- Manage schema evolution and versioning
-- Handle namespace federation across domains
-- **Generate SHACL constraints for edge validation**
-- Provide schema metadata for downstream validation
-- Enforce governance controls on schema modifications
+This specification defines W2Fuel's **computation**: the deterministic, stateless functions that validate ontologies, transpile OWL to Datalog and SHACL, disambiguate namespace references, classify hierarchies, and produce signed validation bundles. All functions accept JSON-LD input and produce JSON-LD output. All functions are executable in a browser, via Node.js, or in any environment that can process JSON-LD.
 
-**Architectural Position:**
+**This specification does not define** how these functions are deployed, what storage backends persist their results, what message brokers distribute their events, or what CI/CD systems orchestrate their execution. Those concerns belong to adapter implementations and deployment guides, which are non-normative with respect to W2Fuel's architecture.
+
+### Concern Separation
+
+This specification observes strict separation of concerns. Every element is classified as exactly one of:
+
+| Concern | Definition | Normative Status | Location |
+|---------|-----------|------------------|----------|
+| **Computation** | What is being derived or reasoned | **NORMATIVE** | This document |
+| **State** | How intermediate results are stored or resumed | Pluggable | Adapter interfaces (§12) |
+| **Orchestration** | How and when computation is invoked | Pluggable | Adapter interfaces (§12) |
+| **Integration** | How the external world is contacted | Pluggable | Adapter interfaces (§12) |
+
+Only Computation is core. State, Orchestration, and Integration are defined as adapter interfaces with minimal default implementations suitable for browser and Node.js execution.
+
+### Spec Test
+
+> *Could a developer evaluate, reason about, and execute this system using only a browser, a local Node.js runtime, and JSON-LD files?*
+
+**Yes.** A developer can:
+
+1. Load OWL ontologies as JSON-LD files from disk or URL
+2. Call `validateOwlRl()` — pure function, no dependencies
+3. Call `owlToDatalog()` — pure function, produces JSON-LD rules
+4. Call `owlToShacl()` — pure function, produces JSON-LD shapes
+5. Call `disambiguate()` with a JSON-LD registry — pure function
+6. Call `materialize()` with an in-memory graph — pure function
+7. Evaluate golden-rule tests with `evaluateGoldenRules()` — pure assertions
+8. Verify inference parity with `compareInferenceSets()` — pure diff
+
+All I/O is JSON-LD. All computation is deterministic. No servers, databases, brokers, or network access required.
+
+### Architectural Position
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -61,12 +96,17 @@ W2Fuel is the **Terminological Box (T-Box)** service for the FNSR architecture. 
 │   │                                                                     │   │
 │   │  "What kinds of things CAN exist in this domain?"                   │   │
 │   │                                                                     │   │
-│   │  • Class definitions (Person, Document, Obligation, ...)            │   │
-│   │  • Property schemas (has_part, participates_in, ...)                │   │
-│   │  • OWL 2 RL for Rule-based reasoning (tractable)                    │   │
-│   │  • SHACL for Closed World validation (what MUST be present)         │   │
-│   │  • Namespace bindings (RealEstate:Lease ≠ Auto:Lease)               │   │
-│   │  • BFO/CCO alignment metadata                                       │   │
+│   │  COMPUTATION (normative):                                           │   │
+│   │  • Validate OWL 2 RL ontologies                                     │   │
+│   │  • Transpile OWL → Datalog rules                                    │   │
+│   │  • Generate SHACL shapes from OWL                                   │   │
+│   │  • Disambiguate namespace references                                │   │
+│   │  • Classify and traverse hierarchies                                │   │
+│   │  • Compare inference sets                                           │   │
+│   │  • Sign and verify SHACL bundles                                    │   │
+│   │                                                                     │   │
+│   │  STATE / ORCHESTRATION / INTEGRATION (pluggable):                   │   │
+│   │  • GraphStore, Cache, EventEmitter, etc. (§12)                      │   │
 │   │                                                                     │   │
 │   └───────────────────────────────────────────────────────────────────┬─┘   │
 │                                                                       │     │
@@ -78,11 +118,9 @@ W2Fuel is the **Terminological Box (T-Box)** service for the FNSR architecture. 
 │   │                                                                     │   │
 │   │  "Which specific things DO exist?"                                  │   │
 │   │                                                                     │   │
-│   │  • Instance data (inst:Person_42, inst:Contract_789, ...)           │   │
-│   │  • Asserted facts (Person_42 has_name "Alice Smith")                │   │
-│   │  • Provenance chains (who asserted what, when, with what evidence)  │   │
+│   │  • Instance data, asserted facts, provenance chains                 │   │
 │   │  • Taint levels (L0-L5 per fact)                                    │   │
-│   │  • LOCAL SHACL validation (downloaded from W2Fuel)                  │   │
+│   │  • LOCAL SHACL validation (shapes downloaded from W2Fuel)           │   │
 │   │                                                                     │   │
 │   └─────────────────────────────────────────────────────────────────────┘   │
 │                                                                             │
@@ -91,29 +129,11 @@ W2Fuel is the **Terminological Box (T-Box)** service for the FNSR architecture. 
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Critical Design Principle:** Schema content achieves **L0 (Verified)** status after passing automated Nemo classification in CI/CD. With sub-second classification times, **every commit is fully verified** — no tiered verification, no pending states.
-
 ---
 
-## 2. Service Identity
+## 2. Ontological Foundations
 
-| Attribute | Value |
-|-----------|-------|
-| **Service Name** | W2Fuel Ontological Schema Service |
-| **Aliases** | OSS, Ontological Schema Service, W2Fuel |
-| **Layer** | Memory & Identity (FNSR §2.2) |
-| **Metaphor** | Laws of Physics for Data |
-| **Upstream** | Schema authors, Governance bodies |
-| **Downstream** | Fandaws, MDRE, TagTeam, OERS, all reasoning services |
-| **Taint Level** | L0 (Verified) — after CI/CD Nemo validation |
-| **Query Paths** | Fast (cached), Standard |
-| **Implementation Stack** | Rust (Oxigraph + Nemo) |
-
----
-
-## 3. Ontological Foundations
-
-### 3.1 BFO Alignment
+### 2.1 BFO Alignment
 
 W2Fuel maintains the **Basic Formal Ontology (BFO)** as its upper-level framework. All domain classes must align with BFO categories:
 
@@ -140,7 +160,7 @@ material    quality  role  function  disposition
 entity
 ```
 
-### 3.2 CCO Integration
+### 2.2 CCO Integration
 
 The **Common Core Ontologies (CCO)** provide intermediate abstractions between BFO and domain-specific classes:
 
@@ -152,7 +172,7 @@ The **Common Core Ontologies (CCO)** provide intermediate abstractions between B
 | Information Entity | Information Content Entity | Knowledge graphs |
 | Geospatial Ontology | Site, Region, Location | Property management |
 
-### 3.3 Domain Ontologies
+### 2.3 Domain Ontologies
 
 Domain-specific ontologies extend CCO for particular use cases:
 
@@ -182,473 +202,29 @@ BFO (Upper)
 
 ---
 
-## 4. Namespace Federation
+## 3. OWL 2 RL Profile
 
-### 4.1 The Disambiguation Problem
+### 3.1 Profile Selection Rationale
 
-Different domains may use the same term for different concepts. W2Fuel provides **context-aware disambiguation**:
+W2Fuel adopts **OWL 2 RL** as the normative profile.
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                      THE POLYSEMY PROBLEM: "Lease"                          │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│   "Lease" can mean:                                                         │
-│                                                                             │
-│   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐                    │
-│   │ RealEstate  │    │ Automotive  │    │  Network    │                    │
-│   │   :Lease    │    │   :Lease    │    │   :Lease    │                    │
-│   ├─────────────┤    ├─────────────┤    ├─────────────┤                    │
-│   │ Rental      │    │ Financing   │    │ DHCP        │                    │
-│   │ agreement   │    │ arrangement │    │ allocation  │                    │
-│   └─────────────┘    └─────────────┘    └─────────────┘                    │
-│         │                  │                  │                             │
-│         └──────────────────┼──────────────────┘                             │
-│                            │                                                │
-│                            ▼                                                │
-│   ┌─────────────────────────────────────────────────────────────────────┐  │
-│   │                    W2Fuel Namespace Registry                        │  │
-│   │                                                                     │  │
-│   │  Query: resolve("Lease", context="property rental discussion")      │  │
-│   │  Result: realestate:Lease (confidence: 0.94)                        │  │
-│   │                                                                     │  │
-│   │  Query: resolve("Lease", context="car dealership financing")        │  │
-│   │  Result: auto:Lease (confidence: 0.91)                              │  │
-│   │                                                                     │  │
-│   │  Query: resolve("Lease", context="router configuration")            │  │
-│   │  Result: network:Lease (confidence: 0.97)                           │  │
-│   │                                                                     │  │
-│   └─────────────────────────────────────────────────────────────────────┘  │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### 4.2 Namespace Registry Schema
-
-```yaml
-namespace_registry:
-  - prefix: "realestate"
-    iri: "https://ontology.example.org/realestate#"
-    domain_keywords: ["property", "rental", "tenant", "landlord", "apartment", "housing"]
-    disambiguation_hints:
-      - pattern: "rent|tenant|landlord|property management"
-        weight: 0.9
-      - pattern: "real estate|housing|apartment"
-        weight: 0.8
-    
-  - prefix: "auto"
-    iri: "https://ontology.example.org/automotive#"
-    domain_keywords: ["vehicle", "car", "financing", "dealership", "monthly payment"]
-    disambiguation_hints:
-      - pattern: "vehicle|car|automobile|dealership"
-        weight: 0.9
-      - pattern: "financing|monthly payment|trade-in"
-        weight: 0.7
-    
-  - prefix: "network"
-    iri: "https://ontology.example.org/networking#"
-    domain_keywords: ["DHCP", "IP address", "router", "configuration", "network"]
-    disambiguation_hints:
-      - pattern: "DHCP|IP|router|network configuration"
-        weight: 0.95
-```
-
-### 4.3 Disambiguation API
-
-**Request:**
-```json
-{
-  "@type": "w2fuel:DisambiguationRequest",
-  "w2fuel:term": "Lease",
-  "w2fuel:context_text": "The property management company said my lease expires next month",
-  "w2fuel:context_entities": [
-    {"entity": "property management company", "resolved_type": "realestate:PropertyManager"},
-    {"entity": "month", "resolved_type": "bfo:BFO_0000038"}
-  ]
-}
-```
-
-**Response:**
-```json
-{
-  "@type": "w2fuel:DisambiguationResponse",
-  "w2fuel:term": "Lease",
-  "w2fuel:resolved_class": "realestate:Lease",
-  "w2fuel:confidence": 0.94,
-  "w2fuel:confidence_tier": "high",
-  "w2fuel:reasoning": {
-    "keyword_match": 0.8,
-    "entity_context": 0.95,
-    "combined": 0.94
-  },
-  "w2fuel:matched_hints": [
-    {
-      "pattern": "property management",
-      "namespace": "realestate",
-      "weight": 0.9,
-      "matched_text": "property management company"
-    }
-  ],
-  "w2fuel:alternatives": [
-    {"class": "auto:Lease", "confidence": 0.12},
-    {"class": "network:Lease", "confidence": 0.02}
-  ],
-  "w2fuel:disambiguation_metadata": {
-    "processing_time_ms": 12,
-    "model_version": "disambig-v3.0",
-    "resolution_path": "quick_pattern_match",
-    "requires_human_review": false
-  }
-}
-```
-
-### 4.4 Human-in-the-Loop Disambiguation
-
-When automated confidence is low (< 0.60), disambiguation tickets are created for human review:
-
-```yaml
-disambiguation_review:
-  trigger_conditions:
-    - confidence < 0.60
-    - timeout > 200ms
-    - multiple namespaces within 0.1 confidence
-    
-  ticket_creation:
-    template:
-      ticket_id: "DISAMB-{year}-{sequence}"
-      expires_at: "{creation + 7 days}"
-      status: "pending"
-      
-  escalation_policy:
-    level_1:
-      assignee: "domain-steward-pool"
-      sla: "7 days"
-    level_2:
-      trigger: "queue_depth > 100"
-      assignee: "ontology-steward"
-      sla: "3 days"
-    level_3:
-      trigger: "queue_depth > 200"
-      assignee: "governance-body"
-      sla: "1 day"
-```
-
----
-
-## 5. Schema Storage Model
-
-### 5.1 Persistent Storage Architecture (V1.3 — Oxigraph)
-
-> **V1.3 CHANGE:** Replaces ephemeral Jena Fuseki with persistent Oxigraph. No rebuild cycles, no Blue/Green switching.
-
-W2Fuel uses **Oxigraph** as its persistent triple store:
-
-| Storage Layer | Technology | Purpose |
-|---------------|------------|---------|
-| **Primary T-Box** | OWL 2 RL files in Git | Authoritative ontology definitions (L0 source) |
-| **Query Cache** | Redis | Fast schema lookups for cached queries |
-| **Triple Store** | Oxigraph (RocksDB) | SPARQL queries, persistent and crash-safe |
-| **Version Control** | Git | Schema versioning and audit trail |
-| **SHACL Store** | Generated artifacts | Validation shapes for edge distribution |
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    W2Fuel STORAGE ARCHITECTURE (V1.3)                       │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│   ┌─────────────────────────────────────────────────────────────────────┐  │
-│   │                        Git Repository                                │  │
-│   │              (Authoritative Source — L0 Source of Truth)             │  │
-│   │                                                                     │  │
-│   │  ontologies/                                                        │  │
-│   │  ├── bfo/                                                           │  │
-│   │  │   └── bfo-2020.owl          # BFO upper ontology                 │  │
-│   │  ├── cco/                                                           │  │
-│   │  │   ├── AgentOntology.owl     # CCO Agent module                   │  │
-│   │  │   └── ...                                                        │  │
-│   │  ├── domains/                                                       │  │
-│   │  │   ├── realestate-v1.0.owl   # Domain ontology                    │  │
-│   │  │   └── ...                                                        │  │
-│   │  ├── shacl/                    # Generated SHACL shapes             │  │
-│   │  └── datalog/                  # Generated Datalog rules (V1.3)     │  │
-│   │                                                                     │  │
-│   └───────────────────────────────┬─────────────────────────────────────┘  │
-│                                   │                                        │
-│                                   │ CI/CD loads on commit                  │
-│                                   ▼                                        │
-│   ┌─────────────────────────────────────────────────────────────────────┐  │
-│   │                    Oxigraph (Persistent Store)                      │  │
-│   │                                                                     │  │
-│   │  • RocksDB backend (LSM-tree, crash-safe)                           │  │
-│   │  • Atomic transactions (no global write locks)                      │  │
-│   │  • Concurrent read/write without degradation                        │  │
-│   │  • SPARQL 1.1 Query + Update support                                │  │
-│   │  • Native Rust performance                                          │  │
-│   │                                                                     │  │
-│   │  Configuration:                                                     │  │
-│   │  ├── data_dir: /var/lib/oxigraph/w2fuel                             │  │
-│   │  ├── wal_enabled: true                                              │  │
-│   │  ├── compression: lz4                                               │  │
-│   │  └── max_concurrent_readers: 128                                    │  │
-│   │                                                                     │  │
-│   └─────────────────────────────────────────────────────────────────────┘  │
-│                                                                             │
-│   NO EPHEMERAL REBUILDS — Oxigraph persists across restarts                 │
-│   NO BLUE/GREEN — Single instance with transactional updates                │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### 5.2 Oxigraph Configuration
-
-```yaml
-oxigraph:
-  storage:
-    path: "/var/lib/oxigraph/w2fuel"
-    wal_enabled: true
-    compression: "lz4"
-    block_cache_size_mb: 512
-    
-  performance:
-    max_concurrent_readers: 128
-    write_buffer_size_mb: 64
-    max_write_buffer_number: 3
-    
-  transactions:
-    max_transaction_size_triples: 100000  # Chunk larger loads
-    max_transaction_duration_seconds: 300
-    backpressure_threshold_triples: 50000
-    
-  backup:
-    strategy: "continuous"
-    wal_archival: true
-    snapshot_interval: "hourly"
-    retention_days: 30
-    
-  monitoring:
-    metrics_endpoint: "/metrics"
-    health_endpoint: "/health"
-```
-
-### 5.3 High Availability & Disaster Recovery (V1.3.1)
-
-> **V1.3.1 Addition:** Oxigraph is a single-process store. This section defines HA/DR strategy to maintain production availability.
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    OXIGRAPH HA/DR ARCHITECTURE (V1.3.1)                     │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│   PRIMARY INSTANCE (Active)                                                 │
-│   ─────────────────────────                                                 │
-│   ┌─────────────────────────────────────────────────────────────────────┐  │
-│   │  Oxigraph Primary                                                   │  │
-│   │  • Handles all reads and writes                                     │  │
-│   │  • WAL enabled, continuous archival                                 │  │
-│   │  • Hourly snapshots to object storage                               │  │
-│   └─────────────────────────────────────────────────────────────────────┘  │
-│                          │                                                  │
-│                          │ WAL streaming (async)                            │
-│                          ▼                                                  │
-│   STANDBY INSTANCE (Warm)                                                   │
-│   ────────────────────────                                                  │
-│   ┌─────────────────────────────────────────────────────────────────────┐  │
-│   │  Oxigraph Standby                                                   │  │
-│   │  • Receives WAL updates continuously                                │  │
-│   │  • Read-only queries (optional, for load distribution)              │  │
-│   │  • Promoted to primary on failover                                  │  │
-│   └─────────────────────────────────────────────────────────────────────┘  │
-│                                                                             │
-│   OBJECT STORAGE (S3/GCS)                                                   │
-│   ────────────────────────                                                  │
-│   • Hourly snapshots (full RocksDB backup)                                  │
-│   • WAL archives (continuous)                                               │
-│   • 30-day retention                                                        │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-#### HA Configuration
-
-```yaml
-ha_config:
-  mode: "active-standby"
-  
-  primary:
-    instance_id: "oxigraph-primary"
-    health_check_interval_seconds: 5
-    failover_threshold_missed_checks: 3
-    
-  standby:
-    instance_id: "oxigraph-standby"
-    wal_replay_mode: "continuous"
-    read_queries_enabled: true  # Optional load distribution
-    promotion_timeout_seconds: 30
-    
-  failover:
-    automatic: true
-    trigger: "3 consecutive health check failures"
-    dns_update_ttl_seconds: 30
-    notification: "Slack #w2fuel-oncall + PagerDuty"
-```
-
-#### RTO/RPO Targets
-
-| Metric | Target | Notes |
-|--------|--------|-------|
-| **RPO** (Recovery Point Objective) | < 1 minute | WAL streaming lag |
-| **RTO** (Recovery Time Objective) | < 5 minutes | Failover + DNS propagation |
-| **Snapshot RPO** | < 1 hour | For cold restore |
-| **Cold Restore RTO** | < 30 minutes | From snapshot + WAL replay |
-
-#### Backup & Restore Validation (REQUIRED)
-
-```yaml
-backup_validation:
-  schedule: "weekly"
-  
-  drill_steps:
-    1_snapshot_creation:
-      action: "Create consistent snapshot of primary"
-      command: "oxigraph_server backup --output s3://w2fuel-backups/$(date +%Y%m%d)"
-      validation: "Snapshot size > 0, checksum recorded"
-      
-    2_restore_to_clean_node:
-      action: "Restore snapshot to isolated test instance"
-      command: "oxigraph_server restore --input s3://w2fuel-backups/{snapshot} --location /tmp/restore-test"
-      validation: "Restore completes without error"
-      
-    3_consistency_check:
-      action: "Run consistency queries"
-      queries:
-        - "SELECT (COUNT(*) AS ?count) WHERE { ?s ?p ?o }"
-        - "SELECT (COUNT(DISTINCT ?g) AS ?graphs) WHERE { GRAPH ?g { ?s ?p ?o } }"
-      validation: "Counts match primary within 0.1%"
-      
-    4_inference_check:
-      action: "Run Nemo classification on restored data"
-      validation: "No new unsatisfiable classes"
-      
-    5_hash_comparison:
-      action: "Compare content hashes"
-      command: "oxigraph_server dump | sha256sum"
-      validation: "Hash matches expected (allowing for WAL lag)"
-  
-  reporting:
-    output: "dr-drills/restore-validation-{date}.md"
-    notify_on_failure: "governance-body"
-```
-
-#### Operational Runbook: Restore from Snapshot
-
-```bash
-# RUNBOOK: RB-RESTORE — Restore Oxigraph from Snapshot
-
-# 1. Stop traffic to failed primary
-kubectl scale deployment w2fuel-gateway --replicas=0
-
-# 2. Identify latest valid snapshot
-aws s3 ls s3://w2fuel-backups/ --recursive | tail -5
-
-# 3. Restore to standby (or new instance)
-oxigraph_server restore \
-  --input s3://w2fuel-backups/20260202-hourly \
-  --location /var/lib/oxigraph/w2fuel
-
-# 4. Replay WAL to minimize data loss
-oxigraph_server wal-replay \
-  --wal-dir s3://w2fuel-wal/ \
-  --location /var/lib/oxigraph/w2fuel
-
-# 5. Verify consistency
-curl http://localhost:7878/health
-oxigraph_server query --query "SELECT (COUNT(*) AS ?c) WHERE { ?s ?p ?o }"
-
-# 6. Update DNS / restore traffic
-kubectl scale deployment w2fuel-gateway --replicas=3
-
-# 7. Emit recovery event
-curl -X POST http://w2fuel/admin/emit-recovery-event
-```
-
-### 5.4 Update Flow (Simplified)
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    SCHEMA UPDATE FLOW (V1.3.1 — With Checkpoints)           │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│   1. PR merged to main (Git authoritative)                                  │
-│                                                                             │
-│   2. CI/CD runs:                                                            │
-│      • OWL 2 RL syntax validation                                           │
-│      • Nemo classification (< 1 second)                                     │
-│      • Inference parity check (V1.3.1)                                      │
-│      • BFO/CCO compliance check                                             │
-│      • SHACL generation                                                     │
-│      • Datalog rule generation                                              │
-│                                                                             │
-│   3. On CI pass — Oxigraph transaction:                                     │
-│      • Begin transaction                                                    │
-│      • Clear affected graphs                                                │
-│      • Load new ontology data (chunked if > 50k triples)                    │
-│      • COMMIT TRANSACTION ─────────────────────────────┐                    │
-│                                                        │                    │
-│   4. Post-commit (only after successful commit):       │                    │
-│      • Redis cache invalidation                        │ CHECKPOINT         │
-│      • Verify cache cleared                            │                    │
-│                                                        │                    │
-│   5. Event emission (only after cache invalidation):   │                    │
-│      • fnsr.schema.updated with sequence_id ───────────┘                    │
-│      • Broker ack received                                                  │
-│                                                                             │
-│   CRITICAL: Event is emitted ONLY after commit + cache invalidation         │
-│                                                                             │
-│   Total time: < 30 seconds (vs. 5+ minutes with Jena Blue/Green)            │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-#### Transaction Size Limits
-
-```yaml
-transaction_limits:
-  max_triples_per_transaction: 100000
-  
-  chunking_strategy:
-    threshold: 50000  # Chunk if load exceeds this
-    chunk_size: 25000
-    inter_chunk_delay_ms: 100
-    
-  backpressure:
-    queue_depth_warning: 10
-    queue_depth_critical: 50
-    action_on_critical: "Defer non-critical updates"
-```
-
----
-
-## 6. OWL Profile: OWL 2 RL
-
-### 6.1 Profile Selection Rationale
-
-> **V1.3 CHANGE:** W2Fuel adopts **OWL 2 RL** as the primary profile, replacing OWL 2 DL.
-
-| Profile | Complexity | Reasoning | W2Fuel Use |
-|---------|------------|-----------|------------|
-| OWL 2 Full | Undecidable | No | ❌ |
-| OWL 2 DL | NExpTime | Tableau (HermiT) | ❌ Removed |
-| **OWL 2 RL** | **Polynomial** | **Datalog (Nemo)** | **✅ Adopted** |
+| Profile | Complexity | Reasoning Strategy | W2Fuel Use |
+|---------|------------|-------------------|------------|
+| OWL 2 Full | Undecidable | N/A | ❌ |
+| OWL 2 DL | NExpTime | Tableau | ❌ Authoring only |
+| **OWL 2 RL** | **Polynomial** | **Datalog materialization** | **✅ Normative** |
 | OWL 2 EL | Polynomial | Completion | ❌ Too limited |
 | OWL 2 QL | Polynomial | Query rewriting | ❌ Wrong focus |
 
 **Why OWL 2 RL:**
-- Polynomial-time reasoning (tractable at scale)
-- Aligns with SHACL's Closed World semantics
-- Supports rule-based inference (Datalog materialization)
-- Covers 95%+ of real-world ontology patterns
 
-### 6.2 OWL 2 RL Supported Constructs
+- Polynomial-time reasoning (tractable at any scale)
+- Aligns with SHACL's Closed World semantics
+- Supports rule-based inference via Datalog materialization
+- Covers 95%+ of real-world ontology patterns
+- **Deterministic**: same axioms always produce same inferences (no tableau non-determinism)
+
+### 3.2 Supported Constructs
 
 | Construct | OWL 2 RL Support | Notes |
 |-----------|------------------|-------|
@@ -661,1184 +237,1189 @@ transaction_limits:
 | `owl:maxCardinality 0/1` | ✅ Full | Limited cardinality |
 | `owl:someValuesFrom` | ⚠️ Superclass only | RL restriction |
 | `owl:unionOf` | ⚠️ Superclass only | RL restriction |
-| `owl:cardinality > 1` | ❌ Not supported | Use SHACL instead |
-| `owl:complementOf` | ❌ Not supported | Use SHACL instead |
+| `owl:cardinality > 1` | ❌ Not in OWL | Use SHACL instead |
+| `owl:complementOf` | ❌ Not in OWL | Use SHACL instead |
 
-### 6.3 Authoring in OWL 2 DL, Deploying as OWL 2 RL
+### 3.3 Authoring in OWL 2 DL, Deploying as OWL 2 RL
 
-For ontology authors who need full expressivity during development:
+Ontology authors may use full OWL 2 DL expressivity during design (e.g., Protégé with HermiT). The `validateOwlRl` function (§5.1) detects non-RL constructs and the `owlToShacl` function (§5.4) generates SHACL alternatives for them.
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    OWL 2 DL → OWL 2 RL TRANSPILATION                        │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│   AUTHORING (local development):                                            │
-│   ─────────────────────────────────                                         │
-│   • Write ontology in OWL 2 DL                                              │
-│   • Use Protégé with HermiT for design-time reasoning                       │
-│   • Full expressivity available                                             │
-│                                                                             │
-│   CI/CD (transpilation):                                                    │
-│   ────────────────────────                                                  │
-│   • Validate OWL 2 RL compatibility                                         │
-│   • Flag non-RL constructs                                                  │
-│   • Generate SHACL for constructs that need CWA validation                  │
-│   • Generate Datalog rules for Nemo                                         │
-│                                                                             │
-│   DEPLOYMENT (production):                                                  │
-│   ─────────────────────────                                                 │
-│   • OWL 2 RL in Oxigraph (for queries)                                      │
-│   • Datalog rules in Nemo (for inference)                                   │
-│   • SHACL shapes at edge (for validation)                                   │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
+AUTHORING (design-time)           DEPLOYMENT (runtime)
+═══════════════════════           ════════════════════
+
+Write in OWL 2 DL          ──►   OWL 2 RL (for inference)
+Use Protégé + HermiT              + Datalog rules
+Full expressivity                  + SHACL shapes (for CWA validation)
+                                   All generated by core functions
 ```
 
-### 6.4 Non-RL Construct Handling
+### 3.4 Non-RL Construct Handling
 
-When an ontology contains constructs outside OWL 2 RL:
-
-| Construct | CI Behavior | Alternative |
-|-----------|-------------|-------------|
-| `owl:someValuesFrom` in subclass | **WARN** | Move to SHACL `sh:qualifiedMinCount` |
-| `owl:cardinality > 1` | **WARN** | Use SHACL `sh:minCount`/`sh:maxCount` |
-| `owl:complementOf` | **FAIL** unless manual SHACL | Manual `sh:not` in shacl-manual/ |
-| `owl:unionOf` in subclass | **WARN** | Move to SHACL `sh:or` |
+| Construct | Validation Behavior | SHACL Alternative |
+|-----------|--------------------|--------------------|
+| `owl:someValuesFrom` in subclass | WARN | `sh:qualifiedMinCount` |
+| `owl:cardinality > 1` | WARN | `sh:minCount` / `sh:maxCount` |
+| `owl:complementOf` | FAIL unless manual SHACL exists | Manual `sh:not` |
+| `owl:unionOf` in subclass | WARN | `sh:or` |
 
 ---
 
-## 7. Reasoning Engine: Nemo
+## 4. Namespace Federation
 
-### 7.1 Nemo Overview
+### 4.1 The Disambiguation Problem
 
-> **V1.3 CHANGE:** Replaces HermiT with Nemo for all classification tasks.
-
-**Nemo** is a high-performance Datalog engine written in Rust:
-
-| Feature | HermiT (v1.2.x) | Nemo (v1.3) |
-|---------|-----------------|-------------|
-| Algorithm | Hypertableau | Datalog materialization |
-| Complexity | NExpTime | Polynomial |
-| Performance | Minutes for large ontologies | Sub-second |
-| Memory | High (tableau caching) | Low (streaming) |
-| Parallelism | Single-threaded | SIMD-optimized |
-| Language | Java | Rust |
-
-### 7.2 Datalog Rule Generation
-
-W2Fuel generates Datalog rules from OWL 2 RL axioms:
-
-**OWL Input:**
-```turtle
-ex:Employee rdfs:subClassOf ex:Person .
-ex:Manager rdfs:subClassOf ex:Employee .
-ex:worksFor rdfs:domain ex:Employee .
-ex:worksFor rdfs:range ex:Organization .
-```
-
-**Generated Datalog:**
-```datalog
-% Subclass inference
-Person(?x) :- Employee(?x) .
-Employee(?x) :- Manager(?x) .
-
-% Domain inference
-Employee(?x) :- worksFor(?x, ?y) .
-
-% Range inference
-Organization(?y) :- worksFor(?x, ?y) .
-```
-
-### 7.3 Golden-Rule Translation Tests (V1.3.1)
-
-> **V1.3.1 Addition:** Unit tests validating OWL→Datalog translation correctness.
-
-```yaml
-golden_rule_tests:
-  description: "Canonical OWL axioms → expected Datalog rules"
-  
-  test_cases:
-    - name: "subclass_simple"
-      owl: "ex:Dog rdfs:subClassOf ex:Animal ."
-      expected_datalog: "Animal(?x) :- Dog(?x) ."
-      
-    - name: "subclass_chain"
-      owl: |
-        ex:Poodle rdfs:subClassOf ex:Dog .
-        ex:Dog rdfs:subClassOf ex:Animal .
-      expected_datalog: |
-        Dog(?x) :- Poodle(?x) .
-        Animal(?x) :- Dog(?x) .
-      expected_inference: "Poodle(?x) → Animal(?x) via transitivity"
-      
-    - name: "domain_inference"
-      owl: "ex:owns rdfs:domain ex:Person ."
-      expected_datalog: "Person(?x) :- owns(?x, ?y) ."
-      
-    - name: "range_inference"
-      owl: "ex:owns rdfs:range ex:Asset ."
-      expected_datalog: "Asset(?y) :- owns(?x, ?y) ."
-      
-    - name: "equivalent_class"
-      owl: "ex:Human owl:equivalentClass ex:Person ."
-      expected_datalog: |
-        Person(?x) :- Human(?x) .
-        Human(?x) :- Person(?x) .
-      
-    - name: "all_values_from"
-      owl: |
-        ex:VeganRestaurant rdfs:subClassOf [
-          a owl:Restriction ;
-          owl:onProperty ex:servesFood ;
-          owl:allValuesFrom ex:VeganFood
-        ] .
-      expected_datalog: "VeganFood(?y) :- VeganRestaurant(?x), servesFood(?x, ?y) ."
-      
-    - name: "has_value"
-      owl: |
-        ex:USCitizen rdfs:subClassOf [
-          a owl:Restriction ;
-          owl:onProperty ex:nationality ;
-          owl:hasValue ex:USA
-        ] .
-      expected_datalog: "nationality(?x, ex:USA) :- USCitizen(?x) ."
-      
-    - name: "functional_property"
-      owl: "ex:hasMother a owl:FunctionalProperty ."
-      expected_datalog: "sameAs(?y1, ?y2) :- hasMother(?x, ?y1), hasMother(?x, ?y2) ."
-      
-    - name: "inverse_property"
-      owl: "ex:hasChild owl:inverseOf ex:hasParent ."
-      expected_datalog: |
-        hasParent(?y, ?x) :- hasChild(?x, ?y) .
-        hasChild(?x, ?y) :- hasParent(?y, ?x) .
-      
-    - name: "transitive_property"
-      owl: "ex:ancestorOf a owl:TransitiveProperty ."
-      expected_datalog: "ancestorOf(?x, ?z) :- ancestorOf(?x, ?y), ancestorOf(?y, ?z) ."
-      
-  round_trip_tests:
-    description: "Apply generated Datalog to sample data, verify inferred triples"
-    
-    - name: "subclass_materialization"
-      input_data: "ex:fido a ex:Dog ."
-      rules: "Animal(?x) :- Dog(?x) ."
-      expected_inferred: "ex:fido a ex:Animal ."
-      
-    - name: "domain_materialization"
-      input_data: "ex:john ex:owns ex:car123 ."
-      rules: "Person(?x) :- owns(?x, ?y) ."
-      expected_inferred: "ex:john a ex:Person ."
-      
-    - name: "transitive_materialization"
-      input_data: |
-        ex:alice ex:ancestorOf ex:bob .
-        ex:bob ex:ancestorOf ex:charlie .
-      rules: "ancestorOf(?x, ?z) :- ancestorOf(?x, ?y), ancestorOf(?y, ?z) ."
-      expected_inferred: "ex:alice ex:ancestorOf ex:charlie ."
-```
-
-### 7.4 Inference Parity Testing (V1.3.1)
-
-> **V1.3.1 REQUIRED:** Validate that critical inferences are preserved when moving from HermiT to Nemo.
-
-```yaml
-inference_parity_testing:
-  purpose: "Ensure Nemo+SHACL produces equivalent results to HermiT for consumer-visible inferences"
-  
-  test_corpus:
-    - ontology: "bfo-2020.owl"
-      critical_inferences:
-        - "Every Continuant is an Entity"
-        - "Every Occurrent is an Entity"
-        - "Continuant and Occurrent are disjoint"
-        
-    - ontology: "cco-agent.owl"
-      critical_inferences:
-        - "Person subClassOf Agent"
-        - "Organization subClassOf Agent"
-        
-    - ontology: "realestate-v1.0.owl"
-      critical_inferences:
-        - "Lease subClassOf Agreement"
-        - "Tenant subClassOf AgentRole"
-        - "Property has exactly one address"
-        
-  test_procedure:
-    1_run_hermit:
-      action: "Classify ontology with HermiT (one-time, cached)"
-      output: "hermit-inferences/{ontology}.nt"
-      
-    2_run_nemo:
-      action: "Classify ontology with Nemo"
-      output: "nemo-inferences/{ontology}.nt"
-      
-    3_compare_class_hierarchy:
-      action: "Compare rdfs:subClassOf closures"
-      query: |
-        SELECT ?sub ?super WHERE {
-          ?sub rdfs:subClassOf+ ?super .
-          FILTER(?sub != ?super)
-        }
-      validation: "Nemo hierarchy ⊇ HermiT hierarchy for RL-expressible axioms"
-      
-    4_compare_property_hierarchy:
-      action: "Compare rdfs:subPropertyOf closures"
-      validation: "Nemo hierarchy = HermiT hierarchy"
-      
-    5_check_critical_inferences:
-      action: "Verify each critical inference is present in Nemo output"
-      on_missing:
-        - "If expressible in RL: BUG — fix Datalog generator"
-        - "If not expressible in RL: Document as 'moved to SHACL'"
-        
-    6_shacl_coverage:
-      action: "For inferences moved to SHACL, verify SHACL shape exists"
-      validation: "Every non-RL inference has corresponding SHACL constraint"
-  
-  ci_integration:
-    trigger: "Every PR modifying ontologies/"
-    timeout: "120s"  # HermiT comparison is slower but only runs on changes
-    failure_action: "Block merge"
-    
-  reporting:
-    output: "inference-parity-report.md"
-    sections:
-      - "Hierarchy comparison"
-      - "Critical inference status"
-      - "Non-RL constructs moved to SHACL"
-      - "Discrepancies requiring review"
-```
-
-### 7.5 Classification Performance
-
-| Ontology Size | HermiT (v1.2.x) | Nemo (v1.3) | Speedup |
-|---------------|-----------------|-------------|---------|
-| Small (<500 axioms) | 5-30s | <100ms | 50-300x |
-| Medium (500-5000) | 30-120s | 100-500ms | 60-240x |
-| Large (5000-50000) | 2-10 min | 500ms-2s | 120-300x |
-| Very Large (>50000) | 10+ min or timeout | 2-5s | 120x+ |
-
-### 7.6 CI/CD Integration
-
-With sub-second classification, **every commit is fully verified**:
-
-```yaml
-ci_pipeline:
-  # NO TIERED VERIFICATION — single fast pipeline
-  
-  stages:
-    - name: "syntax"
-      timeout: "30s"
-      checks:
-        - "OWL 2 RL well-formed"
-        - "Non-RL construct detection"
-        
-    - name: "reasoning"
-      timeout: "30s"  # Was 5-30 minutes with HermiT
-      checks:
-        - "Nemo classification"
-        - "Golden-rule translation tests (V1.3.1)"
-        - "Consistency check"
-        - "Unsatisfiable class detection"
-        
-    - name: "inference_parity"
-      timeout: "120s"  # Includes HermiT comparison
-      checks:
-        - "Inference parity test (V1.3.1)"
-        - "Critical inference verification"
-        - "Non-RL → SHACL coverage check"
-        
-    - name: "compliance"
-      timeout: "30s"
-      checks:
-        - "BFO anchor verification"
-        - "CCO alignment"
-        - "Annotation completeness"
-        
-    - name: "shacl"
-      timeout: "30s"
-      checks:
-        - "SHACL generation"
-        - "Manual SHACL validation"
-        - "Test vector verification"
-        
-    - name: "datalog"
-      timeout: "30s"
-      checks:
-        - "Datalog rule generation"
-        - "Rule consistency check"
-        
-    - name: "deploy"
-      timeout: "60s"
-      checks:
-        - "Oxigraph transaction load"
-        - "Cache invalidation"
-        - "Event emission (checkpoint)"
-  
-  total_pipeline_time: "< 3 minutes"  # Was potentially hours with HermiT
-```
-
----
-
-## 8. SHACL Constraint Generation
-
-### 8.1 Dual Semantics (Preserved from v1.2.x)
+Different domains may use the same term for different concepts. W2Fuel provides context-aware disambiguation as a pure function over a namespace registry.
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    OWL + SHACL DUAL SEMANTICS (V1.3)                        │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│   OWL 2 RL (Open World)             SHACL (Closed World)                    │
-│   ═══════════════════════           ═══════════════════════                 │
-│                                                                             │
-│   "What COULD be true?"             "What MUST be present?"                 │
-│                                                                             │
-│   • Inference rules                 • Validation rules                      │
-│   • If data missing → unknown       • If data missing → violation           │
-│   • Used by: MDRE, Nemo             • Used by: Fandaws, TagTeam             │
-│                                                                             │
-│   With OWL 2 RL, the semantics are MORE ALIGNED:                            │
-│   • RL rules produce deterministic inferences                               │
-│   • SHACL validates those inferences                                        │
-│   • No "what could theoretically exist" uncertainty                         │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
+"Lease" can mean:
+
+  RealEstate:Lease        Automotive:Lease       Network:Lease
+  (rental agreement)      (financing)            (DHCP allocation)
+
+  disambiguate("Lease", context, registry) → ranked candidates
 ```
 
-### 8.2 OWL 2 RL → SHACL Mapping
+### 4.2 Namespace Registry (JSON-LD Canonical Form)
 
-| OWL 2 RL Construct | SHACL Output | Semantic Notes |
-|--------------------|--------------|----------------|
-| `rdfs:subClassOf` | `sh:targetClass` on superclass | Target inheritance |
-| `rdfs:range` (class) | `sh:class` | Type constraint |
-| `rdfs:range` (datatype) | `sh:datatype` | Datatype constraint |
-| `owl:allValuesFrom C` | `sh:class C` on property | All values must be C |
-| `owl:hasValue v` | `sh:hasValue v` | Exact value |
-| `owl:maxCardinality 1` | `sh:maxCount 1` | At most one |
-| `owl:FunctionalProperty` | `sh:maxCount 1` | Functional = max 1 |
-
-### 8.3 Non-RL Constructs in SHACL
-
-Constructs outside OWL 2 RL are handled by SHACL directly:
-
-| Need | OWL 2 DL | OWL 2 RL | SHACL Alternative |
-|------|----------|----------|-------------------|
-| "At least one" | `owl:someValuesFrom` | ❌ | `sh:minCount 1` |
-| "Exactly N" | `owl:cardinality N` | ❌ | `sh:minCount N` + `sh:maxCount N` |
-| "Not a" | `owl:complementOf` | ❌ | `sh:not` |
-| "A or B" | `owl:unionOf` | ⚠️ Limited | `sh:or` |
-
-### 8.4 Signed SHACL Bundles
-
-```http
-GET /shacl/realestate/v1.0 HTTP/1.1
-
-HTTP/1.1 200 OK
-Content-Type: text/turtle
-W2Fuel-Bundle-Signature: ed25519:abc123def456...
-W2Fuel-Signed-By: key:ed25519:w2fuel-signing-key-2026
-W2Fuel-Signature-Timestamp: 2026-02-01T15:30:00Z
-W2Fuel-Schema-Version: realestate-v1.0.3
-X-W2Fuel-Verification: verified
-```
-
-Downstream services **MUST** verify signatures before using SHACL shapes.
-
----
-
-## 9. Event Contract
-
-### 9.1 Canonical Final Checkpoint Event (V1.3.1 — NORMATIVE)
-
-> **V1.3.1 NORMATIVE:** This is the single "all done" event. It is emitted **ONLY AFTER**:
-> 1. Oxigraph transaction commits successfully
-> 2. Redis cache invalidation completes
-> 3. Health check confirms Oxigraph is serving new data
+The namespace registry is a JSON-LD document. It is loaded as input to disambiguation functions; it is not an ambient service.
 
 ```json
 {
-  "@type": "fnsr:SchemaUpdatedEvent",
-  "@context": "https://fnsr.spec/v2/events",
-  
-  "event_id": "550e8400-e29b-41d4-a716-446655440000",
-  "timestamp": "2026-02-01T15:30:00Z",
-  
-  "sequence_id": 42,
-  
-  "update_type": "minor",
-  "breaking": false,
-  "affected_namespaces": ["realestate"],
-  
-  "version_info": {
-    "previous_version": "1.0.0",
-    "new_version": "1.1.0",
-    "git_commit": "abc123def456"
+  "@context": {
+    "w2fuel": "https://fnsr.spec/v2/w2fuel/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
   },
-  
-  "verification_status": "verified",
-  
-  "infrastructure_state": {
-    "oxigraph_transaction_committed": true,
-    "oxigraph_health_check_passed": true,
-    "cache_invalidation_completed": true,
-    "cache_invalidation_timestamp": "2026-02-01T15:29:58Z"
-  },
-  
-  "shacl_state": {
-    "shacl_bundle_hash": "sha256:a1b2c3d4e5f6789...",
-    "shacl_hash_verified": true
-  },
-  
-  "ci_verification": {
-    "nemo_classification_passed": true,
-    "inference_parity_passed": true,
-    "golden_rule_tests_passed": true,
-    "compliance_passed": true,
-    "shacl_generated": true,
-    "pipeline_run_id": "ci-run-12345"
+  "@type": "w2fuel:NamespaceRegistry",
+  "w2fuel:namespaces": [
+    {
+      "@type": "w2fuel:NamespaceEntry",
+      "w2fuel:prefix": "realestate",
+      "w2fuel:iri": "https://ontology.example.org/realestate#",
+      "w2fuel:domainKeywords": ["property", "rental", "tenant", "landlord", "apartment", "housing"],
+      "w2fuel:disambiguationHints": [
+        {
+          "@type": "w2fuel:Hint",
+          "w2fuel:pattern": "rent|tenant|landlord|property management",
+          "w2fuel:weight": 0.9
+        },
+        {
+          "@type": "w2fuel:Hint",
+          "w2fuel:pattern": "real estate|housing|apartment",
+          "w2fuel:weight": 0.8
+        }
+      ]
+    },
+    {
+      "@type": "w2fuel:NamespaceEntry",
+      "w2fuel:prefix": "auto",
+      "w2fuel:iri": "https://ontology.example.org/automotive#",
+      "w2fuel:domainKeywords": ["vehicle", "car", "financing", "dealership", "monthly payment"],
+      "w2fuel:disambiguationHints": [
+        {
+          "@type": "w2fuel:Hint",
+          "w2fuel:pattern": "vehicle|car|automobile|dealership",
+          "w2fuel:weight": 0.9
+        }
+      ]
+    },
+    {
+      "@type": "w2fuel:NamespaceEntry",
+      "w2fuel:prefix": "network",
+      "w2fuel:iri": "https://ontology.example.org/networking#",
+      "w2fuel:domainKeywords": ["DHCP", "IP address", "router", "configuration", "network"],
+      "w2fuel:disambiguationHints": [
+        {
+          "@type": "w2fuel:Hint",
+          "w2fuel:pattern": "DHCP|IP|router|network configuration",
+          "w2fuel:weight": 0.95
+        }
+      ]
+    }
+  ]
+}
+```
+
+### 4.3 Human-in-the-Loop Disambiguation
+
+When automated confidence is below threshold (< 0.60), the disambiguation function returns a review request rather than a resolved result. How that review request is routed (ticketing system, email, UI prompt) is an integration concern handled by adapters.
+
+```json
+{
+  "@type": "w2fuel:DisambiguationResult",
+  "w2fuel:status": "review_required",
+  "w2fuel:term": "Lease",
+  "w2fuel:confidence": 0.45,
+  "w2fuel:candidates": [
+    { "w2fuel:class": "realestate:Lease", "w2fuel:confidence": 0.45 },
+    { "w2fuel:class": "auto:Lease", "w2fuel:confidence": 0.38 }
+  ],
+  "w2fuel:reviewRequest": {
+    "@type": "w2fuel:ReviewRequest",
+    "w2fuel:requestId": "urn:uuid:...",
+    "w2fuel:term": "Lease",
+    "w2fuel:contextText": "...",
+    "w2fuel:suggestedExpiry": "P7D"
   }
 }
 ```
 
-#### Event Emission Preconditions (NORMATIVE)
+---
 
-```yaml
-event_emission_preconditions:
-  # ALL must be true before emitting fnsr.schema.updated
-  
-  required_checkpoints:
-    - name: "oxigraph_committed"
-      description: "Oxigraph transaction committed successfully"
-      verification: "Transaction returns success, no rollback"
-      
-    - name: "oxigraph_health"
-      description: "Oxigraph health check passes"
-      verification: "GET /health returns 200, query returns expected count"
-      
-    - name: "cache_invalidated"
-      description: "Redis cache keys deleted"
-      verification: "KEYS class:{namespace}:* returns empty"
-      
-  emission_order:
-    1: "Verify all preconditions"
-    2: "Construct event with all required fields"
-    3: "Publish to Kafka"
-    4: "Wait for broker ack (timeout: 5s)"
-    5: "Log emission with sequence_id"
-    
-  failure_behavior:
-    precondition_failed:
-      action: "DO NOT emit event"
-      recovery: "Rollback transaction, alert operator"
-      
-    kafka_publish_failed:
-      action: "Retry with exponential backoff"
-      max_retries: 3
-      initial_delay_ms: 100
-      max_delay_ms: 5000
-      on_exhaustion: "Alert operator, system inconsistent"
+## 5. Core Computation Functions
+
+All functions defined in this section are **deterministic** and **stateless**. Given the same inputs, they produce the same outputs. They require no network access, no databases, no ambient services. They are the normative core of W2Fuel.
+
+All inputs and outputs use **JSON-LD** as the canonical representation. Internal representations (Turtle, N-Triples, native RDF objects) are permitted as implementation optimizations and must be losslessly derivable from the JSON-LD form.
+
+### 5.1 Schema Validation
+
+#### `validateOwlRl`
+
+Validates an ontology graph for OWL 2 RL compliance.
+
+**Signature:**
+```
+validateOwlRl(ontologyGraph: JSON-LD) → ValidationResult (JSON-LD)
 ```
 
-#### Idempotent Event Handler (V1.3.1)
+**Input — `ontologyGraph`:**
+A JSON-LD document containing OWL axioms. May be a single ontology or a merged graph with imports resolved.
 
-```python
-# Reference implementation for downstream consumers
-
-class SchemaEventHandler:
-    def __init__(self, redis_client, consistency_url):
-        self.redis = redis_client
-        self.consistency_url = consistency_url
-        self.last_seq_key = "w2fuel:last_processed_sequence_id"
-        self.processed_prefix = "w2fuel:processed_event:"
-        
-    def handle_event(self, event: dict) -> bool:
-        """Handle fnsr.schema.updated idempotently."""
-        event_id = event["event_id"]
-        sequence_id = event["sequence_id"]
-        
-        # R1: Check duplicate by event_id (1-hour window)
-        if self.redis.exists(f"{self.processed_prefix}{event_id}"):
-            return False  # Duplicate
-        
-        # Get last processed
-        last_seq = int(self.redis.get(self.last_seq_key) or 0)
-        
-        # R1: Old event
-        if sequence_id <= last_seq:
-            return False
-        
-        # R3: Gap detection
-        gap = sequence_id - last_seq
-        if gap > 1:
-            self._handle_gap(gap)
-        
-        # R4: Store before processing
-        self.redis.set(self.last_seq_key, sequence_id)
-        self.redis.setex(f"{self.processed_prefix}{event_id}", 3600, "1")
-        
-        # Process
-        self._apply_schema_update(event)
-        return True
-    
-    def _handle_gap(self, gap: int):
-        if gap <= 10:
-            log.warning(f"Small event gap: {gap}")
-        elif gap <= 100:
-            log.error(f"Medium event gap: {gap}")
-            self._request_consistency_check()
-        else:
-            log.critical(f"Large event gap: {gap}")
-            self._alert_operator()
-    
-    def sync_on_startup(self):
-        """R5: Sync on restart."""
-        resp = requests.get(self.consistency_url)
-        if resp.json()["status"] == "consistent":
-            self.redis.set(self.last_seq_key, resp.json()["sequence_id"])
+**Output — `ValidationResult`:**
+```json
+{
+  "@context": "https://fnsr.spec/v2/w2fuel/",
+  "@type": "w2fuel:ValidationResult",
+  "w2fuel:valid": true,
+  "w2fuel:axiomCount": 142,
+  "w2fuel:diagnostics": [],
+  "w2fuel:nonRlConstructs": [
+    {
+      "@type": "w2fuel:NonRlReport",
+      "w2fuel:axiomId": "realestate:Lease_someValuesFrom_1",
+      "w2fuel:construct": "owl:someValuesFrom",
+      "w2fuel:position": "subclass",
+      "w2fuel:severity": "warning",
+      "w2fuel:shaclAlternative": "sh:qualifiedMinCount 1",
+      "w2fuel:sourceLocation": { "w2fuel:line": 45 }
+    }
+  ]
+}
 ```
 
-### 9.2 Simplified Verification Status (V1.3)
+**Determinism guarantee:** Same `ontologyGraph` always produces same `ValidationResult`.
 
-> **V1.3 CHANGE:** No more "pending" state — every commit is fully verified before merge.
+**Offline behavior:** Fully offline. No external dependencies.
 
-| Status | Meaning | When |
-|--------|---------|------|
-| `verified` | Full Nemo classification passed | Normal operation |
-| `lite` | Syntax-only (Nemo disabled for this namespace) | Exceptional cases only |
-| `inconsistent` | System error | Never in normal operation |
+#### `checkBfoCompliance`
 
-**No `pending` status** — sub-second Nemo classification means we don't need async verification.
+Verifies that all classes in a domain ontology are properly anchored to BFO categories.
 
-### 9.3 Consumer Semantics (Simplified)
-
+**Signature:**
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                 CONSUMER BEHAVIOR BY STATUS (V1.3 — Simplified)             │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│   STATUS: "verified" (Normal)                                               │
-│   ────────────────────────────                                              │
-│   Header: X-W2Fuel-Verification: verified                                   │
-│                                                                             │
-│   • TagTeam: Extract entities normally                                      │
-│   • MDRE: Load schema, generate inferences via Nemo                         │
-│   • Fandaws: Validate with SHACL, reject non-conformant                     │
-│   • All: Cache normally (1 hour TTL)                                        │
-│                                                                             │
-│   STATUS: "lite" (Rare — Nemo disabled)                                     │
-│   ─────────────────────────────────────                                     │
-│   Header: X-W2Fuel-Verification: lite                                       │
-│                                                                             │
-│   • TagTeam: Extract normally                                               │
-│   • MDRE: Load schema, NO Nemo inference (explicit axioms only)             │
-│   • Fandaws: Validate with SHACL normally                                   │
-│   • All: Log lite usage for audit                                           │
-│                                                                             │
-│   NO "pending" STATUS — all commits are fully verified before merge         │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
+checkBfoCompliance(ontologyGraph: JSON-LD, bfoGraph: JSON-LD) → ComplianceResult (JSON-LD)
 ```
 
-### 9.4 Idempotent Event Handling (Preserved)
-
-The idempotency rules from v1.2.x are **unchanged**:
-
-```yaml
-idempotency:
-  mechanism: sequence_id
-  
-  normative_rules:
-    R1: "If sequence_id <= last_processed: IGNORE (duplicate)"
-    R2: "If sequence_id == last_processed + 1: PROCESS normally"
-    R3: "If sequence_id > last_processed + 1: PROCESS but log gap warning"
-    R4: "Store last_processed_sequence_id durably before processing"
-    R5: "On restart, query /admin/consistency-check to sync"
+**Output — `ComplianceResult`:**
+```json
+{
+  "@type": "w2fuel:ComplianceResult",
+  "w2fuel:compliant": true,
+  "w2fuel:unanchoredClasses": [],
+  "w2fuel:alignmentReport": [
+    {
+      "w2fuel:class": "realestate:Lease",
+      "w2fuel:bfoAnchor": "bfo:BFO_0000015",
+      "w2fuel:anchorLabel": "process",
+      "w2fuel:pathLength": 3
+    }
+  ]
+}
 ```
+
+**Offline behavior:** Both graphs must be provided as input. If `bfoGraph` is absent or empty, returns `{ compliant: null, reason: "bfo_unavailable" }`.
+
+#### `checkCcoAlignment`
+
+Verifies CCO module alignment for a domain ontology.
+
+**Signature:**
+```
+checkCcoAlignment(ontologyGraph: JSON-LD, ccoGraphs: JSON-LD[]) → AlignmentResult (JSON-LD)
+```
+
+**Offline behavior:** If any `ccoGraphs` entry is absent, reports `partial: true` and validates against available modules only.
+
+### 5.2 Transpilation: OWL → Datalog
+
+#### `owlToDatalog`
+
+Transpiles OWL 2 RL axioms into Datalog rules suitable for materialization by any conforming Datalog engine.
+
+**Signature:**
+```
+owlToDatalog(ontologyGraph: JSON-LD) → DatalogRuleSet (JSON-LD)
+```
+
+**Output — `DatalogRuleSet`:**
+```json
+{
+  "@context": "https://fnsr.spec/v2/w2fuel/",
+  "@type": "w2fuel:DatalogRuleSet",
+  "w2fuel:generatedFrom": "realestate-v1.0",
+  "w2fuel:rules": [
+    {
+      "@type": "w2fuel:DatalogRule",
+      "@id": "w2fuel:rule_subclass_Employee_Person",
+      "w2fuel:head": {
+        "w2fuel:predicate": "rdf:type",
+        "w2fuel:args": ["?x", "ex:Person"]
+      },
+      "w2fuel:body": [
+        {
+          "w2fuel:predicate": "rdf:type",
+          "w2fuel:args": ["?x", "ex:Employee"]
+        }
+      ],
+      "w2fuel:sourceAxiom": "ex:Employee rdfs:subClassOf ex:Person",
+      "w2fuel:humanReadable": "Person(?x) :- Employee(?x) ."
+    }
+  ],
+  "w2fuel:warnings": [],
+  "w2fuel:ruleCount": 47
+}
+```
+
+**Transpilation rules (normative):**
+
+| OWL 2 RL Axiom | Datalog Rule |
+|----------------|-------------|
+| `A rdfs:subClassOf B` | `B(?x) :- A(?x) .` |
+| `P rdfs:subPropertyOf Q` | `Q(?x,?y) :- P(?x,?y) .` |
+| `A owl:equivalentClass B` | `B(?x) :- A(?x) .` and `A(?x) :- B(?x) .` |
+| `P rdfs:domain C` | `C(?x) :- P(?x,?y) .` |
+| `P rdfs:range C` | `C(?y) :- P(?x,?y) .` |
+| `A rdfs:subClassOf (allValuesFrom P C)` | `C(?y) :- A(?x), P(?x,?y) .` |
+| `A rdfs:subClassOf (hasValue P v)` | `P(?x, v) :- A(?x) .` |
+| `P a owl:FunctionalProperty` | `sameAs(?y1,?y2) :- P(?x,?y1), P(?x,?y2) .` |
+| `P owl:inverseOf Q` | `Q(?y,?x) :- P(?x,?y) .` and `P(?x,?y) :- Q(?y,?x) .` |
+| `P a owl:TransitiveProperty` | `P(?x,?z) :- P(?x,?y), P(?y,?z) .` |
+
+**Determinism guarantee:** Same `ontologyGraph` always produces same `DatalogRuleSet`. Rule ordering is lexicographic by rule `@id`.
+
+**Offline behavior:** Fully offline. If the ontology contains unresolved imports, generates rules for resolved axioms only and sets `w2fuel:incomplete: true`.
+
+### 5.3 Transpilation: OWL → SHACL
+
+#### `owlToShacl`
+
+Generates SHACL validation shapes from OWL 2 RL axioms, plus SHACL alternatives for non-RL constructs.
+
+**Signature:**
+```
+owlToShacl(ontologyGraph: JSON-LD, manualShacl?: JSON-LD) → ShaclShapesResult (JSON-LD)
+```
+
+**Input — `manualShacl` (optional):**
+Hand-authored SHACL shapes for constructs that require manual specification (e.g., `owl:complementOf` → `sh:not`). When provided, these are merged with generated shapes.
+
+**Output — `ShaclShapesResult`:**
+```json
+{
+  "@context": "https://fnsr.spec/v2/w2fuel/",
+  "@type": "w2fuel:ShaclShapesResult",
+  "w2fuel:shapesGraph": { "... JSON-LD SHACL shapes ..." },
+  "w2fuel:generationMap": [
+    {
+      "w2fuel:shapeIri": "realestate:LeaseShape",
+      "w2fuel:sourceAxioms": ["realestate:Lease rdfs:subClassOf cco:Agreement"]
+    }
+  ],
+  "w2fuel:manualRequired": [],
+  "w2fuel:shapeCount": 23
+}
+```
+
+**OWL 2 RL → SHACL mapping (normative):**
+
+| OWL 2 RL Construct | SHACL Output |
+|--------------------|-------------|
+| `rdfs:subClassOf` | `sh:targetClass` on superclass |
+| `rdfs:range` (class) | `sh:class` |
+| `rdfs:range` (datatype) | `sh:datatype` |
+| `owl:allValuesFrom C` | `sh:class C` on property |
+| `owl:hasValue v` | `sh:hasValue v` |
+| `owl:maxCardinality 1` | `sh:maxCount 1` |
+| `owl:FunctionalProperty` | `sh:maxCount 1` |
+
+**Non-RL → SHACL mapping (normative):**
+
+| Non-RL Need | SHACL Output |
+|-------------|-------------|
+| "At least one" (`owl:someValuesFrom`) | `sh:minCount 1` |
+| "Exactly N" (`owl:cardinality N`) | `sh:minCount N` + `sh:maxCount N` |
+| "Not a" (`owl:complementOf`) | `sh:not` (manual only) |
+| "A or B" (`owl:unionOf`) | `sh:or` |
+
+**Determinism guarantee:** Same inputs always produce same shapes graph. Shape ordering is lexicographic by shape IRI.
+
+**Offline behavior:** Fully offline.
+
+### 5.4 Reasoning: Datalog Materialization
+
+#### `materialize`
+
+Applies Datalog rules to a set of asserted facts, producing inferred triples. This function defines the **semantics** of materialization. Any conforming Datalog engine (Nemo, Datalog.js, a hand-written fixpoint loop) may implement it.
+
+**Signature:**
+```
+materialize(rules: DatalogRuleSet (JSON-LD), facts: JSON-LD) → MaterializationResult (JSON-LD)
+```
+
+**Output — `MaterializationResult`:**
+```json
+{
+  "@type": "w2fuel:MaterializationResult",
+  "w2fuel:inferred": { "... JSON-LD inferred triples ..." },
+  "w2fuel:inferredCount": 312,
+  "w2fuel:ruleTrace": [
+    {
+      "w2fuel:inferredTriple": "ex:fido rdf:type ex:Animal",
+      "w2fuel:byRules": ["w2fuel:rule_subclass_Dog_Animal"]
+    }
+  ],
+  "w2fuel:partial": false,
+  "w2fuel:fixpointReached": true
+}
+```
+
+**Semantics:** Materialization proceeds by fixpoint iteration. Rules are applied until no new triples are derived. The result is the minimal model of the rules applied to the facts.
+
+**Determinism guarantee:** Same rules + same facts always produce same inferred triples (modulo blank node identifiers, which are compared structurally).
+
+**Offline behavior:** Fully offline. If `rules` has `w2fuel:incomplete: true`, the result carries `w2fuel:partial: true` to signal that additional inferences may exist.
+
+### 5.5 Namespace Disambiguation
+
+#### `disambiguate`
+
+Resolves an ambiguous term to a namespace-qualified class using pattern matching and contextual signals.
+
+**Signature:**
+```
+disambiguate(
+  term: string,
+  context: DisambiguationContext (JSON-LD),
+  registry: NamespaceRegistry (JSON-LD)
+) → DisambiguationResult (JSON-LD)
+```
+
+**Input — `DisambiguationContext`:**
+```json
+{
+  "@type": "w2fuel:DisambiguationContext",
+  "w2fuel:contextText": "The property management company said my lease expires next month",
+  "w2fuel:contextEntities": [
+    {
+      "w2fuel:entity": "property management company",
+      "w2fuel:resolvedType": "realestate:PropertyManager"
+    }
+  ]
+}
+```
+
+**Output — `DisambiguationResult`:**
+```json
+{
+  "@type": "w2fuel:DisambiguationResult",
+  "w2fuel:status": "resolved",
+  "w2fuel:term": "Lease",
+  "w2fuel:resolvedClass": "realestate:Lease",
+  "w2fuel:confidence": 0.94,
+  "w2fuel:confidenceTier": "high",
+  "w2fuel:reasoning": {
+    "w2fuel:keywordMatch": 0.8,
+    "w2fuel:entityContext": 0.95,
+    "w2fuel:combined": 0.94
+  },
+  "w2fuel:alternatives": [
+    { "w2fuel:class": "auto:Lease", "w2fuel:confidence": 0.12 },
+    { "w2fuel:class": "network:Lease", "w2fuel:confidence": 0.02 }
+  ]
+}
+```
+
+**Confidence tiers:**
+
+| Tier | Range | Behavior |
+|------|-------|----------|
+| `high` | ≥ 0.80 | Resolved automatically |
+| `medium` | 0.60–0.79 | Resolved with advisory |
+| `low` | < 0.60 | Returns `review_required` (see §4.3) |
+
+**Determinism guarantee:** Same (term, context, registry) always produces same result.
+
+**Offline behavior:** If `registry` is null or empty, returns `{ status: "unavailable", reason: "registry_not_loaded" }`. This is not an error — it is an explicit representation of uncertainty.
+
+### 5.6 Schema Query Functions
+
+These functions extract information from a loaded ontology graph. They are pure projections — no side effects, no state modification.
+
+#### `resolveClass`
+
+```
+resolveClass(classIri: IRI, ontologyGraph: JSON-LD) → ClassDefinition (JSON-LD)
+```
+
+Returns the full definition of a class: its superclasses, properties, annotations, and associated SHACL shape (if shapes have been generated).
+
+**Offline behavior:** If `classIri` is not found, returns `{ found: false, searchedGraph: "..." }`.
+
+#### `resolveProperty`
+
+```
+resolveProperty(propertyIri: IRI, ontologyGraph: JSON-LD) → PropertyDefinition (JSON-LD)
+```
+
+Returns domain, range, superproperties, and characteristics (functional, transitive, etc.).
+
+#### `getHierarchy`
+
+```
+getHierarchy(rootIri: IRI, ontologyGraph: JSON-LD, depth?: number) → HierarchyTree (JSON-LD)
+```
+
+Returns the class hierarchy rooted at `rootIri`, traversing `rdfs:subClassOf` relations. Optional `depth` parameter limits traversal.
+
+### 5.7 Comparison & Testing Functions
+
+#### `compareInferenceSets`
+
+Compares two sets of inferred triples to detect semantic drift.
+
+**Signature:**
+```
+compareInferenceSets(
+  setA: JSON-LD,
+  setB: JSON-LD,
+  criticalInferences: Assertion[]
+) → ParityReport (JSON-LD)
+```
+
+**Output — `ParityReport`:**
+```json
+{
+  "@type": "w2fuel:ParityReport",
+  "w2fuel:equivalent": false,
+  "w2fuel:inANotB": ["..."],
+  "w2fuel:inBNotA": ["..."],
+  "w2fuel:criticalStatus": [
+    {
+      "w2fuel:assertion": "Every Continuant is an Entity",
+      "w2fuel:status": "present"
+    },
+    {
+      "w2fuel:assertion": "Property has exactly one address",
+      "w2fuel:status": "moved_to_shacl"
+    }
+  ]
+}
+```
+
+**Use case:** Validating that a migration (e.g., HermiT → Nemo, or OWL 2 DL → OWL 2 RL) preserves critical inferences.
+
+#### `evaluateGoldenRules`
+
+Runs canonical OWL→Datalog translation tests.
+
+**Signature:**
+```
+evaluateGoldenRules(testCases: GoldenRuleTest[]) → TestReport (JSON-LD)
+```
+
+**Normative test cases:**
+
+| Name | OWL Input | Expected Datalog | Round-Trip Validation |
+|------|-----------|-----------------|----------------------|
+| `subclass_simple` | `ex:Dog rdfs:subClassOf ex:Animal` | `Animal(?x) :- Dog(?x) .` | `ex:fido a ex:Dog` → infers `ex:fido a ex:Animal` |
+| `subclass_chain` | `Poodle ⊂ Dog ⊂ Animal` | Two rules | `ex:p a ex:Poodle` → infers `ex:p a ex:Animal` |
+| `domain_inference` | `ex:owns rdfs:domain ex:Person` | `Person(?x) :- owns(?x,?y) .` | `ex:j ex:owns ex:c` → infers `ex:j a ex:Person` |
+| `range_inference` | `ex:owns rdfs:range ex:Asset` | `Asset(?y) :- owns(?x,?y) .` | `ex:j ex:owns ex:c` → infers `ex:c a ex:Asset` |
+| `equivalent_class` | `ex:Human owl:equivalentClass ex:Person` | Bidirectional rules | Both directions infer |
+| `all_values_from` | `VeganRestaurant ⊂ ∀servesFood.VeganFood` | `VeganFood(?y) :- VeganRestaurant(?x), servesFood(?x,?y) .` | Applied correctly |
+| `has_value` | `USCitizen ⊂ ∃nationality.{USA}` | `nationality(?x, ex:USA) :- USCitizen(?x) .` | Applied correctly |
+| `functional_property` | `ex:hasMother a owl:FunctionalProperty` | `sameAs(?y1,?y2) :- hasMother(?x,?y1), hasMother(?x,?y2) .` | Applied correctly |
+| `inverse_property` | `ex:hasChild owl:inverseOf ex:hasParent` | Bidirectional rules | Both directions infer |
+| `transitive_property` | `ex:ancestorOf a owl:TransitiveProperty` | `ancestorOf(?x,?z) :- ancestorOf(?x,?y), ancestorOf(?y,?z) .` | Chain infers |
+
+### 5.8 Integrity Functions
+
+#### `signShaclBundle`
+
+Signs a SHACL shapes graph with an Ed25519 private key.
+
+**Signature:**
+```
+signShaclBundle(shapesGraph: JSON-LD, privateKey: Uint8Array) → SignedBundle (JSON-LD)
+```
+
+**Output — `SignedBundle`:**
+```json
+{
+  "@type": "w2fuel:SignedShaclBundle",
+  "w2fuel:shapesGraph": { "..." },
+  "w2fuel:signature": "ed25519:abc123def456...",
+  "w2fuel:signedBy": "key:ed25519:w2fuel-signing-key-2026",
+  "w2fuel:signedAt": "2026-02-01T15:30:00Z",
+  "w2fuel:schemaVersion": "realestate-v1.0.3",
+  "w2fuel:contentHash": "sha256:a1b2c3d4..."
+}
+```
+
+**Determinism guarantee:** Same (shapesGraph, privateKey) always produces same signature bytes. Timestamp is an input parameter, not read from the environment.
+
+Note: Key management (rotation, storage, revocation) is an integration concern. This function only performs the signing computation.
+
+#### `verifyShaclSignature`
+
+Verifies the signature on a signed SHACL bundle.
+
+**Signature:**
+```
+verifyShaclSignature(signedBundle: SignedBundle (JSON-LD), publicKey: Uint8Array) → VerificationResult (JSON-LD)
+```
+
+**Offline behavior:** If the public key is unavailable (e.g., key server unreachable), returns `{ valid: null, reason: "key_unavailable" }`. This is not an error — it is explicit uncertainty. Consumers must decide their own policy for unverifiable bundles.
 
 ---
 
-## 10. REST API
+## 6. SHACL Dual Semantics
 
-### 10.1 Base URL
+W2Fuel generates both OWL 2 RL rules (for inference) and SHACL shapes (for validation). These operate under complementary semantics:
 
 ```
-https://w2fuel.fnsr.org/v1
+OWL 2 RL (Open World)             SHACL (Closed World)
+═══════════════════════           ═══════════════════════
+
+"What COULD be true?"             "What MUST be present?"
+
+• Inference rules                 • Validation rules
+• If data missing → unknown       • If data missing → violation
+• Used by: MDRE, materialization  • Used by: Fandaws, TagTeam (edge)
+
+With OWL 2 RL, the semantics are MORE ALIGNED:
+• RL rules produce deterministic inferences
+• SHACL validates those inferences
+• No "what could theoretically exist" uncertainty
 ```
 
-### 10.2 Core Endpoints
-
-| Method | Path | Purpose |
-|--------|------|---------|
-| GET | `/class/{prefix}:{localname}` | Class definition |
-| GET | `/property/{prefix}:{localname}` | Property definition |
-| GET | `/hierarchy/{prefix}:{localname}` | Class hierarchy |
-| POST | `/namespace/resolve` | Disambiguation |
-| GET | `/shacl/{namespace}/{version}` | SHACL shapes |
-| GET | `/datalog/{namespace}/{version}` | Datalog rules (V1.3) |
-| POST | `/sparql` | SPARQL queries |
-| GET | `/health` | Health check |
-| GET | `/admin/consistency-check` | Consistency verification |
-
-### 10.3 Response Headers
-
-All responses include:
-
-```http
-X-W2Fuel-Verification: verified
-X-W2Fuel-Schema-Version: realestate-v1.1.0
-X-W2Fuel-Sequence-Id: 42
-X-W2Fuel-Cache: HIT|MISS|BYPASS
-```
-
-### 10.4 New Endpoint: Datalog Rules (V1.3)
-
-```http
-GET /datalog/realestate/v1.0 HTTP/1.1
-Accept: text/plain
-
-HTTP/1.1 200 OK
-Content-Type: text/plain
-W2Fuel-Datalog-Hash: sha256:def789...
-
-% Datalog rules for realestate v1.0
-% Generated by W2Fuel CI at 2026-02-01T15:30:00Z
-
-Property(?x) :- ResidentialProperty(?x) .
-Property(?x) :- CommercialProperty(?x) .
-Agreement(?x) :- Lease(?x) .
-...
-```
+**Consumers download SHACL bundles and validate locally.** The shapes graph is the contract between W2Fuel (T-Box) and edge validators (Fandaws, TagTeam). Consumers **MUST** verify bundle signatures before use (§5.8).
 
 ---
 
-## 11. CI/CD Pipeline (Simplified)
+## 7. Event Semantic Contract
 
-### 11.1 Single-Tier Verification
+This section defines the **semantic content** of W2Fuel's schema update event — what information it carries about what changed. How the event is transported (Kafka, postMessage, file write, webhook) is an integration concern handled by the EventEmitter adapter (§12).
 
-> **V1.3 CHANGE:** No more tiered verification. Every commit runs full pipeline.
+### 7.1 Schema Updated Event (Normative)
 
-```yaml
-ci_pipeline:
-  name: "W2Fuel Schema Verification"
-  trigger: "Pull Request and Push to main"
-  
-  total_timeout: "5 minutes"  # Was potentially hours
-  
-  stages:
-    syntax_validation:
-      timeout: "30s"
-      steps:
-        - "Parse OWL 2 RL syntax"
-        - "Detect non-RL constructs (warn or fail)"
-        - "Validate imports"
-      
-    nemo_classification:
-      timeout: "30s"
-      steps:
-        - "Generate Datalog rules from OWL"
-        - "Run Nemo materialization"
-        - "Check for inconsistencies"
-        - "Verify no unsatisfiable classes"
-      resources:
-        memory: "2GB"  # Was 16-32GB for HermiT
-        cpu: "2 cores"
-      
-    compliance_check:
-      timeout: "30s"
-      steps:
-        - "Verify BFO anchoring"
-        - "Check CCO alignment"
-        - "Validate annotations"
-      
-    shacl_generation:
-      timeout: "30s"
-      steps:
-        - "Generate SHACL from OWL 2 RL"
-        - "Merge with manual SHACL"
-        - "Run test vectors"
-        - "Sign bundle"
-      
-    deployment:
-      timeout: "60s"
-      steps:
-        - "Begin Oxigraph transaction"
-        - "Load new ontology"
-        - "Commit transaction"
-        - "Invalidate Redis cache"
-        - "Emit fnsr.schema.updated"
+```json
+{
+  "@context": {
+    "fnsr": "https://fnsr.spec/v2/",
+    "w2fuel": "https://fnsr.spec/v2/w2fuel/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@type": "fnsr:SchemaUpdatedEvent",
+  "@id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+
+  "fnsr:sequenceId": 42,
+  "fnsr:timestamp": "2026-02-01T15:30:00Z",
+
+  "w2fuel:updateType": "minor",
+  "w2fuel:breaking": false,
+  "w2fuel:affectedNamespaces": ["realestate"],
+
+  "w2fuel:versionInfo": {
+    "@type": "w2fuel:VersionTransition",
+    "w2fuel:previousVersion": "1.0.0",
+    "w2fuel:newVersion": "1.1.0",
+    "w2fuel:sourceIdentifier": "abc123def456"
+  },
+
+  "w2fuel:verificationStatus": "verified",
+  "w2fuel:shaclBundleHash": "sha256:a1b2c3d4e5f6789..."
+}
 ```
 
-### 11.2 No More Complexity Grading
+**What is NOT in this event:** Infrastructure state (database committed, cache invalidated, broker acked). Those are orchestration concerns that belong in adapter-layer telemetry, not in the semantic event. Consumers react to *what changed*, not to *how it was deployed*.
 
-| v1.2.x | v1.3 |
-|--------|------|
-| Small: 60s timeout | All: 30s timeout |
-| Medium: 180s timeout | All: 30s timeout |
-| Large: 600s timeout, dedicated worker | All: 30s timeout |
-| Very Large: 1800s timeout, opt-in | All: 30s timeout |
+### 7.2 Verification Status
 
-### 11.3 No More L0-PENDING
+| Status | Meaning |
+|--------|---------|
+| `verified` | Full Datalog classification passed, SHACL generated |
+| `lite` | Syntax-only validation (classification disabled for this namespace) |
+| `partial` | Ontology had unresolved imports; verified against available content |
+
+### 7.3 Consumer Semantics
+
+| Status | TagTeam | MDRE | Fandaws |
+|--------|---------|------|---------|
+| `verified` | Extract entities normally | Load schema, materialize via Datalog | Validate with SHACL, reject non-conformant |
+| `lite` | Extract normally | Load schema, explicit axioms only (no inference) | Validate with SHACL normally |
+| `partial` | Extract with caution flag | Load schema, `partial: true` on inferences | Validate with available SHACL |
+
+### 7.4 Idempotent Event Processing
+
+Consumers process events idempotently using `sequenceId`:
+
+| Rule | Behavior |
+|------|----------|
+| R1 | If `sequenceId` ≤ last processed → IGNORE (duplicate) |
+| R2 | If `sequenceId` == last processed + 1 → PROCESS normally |
+| R3 | If `sequenceId` > last processed + 1 → PROCESS, log gap warning |
+| R4 | Store `lastProcessedSequenceId` durably before processing |
+| R5 | On restart, sync from authoritative source |
+
+How `lastProcessedSequenceId` is stored (Redis, file, localStorage, in-memory) is a State adapter concern.
+
+### 7.5 Event Construction Function
+
+Event construction is itself a pure function:
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    VERIFICATION STATE MACHINE (V1.3 — Simplified)           │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│                              ┌─────────────┐                                │
-│                              │   INITIAL   │                                │
-│                              │ (no schema) │                                │
-│                              └──────┬──────┘                                │
-│                                     │                                       │
-│                                     │ PR merged + CI passes (< 5 min)       │
-│                                     ▼                                       │
-│                            ┌──────────────┐                                 │
-│                            │  L0 VERIFIED │                                 │
-│                            │              │                                 │
-│                            │ Nemo passed  │                                 │
-│                            │ SHACL signed │                                 │
-│                            │ Event emitted│                                 │
-│                            └──────────────┘                                 │
-│                                                                             │
-│   NO L0-PENDING — sub-second Nemo means every commit is verified inline     │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
+constructSchemaEvent(
+  previousVersion: SemVer,
+  newVersion: SemVer,
+  affectedNamespaces: string[],
+  verificationResult: ValidationResult,
+  shaclBundleHash: string,
+  sequenceId: number,
+  timestamp: string,
+  sourceIdentifier: string
+) → SchemaUpdatedEvent (JSON-LD)
 ```
+
+**Determinism guarantee:** Same inputs always produce same event. `timestamp` and `sequenceId` are explicit parameters, not read from the environment.
 
 ---
 
-## 12. Governance
+## 8. Governance
 
-### 12.1 Schema Change Types (Preserved)
+### 8.1 Change Classification (Computation)
 
-| Change Type | Examples | Approval | CI |
-|-------------|----------|----------|-----|
-| PATCH | Typo fix, comment update | Auto | Required |
-| MINOR | New class, new property | Domain Steward | Required |
-| MAJOR | Breaking change, removal | Governance Body | Required |
+Change classification is a deterministic function over the ontology diff:
 
-### 12.2 Bridge Ontologies (Preserved)
-
-Version migration bridges are unchanged from v1.2.x:
-
-```turtle
-# Bridge: realestate-v1-to-v2
-realestate-v1:RentalProperty owl:equivalentClass realestate-v2:ResidentialLease .
-realestate-v1:monthlyRent owl:equivalentProperty realestate-v2:rentAmount .
+```
+classifyChange(previousGraph: JSON-LD, newGraph: JSON-LD) → ChangeClassification (JSON-LD)
 ```
 
-### 12.3 RBAC (Preserved)
+| Change Type | Detection Rule | Required Approval |
+|-------------|---------------|-------------------|
+| `patch` | Annotations only; no axiom changes | Auto |
+| `minor` | New classes/properties; no removals; no axiom modifications | Domain Steward |
+| `major` | Removed classes/properties; modified axioms; breaking changes | Governance Body |
+
+**Output:**
+```json
+{
+  "@type": "w2fuel:ChangeClassification",
+  "w2fuel:changeType": "minor",
+  "w2fuel:breaking": false,
+  "w2fuel:addedClasses": ["realestate:SubLease"],
+  "w2fuel:removedClasses": [],
+  "w2fuel:modifiedAxioms": [],
+  "w2fuel:requiredApproval": "domain_steward"
+}
+```
+
+How approval is obtained (GitHub PR review, email chain, governance meeting) is an orchestration concern.
+
+### 8.2 Bridge Ontologies
+
+Version migration bridges are OWL equivalence mappings:
+
+```json
+{
+  "@context": { "owl": "http://www.w3.org/2002/07/owl#" },
+  "@type": "w2fuel:BridgeOntology",
+  "w2fuel:from": "realestate-v1",
+  "w2fuel:to": "realestate-v2",
+  "w2fuel:mappings": [
+    {
+      "owl:equivalentClass": [
+        { "@id": "realestate-v1:RentalProperty" },
+        { "@id": "realestate-v2:ResidentialLease" }
+      ]
+    },
+    {
+      "owl:equivalentProperty": [
+        { "@id": "realestate-v1:monthlyRent" },
+        { "@id": "realestate-v2:rentAmount" }
+      ]
+    }
+  ]
+}
+```
+
+Bridge ontologies are processed by the same `owlToDatalog` and `owlToShacl` functions as any other ontology.
+
+### 8.3 RBAC Model
+
+The role model defines *what operations exist* and *who can perform them*. How authentication is implemented (OAuth, JWT, API key, local trust) is an integration adapter concern.
 
 | Role | Permissions |
 |------|-------------|
-| anonymous | Health check only |
-| authenticated_service | Read, query, SHACL download |
-| schema_author | Submit PRs |
-| domain_steward | Approve MINOR changes |
-| ontology_steward | Cross-namespace changes |
-| operator | Admin endpoints |
-| governance_body | All permissions |
+| `anonymous` | Health/status queries only |
+| `authenticated_service` | Read, query, SHACL download |
+| `schema_author` | Submit schema change proposals |
+| `domain_steward` | Approve `minor` changes within their namespace |
+| `ontology_steward` | Cross-namespace changes |
+| `operator` | Administrative operations |
+| `governance_body` | All permissions |
 
 ---
 
-## 13. Security (Preserved)
+## 9. Validation Pipeline (Computation)
 
-### 13.1 Authentication
+The validation pipeline is a **composition of core functions** applied in sequence. This section defines the logical ordering and pass/fail semantics. How the pipeline is triggered (CI/CD, manual invocation, file watcher) is an orchestration concern.
 
-OAuth 2.0 + JWT (RS256), unchanged from v1.2.x.
+### 9.1 Pipeline Stages
 
-### 13.2 SHACL Signature Verification
+```
+INPUT: ontologyGraph (JSON-LD), bfoGraph (JSON-LD), ccoGraphs (JSON-LD[])
+       previousGraph? (JSON-LD), manualShacl? (JSON-LD)
 
-Ed25519 signatures, unchanged from v1.2.x. **Verification is REQUIRED.**
+STAGE 1: Syntax Validation
+  validateOwlRl(ontologyGraph)
+  → If not valid: FAIL with diagnostics
 
-### 13.3 Secrets Management
+STAGE 2: Compliance
+  checkBfoCompliance(ontologyGraph, bfoGraph)
+  checkCcoAlignment(ontologyGraph, ccoGraphs)
+  → If not compliant: FAIL with report
 
-HashiCorp Vault integration, unchanged from v1.2.x.
+STAGE 3: Transpilation
+  owlToDatalog(ontologyGraph)
+  owlToShacl(ontologyGraph, manualShacl)
+  → Produces DatalogRuleSet and ShaclShapesResult
 
----
+STAGE 4: Classification
+  materialize(datalogRules, ontologyGraph)
+  → Check: no unsatisfiable classes in result
+  → If inconsistent: FAIL
 
-## 14. Monitoring
+STAGE 5: Golden-Rule Tests
+  evaluateGoldenRules(canonicalTestCases)
+  → If any fail: FAIL (transpilation bug)
 
-### 14.1 Key Metrics (Updated for Nemo)
+STAGE 6: Inference Parity (if previousGraph provided)
+  materialize(previousRules, ontologyGraph)  → setA
+  materialize(newRules, ontologyGraph)        → setB
+  compareInferenceSets(setA, setB, criticalInferences)
+  → If critical inferences lost: FAIL
 
-| Metric | SLO | Alert |
-|--------|-----|-------|
-| `w2fuel_nemo_classification_seconds` | P99 < 1s | P99 > 2s |
-| `w2fuel_oxigraph_query_seconds` | P99 < 100ms | P99 > 500ms |
-| `w2fuel_oxigraph_transaction_seconds` | P99 < 5s | P99 > 10s |
-| `w2fuel_ci_pipeline_seconds` | P99 < 180s | P99 > 300s |
-| `w2fuel_shacl_download_seconds` | P99 < 50ms | P99 > 200ms |
+STAGE 7: Change Classification (if previousGraph provided)
+  classifyChange(previousGraph, ontologyGraph)
+  → Produces ChangeClassification for governance routing
 
-### 14.2 Sentinel Metrics (V1.3.1 — Preserved)
+STAGE 8: Bundle Signing
+  signShaclBundle(shapesGraph, signingKey)
+  → Produces SignedBundle
 
-> **V1.3.1 Addition:** Keep these anomaly-detection metrics even though Nemo is fast.
+STAGE 9: Event Construction
+  constructSchemaEvent(...)
+  → Produces SchemaUpdatedEvent (JSON-LD)
 
-| Metric | Purpose | Alert |
-|--------|---------|-------|
-| `w2fuel_event_gap_seconds` | Detect missed events | Gap > 60s |
-| `w2fuel_nemo_run_failure_count` | CI anomaly detection | > 0 in 1 hour |
-| `w2fuel_schema_commit_duration_seconds` | Detect unexpected slowdowns | P99 > 30s |
-| `w2fuel_oxigraph_wal_lag_seconds` | HA standby health | > 60s |
-| `w2fuel_inference_parity_failures` | Semantic drift detection | > 0 |
-
-### 14.3 Removed Metrics
-
-The following metrics from v1.2.x are **removed** (no longer applicable):
-
-- `w2fuel_fuseki_rebuild_duration_seconds` — No rebuilds
-- `w2fuel_l0_pending_duration_hours` — No pending state
-- `w2fuel_reasoner_timeout_rate` — Nemo doesn't timeout (but we keep failure count)
-
----
-
-## 15. Migration Guide: v1.2.x → v1.3
-
-### 15.1 What Consumers Must Change
-
-**Nothing.** The API contract and event schema are unchanged. Consumers can upgrade W2Fuel without code changes.
-
-### 15.2 What Operators Must Change
-
-| Component | v1.2.x | v1.3 | Migration |
-|-----------|--------|------|-----------|
-| Triple Store | Jena Fuseki | Oxigraph | Full data migration |
-| Reasoner | HermiT | Nemo | No migration (CI replacement) |
-| OWL Profile | OWL 2 DL | OWL 2 RL | Ontology audit + transpilation |
-| CI Pipeline | Tiered | Single | Pipeline replacement |
-
-### 15.3 SPARQL Compatibility Testing (V1.3.1)
-
-> **V1.3.1 Addition:** Validate SPARQL semantics are preserved during migration.
-
-```yaml
-sparql_compatibility_tests:
-  purpose: "Ensure queries produce identical results in Fuseki and Oxigraph"
-  
-  test_categories:
-    basic_queries:
-      - "SELECT * WHERE { ?s ?p ?o } LIMIT 100"
-      - "SELECT (COUNT(*) AS ?c) WHERE { ?s ?p ?o }"
-      - "SELECT DISTINCT ?type WHERE { ?s a ?type }"
-      
-    named_graphs:
-      - "SELECT ?g (COUNT(*) AS ?c) WHERE { GRAPH ?g { ?s ?p ?o } } GROUP BY ?g"
-      - "SELECT * WHERE { GRAPH <http://example.org/realestate> { ?s ?p ?o } }"
-      
-    hierarchy_queries:
-      - "SELECT ?sub ?super WHERE { ?sub rdfs:subClassOf+ ?super }"
-      - "SELECT ?class WHERE { ?class rdfs:subClassOf bfo:BFO_0000001 }"
-      
-    property_queries:
-      - "SELECT ?prop ?domain WHERE { ?prop rdfs:domain ?domain }"
-      - "SELECT ?prop ?range WHERE { ?prop rdfs:range ?range }"
-      
-    blank_nodes:
-      - "SELECT * WHERE { ?s ?p [ ?p2 ?o2 ] }"
-      - "CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o . FILTER(isBlank(?s) || isBlank(?o)) }"
-  
-  validation:
-    result_comparison: "Sort and compare result sets"
-    count_tolerance: "0 (exact match required)"
-    blank_node_handling: "Compare structure, not IDs"
-    
-  known_differences:
-    - issue: "Default graph semantics"
-      fuseki: "Union of all graphs by default"
-      oxigraph: "Empty default graph"
-      mitigation: "Explicitly specify GRAPH or use FROM"
-      
-    - issue: "Blank node serialization"
-      fuseki: "_:b0, _:b1, ..."
-      oxigraph: "_:riog1, _:riog2, ..."
-      mitigation: "Compare by structure, not by ID"
+OUTPUT: PipelineResult containing all intermediate artifacts
 ```
 
-### 15.4 Ontology Migration
+Every stage is a pure function call. The pipeline itself is a pure composition. No network access, no database writes, no event emission occurs *within* the pipeline. The resulting artifacts (DatalogRuleSet, SignedBundle, SchemaUpdatedEvent) are returned as JSON-LD and can then be handed to adapters for persistence, distribution, and notification.
 
-1. **Audit**: Run `w2fuel-rl-check` on all ontologies to identify non-RL constructs
-2. **Transpile**: Generate SHACL for constructs that need CWA validation
-3. **Validate**: Run Nemo classification on transpiled ontologies
-4. **Deploy**: Load into Oxigraph
+### 9.2 Pipeline as Function
 
-### 15.5 Data Migration (Fuseki → Oxigraph)
+```
+runValidationPipeline(
+  ontologyGraph: JSON-LD,
+  bfoGraph: JSON-LD,
+  ccoGraphs: JSON-LD[],
+  previousGraph?: JSON-LD,
+  manualShacl?: JSON-LD,
+  signingKey?: Uint8Array,
+  sequenceId: number,
+  timestamp: string,
+  sourceIdentifier: string
+) → PipelineResult (JSON-LD)
+```
 
-```bash
-# Export from Fuseki
-curl "http://fuseki:3030/w2fuel/data" -H "Accept: application/n-quads" > w2fuel.nq
-
-# Import to Oxigraph
-oxigraph_server load --file w2fuel.nq --location /var/lib/oxigraph/w2fuel
+**Output — `PipelineResult`:**
+```json
+{
+  "@type": "w2fuel:PipelineResult",
+  "w2fuel:status": "passed",
+  "w2fuel:stages": [
+    { "w2fuel:stage": "syntax_validation", "w2fuel:status": "passed", "w2fuel:durationMs": 45 },
+    { "w2fuel:stage": "compliance", "w2fuel:status": "passed", "w2fuel:durationMs": 23 },
+    { "w2fuel:stage": "transpilation", "w2fuel:status": "passed", "w2fuel:durationMs": 78 },
+    { "w2fuel:stage": "classification", "w2fuel:status": "passed", "w2fuel:durationMs": 120 },
+    { "w2fuel:stage": "golden_rules", "w2fuel:status": "passed", "w2fuel:durationMs": 15 },
+    { "w2fuel:stage": "inference_parity", "w2fuel:status": "passed", "w2fuel:durationMs": 230 },
+    { "w2fuel:stage": "change_classification", "w2fuel:status": "passed", "w2fuel:durationMs": 12 },
+    { "w2fuel:stage": "bundle_signing", "w2fuel:status": "passed", "w2fuel:durationMs": 5 },
+    { "w2fuel:stage": "event_construction", "w2fuel:status": "passed", "w2fuel:durationMs": 1 }
+  ],
+  "w2fuel:artifacts": {
+    "w2fuel:validationResult": { "..." },
+    "w2fuel:datalogRuleSet": { "..." },
+    "w2fuel:shaclShapesResult": { "..." },
+    "w2fuel:signedBundle": { "..." },
+    "w2fuel:changeClassification": { "..." },
+    "w2fuel:schemaUpdatedEvent": { "..." },
+    "w2fuel:parityReport": { "..." }
+  }
+}
 ```
 
 ---
 
-## 16. Appendices
+## 10. Offline Behavior Summary
 
-### Appendix A: Rust Stack Validation Results (V1.3.1 — REQUIRED)
+Inability to reach external systems is not an error state. Every core function defines explicit behavior for degraded conditions:
 
-> **V1.3.1 REQUIRED:** This appendix MUST be populated before governance sign-off.
+| Function | Degraded Condition | Behavior |
+|----------|-------------------|----------|
+| `validateOwlRl` | Unresolved imports | Validate available axioms; report `unresolvedImport` |
+| `checkBfoCompliance` | BFO graph absent | Return `{ compliant: null, reason: "bfo_unavailable" }` |
+| `checkCcoAlignment` | Some CCO modules absent | Validate against available; `partial: true` |
+| `owlToDatalog` | Incomplete ontology | Generate available rules; `incomplete: true` |
+| `owlToShacl` | Missing manual SHACL | Generate auto shapes; report `manualRequired` |
+| `materialize` | Incomplete rules | Materialize available; `partial: true` |
+| `disambiguate` | Registry not loaded | Return `{ status: "unavailable", reason: "registry_not_loaded" }` |
+| `resolveClass` | Class not in graph | Return `{ found: false }` |
+| `verifyShaclSignature` | Key unavailable | Return `{ valid: null, reason: "key_unavailable" }` |
+| `constructSchemaEvent` | Missing fields | Construct with available; `partial: true` |
 
-```yaml
-rust_spike_results:
-  # STORAGE BENCHMARK
-  storage_benchmark:
-    test_datasets:
-      - name: "bfo-2020"
-        triples: "~2,000"
-      - name: "cco-full"
-        triples: "~15,000"
-      - name: "realestate-v1.0"
-        triples: "~5,000"
-      - name: "combined-production"
-        triples: "~50,000"
-    
-    jena_fuseki:
-      load_time_seconds: "TBD"
-      cold_query_p99_ms: "TBD"
-      warm_query_p99_ms: "TBD"
-      memory_usage_mb: "TBD"
-      
-    oxigraph:
-      load_time_seconds: "TBD"
-      cold_query_p99_ms: "TBD"
-      warm_query_p99_ms: "TBD"
-      memory_usage_mb: "TBD"
-      
-    comparison:
-      load_speedup: "TBD"
-      query_speedup: "TBD"
-      memory_reduction: "TBD"
-      
-  # REASONING BENCHMARK
-  reasoning_benchmark:
-    test_ontologies:
-      - name: "realestate-v1.0"
-        axioms: "~1,200"
-      - name: "automotive-v1.0"
-        axioms: "~3,500"
-      - name: "combined-domains"
-        axioms: "~25,000"
-    
-    hermit:
-      classification_time_seconds: "TBD"
-      memory_peak_mb: "TBD"
-      timeout_rate: "TBD"
-      
-    nemo:
-      classification_time_seconds: "TBD"
-      memory_peak_mb: "TBD"
-      datalog_rules_generated: "TBD"
-      
-    comparison:
-      speedup: "TBD"
-      memory_reduction: "TBD"
-      
-  # EXPRESSIVITY AUDIT
-  expressivity_audit:
-    total_owl_files: "TBD"
-    total_axioms: "TBD"
-    
-    rl_compliant:
-      axiom_count: "TBD"
-      percentage: "TBD"
-      
-    non_rl_constructs:
-      someValuesFrom_count: "TBD"
-      cardinality_gt_1_count: "TBD"
-      complementOf_count: "TBD"
-      unionOf_subclass_count: "TBD"
-      other_count: "TBD"
-      
-    shacl_coverage:
-      constructs_with_shacl: "TBD"
-      constructs_needing_manual_shacl: "TBD"
-      
-  # INFERENCE PARITY
-  inference_parity:
-    critical_inferences_tested: "TBD"
-    inferences_preserved: "TBD"
-    inferences_moved_to_shacl: "TBD"
-    inferences_lost: "TBD"  # Must be 0 or explicitly justified
-    
-  # SPARQL COMPATIBILITY
-  sparql_compatibility:
-    queries_tested: "TBD"
-    queries_identical_results: "TBD"
-    queries_with_differences: "TBD"
-    differences_documented: "TBD"
+**Principle:** Every function returns a well-typed JSON-LD result even under degraded conditions. Null, undefined, and thrown exceptions are replaced with explicit uncertainty representations. Consumers decide their own tolerance policy.
 
-# Sign-off: Spike results reviewed and approved
-spike_approval:
-  reviewed_by: ""
-  date: ""
-  signature: ""
+---
+
+## 11. JSON-LD Canonical Representation
+
+### 11.1 Principle
+
+JSON-LD is the authoritative format for all inputs, outputs, configuration, and inter-component contracts. Alternative representations (Turtle, N-Triples, SPARQL result sets, Datalog text) are permitted as internal optimizations and must be losslessly derivable from the JSON-LD form.
+
+### 11.2 Base Context
+
+All W2Fuel JSON-LD documents share a base context:
+
+```json
+{
+  "@context": {
+    "w2fuel": "https://fnsr.spec/v2/w2fuel/",
+    "fnsr": "https://fnsr.spec/v2/",
+    "bfo": "http://purl.obolibrary.org/obo/BFO_",
+    "cco": "http://www.ontologyrepository.com/CommonCoreOntologies/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  }
+}
 ```
 
-### Appendix B: OWL 2 RL Compliance Checker
+### 11.3 Format Derivation Table
 
-```bash
-# Check ontology for OWL 2 RL compliance
-w2fuel-rl-check ontologies/domains/realestate-v1.0.owl
+| Format | Canonical JSON-LD Type | Derivation |
+|--------|----------------------|------------|
+| OWL/Turtle ontology | JSON-LD `@graph` with OWL vocabulary | Standard RDF serialization conversion |
+| SHACL/Turtle shapes | JSON-LD `@graph` with SHACL vocabulary | Standard RDF serialization conversion |
+| Datalog rules (text) | `w2fuel:DatalogRuleSet` with `humanReadable` per rule | `humanReadable` is a text projection of the JSON-LD rule structure |
+| Namespace registry (YAML) | `w2fuel:NamespaceRegistry` (see §4.2) | Direct structural mapping |
+| Schema event (bare JSON) | `fnsr:SchemaUpdatedEvent` (see §7.1) | Add `@context` and `@type` |
+| SPARQL result set | JSON-LD per W3C SPARQL Results JSON format | Standard mapping |
+
+---
+
+## 12. Adapter Boundaries
+
+This section defines the **interfaces** through which W2Fuel's core computation connects to state, orchestration, and integration concerns. Each adapter has a minimal interface and a **default implementation** suitable for browser and Node.js execution. Server-optimized implementations are non-normative.
+
+### 12.1 Design Principle
+
+Core computation functions (§5) never call adapters directly. Orchestration code wires computation outputs to adapter inputs. This ensures that all core functions remain testable in isolation with no mocking required.
+
+```
+ORCHESTRATION wires:
+  computation output ──► state adapter (persist)
+  computation output ──► integration adapter (distribute)
+  state adapter output ──► computation input (resume)
+```
+
+### 12.2 State Adapters
+
+#### GraphStore
+
+Stores and queries RDF graph data.
+
+| Method | Signature | Purpose |
+|--------|-----------|---------|
+| `load` | `(graph: JSON-LD) → void` | Load triples into store |
+| `query` | `(sparqlOrPattern: string) → JSON-LD` | Query stored triples |
+| `update` | `(additions: JSON-LD, removals: JSON-LD) → void` | Atomic update |
+| `export` | `() → JSON-LD` | Export all triples |
+
+| Implementation | Environment | Notes |
+|---------------|-------------|-------|
+| **In-memory (default)** | Browser, Node.js | Uses rdf-ext, N3.js, or Oxigraph-WASM |
+| Oxigraph server | Server | RocksDB-backed, persistent |
+| Apache Jena Fuseki | Server (legacy) | Java-based |
+
+#### Cache
+
+Caches computation results to avoid redundant work.
+
+| Method | Signature | Purpose |
+|--------|-----------|---------|
+| `get` | `(key: string) → JSON-LD \| null` | Retrieve cached value |
+| `set` | `(key: string, value: JSON-LD, ttlMs?: number) → void` | Store with optional TTL |
+| `invalidate` | `(prefix: string) → void` | Remove entries by key prefix |
+
+| Implementation | Environment | Notes |
+|---------------|-------------|-------|
+| **`Map` (default)** | Browser, Node.js | In-memory, no TTL enforcement |
+| Redis | Server | Persistent, TTL, distributed |
+
+#### SequenceStore
+
+Maintains the monotonically increasing sequence counter for events.
+
+| Method | Signature | Purpose |
+|--------|-----------|---------|
+| `getCurrent` | `() → number` | Current sequence value |
+| `getNext` | `() → number` | Atomically increment and return |
+
+| Implementation | Environment | Notes |
+|---------------|-------------|-------|
+| **Counter variable (default)** | Browser, Node.js | In-memory, resets on restart |
+| Redis INCR | Server | Persistent, atomic |
+| File-based | Node.js | Persistent, single-process |
+
+### 12.3 Integration Adapters
+
+#### EventEmitter
+
+Distributes schema update events to downstream consumers.
+
+| Method | Signature | Purpose |
+|--------|-----------|---------|
+| `emit` | `(event: JSON-LD) → Ack` | Publish event to consumers |
+
+| Implementation | Environment | Notes |
+|---------------|-------------|-------|
+| **Callback / `postMessage` (default)** | Browser, Node.js | In-process or cross-frame |
+| Kafka | Server | Distributed, persistent |
+| NATS | Server | Lightweight |
+| File append | Node.js | Append JSON-LD to newline-delimited file |
+
+#### AuthProvider
+
+Authenticates and authorizes requests.
+
+| Method | Signature | Purpose |
+|--------|-----------|---------|
+| `authenticate` | `(credentials: any) → Identity` | Verify identity |
+| `authorize` | `(identity: Identity, action: string) → boolean` | Check permission |
+
+| Implementation | Environment | Notes |
+|---------------|-------------|-------|
+| **No-op / local trust (default)** | Browser, Node.js | All actions permitted |
+| OAuth 2.0 + JWT | Server | Production auth |
+
+#### SecretsProvider
+
+Provides cryptographic keys and other secrets.
+
+| Method | Signature | Purpose |
+|--------|-----------|---------|
+| `getSigningKey` | `() → Uint8Array` | Private key for SHACL signing |
+| `getVerificationKeys` | `() → Uint8Array[]` | Public keys for verification |
+
+| Implementation | Environment | Notes |
+|---------------|-------------|-------|
+| **Environment variable / file (default)** | Node.js | Load from `process.env` or file |
+| **Hardcoded test key (default)** | Browser | For development only |
+| HashiCorp Vault | Server | Production secrets management |
+
+#### NotificationSink
+
+Emits operational alerts.
+
+| Method | Signature | Purpose |
+|--------|-----------|---------|
+| `notify` | `(alert: JSON-LD) → void` | Send alert |
+
+| Implementation | Environment | Notes |
+|---------------|-------------|-------|
+| **`console.warn` (default)** | Browser, Node.js | Log to console |
+| Slack / PagerDuty | Server | Production alerting |
+
+#### MetricsSink
+
+Records performance and health metrics.
+
+| Method | Signature | Purpose |
+|--------|-----------|---------|
+| `record` | `(metric: string, value: number, tags?: object) → void` | Record metric |
+
+| Implementation | Environment | Notes |
+|---------------|-------------|-------|
+| **No-op (default)** | Browser, Node.js | Discard metrics |
+| Prometheus / Datadog | Server | Production observability |
+
+### 12.4 Orchestration Adapters
+
+#### Pipeline
+
+Executes a sequence of computation stages.
+
+| Method | Signature | Purpose |
+|--------|-----------|---------|
+| `run` | `(stages: Stage[]) → PipelineResult` | Execute pipeline |
+
+| Implementation | Environment | Notes |
+|---------------|-------------|-------|
+| **Sequential `await` (default)** | Browser, Node.js | Simple loop |
+| GitHub Actions / GitLab CI | Server | CI/CD integration |
+
+#### TransactionManager
+
+Provides atomicity guarantees for multi-step state updates.
+
+| Method | Signature | Purpose |
+|--------|-----------|---------|
+| `begin` | `() → Transaction` | Start transaction |
+| `commit` | `(tx: Transaction) → void` | Commit |
+| `rollback` | `(tx: Transaction) → void` | Rollback |
+
+| Implementation | Environment | Notes |
+|---------------|-------------|-------|
+| **No-op (default)** | Browser, Node.js | In-memory state is inherently atomic |
+| Oxigraph transactions | Server | ACID guarantees |
+
+---
+
+## 13. Open Design Decisions
+
+The following decisions were made during this refactor. They are recorded here for governance review and may be revisited.
+
+### 13.1 Engine Abstraction
+
+**Decision:** Core specifies Datalog *semantics* abstractly. Nemo, Oxigraph-WASM, Datalog.js, or any conforming engine may implement `materialize()`.
+
+**Rationale:** The Edge-Canonical principle requires that core logic run in a browser. Nemo-WASM and Oxigraph-WASM exist but binding the spec to specific Rust toolchains creates a coupling between core logic and a deployment choice. The computation is the Datalog fixpoint semantics, not the engine.
+
+**Trade-off:** Conformance testing across engines is required to ensure equivalent results. The `evaluateGoldenRules` and `compareInferenceSets` functions provide this.
+
+### 13.2 SPARQL as Adapter, Not Core
+
+**Decision:** SPARQL is the query language for the GraphStore adapter, not a core computation format. Core functions accept and return JSON-LD. SPARQL queries appear only in adapter implementations.
+
+**Rationale:** SPARQL assumes a queryable graph store, which is infrastructure. Core functions operate over JSON-LD graphs directly. If an implementation uses SPARQL internally (e.g., Oxigraph adapter), that is an optimization.
+
+### 13.3 Event Infrastructure Fields Removed
+
+**Decision:** The `infrastructure_state` and `ci_verification` fields from v1.3.1's event contract are removed from the normative event schema. They belong in adapter-layer telemetry.
+
+**Rationale:** The Separation of Concerns principle requires that events carry semantic content only. Consumers react to *what changed*, not to *how it was deployed*. Adapter-layer enrichment is permitted for operational visibility.
+
+### 13.4 Governance Classification as Computation
+
+**Decision:** `classifyChange()` is a core computation function. Approval routing is an orchestration concern.
+
+**Rationale:** The classification itself (PATCH/MINOR/MAJOR) is a deterministic function of the diff. How approval is obtained is deployment-specific. Separating these allows the same classification logic to be used in CI/CD, local development, and manual review.
+
+### 13.5 Signing Timestamp as Parameter
+
+**Decision:** `signShaclBundle()` takes `timestamp` as an explicit parameter rather than reading `Date.now()`.
+
+**Rationale:** The Determinism Over Deployment principle requires that same inputs produce same outputs. Reading system time is environment-coupled behavior. The orchestration layer provides the timestamp.
+
+---
+
+## Appendix A: OWL 2 RL Compliance Checker
+
+A reference implementation of `validateOwlRl` as a command-line tool:
+
+```
+w2fuel-rl-check ontology.jsonld
 
 # Output:
 # ✓ 142 axioms checked
 # ✓ 138 axioms are OWL 2 RL compliant
 # ⚠ 4 axioms require SHACL alternative:
-#   - Line 45: owl:someValuesFrom → use sh:minCount 1
-#   - Line 78: owl:cardinality 2 → use sh:minCount 2 + sh:maxCount 2
-#   - Line 112: owl:unionOf in subclass → use sh:or
-#   - Line 156: owl:complementOf → use sh:not
+#   - owl:someValuesFrom in subclass → use sh:minCount 1
+#   - owl:cardinality 2 → use sh:minCount 2 + sh:maxCount 2
+#   - owl:unionOf in subclass → use sh:or
+#   - owl:complementOf → use sh:not
 ```
 
-### Appendix C: Manual SHACL Cookbook (Preserved)
+The checker consumes JSON-LD and produces a `ValidationResult` (§5.1).
 
-The Manual SHACL Cookbook from v1.2.x is **unchanged** — templates for unsupported constructs remain valid.
+---
 
-### Appendix D: SHACL Signing & Key Rotation (V1.3.1)
+## Appendix B: Manual SHACL Cookbook
 
-```yaml
-shacl_signing:
-  algorithm: "Ed25519"
-  
-  key_management:
-    storage: "HashiCorp Vault"
-    path: "secret/w2fuel/signing-keys"
-    
-  rotation_policy:
-    frequency: "annual"
-    overlap_period_days: 30
-    notification_days_before: 60
-    
-  key_lifecycle:
-    active: "Current signing key"
-    previous: "Still valid for verification during overlap"
-    deprecated: "No longer valid for verification"
-    
-  rotation_procedure:
-    1: "Generate new key in Vault"
-    2: "Update CI to sign with new key"
-    3: "Both keys valid for 30 days"
-    4: "After 30 days, deprecate old key"
-    5: "Notify downstream services of key change"
-    
-  verification_behavior:
-    valid_signature: "Accept SHACL bundle"
-    invalid_signature: "REJECT — do not use"
-    unknown_key: "REJECT — unknown signing key"
-    expired_key: "REJECT — key no longer valid"
-    
-  emergency_bypass:
-    requires: "Governance body approval"
-    audit: "Log bypass with approval reference"
-    flag: "w2fuel:signatureBypass: true on validated instances"
+Templates for constructs that require hand-authored SHACL (merged via the `manualShacl` parameter of `owlToShacl`):
+
+**Complement (NOT):**
+```json
+{
+  "@type": "sh:NodeShape",
+  "sh:targetClass": { "@id": "ex:NonEmployee" },
+  "sh:not": {
+    "sh:class": { "@id": "ex:Employee" }
+  }
+}
 ```
 
-### Appendix E: Operational Runbooks (V1.3.1)
-
-#### RB-001: Rollback Bad Schema
-
-```bash
-# RUNBOOK: Rollback a bad schema deployment
-
-# 1. Identify bad commit
-BAD_COMMIT=$(git log --oneline -1)  # e.g., abc123
-
-# 2. Revert in Git
-git revert --no-commit $BAD_COMMIT
-git commit -m "[ROLLBACK] Revert $BAD_COMMIT due to <reason>"
-git push
-
-# 3. CI will automatically:
-#    - Run Nemo classification
-#    - Load reverted ontology to Oxigraph
-#    - Emit fnsr.schema.updated
-
-# 4. Verify rollback
-curl https://w2fuel.fnsr.org/admin/consistency-check
-
-# 5. Notify downstream
-# Event is emitted automatically; manual notification if urgent
+**Disjunction (OR):**
+```json
+{
+  "@type": "sh:NodeShape",
+  "sh:targetClass": { "@id": "ex:StaffMember" },
+  "sh:or": {
+    "@list": [
+      { "sh:class": { "@id": "ex:FullTime" } },
+      { "sh:class": { "@id": "ex:PartTime" } }
+    ]
+  }
+}
 ```
 
-#### RB-002: Restore from Snapshot
-
-See §5.3 HA/DR section for full restore procedure.
-
-#### RB-003: Re-run Nemo on Older Commit
-
-```bash
-# RUNBOOK: Re-run classification on historical commit
-
-# 1. Checkout historical commit
-git checkout <commit_hash>
-
-# 2. Run Nemo manually
-nemo --input ontologies/domains/*.owl \
-     --output /tmp/nemo-output \
-     --rules datalog/generated/*.dl
-
-# 3. Compare with current
-diff /tmp/nemo-output current-inferences/
-
-# 4. Return to main
-git checkout main
+**Exact cardinality:**
+```json
+{
+  "@type": "sh:PropertyShape",
+  "sh:path": { "@id": "ex:hasAddress" },
+  "sh:minCount": 1,
+  "sh:maxCount": 1
+}
 ```
 
-#### RB-004: Triage Event Gaps
+---
 
-```bash
-# RUNBOOK: Triage missing events
+## Appendix C: Companion Documents
 
-# 1. Check current sequence_id
-curl https://w2fuel.fnsr.org/admin/consistency-check | jq '.sequence_id'
+This specification is the normative core. Two companion documents provide additional guidance:
 
-# 2. Check downstream last processed
-redis-cli GET w2fuel:last_processed_sequence_id
-
-# 3. If gap exists:
-#    - Check Kafka for undelivered messages
-#    - Check W2Fuel logs for emission failures
-#    - Downstream can call /admin/consistency-check to sync
-
-# 4. If events are lost:
-#    - Downstream should request full refresh
-#    - Emit fnsr.schema.refresh_required event
-```
-
-### Appendix F: Removed Sections from v1.2.x
-
-The following sections were **removed** as no longer applicable:
-
-| v1.2.x Section | Reason Removed |
-|----------------|----------------|
-| §5.1.1 Fuseki Rebuild Hardening | Oxigraph is persistent |
-| §5.1.1 Blue/Green Rehydration | No ephemeral rebuilds |
-| §5.1.1 Fuseki SLO Staging Test Plan | No rebuild SLOs |
-| §8.3 Tiered CI Verification | Single-tier with Nemo |
-| §8.3 L0-PENDING Status | No pending state |
-| §8.3 Verification Status Consumer Contract (pending) | Simplified |
-| §5.1.1 Automatic Fuseki SLO Remediation | No SLO concerns |
-
-**Lines removed from v1.2.x:** ~570 (12%)  
-**Lines added in v1.3.1:** ~500 (HA/DR, inference parity, golden rules, runbooks)  
-**Net reduction:** ~70 lines, but significantly simpler architecture
-
-### Appendix G: V1.3.1 Change Summary
-
-| Section | Change | Rationale |
-|---------|--------|-----------|
-| §5.3 HA/DR | NEW: Active-standby architecture, RTO/RPO, restore validation | Blocker: Oxigraph single-point-of-failure |
-| §5.4 Update Flow | ENHANCED: Explicit checkpoints, transaction limits | Blocker: Event emission semantics |
-| §7.3 Golden-Rule Tests | NEW: OWL→Datalog translation unit tests | Blocker: Transpilation fidelity |
-| §7.4 Inference Parity | NEW: HermiT vs Nemo comparison in CI | Blocker: Semantic drift risk |
-| §9.1 Checkpoint Event | ENHANCED: Normative emission preconditions, handler pseudocode | Blocker: Final checkpoint semantics |
-| §14.2 Sentinel Metrics | NEW: Preserved anomaly detection metrics | Risk: Monitoring gaps |
-| §15.3 SPARQL Compatibility | NEW: Query comparison test suite | Risk: Migration edge cases |
-| Appendix A | ENHANCED: Required spike validation checklist | Blocker: Populate before sign-off |
-| Appendix D | NEW: Key rotation policy | Risk: Security lifecycle |
-| Appendix E | NEW: Operational runbooks | Risk: Recovery procedures |
+| Document | Content | Status |
+|----------|---------|--------|
+| **`w2fuel-adapters-01`** | Detailed adapter implementation guides; reference implementations for browser, Node.js, and server environments; conformance test suites | Planned |
+| **`w2fuel-deploy-01`** | Production deployment guide covering Oxigraph, Redis, Kafka, Kubernetes, HA/DR, monitoring, CI/CD pipeline configuration, migration procedures, and operational runbooks. Contains all infrastructure content from v1.3.1. | Planned |
 
 ---
 
@@ -1851,46 +1432,9 @@ The following sections were **removed** as no longer applicable:
 | 1.2.0 | 2026-02-01 | Aaron / Claude | Production hardening |
 | 1.2.3 | 2026-02-02 | Aaron / Claude | Final v1.2.x (Java stack) |
 | 1.3.0-draft | 2026-02-02 | Aaron / Claude | Rust stack adoption (Oxigraph/Nemo) |
-| **1.3.1** | **2026-02-02** | **Aaron / Claude** | **HA/DR, inference parity, golden-rules, checkpoint semantics, runbooks** |
+| 1.3.1 | 2026-02-02 | Aaron / Claude | HA/DR, inference parity, runbooks |
+| **2.0.0** | **2026-02-19** | **Aaron / Claude** | **Architectural alignment refactor: separated computation from infrastructure; JSON-LD canonical; edge-canonical execution; offline behavior contracts; adapter boundaries** |
 
 ---
 
-## Production Readiness Sign-off
-
-### Acceptance Checklist (V1.3.1)
-
-**Critical (MUST pass before production):**
-
-- [ ] **Appendix A populated** — Rust spike results with all TBD fields filled
-- [ ] **Inference parity tests pass** — HermiT vs Nemo comparison for representative ontologies
-- [ ] **Golden-rule translation tests pass** — All OWL→Datalog unit tests green
-- [ ] **HA/DR validated** — At least one snapshot restore drill completed in staging
-- [ ] **Canonical checkpoint event reviewed** — Integration team approves event schema
-- [ ] **SPARQL compatibility verified** — Migration queries produce identical results
-
-**High (SHOULD pass before production):**
-
-- [ ] **Sentinel metrics configured** — Event gap, Nemo failure, WAL lag monitoring
-- [ ] **Key rotation tested** — SHACL signing key rotation exercised
-- [ ] **Runbooks reviewed** — Operations team approves RB-001 through RB-004
-- [ ] **Downstream notification** — All consumer teams informed of upgrade
-
-### Sign-off Table
-
-| Approval | Name | Role | Date | Signature |
-|----------|------|------|------|-----------|
-| Rust Spike Validation | | Engineering Lead | | |
-| Inference Parity | | Ontology Steward | | |
-| HA/DR Validation | | SRE Lead | | |
-| Security Review | | Security Engineer | | |
-| Technical Review | | Ontology Steward | | |
-| Operations Review | | SRE Lead | | |
-| Governance Approval | | Governance Body Chair | | |
-
-**Review Status:** DRAFT — Pending Rust Spike Validation  
-**Prerequisite:** Complete Rust Spike benchmarks and populate Appendix A  
-**Effective Date:** Upon governance approval after spike validation
-
----
-
-*End of Specification*
+*End of Core Specification*
