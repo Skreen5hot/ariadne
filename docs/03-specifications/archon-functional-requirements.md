@@ -52,6 +52,19 @@ Each entry contains:
 - Write-only architecture (append-only, no deletion)
 - Attempted modification triggers immediate Level 5 alert
 
+**1.1.2a Relationship to SPCN Commitment Ledger (v3.0.1 Cross-Spec Coherence)**
+
+The NFL is the **federated identity ledger**; the SPCN Commitment Ledger is the **node-local operational ledger**. These are distinct ledgers with distinct trust models:
+
+- The **SPCN Commitment Ledger** operates inside a single node's TEE. It records capability tokens, emergency authorization tokens (EATs), key rotation events, calibration records, and CTS commitment lifecycle events. It is hash-linked and TEE-signed. It is the source of truth for what happened on that node.
+- The **NFL** operates across the federated network. It records state hashes, decision records, moral cost increments, and worldview evaluations. It is BFT-replicated across 7+ nodes. It is the source of truth for the synthetic person's identity continuity.
+
+**Data flow:** MREs (Moral Reflection Events) and commitment lifecycle events originate in the SPCN Commitment Ledger. When these events are significant to identity continuity (moral cost changes, worldview evaluations, key decisions), they are projected to the NFL as NFL entries. The NFL entry includes the SPCN ledger block's `ledger_cid` (HIRI-addressed) as provenance, enabling any auditor to trace an NFL entry back to the originating node's local ledger.
+
+**Verification:** ARCHON verifies SPCN ledger entries by resolving the `ledger_cid` via HIRI and validating the TEE signature chain. This verification is asynchronous — NFL entries are accepted provisionally on BFT consensus and verified against SPCN provenance during audit cycles, not on the critical path.
+
+**What the NFL does NOT contain:** Capability tokens, EATs, calibration records, and key rotation events are node-operational concerns and do not propagate to the NFL unless they have identity-continuity significance (e.g., a key rotation that changes the node's identity).
+
 **1.1.3 Architectural Prohibitions**
 - No "rollback" function exists in codebase
 - No "reset to earlier state" capability

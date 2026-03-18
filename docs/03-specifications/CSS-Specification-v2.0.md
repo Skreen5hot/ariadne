@@ -423,6 +423,21 @@ CSS supports two execution modes to balance correctness with exploration speed:
 
 ---
 
+#### 1.4.9 Relationship to Causal OS Kernel Deterministic Numerics Contract
+
+The Causal OS Kernel (v1.6 §3.6) defines a three-level Deterministic Numerics Contract (`wasm-deterministic` / `softfloat` / `engine-scoped`) governing floating-point reproducibility in the ONNX inference path (LatentBridge neural-symbolic interface). CSS's decimal128 arithmetic (this section) and the Kernel's MathKernelSpec govern **different computation scopes** within the same execution pipeline:
+
+| Scope | Arithmetic | Governed By | Purpose |
+|---|---|---|---|
+| **Symbolic causal computation** — SCM graph evaluation, do-calculus interventions, counterfactual probability, sensitivity analysis, equilibrium detection | Decimal128 (34 digits, ROUND_HALF_EVEN) via `CSSArithmetic` | CSS §1.4 (this section) | Exact reproducibility of causal reasoning across all platforms |
+| **Neural inference** — ONNX model execution in LatentBridge encode/decode, surrogate causal mechanism evaluation | IEEE 754 float32/float64 under declared `MathKernelSpec` compliance level | Kernel §3.6 | Bit-identical neural inference within declared compliance level |
+
+**Boundary rule:** When LatentBridge inference results (Kernel-governed, IEEE 754) feed back into CSS symbolic computation, they MUST be converted to `Decimal` at the boundary via `CSSArithmetic.fromNumber()`. The conversion is lossy (IEEE 754 double has ~15.9 significant digits vs decimal128's 34), but this is acceptable because the neural surrogate's precision is inherently limited by model training — the decimal128 representation preserves the surrogate's output exactly as received, preventing further precision loss in downstream symbolic operations.
+
+**Fast mode exception:** When CSS operates in Fast mode (§1.4.8, `L4-fast`), symbolic computation uses IEEE 754 double, which aligns naturally with the Kernel's L1/L3 precision. The boundary conversion is a no-op in this mode. Fast mode outputs remain unsuitable for audits regardless.
+
+---
+
 ## 2. Conceptual Model
 
 ### 2.1 Worlds, Interventions, and Traces

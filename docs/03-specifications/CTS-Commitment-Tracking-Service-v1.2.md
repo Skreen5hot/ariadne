@@ -2,8 +2,8 @@
 
 ## Technical Specification v1.2
 
-**Version:** 1.2.0
-**Date:** February 2026
+**Version:** 1.2.1
+**Date:** March 2026
 **Status:** Ready for Milestone 1 Implementation
 **Spec ID:** cts-core-01
 
@@ -20,6 +20,7 @@
 | 1.0.0 | February 2026 | Initial specification |
 | 1.1.0 | February 2026 | DEFERRED deadline enforcement, negative constraint fulfillment type, duty-of-care multiplier, taint level corrections (moral cost → L2), L3 promisee taint inheritance, administrative rescission cause, self-commitment support, Proof of Commitment export, IEE veto deadlock resolution protocol, moral residue accumulation safeguards, expanded test suite |
 | 1.2.0 | February 2026 | Heartbeat fulfillment for indefinite negative constraints, L3→L1 taint upgrade on DEFERRED system failure, PII-safe content hashing for Proof of Commitment, explicit IEE decision provenance on tragic violation events |
+| 1.2.1 | March 2026 | Cross-specification coherence patch: (1) Unified Commitment Ledger declaration — CTS and SPCN share one ledger per node; (2) "Taint Semantics" renamed to "Disclosure Level Semantics" to resolve terminology collision with SPCN's epistemic taint lattice. No behavioral changes. |
 
 ---
 
@@ -35,7 +36,7 @@
 8. [Query Interface](#8-query-interface)
 9. [Event Contract](#9-event-contract)
 10. [Cross-Service Integration](#10-cross-service-integration)
-11. [Taint Semantics](#11-taint-semantics)
+11. [Disclosure Level Semantics](#11-disclosure-level-semantics)
 12. [Temporal Reasoning](#12-temporal-reasoning)
 13. [Conflict and Contradiction](#13-conflict-and-contradiction)
 14. [Edge-Canonical Implementation](#14-edge-canonical-implementation)
@@ -87,7 +88,7 @@ The critical design insight: a broken commitment is not merely a state change. I
 | **Priority** | HIGH |
 | **Consumes** | `fnsr.commitment.request`, `fnsr.verdict.rendered`, `fnsr.action.completed`, `fnsr.time.elapsed`, `fnsr.entity.resolved` |
 | **Produces** | `fnsr.commitment.made`, `fnsr.commitment.fulfilled`, `fnsr.commitment.violated`, `fnsr.commitment.renegotiated`, `fnsr.commitment.expired`, `fnsr.commitment.rescinded`, `fnsr.commitment.sustained`, `fnsr.commitment.conflict` |
-| **Taint Level** | L1 (Observable) for commitment records; L2 (Derived) for moral cost computations (see §11) |
+| **Disclosure Level** | L1 (Observable) for commitment records; L2 (Derived) for moral cost computations (see §11) |
 | **Query Paths** | Fast (cached active commitments), Standard (full lifecycle query), Full (with moral cost computation) |
 
 ### 2.3 What CTS Is Not
@@ -1287,11 +1288,15 @@ CTS does not have its own clock. Time awareness comes exclusively from orchestra
 
 ---
 
-## 11. Taint Semantics
+## 11. Disclosure Level Semantics
 
-### 11.1 Taint Level Assignment
+**v1.2.1 Terminology Change:** This section was previously titled "Taint Semantics." The term "taint" in SPCN (v2.3) refers to *epistemic* taint — a property of provenance quality in the taint lattice, with decay mechanics and diversity-weighted rehabilitation. CTS's L1/L2/L3/L4 levels refer to *observability and disclosure* — who can see the data and how it was derived. These are orthogonal concepts. To eliminate ambiguity, CTS now uses "disclosure level" where it previously used "taint level." The L1/L2/L3/L4 scale is unchanged; only the name changes.
 
-| CTS Data | Taint Level | Rationale |
+**v1.2.1 Unified Commitment Ledger:** CTS commitment records (made, fulfilled, violated, renegotiated) are stored in the **SPCN Commitment Ledger** — the same hash-linked, TEE-signed ledger that holds capability tokens, EATs, and key rotation events. SPCN defines the ledger's block structure and chain validation rules. CTS defines the commitment lifecycle semantics for records within that ledger. There is one Commitment Ledger per node, shared between SPCN and CTS.
+
+### 11.1 Disclosure Level Assignment
+
+| CTS Data | Disclosure Level | Rationale |
 |----------|-------------|-----------|
 | Commitment record (the commissive act itself) | L1 (Observable) | The agent's own commissive act is directly observed |
 | Fulfillment evidence | Inherits from source | If fulfillment is evidenced by an L1 event, the evidence is L1; if by an L2 derived inference, it is L2 |
@@ -1303,7 +1308,9 @@ CTS does not have its own clock. Time awareness comes exclusively from orchestra
 
 **v1.1 Correction:** Moral cost computation was classified as L1 in v1.0. This was incorrect. The `relationship_factor` component draws from historical interaction data (A-Box assertions), making the computation derived (L2). The commitment record itself remains L1, but the moral cost attached to a violation is L2. This distinction matters because downstream consumers (SMS, governance dashboards) must not treat computed moral costs as having the same epistemic certainty as raw commitment records.
 
-### 11.2 Taint Propagation Rules
+**v1.2.1 Note:** The L1/L2/L3/L4 scale in this table refers to CTS *disclosure levels* (observability classification), not to SPCN *epistemic taint* (provenance quality). A commitment record can be L1 disclosure (publicly observable) while the underlying claim it references may carry epistemic taint in SPCN's taint lattice. These are independent classifications.
+
+### 11.2 Disclosure Level Propagation Rules
 
 CTS must not:
 
@@ -1316,17 +1323,17 @@ CTS may:
 - Accept L2 (Derived) evidence for fulfillment conditions, provided the derivation chain is traceable.
 - Use L3 inputs for *conflict detection* (to flag potential future conflicts), but must mark such detections as L3.
 
-### 11.3 IEE Taint Interaction
+### 11.3 IEE Disclosure Level Interaction
 
 IEE operates at its own taint level. When IEE vetoes a commitment, the veto itself is L1 (it is an observable decision). When IEE directs a violation due to ethical override, the resulting violation carries L1 taint with the IEE decision ID as provenance. The moral cost computation for the violation carries L2 taint per §11.1.
 
-### 11.4 L3 Promisee Taint Inheritance (v1.1)
+### 11.4 L3 Promisee Disclosure Level Inheritance (v1.1)
 
 If OERS resolves a promisee at L3 (Speculative) — meaning the identity is a hypothesis, not a confirmed entity — the commitment inherits L3 taint for all data that depends on the promisee's identity.
 
 **Taint inheritance rules for L3 promisees:**
 
-| Data Element | Taint When Promisee Is L3 |
+| Data Element | Disclosure Level When Promisee Is L3 |
 |-------------|--------------------------|
 | Commitment record | **L3** — the binding act targets a speculative entity |
 | Fulfillment conditions | L3 if promisee-dependent; original taint if promisee-independent |
@@ -1342,15 +1349,15 @@ If OERS resolves a promisee at L3 (Speculative) — meaning the identity is a hy
 
 **Design note:** This mechanism prevents a subtle but dangerous taint leak identified in review. Without L3 inheritance, an agent could make "firm" commitments to speculative entities and then use those commitments as leverage in reasoning ("I already promised X, so I must do Y"). The L3 taint ensures that the commitment's downstream effects are appropriately hedged.
 
-#### 11.4.1 Taint Upgrade on DEFERRED System Failure (v1.2)
+#### 11.4.1 Disclosure Level Upgrade on DEFERRED System Failure (v1.2)
 
 When a commitment with an L3 promisee fails during DEFERRED state (deadline passes before resolution), the resulting **violation event** is upgraded to **L1**. This is a critical exception to the general L3 inheritance rule.
 
 **Rationale:** The promisee may be speculative, but the agent's failure to resolve them in time is an **observable system fact**. The agent's internal infrastructure failed to identify the promisee before the deadline — that failure is real, measurable, and attributable to the agent regardless of whether the promisee ultimately exists. The moral cost of a resolution failure is a cost of the agent's own inadequacy, not a cost contingent on the promisee's ontological status.
 
-**Taint assignment for DEFERRED → VIOLATED with L3 promisee:**
+**Disclosure level assignment for DEFERRED → VIOLATED with L3 promisee:**
 
-| Data Element | Taint | Rationale |
+| Data Element | Disclosure Level | Rationale |
 |-------------|-------|-----------|
 | Violation event | **L1** | The failure to resolve is an observable system fact |
 | Violation cause (`AGENT_INACTION`) | **L1** | The inaction is real |
