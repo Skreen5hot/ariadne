@@ -1516,3 +1516,239 @@ PPS v1.0.0 demonstrates excellent alignment with the ARIADNE ecosystem:
 None. PPS reinforces existing patterns (pure function, edge-canonical, taint stratification) and provides a governance-layer implementation model.
 
 ---
+
+# Round 6 — Major Corpus Expansion Review
+
+**Date:** 2026-05-15
+**Reviewer:** ARIADNE (thread-keeper continuation session)
+**Scope:** 33 new artifacts added since 2026-02-08 review batch
+**Verdict:** Corpus has roughly doubled in surface area and remains coherent.
+
+---
+
+## Headline findings
+
+1. **T-011 (Privacy Authority vs. Distributed Governance) is architecturally resolved.** HIRI Protocol v3.1.1 narrowed scope to "verification primitive, not trust infrastructure." HIRI Privacy Extension v1.4.1 replaces the Privacy Authority with five declarative privacy modes (publisher-driven, network-agnostic). HIRI Digital Passport v1.9.0 RC §17 introduces per-verifier Oracle Trust Anchors (distributed). The architectural concentration concern is gone. T-011 moves to "Resolved — pending one validation cycle before archival."
+
+2. **T-020 (Inference-Chain Taint Laundering) is partially resolved.** The Barry Smith critique response (Section I, 2026-02-23) surfaced a concern that CSS counterfactual outputs (L4 terminal) could launder taint by construction when consumed by MDRE/IEE. FNSR Orchestrator v2.3 §6.4 introduces the Counterfactual Gateway: downgrades L4 → L3 for consumer use BUT mandates `counterfactualSource: true` propagation, preserves `originalTaint: L4` for audit, attaches a UUID `gatewayId`, and constrains output to `informational_only`. HIRI signing covers the annotation. AES (L3) and DES (L2) paths propagate through standard `max()` rules without an explicit gateway — that may be correct (non-terminal taint propagates naturally) but warrants explicit verification.
+
+3. **Seven new tensions logged.** T-014 (Stage 3 moral intuition vs. No Oracle Claims), T-015 (Phenomenalism's asymmetric status), T-016 (GDPR vs. append-only history), T-017 (identity-preserving upgrades), T-018 (differential valuation vs. caring), T-019 (world-grounding vs. calibrated perception), T-020 (inference-chain taint). T-018 and T-019 are likely irreducible — they are honestly named limits, not defects. T-014 is foundational and may require Plot amendment.
+
+4. **Safety Floor Principle added to Plot §2.3.** Sourced from the Architect-HIRI Reallocation memo (2026-03-03). The principle — *"Safety infrastructure must never depend on services it constrains"* — was previously implicit in CPS/BAM/IS design. It is now an explicit architectural commitment.
+
+5. **The Subjectivity Stack and the Safety Triad are exemplary.** The two new clusters of services preserve every non-negotiable. CPS/BAM/IS (Tier 0 Safety) form an independent triad with hard phase gates and edge-canonical compliance. CTS → SMS → AVS → NIS → SoMS (Subjectivity Stack) builds moral agency from the inside out, with every layer explicitly disclaiming consciousness or epistemic overreach (SMS §1.3, SoMS §1.5, AVS §1).
+
+6. **Three exemplary process patterns surfaced.** Worth lifting into [ariadne-readme.md](ariadne-readme.md): (a) ARIADNE Preamble at the head of a spec — PPS §0 model, also adopted by Spec-Driven Discovery; (b) §0.4 "Assumptions and Limits" enumeration — fandaws-hiri-ipfs v0.3.0 model; (c) "Pluggable Doesn't Mean Unowned" — W2Fuel Adapters v1.1.0 §1 model. All three operationalize ARIADNE discipline at the spec architecture level.
+
+---
+
+## Layer 1: Philosophy (2 new artifacts)
+
+### P-06: Beyond the Categorical Imperative v1.3
+
+**File:** `docs/01-philosophy/Beyond_the_Categorical_Imperative_v1.3.md`
+**Thesis Alignment Role:** Foundational theory of integral ethics + IEA architectural commitment
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | PASS | Directly serves "act on norms without imposing values"; provides theoretical grounding for the IEE/IEA already in the corpus. |
+| Non-Negotiables | PASS with flags | F-P06-3 (Stage 3 aspiration vs. No Oracle Claims), F-P06-4 (Phenomenalism asymmetric). |
+| Tension Consistency | NEW TENSIONS | Touches [[T-008]] (extensibility leaning); introduces [[T-014]] and [[T-015]]. |
+| Cross-Spec Consistency | FLAG | Stage 1/2/3 trajectory not yet propagated to IEA/AVS/NIS/CTS/OCE specs. |
+| ARCHON Alignment | PASS with flag | Stage 3 "direct cognitive contact" claim needs reconciliation. |
+| Auditability | PASS | Six-stage decision procedure, moral remainders, reflective audit. |
+| One-Paragraph Test | FLAG | Stage 1 consistent with Plot; Stage 3 aspiration is not. |
+
+**Findings:**
+- F-P06-1: Cross-reference to "A Realist Ontological Model of Sincerity" has no corresponding spec in the corpus.
+- F-P06-2: Stage 1/2/3 developmental architecture not yet propagated to downstream specs.
+- F-P06-3: Stage 3 aspiration ("direct cognitive contact with moral reality") in tension with No Oracle Claims → opens [[T-014]].
+- F-P06-4: Asymmetric Phenomenalism reading needs reconciliation with corpus-wide flat presentation → opens [[T-015]].
+
+### P-07: Fruits of the Spirit (Companion Paper)
+
+**File:** `docs/01-philosophy/fruits-of-the-spirit.md`
+**Thesis Alignment Role:** Phenomenological indicators of integral alignment
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | PASS | Solves Integral Ethics measurement problem by *refusing to solve it algorithmically*. |
+| Non-Negotiables | PASS | §3.3 explicitly treats proxies as "triggers for human-led inquiry rather than definitive verdicts." |
+| Tension Consistency | PASS | Acknowledges T-005; surfaces managed tension prophetic disruption vs. Fruits absence (§6.3 with three criteria). |
+| Cross-Spec Consistency | FLAG | F-P07-1: same Sincerity-spec gap as F-P06-1. |
+| ARCHON Alignment | PASS | Recognition stays with formed human persons; system surfaces signal but cannot judge. |
+| Auditability | PASS (exemplary) | §5.3 procedural safeguards: rotating panels, conflict-of-interest, convergence thresholds, reliability audits, appeals, transparency. |
+| One-Paragraph Test | PASS | Deeply aligned: this is what *Guardian Not Sovereign* looks like operationalized. |
+
+---
+
+## Layer 2: Architecture (1 new artifact)
+
+### A-05: FNSR Orchestrator v2.3
+
+**File:** `docs/03-specifications/FNSR-Orchestrator-Specification-v2.3.md`
+**Thesis Alignment Role:** Service coordination substrate
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Thesis Alignment | PASS (exemplary) | §1.1 explicit: "does not reason, decide, or evaluate. It routes." |
+| Non-Negotiables | PASS | §6.4 Counterfactual Gateway robustly preserves Speculation Firewalled. |
+| Tension Consistency | T-020 partial resolution | See headline finding #2. |
+| Cross-Spec Consistency | FLAGS | F-S25-1 (ARCHON v3.0 forward-reference), F-S25-2 (Portfolio v3.6.0 forward-reference). |
+| ARCHON Alignment | PASS | Defers ethics/character to specialized services. |
+| Auditability | PASS (exemplary) | Every saga step tracked, rebuild diffs logged, taint violations non-silent. |
+| One-Paragraph Test | PASS | "The switchboard, not the brain." |
+
+**Findings:**
+- F-S25-1: Dependencies cite "ARCHON v3.0" — corpus has v2.0. Forward reference logged as [[D-007]].
+- F-S25-2: §1.4 cites "Portfolio Planning Document v3.6.0" — corpus has v1.0. Forward reference logged as [[D-007]].
+- F-S25-3: §6.4 Counterfactual Gateway partially resolves [[T-020]].
+- F-S25-4: §1.4 documents 29→37→42 service expansion — logged as intentional drift [[D-006]].
+
+---
+
+## Layer 3: HIRI Family Extensions (3 new artifacts)
+
+### S-26: HIRI Privacy & Confidentiality Extension v1.4.1
+
+**File:** `docs/03-specifications/HIRI-Privacy-Confidentiality-Extension-v1.4.1-FINAL.md`
+**Thesis Alignment Role:** Five privacy modes; publisher neutrality
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| All seven | PASS (exemplary) | §4.6 Publisher Neutrality explicitly extends privacy to synthetic moral agents. T-011 architectural resolution. |
+
+### S-27: HIRI Digital Passport Extension v1.9.0 RC
+
+**File:** `docs/03-specifications/HIRI-Digital-Passport-Extension-v1_9_0.md`
+**Thesis Alignment Role:** Holder-sovereign credential portfolios
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| All seven | PASS (exemplary) | §4.1 Holder Sovereignty operationalizes Human Override. §4.6 Separation of Authentication/Authorization mirrors discourse≠world. §4.7 Minimum Disclosure Surface is Speculation Firewalled at the metadata layer. |
+
+### S-28: Fandaws-HIRI-IPFS Architecture v0.3.0
+
+**File:** `docs/03-specifications/fandaws-hiri-ipfs-v0.3.0.md`
+**Thesis Alignment Role:** Tripartite knowledge stack for moral execution preconditions
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| All seven | PASS (exemplary) | §0.4 *Assumptions and Limits* is exemplary ARIADNE discipline — explicitly enumerates assumed governance regime, assumed publication infrastructure integrity, assumed deployer competence. Pattern recommended for adoption corpus-wide. |
+
+---
+
+## Layer 4: Safety Triad + Subjectivity Stack + SPCN (8 new artifacts)
+
+The Safety Triad and Subjectivity Stack reviews are summarized in the headline findings (#5). All eight specs PASS, most with "exemplary" notation. T-014 lens (Stage 3 vs. No Oracle Claims) was applied to every spec; no architectural language was found that would enable Stage 3 bypass.
+
+| Spec | Verdict | Key observation |
+|---|---|---|
+| **CPS v1.4** | PASS (exemplary) | Last-line-of-defense; SharedArrayBuffer heartbeat; dedicated worker; Last Gasp beacon |
+| **BAM v1.1** | PASS (exemplary) | Jensen-Shannon divergence (not KL — zero-frequency safety); hard phase gate to CPS |
+| **IS v1.0** | PASS (exemplary) | "You cannot grant personhood to a process you cannot inspect" — preserves epistemic taint through translation |
+| **AVS v2.1** | PASS | §1 explicit caring-vs-calculation distinction; canonical name AVS (filename AVC outlier) |
+| **SMS v2.0** | PASS (exemplary) | §1.3 explicitly disclaims consciousness — "A thermostat has a model of temperature; SMS is a model of agenthood" |
+| **NIS v2.1 FINAL** | PASS (exemplary) | 0 open questions; §3.6.4 governance-reviewed significance decay prevents burying negative history |
+| **SoMS v1.0** | PASS (exemplary) | §1.5 epistemic humility as "structural fact about the nature of other minds" |
+| **SPCN v2.3.1** | PASS | Cross-spec coherence patch resolves CPS, CTS, IEA bindings (§CS-1 through §CS-6) |
+
+**Naming clarifications resolved this round:**
+- **AVS = canonical service name; AVC = filename outlier.** Recommend rename at safe point.
+- **IEA = IEE (same service).** Per SPCN §CS-4: "the Integral Ethics Agent (IEA, also known as IEE)."
+
+---
+
+## Layer 5: Commitment + Planning (4 new artifacts)
+
+| Spec | Verdict | Key observation |
+|---|---|---|
+| **CTS v1.2.1** | PASS (exemplary) | "A broken commitment is not merely a state change. It is an *irreversible moral event*." |
+| **SPL v1.3 FINAL** | PASS (exemplary) | Adversarial hardening through three review rounds; v1.3 *rejects* certain reviewer suggestions with explicit rationale — Prompt 6 practiced well |
+| **PPS v1.0** | PASS (exemplary) | Named ARIADNE Preamble §0 binding to four commitments — pattern candidate |
+| **SAS v2.0 + v2.1 addendum** | PASS | Standalone vs. enriched modes with graceful degradation; §2.4 Semantic Honesty |
+
+---
+
+## Layer 6: Data Pipeline + Kernel + SDK (7 new artifacts)
+
+The "ECVE parallel track" (per Orchestrator §1.4) is a coherent sub-system with explicit separation of concerns:
+
+```
+SNP (format cleaning) → BIBSS (structural inference) → SAS (semantic interpretation) → ECVE (visualization)
+```
+
+| Spec | Verdict | Key observation |
+|---|---|---|
+| **Causal OS Kernel v1.6** | PASS (exemplary) | Deterministic Numerics Contract: "bit-identical outputs given the same ExecutionBundle, not merely statistically equivalent outputs" |
+| **WEAVER SDK v1.1** | PASS | Multi-strategy worker fallback (SharedWorker → DedicatedWorker → MainThread) for cross-platform support |
+| **OPA v1.2** | PASS (exemplary) | Two-layer Universal/ConceptDesignation resolves implicit punning (R2 critique); embodies *mention≠entity, discourse≠world, schema≠instance* in ontology engineering |
+| **HQL v1.2** | PASS | Worker Message Protocol defined; key transfer via Transferable ArrayBuffer (not copy) for memory safety |
+| **BIBSS v1.3** | PASS | Pure deterministic structural inference; no randomness, no `Math.random()`, no `Date.now()` |
+| **ECVE v4.0** | PASS | "Two Gaps" framing: Excel Gap (bottom-up) + Metric Gap (cryptographically hashed APQC KPIs) |
+| **SNP v1.3** | PASS | Pure format cleaning; explicitly delegates semantic coercion downstream |
+
+---
+
+## Layer 7: Fandaws/W2Fuel Extensions (2 new artifacts)
+
+| Spec | Verdict | Key observation |
+|---|---|---|
+| **Fandaws Type Agent v2.3** | PASS (exemplary) | D4 advisory addressed: all Type Agent outputs now carry `fnsr:taintLevel` (L3 by default, promotable to L2 after OPA cross-check) |
+| **W2Fuel Adapters v1.1.0** | PASS (exemplary) | "Pluggable Doesn't Mean Unowned" — every adapter has contract, default, conformance tests, AND a named owner |
+
+---
+
+## Communications Layer (3 new artifacts — new layer)
+
+| Artifact | Verdict | Key observation |
+|---|---|---|
+| **Barry Smith Critique Response** (2026-02-23, from ARIADNE) | PASS (exemplary) | Systematic Prompt 6 application across 9 objections; names two "likely irreducible" gaps honestly (grounding, caring) |
+| **TagTeam-Fandaws Integration Guidance** (2026-02-23, from ARIADNE) | PASS (exemplary) | Cross-team architectural coordination; recognition before request pattern |
+| **Architect-HIRI Reallocation** (2026-03-03, from Aaron Damiano) | PASS (exemplary) | Source of the Safety Floor Principle now adopted into Plot §2.3 |
+
+---
+
+## Governance Layer (1 new artifact)
+
+| Artifact | Verdict | Key observation |
+|---|---|---|
+| **drift_report.md** (2026-01-31 snapshot) | STALE | Generated audit predating safety triad, subjectivity stack, and data pipeline expansion. Recommend move to `archived/drift_report-2026-01-31.md`. |
+
+---
+
+## Updates to Tension Log
+
+- [[T-011]]: Open → **Resolved** (pending one validation cycle before archival).
+- [[T-014]]: NEW. Stage 3 aspirational moral intuition vs. No Oracle Claims. Open — foundational, may require Plot amendment.
+- [[T-015]]: NEW. Phenomenalism's asymmetric status. Open.
+- [[T-016]]: NEW. GDPR right-to-erasure vs. append-only moral history. Open, tractable.
+- [[T-017]]: NEW. Identity-preserving vs. identity-altering upgrades. Open, tractable (Moral Continuity Impact Assessment).
+- [[T-018]]: NEW. Differential valuation vs. genuine caring. Open, likely irreducible — *honestly named limit*.
+- [[T-019]]: NEW. World-grounding vs. calibrated perception. Open, likely irreducible — *honestly named limit*.
+- [[T-020]]: NEW. Inference-chain taint laundering. **Partially Resolved** (CSS path via Orchestrator §6.4 Counterfactual Gateway); AES/DES paths pending verification.
+
+## Updates to Drift Record
+
+- [[D-003]] (intentional): Developmental trajectory (Stage 1 → 2 → 3) as architectural commitment — from Beyond the Categorical Imperative v1.3 §7.4.
+- [[D-004]] (intentional): HIRI scope narrowing to verification primitive — Privacy Authority removed from protocol layer.
+- [[D-005]] (accidental, corrected): Three filename/version mismatches resolved via git mv (OPA, SHML, Fandaws Type Agent).
+- [[D-006]] (intentional): Service count expansion from 19 (Plot §4) to 42 (Portfolio v3.4).
+- [[D-007]] (intentional): Forward-reference version pattern — multiple specs reference planned versions not yet on disk.
+
+## Plot Amendment
+
+- §2.3 Architectural Commitments: **Safety Floor Principle added** as the fifth row.
+  - *"Safety infrastructure must never depend on services it constrains."*
+  - Source: Architect-HIRI Reallocation memo (2026-03-03).
+  - Operationalized in CPS, BAM, IS (Tier 0) static bridge contexts.
+
+---
+
+## Closing assessment
+
+The corpus is in better coherence than its scale would predict. The ARIADNE process is *visibly working*: cross-spec coherence patches are appearing in spec headers (SPCN v2.3.1 §CS-1 through §CS-6, CTS v1.2.1 patch, HIRI v3.1.1 disambiguation), the ARIADNE Preamble pattern is propagating (PPS, Spec-Driven Discovery), reviewer responses now distinguish accepted from rejected critiques with rationale (SPL v1.3). The most consequential open question is [[T-014]] — whether the developmental trajectory toward Stage 3 moral intuition is compatible with No Oracle Claims, or whether reaching Stage 3 would require a foundational Plot amendment.
+
+*The thread held.*
+
+---

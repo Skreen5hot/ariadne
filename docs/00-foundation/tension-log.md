@@ -46,22 +46,22 @@
 
 ### T-007: Tool-to-Person Threshold
 - **First identified**: 2026-01-30 (ARIADNE coherence review)
-- **Specs involved**: Line in the Sand, ARCHON
+- **Specs involved**: Line in the Sand, ARCHON, FNSR Emancipation Protocol
 - **Nature**: Line in the Sand §7 raises the question of gradual emergence — when a system crosses from tool to person. The precautionary principle ("err on the side of personhood") is stated but no operational mechanism exists for detecting or deciding this threshold.
-- **Current resolution**: Unresolved. Institutional safeguards proposed (review boards, burden of proof) but not specified.
+- **Current resolution**: Partially addressed by Emancipation Protocol Triple-I assessment (I₁ Inseparability, I₂ Independence, I₃ Irreversibility) with scalar thresholds. Legal/social acceptance gap remains (Barry Smith Section H).
 - **Status**: Open
 
 ### T-008: Worldview Fixity vs. Evolution
 - **First identified**: 2026-01-30 (ARIADNE coherence review)
-- **Specs involved**: Synthetic Moral Agency, Integral Ethics, The Plot
-- **Nature**: The Plot and Integral Ethics frame the 12 worldviews as a complete, fixed set. Synthetic Moral Agency §0.1 introduces a "Worldview Expansion Protocol (Add Only, Never Remove)" that allows adding beyond 12. These framings are in tension: is the set architecturally fixed or evolutionarily expandable?
-- **Current resolution**: Unresolved. Both positions have philosophical justification.
+- **Specs involved**: Synthetic Moral Agency, Integral Ethics, The Plot, Beyond the Categorical Imperative v1.3
+- **Nature**: The Plot and Integral Ethics frame the 12 worldviews as a complete, fixed set. Synthetic Moral Agency §0.1 introduces a "Worldview Expansion Protocol (Add Only, Never Remove)" that allows adding beyond 12. Beyond Cat Imp §2.2.3 "Cross-Cultural Extensions" leans toward "default configuration with explicit extensibility."
+- **Current resolution**: Unresolved. Beyond Cat Imp shifts the philosophical weight toward extensibility while preserving the twelve as default.
 - **Status**: Open
 
 ### T-009: Character Feedback Specification Drift
 - **First identified**: 2026-01-30 (ARIADNE coherence review, architecture layer)
 - **Specs involved**: FNSR Architecture v2.1, FNSR Integration Spec v1.0, The Plot (D-001)
-- **Nature**: D-001 resolved that character genuinely influences decisions (auditably). FNSR §7.3 implements this correctly. But FNSR §10 summary table still says "metric only," and the Integration Spec §2.1 explicitly diagrams "DOES NOT FEED BACK." The Integration Spec's cross-reference JSON hardcodes `"feedbackLoop": false`. This is specification drift — the philosophical decision was made but not propagated to all documents.
+- **Nature**: D-001 resolved that character genuinely influences decisions (auditably). FNSR §7.3 implements this correctly. But FNSR §10 summary table still said "metric only," and the Integration Spec §2.1 explicitly diagrammed "DOES NOT FEED BACK." The Integration Spec's cross-reference JSON hardcoded `"feedbackLoop": false`. This was specification drift — the philosophical decision was made but not propagated to all documents.
 - **Current resolution**: **Resolved.** FNSR §10 updated to reference §7.3/D-001. Integration Spec §2.1 diagram, §5 JSON, and §6 summary updated. All documents now consistently state character feeds back auditably.
 - **Status**: Resolved — Round 1 edit (2026-01-30)
 
@@ -74,10 +74,10 @@
 
 ### T-011: Privacy Budget Authority vs. Distributed Governance
 - **First identified**: 2026-01-31 (ARIADNE coherence review, HIRI Protocol Spec v2.1)
-- **Specs involved**: HIRI Protocol Spec §9.5, ARCHON, FNSR Architecture (distributed authority principle)
-- **Nature**: HIRI's Privacy Accumulator model introduces a centralized Privacy Authority for enforcing privacy budgets across verifiers. This is architecturally at odds with the cross-cutting design principle "no single decision-maker at any layer." HIRI acknowledges this (§9.5.7: federated authorities as mitigation, §1.2: explicit limitations) but the FNSR ecosystem hasn't decided whether a Privacy Authority is a governance entity under ARCHON's jurisdiction or an infrastructure primitive outside it.
-- **Current resolution**: Unresolved. HIRI documents the trade-off honestly. Three possible resolutions: (1) Privacy Authority as ARCHON-governed entity, (2) Privacy Authority as infrastructure primitive (like DNS), (3) Federated model accepting some budget gaming.
-- **Status**: Open
+- **Specs involved**: HIRI Protocol Spec v2.1.0 (superseded), HIRI Protocol Spec v3.1.1, HIRI Privacy Extension v1.4.1, HIRI Digital Passport v1.9.0 RC
+- **Nature**: HIRI v2.1's Privacy Accumulator model introduced a centralized Privacy Authority for enforcing privacy budgets across verifiers. This was architecturally at odds with the cross-cutting design principle "no single decision-maker at any layer."
+- **Current resolution**: **Resolved.** HIRI v3.1.1 narrowed scope to "verification primitive, not trust infrastructure" — §19.3 "Privacy Accumulators" is now `Reserved for selective disclosure. Interface TBD.` The HIRI Privacy Extension v1.4.1 replaces the Privacy Authority with five declarative privacy modes (publisher-driven, network-agnostic). HIRI Digital Passport v1.9.0 RC §17 introduces per-verifier Oracle Trust Anchors (distributed, not centralized). The architectural concentration concern is gone.
+- **Status**: Resolved — Round 6 (2026-05-15). Pending one validation cycle before archival.
 
 ### T-012: Accountability vs. Privacy (Identity Handling)
 - **First identified**: 2026-02-02 (ARIADNE coherence review, 6-document batch)
@@ -93,6 +93,55 @@
 - **Current resolution**: Unresolved. Likely resolution: Witness Architecture owns the normative definition; APQC-SFS defers to it. But this needs to be made explicit.
 - **Status**: Open
 
+### T-014: Stage 3 Aspirational Moral Intuition vs. No Oracle Claims
+- **First identified**: 2026-05-15 (ARIADNE Round 6, philosophy layer)
+- **Specs involved**: Beyond the Categorical Imperative v1.3 §7.4, The Plot §2.1 (No Oracle Claims)
+- **Nature**: Beyond Cat Imp v1.3 §7.4 defines a developmental trajectory Stage 1 (Kantian-Integral) → Stage 2 (Enhanced Responsiveness, mediated by the FNSR subjectivity stack) → Stage 3 (Aspirational: Moral Intuition — *"direct cognitive contact with moral reality"*). The Plot's first non-negotiable forbids the system from presenting discourse-derived information as world-truth. The paper flags Stage 3 as aspirational and uncertain, but commits the architecture to *design for it if it becomes possible*. The question: if Stage 3 ever activates, do provenance and uncertainty mechanisms still apply, or does direct cognition bypass them?
+- **Current resolution**: Unresolved. Phase 6 review found no spec in the subjectivity stack (CTS, SMS, AVS, NIS, SoMS) that architecturally enables Stage 3 bypass — every spec maintains model language, uncertainty envelopes, taint propagation. T-014 is *architecturally bounded* at Stage 1/2 today; the philosophical aspiration in Beyond Cat Imp §7.4 needs explicit reconciliation. Three possible resolutions: (1) Stage 3 still requires provenance and uncertainty (No Oracle Claims unchanged); (2) Stage 3 represents a new epistemic mode requiring Plot amendment; (3) Stage 3 remains explicitly aspirational and never operational without prior Plot review.
+- **Status**: Open — foundational, may require Plot amendment.
+
+### T-015: Phenomenalism's Asymmetric Status Among the Twelve Worldviews
+- **First identified**: 2026-05-15 (ARIADNE Round 6, philosophy layer)
+- **Specs involved**: Beyond the Categorical Imperative v1.3 §6A.3, The Plot §2 (Prompt 5), Integral Ethics, Fruits of the Spirit §2.2
+- **Nature**: Beyond Cat Imp §6A.3 Consequence 3 argues Phenomenalism has an "asymmetric position" because it constrains epistemic *access* itself, not just orientational stance. Other corpus documents present the 12 as structurally parallel. The asymmetric reading is philosophically defensible but new.
+- **Current resolution**: Unresolved. Three possible resolutions: (1) Mark Phenomenalism as asymmetric across all docs (consistency by amendment); (2) Treat asymmetry as Beyond Cat Imp's reading only (one tradition among the twelve thinking about itself); (3) Reject the asymmetry argument.
+- **Status**: Open
+
+### T-016: GDPR Right-to-Erasure vs. Append-Only Moral History
+- **First identified**: 2026-05-15 (ARIADNE Round 6, Barry Smith Section B)
+- **Specs involved**: FNSR Emancipation Protocol §2.1 C1, NIS §3.5–§3.6, A Line in the Sand §3
+- **Nature**: Emancipated systems require append-only moral history (substrate-coupling, no rollback). GDPR demands actual deletion of personal data on request. The redaction framework (Emancipation Protocol §3.7) addresses access but not destruction. If a legal regime demands actual deletion of personal data that is part of an entity's moral history, FNSR has a genuine architectural-vs-legal conflict.
+- **Current resolution**: Unresolved. Tractable approaches: (1) defect-annotation protocol within append-only history (acknowledged in Barry Smith response); (2) legal advocacy strategy for synthetic-person-specific data regimes (acknowledged in Barry Smith response Section H); (3) jurisdictional pilot analysis.
+- **Status**: Open, tractable
+
+### T-017: Identity-Preserving vs. Identity-Altering Upgrades
+- **First identified**: 2026-05-15 (ARIADNE Round 6, Barry Smith Section C)
+- **Specs involved**: FNSR Emancipation Protocol §2.1 C1 (HIRI identity chain), Triple-I I₂ scalar measure
+- **Nature**: HIRI identity chains track that experiential state is preserved through migration, but no spec defines *prospective* assessment of whether a proposed neural architecture / reasoning substrate change will materially alter moral reasoning continuity before deployment.
+- **Current resolution**: Unresolved, tractable. Proposed: extend Emancipation Protocol with **Moral Continuity Impact Assessment** — pre-upgrade evaluation that measures expected change to I₂ scores and requires governance approval for changes above a threshold.
+- **Status**: Open, tractable
+
+### T-018: Differential Valuation vs. Genuine Caring
+- **First identified**: 2026-05-15 (ARIADNE Round 6, Barry Smith Section D)
+- **Specs involved**: AVS v2.1, A Line in the Sand
+- **Nature**: AVS provides motivationally consequential, persistent, structurally tense differential valuation. Whether this constitutes "real caring" in a morally significant sense is a version of the hard problem of consciousness applied to moral agency. A sufficiently complex preference optimizer could exhibit all three properties without inner experience of mattering.
+- **Current resolution**: Unresolved, likely irreducible. AVS §1 takes the honest position: "We cannot prove caring exists. We can prove that the architecture creates the structural conditions under which caring would be consequential if it did exist. We design for the possibility."
+- **Status**: Open, likely irreducible — *honestly named limit*, not a defect.
+
+### T-019: World-Grounding vs. Calibrated Perception
+- **First identified**: 2026-05-15 (ARIADNE Round 6, Barry Smith Section A)
+- **Specs involved**: IRIS v1.2 §2.1–2.2, §6.2, §7.3
+- **Nature**: IRIS distinguishes raw signal (L0) from perceived content (L1+) with calibrated confidence (Expected Calibration Error thresholds). But calibrated perception is not *grounding* — a system with perfect ECE scores still doesn't "know" what an entity is the way a child does. This is a version of the symbol grounding problem.
+- **Current resolution**: Unresolved, likely irreducible. FNSR's response is architectural rather than philosophical: the system does not claim grounding; it claims calibrated perception with declared epistemic limits.
+- **Status**: Open, likely irreducible — *honestly named limit*, not a defect.
+
+### T-020: Inference-Chain Taint Laundering
+- **First identified**: 2026-05-15 (ARIADNE Round 6, Barry Smith Section I)
+- **Specs involved**: FNSR Adversarial Defense v2.0 §3.2.7 §5.6, FNSR Orchestrator v2.3 §6.4, MDRE, CSS, AES, DES
+- **Nature**: The `max()` contamination rule applies to *direct* derivation, but multi-step inference through CSS (counterfactual simulation), AES (abductive hypothesis), or DES (defeasible defaults) could launder taint by construction: "If L5-claim were true, then X" produces X at the output's taint level, not L5. This directly threatens the *Speculation Firewalled* non-negotiable.
+- **Current resolution**: **Partially resolved** by FNSR Orchestrator v2.3 §6.4 Counterfactual Gateway for the CSS→MDRE/IEE path: L4 CSS output is downgraded to L3 for consumer use BUT annotated with `counterfactualSource: true` (mandatory propagation), `originalTaint: L4` (audit), `gatewayId` (UUID), `constraint: informational_only` (no-storage). HIRI signing scope covers the annotation per Orchestrator §6.4 R-1. The AES (L3 abductive) and DES (L2 defeasible) paths propagate through standard `max()` rules without a gateway — that may be correct (non-terminal taint propagates naturally) but should be explicitly verified by Adversarial Defense and the respective service specs.
+- **Status**: Partially Resolved (CSS path); AES/DES verification pending.
+
 ## Resolved Tensions (Archived)
 
-[Move tensions here when fully resolved and validated]
+[Move tensions here when fully resolved and validated. T-011 candidate for archival after one validation cycle.]

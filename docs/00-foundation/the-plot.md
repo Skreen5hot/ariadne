@@ -42,6 +42,7 @@ These are the "lines in the sand" that cannot be crossed, even if crossing them 
 | **Decidability** | All queries terminate | Unbounded computation |
 | **Separation of Concerns** | Discourse ≠ World; Mention ≠ Entity; Schema ≠ Instance | Conflation of layers |
 | **Human Override** | Humans can always halt, reverse, decommission | Autonomous lock-in |
+| **Safety Floor Principle** | Safety infrastructure must never depend on services it constrains | Containment authority dependent on the thing being contained |
 
 ---
 
