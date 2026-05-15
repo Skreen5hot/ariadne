@@ -500,6 +500,62 @@ failure_action:
 
 ---
 
+## Recommended Process Patterns
+
+*Added 2026-05-15 (Round 6 coherence review).*
+
+These are spec-level discipline patterns that have emerged in the corpus and proven their value. Adopting them is RECOMMENDED, not required. Each is named, attributed to its first exemplar, and described by what it makes visible.
+
+### Pattern 1: ARIADNE Preamble
+
+A named section at the head of the spec binding the spec to four commitments: epistemic honesty, value pluralism, auditability, human override.
+
+**Exemplar:** [Portfolio Planning Service v1.0 §0](../03-specifications/PPS-Technical-Specification-v1.0.md); also [Spec-Driven Discovery v1.1](../04-governance/Spec-Driven-Discovery.md).
+
+**What it makes visible:** The spec's allegiance to the Plot before any technical content. A reader can verify thesis-alignment from the preamble alone.
+
+**When to use:** New specs at proposal stage. Existing specs being hardened past Draft status.
+
+### Pattern 2: Assumptions and Limits Enumeration
+
+A §0.4-style section explicitly enumerating what the architecture *assumes* and where it *withdraws claims* if assumptions fail.
+
+**Exemplar:** [Fandaws-HIRI-IPFS v0.3.0 §0.4](../03-specifications/fandaws-hiri-ipfs-v0.3.0.md). Four sub-sections: assumed governance regime, assumed publication infrastructure integrity, assumed deployer competence, what the specification provides *given* the assumptions.
+
+**What it makes visible:** The Plot §7 commitment to honest limitations made local to each spec. Readers can immediately see what would invalidate the spec's guarantees.
+
+**When to use:** Any spec whose correctness rests on conditions outside its own enforcement boundary — which is most of them.
+
+### Pattern 3: Pluggable Doesn't Mean Unowned
+
+Every interface that supports pluggable implementations declares four things: a *contract*, a *default* implementation, *conformance tests*, and a named *owner*. There is no middle state where an interface is "pluggable" but nobody is responsible for it.
+
+**Exemplar:** [W2Fuel Adapters v1.1.0 §1](../03-specifications/w2fuel-adapters-01-v1.1.0.md).
+
+**What it makes visible:** Accountability cannot fall into a gap between "we provide an interface" and "someone else will implement it." Aligns with the *Human Override* non-negotiable: there must always be a person or role to halt, repair, or escalate.
+
+**When to use:** Any spec that defines adapters, plugins, or pluggable backends.
+
+### Pattern 4: Non-Claims Enumeration
+
+A named section that explicitly enumerates what the architecture does *not* claim, in the form (Temptation → Corrective). Distinct from §3-style assumptions, which describe what the spec *relies on*. Non-claims describe what the spec *refuses to promise*.
+
+**Exemplar:** §21 of an external proposal reviewed in [coherence-review.md Round 6 Addendum](coherence-review.md) (2026-05-15). The proposal itself was not adopted as a corpus spec; this pattern was lifted from it as a standalone discipline. Example shape:
+
+> 1. **Hashes do not make claims true.** They make claims addressable and tamper-evident.
+> 2. **Immutable storage does not mean immutable belief.** Claims may be superseded, rejected, or excluded from active reasoning.
+> 3. **The context bottleneck is not eliminated.** It is transformed into a retrieval, indexing, and graph-selection problem.
+
+**What it makes visible:** Reader temptations the spec must not be co-opted into satisfying. Particularly valuable for specs whose mechanisms (cryptographic addressing, validation, governance signing) are easily misread as stronger guarantees than they are.
+
+**When to use:** Specs where the technical mechanisms naturally suggest claims the architecture cannot honor — verification, signing, validation, addressing, attestation specs especially.
+
+### A note on adoption
+
+These patterns are *cumulative discipline*, not gatekeepers. A spec without an ARIADNE Preamble is not invalid; it has just left some discipline implicit that other specs make explicit. The patterns earn their place by surviving review cycles — Pattern 4 was lifted from a proposal that itself failed adoption, precisely because the discipline is separable from the proposal's larger claims.
+
+---
+
 ## The Spec Index Template
 
 Maintain this index for all specifications:

@@ -25,6 +25,16 @@ These are the "lines in the sand" that cannot be crossed, even if crossing them 
 | **Uncertainty Visible** | Confidence levels exposed, not hidden | False certainty |
 | **Speculation Firewalled** | Hypothetical/abductive content cannot contaminate verified facts | L3/L4 taint leaking to L0 |
 
+> **Normative note on No Oracle Claims (added 2026-05-15):** The violation surface is wider than direct truth-claims. It includes any system-internal status (`Validated`, `Active`, `Accepted`) that downstream consumers may treat as truth-equivalent. The architectural distinction the system must always preserve:
+>
+> - *Content address* identifies a specific canonicalized object — proves it has not changed, not that it is true.
+> - *Claim* asserts that some source/parser/agent/process produced an assertion — preserves who said it, not whether it holds.
+> - *Validation* checks conformance to declared schemas, ontologies, or rules — proves shape and consistency, not correspondence to the world.
+> - *Truth policy* decides which claims are currently accepted under a given reasoning policy — a procedural commitment, not a metaphysical one.
+> - *Active state* is the subset of claims currently accepted — auditable, reversible, governance-mediated.
+>
+> No element in that chain implies the next. A system that promotes `Validated` claims into `Active` state must record the policy and the validator, not collapse the distinction. Failing to preserve this chain is *No Oracle Claims* violated through the back door. (Source: 2026-05-15 coherence review of an external proposal; lifted insight only.)
+
 ### 2.2 Moral Commitments
 
 | Commitment | Meaning | Violation Would Be |

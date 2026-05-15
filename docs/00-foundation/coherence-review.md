@@ -1752,3 +1752,27 @@ The corpus is in better coherence than its scale would predict. The ARIADNE proc
 *The thread held.*
 
 ---
+
+## Round 6 Addendum — External Proposal Review (2026-05-15)
+
+A draft titled *"From Context Window to Semantic State Machine: A Content-Addressed JSON-LD Architecture for Grounded LLM Reasoning"* (v1.0 Concept Paper) was submitted for review.
+
+**Disposition: NOT ADOPTED as a corpus spec.** The draft is substantially out of plot: it is purely epistemic where the Plot is moral, has no pluralism, no Safety Floor compliance, no moral-injury or character architecture, and extensively reinvents existing corpus components (TagTeam, W2Fuel, HIRI, OERS, ECCPS, FNSR Orchestrator, OPA, NIS, CTS) without cross-reference. Running Prompt 2 (Non-Negotiable Check): 5 of 13 commitments are outright violated, 2 at-risk, 1 silent. The proposal does not enter Active state.
+
+**Strengths lifted (selective integration):** Four insights from the draft have been incorporated into the corpus *as targeted edits, not as a standalone spec*:
+
+1. **No Oracle Claims sharpened** ([the-plot.md §2.1](the-plot.md)) — a normative note on the chain *content address → claim → validation → truth policy → active state*, with the rule that no element implies the next. Lifts §2's "Claims, Not Facts" table from the draft.
+
+2. **T-002 disambiguation** ([tension-log.md T-002](tension-log.md)) — added a note that the world assumption (open-world vs. closed-world) is properly a reasoning-profile parameter, not a global property of the graph. Lifts §12 from the draft.
+
+3. **Non-Claims Enumeration pattern** ([ariadne-readme.md](ariadne-readme.md) Recommended Process Patterns) — the discipline of explicitly enumerating what an architecture does *not* claim is added as the fourth recognized ARIADNE process pattern, joining: ARIADNE Preamble (PPS §0), Assumptions and Limits (fandaws-hiri-ipfs §0.4), and Pluggable Doesn't Mean Unowned (W2Fuel Adapters §1).
+
+4. **Address-vs-IRI-vs-Entity-vs-Mention four-way distinction** (§8 of the draft) — flagged for *deferred* integration into HIRI Protocol §3 Terminology, pending review by HIRI owner. Not committed in this round.
+
+**Rejected:** the "TeaBox" rebranding (duplicates W2Fuel), the parallel state-machine vocabulary in §10 (forks Orchestrator saga lifecycle), the architecture-stack framing of §4 (positions a memory substrate as the system itself), and the librarian/investigator/translator metaphor in §25 (rhetorical, not normative).
+
+**Why the rescue mattered:** The strongest passages in the draft (§2 Claims-not-Facts, §21 Non-Claims, §8 Address distinction, §12 OWA/CWA separability) are genuinely good ARIADNE discipline. Refusing the standalone spec while lifting these patterns is Prompt 6 practiced well: push back on principle challenges (the missing moral architecture, the missing pluralism, the missing Safety Floor) while accepting implementation improvements (the epistemic discipline) that preserve principles.
+
+**Author note:** the draft is treated as source material under [[D-005]]-adjacent discipline — preserved in conversation history, lifted insights documented with attribution. No file added to spec-index.md.
+
+---

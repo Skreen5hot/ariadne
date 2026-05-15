@@ -14,6 +14,7 @@
 - **Specs involved**: MDRE, The Plot
 - **Nature**: Core reasoning must stay in decidable FOL for guaranteed termination, but real-world problems require SOL, temporal reasoning, probabilistic inference.
 - **Current resolution**: Hybrid architecture with external solvers (SMT, Allen's algebra, Bayesian networks), clear hand-off protocols, graceful degradation.
+- **Note added 2026-05-15**: A complementary disambiguation: the *world assumption itself* (open-world vs. closed-world) is properly a parameter of the reasoning profile, not a global property of the graph. The broader semantic graph operates open-world (absence ≠ negation). A task-specific validation profile MAY impose closed-world constraints over a bounded subgraph (e.g., "a single resource cannot have two active allocations during the same interval"). This separates ontology-level expressiveness from operational-level decidability. (Source: 2026-05-15 coherence review of an external proposal; lifted insight.)
 - **Status**: Resolved in principle, V3.0 implementation pending
 
 ### T-003: Autonomy vs. Safety
