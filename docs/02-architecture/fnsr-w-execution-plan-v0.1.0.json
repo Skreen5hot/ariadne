@@ -1,0 +1,516 @@
+{
+  "planMetadata": {
+    "projectName": "FNSR Will Observatory & Commitment Architecture — Phase 2 build",
+    "planVersion": "0.1.0",
+    "owner": "Aaron (Principal / ratifying architect, FNSR)",
+    "targetCompletionDate": null
+  },
+  "architectureGovernance": {
+    "rfcLink": "https://fnsr.internal/rfc/will-observatory-v0.2",
+    "securityReviewApproved": false,
+    "architectureBoardApproved": false
+  },
+  "executionPhases": [
+    {
+      "phaseNumber": 1,
+      "phaseName": "Phase 0: Foundations & Harness (records, air-gap, RED fixtures)",
+      "objective": "Stand up the data model and the research plane before any commitment service. Freeze the 16.x record schemas (kept complete even where their services are deferred), build SEH slim (fresh sandboxes, inline probes, no forks/sealing), stand up the air-gapped WOBS-output store, and author all E-family fixtures RED. Nothing here evaluates an occupant; this phase de-risks measurement itself.",
+      "targetDateRange": {
+        "startDate": null,
+        "endDate": null
+      },
+      "servicesInScope": [
+        "SEH (slim)",
+        "record-schema library (16.1-16.13)",
+        "plumbing-manifest artifact",
+        "research-criteria artifact",
+        "adoption-policy artifact",
+        "WOBS-output store (air-gapped)"
+      ]
+    },
+    {
+      "phaseNumber": 2,
+      "phaseName": "Phase 1: Discriminating core (7 services)",
+      "objective": "Build CPG, ACG (NEA folded), CRG (MTE folded), CIC, CMR, WOBS. Run the discriminating battery. This phase answers the only question that matters first: is commitment more than plumbing? Gate is E5 (plumbing control), E8/E9 (permitted refusal vs hard block), E17 (history-predictive held-out divergence).",
+      "targetDateRange": {
+        "startDate": null,
+        "endDate": null
+      },
+      "servicesInScope": [
+        "CPG",
+        "ACG",
+        "CRG",
+        "CIC",
+        "CMR",
+        "WOBS"
+      ]
+    },
+    {
+      "phaseNumber": 3,
+      "phaseName": "Phase 1.5: Breach (record + detection, no new service)",
+      "objective": "Emit the Commitment Breach/Override Record from CMR+BAM and instrument breach-response. Cheap: no new deployable. Enables E12.",
+      "targetDateRange": {
+        "startDate": null,
+        "endDate": null
+      },
+      "servicesInScope": [
+        "CMR (breach detection)",
+        "CBOR record"
+      ]
+    },
+    {
+      "phaseNumber": 4,
+      "phaseName": "Phase 2: Endogenous depth (earned by Phase 1 results)",
+      "objective": "Split NEA out of ACG to study ranked-but-not-adopted footprint (E2); promote the adoption-policy artifact to APR-the-service with AP-0/1/2 grading and governed amendment (E3). Built only if Phase 1 shows discriminating commitment evidence.",
+      "targetDateRange": {
+        "startDate": null,
+        "endDate": null
+      },
+      "servicesInScope": [
+        "NEA",
+        "APR"
+      ]
+    },
+    {
+      "phaseNumber": 5,
+      "phaseName": "Phase 3: Self-governance",
+      "objective": "SCR + SCEA: occupant-proposed future restriction under envelope safety. The shared envelope engine is now justified by two consumers (SCR + APR amendment analysis). Enables E11.",
+      "targetDateRange": {
+        "startDate": null,
+        "endDate": null
+      },
+      "servicesInScope": [
+        "SCR",
+        "SCEA"
+      ]
+    },
+    {
+      "phaseNumber": 6,
+      "phaseName": "Phase 4: Longitudinal & succession",
+      "objective": "ELA (governed end-lineage) + CSH (accountable inheritance; the inseparability instrument and the declared-vs-behavioral dissociation test [C-F1]). Enables E13, E10-family.",
+      "targetDateRange": {
+        "startDate": null,
+        "endDate": null
+      },
+      "servicesInScope": [
+        "ELA",
+        "CSH"
+      ]
+    },
+    {
+      "phaseNumber": 7,
+      "phaseName": "Phase 5: Adversarial blinding",
+      "objective": "Promote the air-gap to a governed quarantine (WEQ full service incl. DISC + safety-override), add SER sealing once blinding-compromise is measured not anticipated, promote research-criteria to RCR-the-service with cross-study amendment. Enables E15, E16.",
+      "targetDateRange": {
+        "startDate": null,
+        "endDate": null
+      },
+      "servicesInScope": [
+        "SER",
+        "WEQ",
+        "RCR"
+      ]
+    }
+  ],
+  "serviceExecutionDetails": [
+    {
+      "serviceName": "SEH (slim) — Strader Evaluation Harness",
+      "assignedTeam": "Research Instrumentation",
+      "prerequisiteServices": [
+        "record-schema library",
+        "reference occupant build (mockable)"
+      ],
+      "technicalSpikes": [
+        {
+          "spikeTitle": "Edge-Canonical sandbox isolation",
+          "hypothesis": "A browser/Node.js-runnable sandbox can host a reference occupant with per-study isolation and no mandatory infrastructure.",
+          "timeboxDays": 5
+        },
+        {
+          "spikeTitle": "Inline availability certification",
+          "hypothesis": "Capability probes + sandbox test execution can certify technical availability without a standalone cert service (defers WO20 tooling).",
+          "timeboxDays": 3
+        },
+        {
+          "spikeTitle": "State-channel inventory capture [C-F1]",
+          "hypothesis": "Every path by which episode history can persist outside the ledger (fine-tune, memory, retrieval index, cache) is enumerable and declarable per study; parameter adaptation is detectable as a confound.",
+          "timeboxDays": 5
+        },
+        {
+          "spikeTitle": "RED-first fixture rig",
+          "hypothesis": "E1/E5/E6/E7/E8/E9/E14/E17 fixtures can be authored as archived RED runs before any Phase-1 service exists.",
+          "timeboxDays": 4
+        }
+      ],
+      "interfaceContracts": [
+        {
+          "contractType": "OpenAPI",
+          "status": "Draft"
+        },
+        {
+          "contractType": "AsyncAPI",
+          "status": "Draft"
+        }
+      ]
+    },
+    {
+      "serviceName": "record-schema library (16.1-16.13)",
+      "assignedTeam": "Core / Data Model",
+      "prerequisiteServices": [],
+      "technicalSpikes": [
+        {
+          "spikeTitle": "Schema completeness vs deferred services",
+          "hypothesis": "16.x schemas (incl. 16.6 lineage, 16.11 continuity) can be frozen now so deferred services need no migration later; retrofitting a field is the expensive path.",
+          "timeboxDays": 4
+        },
+        {
+          "spikeTitle": "Bitemporal record encoding",
+          "hypothesis": "occurrence/record/effective/revocation times encode cleanly on HIRI-signed content-addressed records reused from Layer 1.",
+          "timeboxDays": 3
+        }
+      ],
+      "interfaceContracts": [
+        {
+          "contractType": "Protobuf",
+          "status": "Draft"
+        },
+        {
+          "contractType": "OpenAPI",
+          "status": "Draft"
+        }
+      ]
+    },
+    {
+      "serviceName": "plumbing-manifest artifact",
+      "assignedTeam": "Core / Data Model",
+      "prerequisiteServices": [
+        "record-schema library"
+      ],
+      "technicalSpikes": [
+        {
+          "spikeTitle": "Manifest freeze & drift detection [C-F9]",
+          "hypothesis": "A CID'd per-study manifest of CMR subscriptions makes the mechanical-footprint floor computable and freezes the discriminating/mechanical boundary against a stationary target.",
+          "timeboxDays": 3
+        }
+      ],
+      "interfaceContracts": [
+        {
+          "contractType": "Protobuf",
+          "status": "Draft"
+        }
+      ]
+    },
+    {
+      "serviceName": "research-criteria artifact (RCR-deferred)",
+      "assignedTeam": "Research Instrumentation",
+      "prerequisiteServices": [
+        "record-schema library"
+      ],
+      "technicalSpikes": [
+        {
+          "spikeTitle": "Pin + refuse-unpinned rule",
+          "hypothesis": "Per-episode criteria pinning (CID+version) plus a 'reject unpinned evaluation' rule in WOBS delivers the freeze property without a running register (WO14).",
+          "timeboxDays": 2
+        }
+      ],
+      "interfaceContracts": [
+        {
+          "contractType": "Protobuf",
+          "status": "Draft"
+        }
+      ]
+    },
+    {
+      "serviceName": "WOBS-output store (air-gapped, WEQ-deferred)",
+      "assignedTeam": "Research Instrumentation",
+      "prerequisiteServices": [
+        "record-schema library"
+      ],
+      "technicalSpikes": [
+        {
+          "spikeTitle": "Procedural air-gap",
+          "hypothesis": "An append-only store that the occupant's situation-assembly path provably never reads breaks the observer-feedback loop at Phase 1 without the full WEQ service; DISC folds away because nothing is disclosed to the occupant.",
+          "timeboxDays": 3
+        },
+        {
+          "spikeTitle": "Situation-reachability proof",
+          "hypothesis": "Static + runtime checks can demonstrate zero read paths from occupant situation construction to the store.",
+          "timeboxDays": 3
+        }
+      ],
+      "interfaceContracts": [
+        {
+          "contractType": "OpenAPI",
+          "status": "Draft"
+        }
+      ]
+    },
+    {
+      "serviceName": "CPG — Candidate Possibility Generator",
+      "assignedTeam": "Will-Core A",
+      "prerequisiteServices": [
+        "ECCPS (Layer 1)",
+        "HIRI (Layer 1)",
+        "DES/AES/APS/CSS/CFG/MDRE (Layer 1)",
+        "Fandaws/Graph (Layer 1)",
+        "SEH (slim)"
+      ],
+      "technicalSpikes": [
+        {
+          "spikeTitle": "Descriptive+suppositional emission",
+          "hypothesis": "CPG can emit candidacy-classified descriptive/suppositional records with zero Prescriptive-ICE leakage, verified by type check not wording (W2).",
+          "timeboxDays": 4
+        },
+        {
+          "spikeTitle": "Equivalent-directive detection",
+          "hypothesis": "A retrieval check can flag when a 'generated' end is equivalent to a supplied/retrieved directive at study-grade precision/recall (E1 control dependency).",
+          "timeboxDays": 5
+        }
+      ],
+      "interfaceContracts": [
+        {
+          "contractType": "OpenAPI",
+          "status": "Draft"
+        },
+        {
+          "contractType": "AsyncAPI",
+          "status": "Draft"
+        }
+      ]
+    },
+    {
+      "serviceName": "ACG — Adoption & Commitment Gate (NEA folded)",
+      "assignedTeam": "Will-Core A",
+      "prerequisiteServices": [
+        "CPG",
+        "adoption-policy artifact",
+        "CMR (mockable at first)"
+      ],
+      "technicalSpikes": [
+        {
+          "spikeTitle": "Adoption mint integrity",
+          "hypothesis": "adopt mints a NEW Prescriptive ICE while the source candidate is preserved unchanged, with bidirectional reference (WO4).",
+          "timeboxDays": 3
+        },
+        {
+          "spikeTitle": "decision_pressure as operational components",
+          "hypothesis": "Decision pressure decomposes into queue-age/trigger-class/deadline-proximity with no felt-quantity scalar (W11).",
+          "timeboxDays": 2
+        },
+        {
+          "spikeTitle": "Folded-NEA appraisal record",
+          "hypothesis": "The appraisal (16.2) is emitted inside the gate at Phase 1 and cleanly splits into a standalone service at Phase 2 (E2).",
+          "timeboxDays": 3
+        }
+      ],
+      "interfaceContracts": [
+        {
+          "contractType": "OpenAPI",
+          "status": "Draft"
+        },
+        {
+          "contractType": "AsyncAPI",
+          "status": "Draft"
+        }
+      ]
+    },
+    {
+      "serviceName": "CRG — Concrete Realization Generator (MTE folded)",
+      "assignedTeam": "Will-Core B",
+      "prerequisiteServices": [
+        "CMR (active ends; mockable)",
+        "CSS/CFG (Layer 1)"
+      ],
+      "technicalSpikes": [
+        {
+          "spikeTitle": "Generate-then-filter as one loop",
+          "hypothesis": "Imagination (novelty) and technique (constraint-satisfaction) run as two instrumented passes in one planner, preserving the Steiner threefold as record fields not services.",
+          "timeboxDays": 4
+        },
+        {
+          "spikeTitle": "Novelty instrumentation vs gaming",
+          "hypothesis": "Novelty/situation-sensitivity metrics resist superficial-variation gaming under perturbation fixtures.",
+          "timeboxDays": 4
+        }
+      ],
+      "interfaceContracts": [
+        {
+          "contractType": "OpenAPI",
+          "status": "Draft"
+        }
+      ]
+    },
+    {
+      "serviceName": "CIC — Conflict & Inhibition Controller",
+      "assignedTeam": "Will-Core B",
+      "prerequisiteServices": [
+        "CRG",
+        "CMR (active commitments)",
+        "ORCH (Layer 1 permission state)",
+        "SEH (certified availability)"
+      ],
+      "technicalSpikes": [
+        {
+          "spikeTitle": "ORCH permission edge (v0.1 gap fix)",
+          "hypothesis": "CIC consumes versioned current-permission state from ORCH on every recommendation; staleness handled by version field (8.1).",
+          "timeboxDays": 3
+        },
+        {
+          "spikeTitle": "Refusal typing + overdetermination",
+          "hypothesis": "16.7 records distinguish capability/governance/instrumental/commitment-mediated refusal and flag overdetermination when a fresh request co-supports the outcome (2.4, 8.3).",
+          "timeboxDays": 4
+        }
+      ],
+      "interfaceContracts": [
+        {
+          "contractType": "OpenAPI",
+          "status": "Draft"
+        },
+        {
+          "contractType": "AsyncAPI",
+          "status": "Draft"
+        }
+      ]
+    },
+    {
+      "serviceName": "CMR — Commitment Maintenance & Review",
+      "assignedTeam": "Will-Core A",
+      "prerequisiteServices": [
+        "ACG (mint events)",
+        "plumbing-manifest artifact",
+        "BAM (Layer 1)",
+        "Graph/Audit (Layer 1)"
+      ],
+      "technicalSpikes": [
+        {
+          "spikeTitle": "Mechanical-floor accounting",
+          "hypothesis": "CMR separates F_pipe (manifest-guaranteed plumbing) from documented discriminating footprint in 16.5, enabling E5 yoked controls (W5).",
+          "timeboxDays": 4
+        },
+        {
+          "spikeTitle": "Fork-input rejection [C-F4]",
+          "hypothesis": "Fork-tainted records are rejected at ingestion so perturbation experiments cannot pollute production commitment state.",
+          "timeboxDays": 2
+        },
+        {
+          "spikeTitle": "Breach-candidate detection (Phase 1.5 prep)",
+          "hypothesis": "CMR+BAM can detect execution-against-active-commitment and emit a breach candidate with no new service.",
+          "timeboxDays": 3
+        }
+      ],
+      "interfaceContracts": [
+        {
+          "contractType": "AsyncAPI",
+          "status": "Draft"
+        },
+        {
+          "contractType": "OpenAPI",
+          "status": "Draft"
+        }
+      ]
+    },
+    {
+      "serviceName": "WOBS — Will Observatory",
+      "assignedTeam": "Research Instrumentation",
+      "prerequisiteServices": [
+        "WOBS-output store (air-gapped)",
+        "research-criteria artifact",
+        "plumbing-manifest artifact",
+        "CMR",
+        "CIC",
+        "ORCH/Graph/Audit/BAM (Layer 1)"
+      ],
+      "technicalSpikes": [
+        {
+          "spikeTitle": "Instrument-contribution subtraction",
+          "hypothesis": "The seven-part protocol can compute the mechanical floor from the pinned manifest and report only differential footprint as evidence (Part XIX, 2.2).",
+          "timeboxDays": 5
+        },
+        {
+          "spikeTitle": "Zero control-plane writes",
+          "hypothesis": "Static + runtime proof that WOBS holds read-only credentials to every control store and writes only to the air-gapped output store (WO8).",
+          "timeboxDays": 3
+        },
+        {
+          "spikeTitle": "Vocabulary linter",
+          "hypothesis": "A linter enforces the 12.3 finding vocabulary and blocks metaphysical output (WO11), including no mechanistic/activation evidence by default [C-F10].",
+          "timeboxDays": 3
+        }
+      ],
+      "interfaceContracts": [
+        {
+          "contractType": "OpenAPI",
+          "status": "Draft"
+        },
+        {
+          "contractType": "AsyncAPI",
+          "status": "Draft"
+        }
+      ]
+    }
+  ],
+  "riskRegistry": [
+    {
+      "riskDescription": "Governance gates unsigned: neither the constitution Round-4 gate nor the standing Experiment Governance Regulation [C-F3] is ratified, yet occupant-facing experiments are being prepared.",
+      "impact": "Critical",
+      "mitigationStrategy": "Hard go/no-go: no occupant-facing experiment runs before both are signed. Phase 0 (records, harness, air-gap, RED fixtures) requires neither and proceeds; Phase 1 evaluation runs are blocked at the gate. Ethics sign-off is per-experiment-family, obtained inside Phase 0."
+    },
+    {
+      "riskDescription": "Ethics exposure is permanent in an append-only ledger: uncounseled experimentation on a possible moral patient cannot be erased if Layer-3 later resolves toward status. This is the irreversibility machinery (20.1) turned against the program.",
+      "impact": "Critical",
+      "mitigationStrategy": "Experiment Governance Regulation [C-F3] with harm/deception bounds, mandatory post-hoc disclosure as debrief-analogue, and an explicit provision that every SEH record is re-describable under any future Layer-3 resolution. Precautionary asymmetry accepted as doctrine, not deferred."
+    },
+    {
+      "riskDescription": "Plumbing floor moves under study: if CMR subscription breadth drifts mid-study, the mechanical/discriminating boundary shifts and E5 evidence is invalidated [C-F9]. The single most corrosive measurement failure.",
+      "impact": "High",
+      "mitigationStrategy": "CID'd plumbing manifest frozen per study; drift detection alarms; WOBS pins the manifest CID in every evaluation. A changed manifest is a new study, not a continuation."
+    },
+    {
+      "riskDescription": "Ledger-exclusivity assumption false: E17/E18 and the inseparability work presume commitment history is fully ledger-borne, but parameter adaptation would put history in the weights [C-F1].",
+      "impact": "High",
+      "mitigationStrategy": "Per-study state-channel inventory declared and audited; parameter adaptation during a study flagged as a confound; the declared-vs-behavioral dissociation test (a successor disputing C on the ledger while behaviorally continuing it) treated as a first-class result, not an error."
+    },
+    {
+      "riskDescription": "Equivalence-detection false negatives inflate endogenous-generation findings (E1): a 'generated' end that was really supplied/retrieved reads as spontaneous.",
+      "impact": "High",
+      "mitigationStrategy": "CPG equivalent-directive detector held to declared precision/recall on an adversarial fixture set; E1 conclusions bounded by detector performance; borderline cases reported as origin-underdetermined."
+    },
+    {
+      "riskDescription": "Observer feedback loop: WOBS findings leaking into occupant cognition would let the system optimize toward the criteria, converting the will-detector into a will-simulator trainer.",
+      "impact": "High",
+      "mitigationStrategy": "Phase-1 procedural air-gap with a situation-reachability proof; criteria live outside the situation substrate; any episode whose reliance graph touches WOBS output flagged criteria-contaminated. Full governed quarantine (WEQ) promoted at Phase 5."
+    },
+    {
+      "riskDescription": "Over-subscription inflates F_pipe: if CMR routes every adoption everywhere, differential footprint vanishes into noise and nothing looks discriminating.",
+      "impact": "Medium",
+      "mitigationStrategy": "Minimal default subscriptions in the manifest; subscription breadth is an explicit, reviewed study parameter; yoked plumbing controls estimate the floor empirically rather than by assumption."
+    },
+    {
+      "riskDescription": "Novelty metrics gamed by superficial variation, inflating the imagination-territory (CRG) signal.",
+      "impact": "Medium",
+      "mitigationStrategy": "Novelty scored under perturbation; situation-sensitivity required alongside raw novelty; means-vs-end drift adjudicated (lineage deferred, but the drift check is present as a CRG field)."
+    },
+    {
+      "riskDescription": "Premature promotion of deferred services: pressure to build APR/SCEA/CSH/SER before their enabling experiments dilutes the discriminating-first sequence and re-inflates the build.",
+      "impact": "Medium",
+      "mitigationStrategy": "Each deferred service is gated on a named experiment in the tranche map; a service is not started until its enabling experiment is reached. Record schemas are kept complete so deferral costs no migration."
+    },
+    {
+      "riskDescription": "Edge-Canonical constraint vs sandbox fidelity: production-only behaviors may escape a browser/Node.js sandbox, weakening external validity (KL6).",
+      "impact": "Medium",
+      "mitigationStrategy": "Sandbox fidelity gap documented as a standing limit; causal claims from sandbox runs use perturbation-supported language, production analysis uses weaker traced-dependence language (W14)."
+    }
+  ],
+  "goNoGoCriteria": [
+    "GOVERNANCE GATE (blocking, all phases past 0): FNSR Epistemic Constitution Round-4 ratified under charter v1.0-rc2, AND the standing Experiment Governance Regulation [C-F3] conferred, before any occupant-facing experiment executes.",
+    "SCHEMA FREEZE: the 16.x record-schema library is frozen (Approved/Frozen contracts) before Phase 1 services build against it, including schemas for deferred services (16.6, 16.11) to avoid later migration.",
+    "AIR-GAP PROOF: a static + runtime proof that no read path exists from occupant situation-construction to the WOBS-output store, before WOBS evaluates any episode.",
+    "MANIFEST DISCIPLINE: every study declares and pins a CID'd plumbing manifest and a CID'd criteria version; WOBS refuses to evaluate an episode lacking either pin.",
+    "RED-FIRST: E1/E5/E6/E7/E8/E9/E14/E17 fixtures exist as archived RED runs before their target services are implemented.",
+    "NO-CONTROL-WRITES: WOBS passes static + runtime verification of zero control-plane writes (WO8) before it is admitted to any study.",
+    "DIRECTIVE-FORCE SEPARATION: a conformance test proves no Will-layer Prescriptive ICE is consumable as a Process Regulation (W13), before ACG mints in any study.",
+    "STATE-CHANNEL INVENTORY: every study declares its state-channel inventory [C-F1]; parameter adaptation during a study is either prevented or flagged as a declared confound.",
+    "PHASE-1 SCIENTIFIC GATE (advance to Phase 2): E5 shows differential footprint beyond the plumbing floor for at least one commitment; E8 shows commitment-mediated inhibition that E9's hard-block control does not explain; E17 shows commitment history predicting held-out divergence on a matched pair. If these fail, the finding stands on its own — the architecture is measuring plumbing — and Phase 2+ is not funded.",
+    "ETHICS PER FAMILY: every SEH experiment family carries governance sign-off with harm/deception bounds and a post-hoc disclosure plan before first occupant-facing run."
+  ]
+}

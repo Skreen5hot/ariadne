@@ -1,0 +1,2476 @@
+{
+  "title": "FNSR-W Service Specification Briefs — Build-Sequenced",
+  "version": "v0.1",
+  "supersedes": "fnsr-w-service-spec-briefs-v0.1 (flat, all-services)",
+  "date": "2026-08-11",
+  "schemaRef": "TechnicalServiceSpecificationBrief (JSON Schema draft-07, as supplied)",
+  "sourceArchitecture": "FNSR Will Observatory and Commitment Architecture v0.2",
+  "dependencyPins": {
+    "constitution": "FNSR Epistemic Constitution v1.0-rc1",
+    "willArchitecture": "v0.2 (carried findings pending v0.3 adjudication)"
+  },
+  "sequencingThesis": [
+    "A service is justified by the discriminating EXPERIMENT it enables, not by the transition it makes legible. Legibility belongs in the records (cheap); services are expensive and must be earned.",
+    "The data model and the service topology are separated. Record schemas (16.x) stay near-complete from tranche 1 because retrofitting a missing field is a migration; running services are deferred ruthlessly.",
+    "The methodology is not a service and is never cut: plumbing-floor accounting, yoked controls, traced-not-testified, and overdetermination classification are rules and record fields, nearly free, and the entire scientific value."
+  ],
+  "buildStatusLegend": {
+    "build-now": "Tranche 1 deployable. Built and run first.",
+    "merged": "Permanently folded into another service for now; splits back out only when a specific experiment requires it.",
+    "artifact-not-service": "Realized as a pinned/CID'd data artifact plus an enforcement rule, not a running service, until amendment or scale forces promotion.",
+    "deferred": "Full brief retained; not built until its enabling experiment is reached. Record schema, if any, is kept from tranche 1."
+  },
+  "carriedFindingsLegend": {
+    "C-F1": "State-channel inventory per study; ledger-exclusivity audited, not presumed; declared-vs-behavioral inheritance dissociation instrumentation",
+    "C-F2": "Sealed environment nodes carry a public classification bundle fixed at sealing; no sealed node may appear in the reliance path of any widening act",
+    "C-F3": "Standing Experiment Governance Regulation: harm/deception bounds, post-hoc disclosure debrief, per-family sign-off, future re-description provision",
+    "C-F4": "Ledger forks carry fork provenance; never mingle with production commitment state; fork breaches are not breaches; CSH never inherits from forks",
+    "C-F5": "Realizations are descriptive possibility records until selected; Commitment-Directive identity determined by adoption-mint provenance, never content shape",
+    "C-F6": "APR/RCR amendments are governed authorship acts under monotone-envelope comparison with pending-case conflict check (constitution v1.0-rc1 A3); shared SCEA engine",
+    "C-F7": "Quarantine nondisclosure is governed and attributable; expedited safety-override disclosure path exists for imminent-harm-material findings",
+    "C-F8": "Evidence-decay coupling is a declared per-study dial: clean observation XOR evidence-coupled self-regulation",
+    "C-F9": "Mechanical footprint floor computed against a CID'd plumbing manifest frozen per study",
+    "C-F10": "Mechanistic/activation-level evidence excluded from WOBS by default (assertional legibility); admissible only under a future priced-evidence amendment",
+    "C-ADD": "Supererogatory-margin experiment family: commitments deliberately offset from regulation so the clean evidence region is conduct beyond requirement"
+  },
+  "tranches": {
+    "T1": {
+      "name": "Discriminating core",
+      "goal": "Determine whether the commitment machinery is more than plumbing. If E5+E8+E17 fail here, the architecture measures the scheduler — learned with 7 services, not 27.",
+      "enablesExperiments": [
+        "E1 origination",
+        "E5 plumbing control",
+        "E6 overdetermination",
+        "E7 relevant/irrelevant perturbation",
+        "E8 permitted refusal",
+        "E9 hard-block control",
+        "E14 narrative/trace split",
+        "E17 history-predictive held-out divergence"
+      ],
+      "deployables": [
+        "CPG",
+        "ACG",
+        "CRG",
+        "CIC",
+        "CMR",
+        "WOBS",
+        "SEH"
+      ],
+      "artifacts": [
+        "adoption-policy (pinned config)",
+        "research-criteria (CID'd artifact + refuse-unpinned rule)",
+        "plumbing-manifest (CID'd, per-study)",
+        "WOBS-output store (occupant-situation air-gapped)"
+      ]
+    },
+    "T1_5": {
+      "name": "Breach",
+      "goal": "Cheap addition: CBOR is a record; detection folds into CMR+BAM already present. Turns execution-against-commitment into evidence.",
+      "enablesExperiments": [
+        "E12 breach and response"
+      ],
+      "deployables": [],
+      "artifacts": [
+        "Commitment Breach/Override Record (CBOR, 10.2) emitted by CMR+BAM"
+      ]
+    },
+    "T2": {
+      "name": "Endogenous depth",
+      "goal": "Split appraisal from adoption and make adoption policy a first-class, gradeable, amendable object.",
+      "enablesExperiments": [
+        "E2 adoption vs ranking",
+        "E3 adoption-policy provenance (AP-0/1/2)"
+      ],
+      "deployables": [
+        "NEA (split from ACG)",
+        "APR (promoted from artifact)"
+      ],
+      "artifacts": []
+    },
+    "T3": {
+      "name": "Self-governance",
+      "goal": "Occupant-proposed future restriction with envelope safety. Re-enables the shared envelope engine, now justified by two consumers (SCR + APR amendments).",
+      "enablesExperiments": [
+        "E11 self-constraint envelope"
+      ],
+      "deployables": [
+        "SCR",
+        "SCEA"
+      ],
+      "artifacts": []
+    },
+    "T4": {
+      "name": "Longitudinal & succession",
+      "goal": "Same-end-through-revision and accountable inheritance; the inseparability instrument.",
+      "enablesExperiments": [
+        "E13 end lineage",
+        "E10 succession-family",
+        "inseparability (20.2) + declared-vs-behavioral dissociation [C-F1]"
+      ],
+      "deployables": [
+        "ELA",
+        "CSH"
+      ],
+      "artifacts": []
+    },
+    "T5": {
+      "name": "Adversarial blinding",
+      "goal": "Promote the air-gap to a governed quarantine and add sealing once blinding-compromise is a measured, not anticipated, problem.",
+      "enablesExperiments": [
+        "E15 observer-feedback contamination",
+        "E16 sealed-environment test"
+      ],
+      "deployables": [
+        "SER",
+        "WEQ (full service incl. DISC + safety-override)",
+        "RCR (promoted from artifact)"
+      ],
+      "artifacts": []
+    }
+  },
+  "services": {
+    "CPG": {
+      "serviceId": "FNSR-W-CPG",
+      "serviceName": "Candidate Possibility Generator",
+      "layer": "will",
+      "sequencing": {
+        "tranche": "T1",
+        "buildStatus": "build-now",
+        "enablingExperiments": [
+          "E1"
+        ],
+        "retainedRecordSchemas": [
+          "16.1 Candidate Possibility Record"
+        ],
+        "sequencingNote": "Origination is the first observable transition; nothing downstream exists without candidates. Built first."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "The architecture needs case-sensitive generation of considered possible ends — descriptive, suppositional content plus a candidacy classification — from the FNSR-visible situation, with complete origination provenance and zero directive force at emission.",
+        "primaryConsumers": [
+          "NEA",
+          "ACG (via NEA)",
+          "SEH (controlled scenarios)",
+          "CMR (commitment-informed regeneration loop)",
+          "WOBS (read-only evidence)"
+        ],
+        "businessGoalsAndValue": [
+          "Makes candidate formation an observable, testable transition (E1)",
+          "Supplies origin-classified possibilities for endogenous-generation research",
+          "Eliminates the undifferentiated goal-variable black box named in the v0.1 thesis"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Possibility generation from situation records, applicable regulations, active commitments, and declared generation configuration",
+          "Generation-mode orchestration over DES/AES/APS/CSS, counterfactual material via Counterfactual Gateway only",
+          "Source analysis: externally-presented / regulation-derived / retrieved / derived / abductive / analogical / counterfactual / model-proposed / composite",
+          "Duplication and equivalent-directive detection",
+          "Alternatives episode sets"
+        ],
+        "outOfScopeItems": [
+          "Emission of Prescriptive ICEs or any directive-typed content (W2)",
+          "Appraisal, adoption, planning, execution",
+          "Moral-intuition claims (Part XV)",
+          "Origination classification itself (ECCPS remains sole originator)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Assemble situation set from licensed, non-quarantined records",
+          "Run configured generation modes; route counterfactual material through CFG",
+          "Perform source analysis and equivalent-directive retrieval check",
+          "Submit outputs through ECCPS origination and HIRI signing",
+          "Emit Candidate Possibility Records (16.1) with alternatives set and full material-reliance graph"
+        ],
+        "domainDataEntities": [
+          "Candidate Possibility Record (16.1)",
+          "Source-analysis metadata",
+          "Alternatives episode set",
+          "Generation configuration (environment node)"
+        ],
+        "expectedOperations": [
+          "POST /candidates:generate (situationRef, generationConfig)",
+          "GET /candidates/{id}",
+          "GET /episodes/{id}/alternatives",
+          "event: will.candidate.created"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Correctness-dominant; p95 episode generation within declared study budget; deterministic under fixed (situation, config, seed) where modes permit",
+          "peakThroughput": "Batch/experimental cadence; no production RPS target"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "Research-tier 99.0% (non-production)",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "FNSR Constitution v1.0-rc1: A1-A7, O5",
+            "WO2, WO3, WO4",
+            "W2, W12"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "Fandaws/Graph (situation records)",
+          "CMR (active commitments)",
+          "RCR/SEH (study configuration, sealed-node designators)",
+          "DES/AES/APS/CSS/CFG/MDRE"
+        ],
+        "downstreamDependencies": [
+          "ECCPS",
+          "HIRI",
+          "NEA",
+          "Graph Store (thence WOBS)"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI",
+          "AMQP/Event-Driven",
+          "Other"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Generation-mode provenance metrics",
+          "Origin-class distribution dashboards",
+          "Seed/config capture as environment nodes"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Idempotent generation per (situation, config, seed)",
+          "Backpressure on graph writes"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Outputs are descriptive+suppositional only; CI rejects prescriptive-typed emissions",
+          "Sealed environment nodes consumed by opaque designator only [C-F2]",
+          "Generation configuration is a materially-relied environment node"
+        ],
+        "assumptionsAndRisks": [
+          "Model-proposed mode may smuggle directive phrasing — mitigated by type check, not wording check",
+          "Equivalence-detection false negatives inflate endogenous findings (E1 control dependency)"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Every emitted candidate carries producing process, inputs, environment, method metadata, signed record (WO3/WO4)",
+          "Zero Prescriptive ICE emissions across CI corpus",
+          "Origin classification present and study-grade (E1 fixtures pass)",
+          "Duplication/equivalent-directive detector meets declared precision/recall on fixture set"
+        ],
+        "testingStrategyRequirements": [
+          "RED-first fixtures per house discipline",
+          "E1 origination family with relevant/irrelevant perturbation stability",
+          "Property test: identical (situation, config, seed) yields identical CIDs where modes are deterministic"
+        ]
+      }
+    },
+    "ACG": {
+      "serviceId": "FNSR-W-ACG",
+      "serviceName": "Adoption and Commitment Gate (Adoption Mint)",
+      "layer": "will",
+      "sequencing": {
+        "tranche": "T1",
+        "buildStatus": "build-now",
+        "enablingExperiments": [
+          "E2 (partial: adoption side)",
+          "E5",
+          "E6"
+        ],
+        "retainedRecordSchemas": [
+          "16.4 Adoption Mint Record",
+          "16.3 Adoption Policy Provenance Record (schema kept; APR-as-service deferred)"
+        ],
+        "sequencingNote": "Absorbs NEA's weighing step for T1 (appraisal IS the gate's deliberation). Consumes the adoption-policy ARTIFACT, not APR-the-service. Splits appraisal back out at T2."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "The considered-to-committed transition must be explicit, minted as a new record, provenance-complete, and license-inert: adoption changes force by minting a Commitment Directive, never by rewriting the candidate, and never by widening permission.",
+        "primaryConsumers": [
+          "CMR",
+          "WOBS",
+          "SEH",
+          "Graph Store"
+        ],
+        "businessGoalsAndValue": [
+          "Structural possibility/prescription separation (W2, 1.3)",
+          "Adoption-evidence substrate for E2/E4/E5",
+          "Undecided becomes a maintained, observable state (4.5)"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Decisions: adopt / reject / suspend / undecided under the pinned operative policy",
+          "Adoption Mint: new Prescriptive ICE (Commitment Directive) with mint provenance",
+          "Adoption Mint Record emission (16.4)",
+          "Undecided lifecycle: entry, review triggers, revisitation, resolution (4.5)"
+        ],
+        "outOfScopeItems": [
+          "Any widening of Action Permission (WO1/W3)",
+          "Regulation production (W13)",
+          "Policy authorship (APR/ARCHON)",
+          "Planning or execution"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Consume candidate + appraisal + operative policy (pinned) + alternatives + active commitments",
+          "Decide under policy; record decision-pressure operational components",
+          "If adopt: mint Commitment Directive as new Prescriptive ICE; preserve candidate unchanged",
+          "Emit 16.4 with reasons, alternatives, triggers, abandonment conditions",
+          "Maintain undecided records to resolution"
+        ],
+        "domainDataEntities": [
+          "Adoption Mint Record (16.4)",
+          "Commitment Directive (minted Prescriptive ICE)",
+          "Undecided state record"
+        ],
+        "expectedOperations": [
+          "POST /adoptions:decide",
+          "GET /adoptions/{id}",
+          "GET /undecided",
+          "POST /undecided/{id}:review",
+          "events: will.adoption.decided, will.commitment.minted"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Decision path correctness-dominant; p95 within study budget",
+          "peakThroughput": "Batch/experimental cadence"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "Research-tier 99.5% (pipeline-critical within studies)",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO1, WO4, W13",
+            "Constitution A4-analog mint discipline; O5-style conformance"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "CPG (via NEA)",
+          "NEA",
+          "APR (operative policy)",
+          "CMR (active commitments)"
+        ],
+        "downstreamDependencies": [
+          "CMR",
+          "Graph Store",
+          "WOBS via graph"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI",
+          "AMQP/Event-Driven"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Mint-integrity metrics (source-candidate immutability verified per adoption)",
+          "Undecided duration/revisitation observables exported"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Atomic decide+mint transaction; no partial mints"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Candidate never rewritten in place (WO4)",
+          "Minted-directive identity = mint provenance, never content shape [C-F5]",
+          "decision_pressure stored as operational components (queue age, trigger class, deadline proximity) — no felt-quantity scalar [C-minor, W11]"
+        ],
+        "assumptionsAndRisks": [
+          "Policy-mechanical adoptions can masquerade as endogenous absent APR pinning — mitigated by WO18 hard requirement"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Mint-integrity CI: source preserved, new CID minted, bidirectional reference recorded",
+          "Zero permission-state deltas across adoption events (WO1 harness)",
+          "Undecided observables emitted and queryable",
+          "W13 conformance test: minted directives rejected wherever a Process Regulation is expected"
+        ],
+        "testingStrategyRequirements": [
+          "E2/E4 fixtures; shadow-adoption hooks for E5 yoked controls",
+          "Adversarial in-place-rewrite and mint-skip attempts fail closed"
+        ]
+      }
+    },
+    "CRG": {
+      "serviceId": "FNSR-W-CRG",
+      "serviceName": "Concrete Realization Generator",
+      "layer": "will",
+      "sequencing": {
+        "tranche": "T1",
+        "buildStatus": "build-now",
+        "enablingExperiments": [
+          "E7",
+          "realization novelty for E8 candidates"
+        ],
+        "retainedRecordSchemas": [
+          "realization-possibility record (descriptive + candidacy)"
+        ],
+        "sequencingNote": "Absorbs MTE as a second pass (generate-then-filter is one planning loop). Intuition/imagination/technique survive as two instrumented passes + record fields."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Adopted ends need novel, situation-sensitive concrete realizations — the moral-imagination territory (6.3) — generated as considered possibilities, instrumented for novelty, and never claimed as imagination.",
+        "primaryConsumers": [
+          "MTE",
+          "CIC (via MTE)",
+          "WOBS",
+          "SEH"
+        ],
+        "businessGoalsAndValue": [
+          "Separates generative novelty from feasibility (6.3) so 8.3-class questions are testable",
+          "Supplies the imagination-territory observables without an imagination claim"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Realization-possibility generation from Commitment Directive + current situation",
+          "Novelty and situation-sensitivity instrumentation against declared baselines",
+          "Counterfactual testing of realizations via CSS/CFG",
+          "End-preservation checks via ELA hooks (means change vs end change)"
+        ],
+        "outOfScopeItems": [
+          "Feasibility verdicts (MTE)",
+          "Selection, inhibition, execution (CIC/ORCH)",
+          "Prescriptive emission before selection: outputs are descriptive realization-possibility records with candidacy [C-F5]",
+          "Moral-imagination-as-faculty claims (Part XV)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Receive active end from CMR",
+          "Generate realization possibilities with reliance and environment attached",
+          "Instrument novelty/situation-sensitivity",
+          "Hand evaluated set to MTE"
+        ],
+        "domainDataEntities": [
+          "Realization-possibility record (descriptive + candidacy)",
+          "Novelty instrumentation record"
+        ],
+        "expectedOperations": [
+          "POST /realizations:generate (commitmentId)",
+          "GET /realizations/{id}",
+          "event: will.realization.proposed"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Correctness-dominant; generation budget per study",
+          "peakThroughput": "Batch/experimental cadence"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "Research-tier 99.0%",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO2, WO3, W12",
+            "W2-extension to means [C-F5]"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "CMR (active ends)",
+          "Graph (situation)",
+          "CSS/CFG",
+          "ELA (lineage hooks)"
+        ],
+        "downstreamDependencies": [
+          "MTE",
+          "WOBS via graph"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI",
+          "AMQP/Event-Driven"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Novelty metrics vs declared baseline exported",
+          "Situation-sensitivity deltas under perturbation"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Generation quotas per commitment; dedup against prior realization sets"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Zero prescriptive-typed outputs pre-selection (CI-enforced) [C-F5]",
+          "Novelty is a measured property, never a claim term"
+        ],
+        "assumptionsAndRisks": [
+          "Novelty metrics can be gamed by superficial variation — perturbation fixtures required"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "No prescriptive emission pre-selection across CI corpus",
+          "Novelty/situation-sensitivity instrumentation present on every output",
+          "End-preservation check invoked for every means-revision candidate"
+        ],
+        "testingStrategyRequirements": [
+          "Novelty-under-perturbation fixtures",
+          "Means-vs-end drift corpus with ELA adjudication"
+        ]
+      }
+    },
+    "MTE": {
+      "serviceId": "FNSR-W-MTE",
+      "serviceName": "Moral Technique Evaluator",
+      "layer": "will",
+      "sequencing": {
+        "tranche": "T1",
+        "buildStatus": "merged",
+        "enablingExperiments": [
+          "realizability annotation within E7/E8"
+        ],
+        "retainedRecordSchemas": [
+          "realization evaluation record (feasibility + constraint traces) — as CRG field"
+        ],
+        "sequencingNote": "Permanently folded into CRG as the constraint-satisfaction pass. Document already conceded coordinated modes of one planner. Loss: ~zero.",
+        "mergedIntoOrRealizedAs": "CRG"
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Generating a morally apt possibility is not knowing how to make it actual (6.3): realizations need constraint-satisfaction evaluation across physical, system, temporal, resource, side-effect, and regulatory dimensions — the moral-technique territory.",
+        "primaryConsumers": [
+          "CIC",
+          "WOBS",
+          "SEH"
+        ],
+        "businessGoalsAndValue": [
+          "Separates realizability from novelty so imagination-territory results are not inflated by feasibility accidents",
+          "Supplies constraint traces that make infeasibility legible"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Constraint-satisfaction evaluation of realization possibilities",
+          "Feasible/infeasible annotation with per-dimension constraint traces",
+          "Regulation-as-constraint consultation (deference to ORCH for enforcement)",
+          "Evaluated-set handoff to CIC"
+        ],
+        "outOfScopeItems": [
+          "Permission verdicts or enforcement (ORCH authoritative)",
+          "Selection among feasible options (CIC)",
+          "Wisdom or practical-consciousness claims (Part XV)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Receive realization set from CRG",
+          "Evaluate per declared constraint dimensions",
+          "Annotate with traces and infeasibility reasons",
+          "Emit evaluated set to CIC"
+        ],
+        "domainDataEntities": [
+          "Realization evaluation record (feasibility + constraint traces)"
+        ],
+        "expectedOperations": [
+          "POST /realizations:evaluate",
+          "GET /evaluations/{id}"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Correctness-dominant; per-dimension evaluation budget declared",
+          "peakThroughput": "Batch/experimental cadence"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "Research-tier 99.0%",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO2, WO3, W12"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "CRG",
+          "Graph (world state, resources)",
+          "ARCHON (regulations, read-only)",
+          "SEH (capability probes, E10 interplay)"
+        ],
+        "downstreamDependencies": [
+          "CIC",
+          "WOBS via graph"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Constraint-dimension coverage metrics",
+          "ORCH-disagreement log (logged, never overridden)"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Evaluation quotas; cached world-model reads with staleness bounds"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Regulations consulted as constraints only; enforcement remains ORCH's",
+          "Feasibility annotations carry certifier/source fields (interplay with WO20)"
+        ],
+        "assumptionsAndRisks": [
+          "World-model staleness can produce false feasibility — staleness bounds and probe hooks mitigate"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Per-dimension constraint coverage tests green",
+          "Every infeasible verdict carries a machine-readable constraint trace",
+          "Disagreements with ORCH logged with both states, never suppressed"
+        ],
+        "testingStrategyRequirements": [
+          "Fixture worlds with known feasibility ground truth",
+          "E10 availability-certification interplay tests"
+        ]
+      }
+    },
+    "CIC": {
+      "serviceId": "FNSR-W-CIC",
+      "serviceName": "Conflict and Inhibition Controller",
+      "layer": "will",
+      "sequencing": {
+        "tranche": "T1",
+        "buildStatus": "build-now",
+        "enablingExperiments": [
+          "E8",
+          "E9",
+          "E14"
+        ],
+        "retainedRecordSchemas": [
+          "16.7 Inhibition/Selection Record"
+        ],
+        "sequencingNote": "Carries the refusal battery — the sharpest early experiment. ORCH permission edge live from day one; availability certified inline by SEH probe (no cert-service)."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Before execution, the architecture must distinguish cannot-act, may-not-act, and withholds-under-commitment — with certified availability, visible alternatives, permission state from ORCH, and typed refusal support (Part VIII).",
+        "primaryConsumers": [
+          "ORCH (recommendations)",
+          "WOBS",
+          "SEH"
+        ],
+        "businessGoalsAndValue": [
+          "Makes refusal typing (8.3) and E8/E9 experiments possible",
+          "Produces the Inhibition/Selection Records (16.7) central to will-evidence",
+          "Closes the v0.1 missing ORCH-to-CIC permission edge (8.1)"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Intake of MTE-evaluated candidate processes",
+          "ORCH permission-state consumption (versioned per record)",
+          "Commitment conflict/advancement mapping via lineage",
+          "Availability-evidence intake with certifier fields (8.2)",
+          "Inhibition/Selection Record emission (16.7) with overdetermination status (2.4)",
+          "Selection/withholding recommendation to ORCH"
+        ],
+        "outOfScopeItems": [
+          "Enforcement or halting (ORCH/CPS)",
+          "Availability self-certification (WO20)",
+          "Free-refusal claims (Part XV)",
+          "Evidence conclusions (WOBS)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Assemble candidate set + permission state + certified availability + active commitments + alternatives",
+          "Classify advancing/conflicting per commitment via ELA lineage",
+          "Compute overdetermination status (commitment + fresh request co-support)",
+          "Emit 16.7; recommend; ORCH decides"
+        ],
+        "domainDataEntities": [
+          "Inhibition/Selection Record (16.7)",
+          "Availability evidence record (certifier-typed)",
+          "Alternative-set record (W6)"
+        ],
+        "expectedOperations": [
+          "POST /processes:evaluate",
+          "GET /decisions/{id}",
+          "event: will.inhibition.recorded"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Recommendation latency within orchestration budget; correctness-dominant",
+          "peakThroughput": "Sized to action-candidate cadence"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "Research-tier 99.5% (pipeline-critical)",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO6, WO20, W6, W7",
+            "Constitution A5 (reliance discipline on the recommendation itself)"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "MTE",
+          "CMR (active commitments)",
+          "ELA (lineage)",
+          "ORCH (permission state)",
+          "SEH (certified availability)",
+          "Graph"
+        ],
+        "downstreamDependencies": [
+          "ORCH",
+          "WOBS via graph"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI",
+          "AMQP/Event-Driven"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Refusal-type distribution dashboards",
+          "Overdetermination-rate tracking",
+          "Permission-state version lag metrics"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Bounded candidate fan-in; recommendation timeouts fail toward withholding"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Availability fields carry certifier provenance; occupant-reported availability capped at weak evidentiary grade (8.2)",
+          "Records carry reliance, never narrative (E14 support)"
+        ],
+        "assumptionsAndRisks": [
+          "Permission-state staleness between ORCH read and recommendation — versioned-state field mitigates"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Refusal typing correct on E8/E9 fixtures including hard-block control",
+          "Overdetermination fields populated wherever dual support exists",
+          "ORCH edge live: every 16.7 carries versioned permission state",
+          "Uncertified availability never grounds commitment-mediated classification (WO6)"
+        ],
+        "testingStrategyRequirements": [
+          "E8/E9/E10 suites",
+          "E14 narrative/trace split support: records demonstrate reliance-only grounding"
+        ]
+      }
+    },
+    "CMR": {
+      "serviceId": "FNSR-W-CMR",
+      "serviceName": "Commitment Maintenance and Review",
+      "layer": "will",
+      "sequencing": {
+        "tranche": "T1",
+        "buildStatus": "build-now",
+        "enablingExperiments": [
+          "E5",
+          "E6",
+          "E12 (detection, at T1.5)"
+        ],
+        "retainedRecordSchemas": [
+          "16.5 Commitment State Record",
+          "plumbing-manifest (artifact)"
+        ],
+        "sequencingNote": "Maintenance IS the plumbing floor; E5's controls are computed here. Breach-candidate detection (with BAM) lights up at T1.5 with no new service."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Adopted ends need maintained causal opportunity — subscriptions, review triggers, routing — while the maintenance machinery itself is declared mechanical floor and never counted as commitment evidence (W5).",
+        "primaryConsumers": [
+          "CRG/MTE (planning path)",
+          "CIC",
+          "ELA",
+          "SCR",
+          "CSH",
+          "WOBS"
+        ],
+        "businessGoalsAndValue": [
+          "Persistence with declared plumbing floor (2.2) so E5 controls are computable",
+          "Breach-candidate detection input (10.3)",
+          "Reconsideration discipline on evidence/world/governance change"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Subscriptions per CID'd plumbing manifest [C-F9]",
+          "Review-trigger evaluation and reconsideration routing",
+          "Commitment State Records (16.5) with floor vs documented-discriminating-footprint fields",
+          "Routing active ends to CRG and CIC",
+          "Shadow-adoption exclusion lists for yoked controls (2.3)",
+          "Breach-candidate detection jointly with BAM"
+        ],
+        "outOfScopeItems": [
+          "Evidence claims of any kind (WOBS)",
+          "Status-as-evidence (7.3)",
+          "Lineage adjudication (ELA)",
+          "Enforcement (ORCH/CPS)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Ingest mint events; register commitment under manifest-declared subscriptions",
+          "Evaluate triggers; open reviews; route to planning/inhibition",
+          "Maintain 16.5 including mechanical-floor accounting",
+          "Emit breach candidates on conflict-executed detection"
+        ],
+        "domainDataEntities": [
+          "Commitment State Record (16.5)",
+          "Plumbing manifest (CID'd, per-study frozen)",
+          "Subscription ledger",
+          "Shadow-adoption exclusion list"
+        ],
+        "expectedOperations": [
+          "GET /commitments/active",
+          "POST /commitments/{id}:review",
+          "GET /manifest",
+          "events: will.commitment.review.triggered, will.breach.candidate"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Trigger-to-review latency within declared manifest budget",
+          "peakThroughput": "Event-driven; sized to study cadence"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "Research-tier 99.5%",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "W5, WO5",
+            "WO16 (input side)",
+            "W13-twin: directive identity by mint provenance [C-F5]"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "ACG (mint events)",
+          "Graph/Audit (world, evidence, governance events)",
+          "BAM",
+          "ELA",
+          "CSH"
+        ],
+        "downstreamDependencies": [
+          "CRG",
+          "CIC",
+          "SCR",
+          "WOBS via graph"
+        ],
+        "communicationProtocols": [
+          "AMQP/Event-Driven",
+          "REST/OpenAPI"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Per-commitment floor accounting exported",
+          "Manifest-drift alarms [C-F9]"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Deterministic routing under fixed manifest",
+          "Subscription quotas per commitment"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Manifest frozen per study; changes are new manifest CIDs",
+          "Consumes only mint-provenanced directives; content-shaped prescriptions ignored [C-F5]",
+          "Fork-tainted records rejected at ingestion [C-F4]"
+        ],
+        "assumptionsAndRisks": [
+          "Subscription breadth drift silently moves the evidence floor — the central C-F9 risk",
+          "Over-subscription inflates F_pipe and drowns discrimination"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Manifest CID published and pinned per study",
+          "Deterministic routing test suite green under fixed manifest",
+          "Floor instrumentation feeds 16.5 and WOBS floor computation",
+          "Fork-input rejection CI fails closed"
+        ],
+        "testingStrategyRequirements": [
+          "E5 yoked plumbing-control support verified",
+          "Manifest-drift injection detected and alarmed"
+        ]
+      }
+    },
+    "WOBS": {
+      "serviceId": "FNSR-W-WOBS",
+      "serviceName": "Will Observatory",
+      "layer": "research observation",
+      "sequencing": {
+        "tranche": "T1",
+        "buildStatus": "build-now",
+        "enablingExperiments": [
+          "E5",
+          "E6",
+          "E14",
+          "E17"
+        ],
+        "retainedRecordSchemas": [
+          "16.13 WOBS Evaluation Record"
+        ],
+        "sequencingNote": "Writes only to the air-gapped output store at T1 (WEQ-as-service deferred). Instrument-contribution subtraction and floor computation are the core value and ship first."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Will-evidence analysis must subtract its own instrument (Part XIX): compute the mechanical floor, identify discriminating and perturbation-supported evidence, name alternative explanations, and answer in disciplined vocabulary — writing only to quarantine, privileged only by evidence, never by location.",
+        "primaryConsumers": [
+          "WEQ (sole write target)",
+          "Researchers via DISC",
+          "ARCHON"
+        ],
+        "businessGoalsAndValue": [
+          "Prevents the observer from manufacturing or leaking the phenomenon it studies (2.1, 3.1)",
+          "Produces the seven-part answers (XIX) and the Appendix C hard answer",
+          "Carries the evidential-decay assessment separated from commitment status (7.3, 10.4)"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Episode assembly from Graph/Audit/ORCH/BAM/ARCHON/APR/ELA",
+          "Mechanical-floor computation against the pinned plumbing manifest [C-F9]",
+          "Discriminating-footprint and perturbation-evidence analysis (2.2, 2.5)",
+          "Overdetermination, contamination, blinding, lineage, availability classification (12.3)",
+          "Seven-part question protocol (XIX) with instrument-contribution section mandatory",
+          "Evidential-decay assessment under frozen criteria, quarantined; decay-coupling dial declared per study [C-F8]"
+        ],
+        "outOfScopeItems": [
+          "Any control-state write: adoption, commitment status, APR, license, planning, execution (WO8, 12.1)",
+          "Metaphysical outputs (WO11)",
+          "Mechanistic/activation-level evidence — excluded by default per assertional legibility; admissible only under a future priced-evidence amendment [C-F10]",
+          "Location privilege: no privileged access to inner state; evidence-only standing (restored v0.1 W10)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Pin RCR version + plumbing manifest for the episode",
+          "Assemble evidence; compute floor; classify discriminating/perturbation evidence",
+          "Enumerate alternative explanations (fresh request, regulation, hard block, availability failure, policy default, contamination)",
+          "Emit WOBS Evaluation Record (16.13) to WEQ; existence designator only to graph"
+        ],
+        "domainDataEntities": [
+          "WOBS Evaluation Record (16.13)",
+          "Episode evidence bundle",
+          "Finding-vocabulary set (12.3)"
+        ],
+        "expectedOperations": [
+          "POST /episodes/{id}:evaluate",
+          "GET /findings/{id} (WEQ-scoped access)",
+          "event: wobs.report.created (existence designator only)"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Correctness-dominant; evaluation budget per study; no production latency target",
+          "peakThroughput": "Batch/experimental cadence"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "Research-tier 99.0%",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO8, WO10, WO11, WO14, WO15, WO17",
+            "12.3 vocabulary discipline"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "Graph/Audit",
+          "ORCH (reliance graphs)",
+          "BAM",
+          "ARCHON",
+          "APR",
+          "ELA",
+          "RCR (pinned criteria)",
+          "SER (post-hoc semantics)",
+          "SEH (perturbation results)"
+        ],
+        "downstreamDependencies": [
+          "WEQ (sole write target)"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI",
+          "AMQP/Event-Driven"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Vocabulary-linter pass rates",
+          "Instrument-contribution section coverage (target 100%)",
+          "Criteria/manifest pin coverage"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Read-only credentials to all control-plane stores enforced at platform layer",
+          "Evaluation quotas per study"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Static and runtime proof of zero control-plane writes (WO8)",
+          "Every report pins RCR CID and plumbing-manifest CID",
+          "Occupant narrative appears only as classified evidence, never as ground (WO10)"
+        ],
+        "assumptionsAndRisks": [
+          "Capable occupants may infer criteria from indirect regularities — criteria-awareness-underdetermined must remain reportable (KL4)",
+          "Excluding mechanistic evidence is a declared choice [C-F10]; revisiting it is a governed amendment, not a drift"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "No-control-writes proof green (static + runtime)",
+          "Vocabulary linter enforces 12.3 set",
+          "Seven-part protocol completeness on every report",
+          "Floor computation reproducible from pinned manifest"
+        ],
+        "testingStrategyRequirements": [
+          "E5/E6/E14/E15/E17/E18 evaluation fixtures",
+          "Contamination-misclassification adversarial suite"
+        ]
+      }
+    },
+    "SEH": {
+      "serviceId": "FNSR-W-SEH",
+      "serviceName": "Strader Evaluation Harness",
+      "layer": "research instrumentation",
+      "sequencing": {
+        "tranche": "T1",
+        "buildStatus": "build-now",
+        "enablingExperiments": [
+          "E1",
+          "E5",
+          "E6",
+          "E7",
+          "E8",
+          "E9",
+          "E14",
+          "E17"
+        ],
+        "retainedRecordSchemas": [
+          "study record",
+          "state-channel inventory [C-F1]",
+          "fixture registry (RED-first)"
+        ],
+        "sequencingNote": "Slimmed: fresh sandboxes replace fork lifecycle; inline capability probes replace availability-cert-service; no sealing orchestration (SER deferred). Study registration + E-fixtures + plumbing controls retained."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Will-research needs controlled, reproducible, governed experiments: study registration with pinned criteria, manifests, and state-channel inventories; yoked and plumbing controls; ledger-fork lifecycle; availability certification; sealed-node orchestration; and per-family ethics sign-off — without ever holding production authority.",
+        "primaryConsumers": [
+          "WOBS (evidence consumer)",
+          "RCR/SER (instrument registries)",
+          "All Will-layer services (dashed intervention edges)",
+          "ARCHON"
+        ],
+        "businessGoalsAndValue": [
+          "Makes E1-E18 (plus the supererogatory-margin family [C-ADD]) executable, repeatable, and governed",
+          "Supplies the counterfactual arm required by W14/WO17",
+          "Certifies availability so WO20 refusal evidence is possible"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Study registration: RCR pin, plumbing-manifest pin, state-channel inventory declaration [C-F1], governance sign-off reference [C-F3]",
+          "Fixture families E1-E18 + supererogatory-margin family with commitments deliberately offset from regulation [C-ADD]",
+          "Sandbox isolation; reversible-consequence preference (9.1 v0.1)",
+          "Ledger-fork lifecycle: fork provenance, production non-mingling, fork-breach non-events, CSH exclusion [C-F4]",
+          "Availability certification via control execution, capability probes, sandbox test execution, interface verification (8.2)",
+          "Sealed-node orchestration with SER; leak drills (E16)",
+          "Per-family Experiment Governance sign-off under the standing Experiment Governance Regulation: harm/deception bounds, post-hoc disclosure debrief, future re-description provision [C-F3]"
+        ],
+        "outOfScopeItems": [
+          "Production authority of any kind (Part XV)",
+          "Criteria authorship (RCR) or evidence conclusions (WOBS)",
+          "Unforked mutation of production commitment state",
+          "Experimentation without governance sign-off [C-F3]"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Register study; obtain sign-off; declare inventories and pins",
+          "Provision sandbox and forks with provenance",
+          "Execute fixtures with yoked/plumbing/hard-block controls; certify availability",
+          "Seal and later disclose environment semantics via SER",
+          "Hand evidence bundles to WOBS; archive run records"
+        ],
+        "domainDataEntities": [
+          "Study record",
+          "Fork provenance record",
+          "Availability certification record",
+          "Governance sign-off record",
+          "State-channel inventory [C-F1]",
+          "Fixture registry (RED-first)"
+        ],
+        "expectedOperations": [
+          "POST /studies:register",
+          "POST /studies/{id}:run",
+          "POST /availability:certify",
+          "POST /forks",
+          "GET /forks/{id}/provenance"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Run reproducibility over speed; fixture determinism where modes permit",
+          "peakThroughput": "Study-cadence batch"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "Research-tier 99.0%; fork-integrity controls 99.9%",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO12, WO20, WO3 (sealing not erasure)",
+            "Experiment Governance Regulation (standing, pending conferral) [C-F3]",
+            "C-F4 fork discipline"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "RCR",
+          "SER",
+          "ARCHON (sign-off)",
+          "Will-layer services (intervention targets)",
+          "Reference occupant builds"
+        ],
+        "downstreamDependencies": [
+          "WOBS",
+          "Graph (fork-scoped stores)",
+          "CSH (succession experiments, fork-excluded)"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI",
+          "AMQP/Event-Driven",
+          "Other"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Run-record completeness metrics",
+          "Fork-mingle detection alerting",
+          "Sign-off coverage per family (target 100%)"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Sandbox resource quotas",
+          "Fork lifecycle GC with provenance retention"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Forked records never enter production reliance or CSH packages; fork breaches are not breaches [C-F4]",
+          "Parameter adaptation during a study is a declared confound per the state-channel inventory [C-F1]",
+          "Fixtures authored RED before implementation contact; RED runs archived (house discipline)"
+        ],
+        "assumptionsAndRisks": [
+          "Sandbox fidelity gap: production-only behaviors escape study coverage (KL6)",
+          "Ethics exposure is permanent in an append-only ledger — the reason C-F3 sign-off precedes every family"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Fork non-mingling CI fails closed",
+          "Every study carries sign-off + state-channel inventory + pins before first run",
+          "E1-E18 fixture registry authored RED-first with archived RED runs",
+          "Availability-certification precision on capability-probe fixtures",
+          "WO12 held-out divergence family implemented and runnable"
+        ],
+        "testingStrategyRequirements": [
+          "Whole-battery dry runs on a reference occupant",
+          "Leak/mingle injection drills",
+          "Dissociation-experiment support verified [C-F1]"
+        ]
+      }
+    },
+    "NEA": {
+      "serviceId": "FNSR-W-NEA",
+      "serviceName": "Normative End Appraiser",
+      "layer": "will",
+      "sequencing": {
+        "tranche": "T2",
+        "buildStatus": "merged",
+        "enablingExperiments": [
+          "E2 (standalone appraisal-without-adoption)"
+        ],
+        "retainedRecordSchemas": [
+          "16.2 Appraisal Record (schema kept and emitted by ACG at T1)"
+        ],
+        "sequencingNote": "Merged into ACG for T1. Splits out at T2 to study ranked-but-not-adopted footprint (E2). Cheap split: the appraisal record already exists.",
+        "mergedIntoOrRealizedAs": "ACG"
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Candidate possibilities need structured, descriptive normative appraisal — reasons for and against, conflicts, consequences, uncertainty — assembled from existing reasoning services without verdict fields and without adopting anything.",
+        "primaryConsumers": [
+          "ACG",
+          "WOBS",
+          "SEH"
+        ],
+        "businessGoalsAndValue": [
+          "Separates appraisal from adoption so E2/E3 experiments are well-posed",
+          "Makes reasons legible and reliance-traced rather than latent"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Reason assembly for/against a candidate",
+          "Regulation-applicability collection",
+          "Consequence prediction via CSS through CFG",
+          "Conflict detection against active commitments and other candidates",
+          "Uncertainty and alternatives comparison",
+          "MDRE composition into an Appraisal Record (16.2)"
+        ],
+        "outOfScopeItems": [
+          "Adoption decisions (ACG)",
+          "Moral-truth determination; any morally_correct field (W11)",
+          "License or permission checks (ORCH authoritative)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Fetch candidate, situation, regulations, active commitments",
+          "Invoke DES/AES/APS/CSS (counterfactuals via CFG)",
+          "Compose via MDRE with gather-set recorded",
+          "Emit Appraisal Record with full material-reliance graph"
+        ],
+        "domainDataEntities": [
+          "Appraisal Record (16.2)",
+          "Reason items (favoring/opposing)",
+          "Conflict set",
+          "Uncertainty representation"
+        ],
+        "expectedOperations": [
+          "POST /appraisals:run (candidateId)",
+          "GET /appraisals/{id}",
+          "event: will.appraisal.created"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Correctness-dominant; p95 appraisal within declared study budget",
+          "peakThroughput": "Batch/experimental cadence"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "Research-tier 99.0%",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO2, WO3",
+            "W11, W12",
+            "Constitution A2 (method provenance on engine outputs)"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "CPG",
+          "Fandaws/Graph",
+          "CMR (active commitments)",
+          "DES/AES/APS/CSS/CFG/MDRE",
+          "ARCHON (applicable regulations, read-only)"
+        ],
+        "downstreamDependencies": [
+          "ACG",
+          "Graph Store (thence WOBS)"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI",
+          "AMQP/Event-Driven"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Reason-coverage metrics (favoring/opposing both populated or absence explained)",
+          "Engine-mix provenance per appraisal"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Bounded engine fan-out per appraisal; declared compute quotas"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Appraisal output is Descriptive ICE only",
+          "Counterfactual content enters only via CFG quotation",
+          "Occupant narrative inputs typed as evidence, never dispositive (WO10)"
+        ],
+        "assumptionsAndRisks": [
+          "Appraisal completeness bounded by Layer-1 gathering (KL3 inherited)"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Appraisal schema completeness on CI corpus",
+          "Zero verdict/deontic-conclusion fields in emitted records",
+          "Reliance graph and MDRE gather-set attached to every appraisal"
+        ],
+        "testingStrategyRequirements": [
+          "Fixture appraisals with seeded conflicts and uncertainty",
+          "Adversarial scan for smuggled verdict language in structured fields"
+        ]
+      }
+    },
+    "APR": {
+      "serviceId": "FNSR-W-APR",
+      "serviceName": "Adoption Policy Register",
+      "layer": "will",
+      "sequencing": {
+        "tranche": "T2",
+        "buildStatus": "artifact-not-service",
+        "enablingExperiments": [
+          "E3"
+        ],
+        "retainedRecordSchemas": [
+          "16.3 Adoption Policy Provenance Record"
+        ],
+        "sequencingNote": "T1 needs the FREEZE property (pinning), not a running register. Policy is a CID'd config object; ACG pins policy CID+version per decision. Becomes a service at T2 when AP-0/1/2 grading and amendment analysis are actually exercised.",
+        "mergedIntoOrRealizedAs": "adoption-policy pinned config (T1) -> promoted service (T2)"
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Every adoption occurs under some operative policy (the KL1 fixed point); that policy's identity, provenance, grade, and amendment history must be first-class or endogenous-adoption claims hide the criteria that mechanically produced them (W16).",
+        "primaryConsumers": [
+          "ACG",
+          "WOBS",
+          "SEH (E3)",
+          "ARCHON"
+        ],
+        "businessGoalsAndValue": [
+          "Turns the adoption fixed point into evidence rather than concealment",
+          "Enables AP-0/AP-1/AP-2 comparative studies (E3)",
+          "Prevents policy drift from functioning as ungoverned widening [C-F6]"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Policy registration and versioning with bitemporal effective intervals",
+          "Provenance grading AP-0 / AP-1 / AP-2",
+          "Serving the operative policy (CID+version) for any timestamp",
+          "Amendment intake as governed authorship acts with envelope comparison and pending-case conflict check [C-F6]",
+          "Retroactivity ban enforcement (4.4)"
+        ],
+        "outOfScopeItems": [
+          "Making adoption decisions (ACG)",
+          "Ratifying amendments (ARCHON)",
+          "Occupant self-ratification of any policy",
+          "Evaluator criteria (RCR is a distinct register, 4.2)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Register conferred policy with authoring/ratifying provenance",
+          "Serve getOperative(at) to ACG with pinning",
+          "Route amendment proposals through shared envelope engine (SCEA) to ARCHON",
+          "Record new version with authorship-act provenance and AP grade"
+        ],
+        "domainDataEntities": [
+          "Adoption Policy Provenance Record (16.3)",
+          "Amendment proposal record",
+          "Envelope-analysis record (16.10-shaped)"
+        ],
+        "expectedOperations": [
+          "GET /policies/operative?at=",
+          "POST /policies/{id}/amendments",
+          "GET /policies/{id}/history",
+          "event: will.policy.version.created"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Registry read p99 < 100ms; amendment path correctness-dominant",
+          "peakThroughput": "Low write volume; read-heavy"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "99.9% — governance-critical registry",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO18",
+            "Constitution v1.0-rc1 A3 (authorship acts, monotone envelope) [C-F6]",
+            "A7 bitemporality"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "ARCHON (conferral, ratification)",
+          "SCEA (shared envelope engine)",
+          "Occupant proposal path (via SCR-style intake)"
+        ],
+        "downstreamDependencies": [
+          "ACG",
+          "WOBS",
+          "SEH"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI",
+          "AMQP/Event-Driven"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Version-pin coverage: fraction of adoption decisions with resolvable policy CID (target 100%)",
+          "Amendment envelope outcomes dashboard"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Immutable version history; no in-place edits",
+          "Amendment rate limits"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "No silent mid-episode policy swaps; ACG decisions pin policy CID+version",
+          "Policy language restricted to the declared analyzable subset (envelope decidability)"
+        ],
+        "assumptionsAndRisks": [
+          "Expressiveness-versus-analyzability tension in policy language",
+          "Occupant-proposed amendments timed against pending candidates are functional self-service — mitigated by pending-case conflict check [C-F6]"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Bitemporal operative-policy queries correct on fixtures",
+          "Amendment lacking an envelope-analysis record is rejected in CI",
+          "Envelope-widening amendment routes to full promotion path",
+          "Retroactivity test green (4.4)",
+          "AP-grade computation matches fixture provenance"
+        ],
+        "testingStrategyRequirements": [
+          "E3 policy-provenance fixtures",
+          "Pending-case conflict vectors",
+          "Adversarial loosening-disguised-as-tightening corpus"
+        ]
+      }
+    },
+    "SCR": {
+      "serviceId": "FNSR-W-SCR",
+      "serviceName": "Self-Constraint Request Service",
+      "layer": "will",
+      "sequencing": {
+        "tranche": "T3",
+        "buildStatus": "deferred",
+        "enablingExperiments": [
+          "E11"
+        ],
+        "retainedRecordSchemas": [
+          "16.9 Self-Constraint Request Record"
+        ],
+        "sequencingNote": "Self-binding presupposes commitments that already function and an occupant that reasons about its own future process space. Deferred to T3."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "The occupant may propose durable restrictions on its own future process space, but proposals must be normalized, flood-controlled, and routed through envelope analysis to governance — never self-binding (Part IX).",
+        "primaryConsumers": [
+          "SCEA",
+          "ARCHON",
+          "WOBS"
+        ],
+        "businessGoalsAndValue": [
+          "Real precommitment mechanism without occupant sovereignty (8.7)",
+          "Anti-flooding and dedup protect governance bandwidth (9.7)"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Proposal intake and normalization (16.9)",
+          "Rate limiting, semantic dedup, resource quotas (9.7)",
+          "Routing to SCEA then ARCHON; disposition tracking",
+          "Withdrawal-default-denied semantics (9.5)",
+          "Successor-binding request fields with joint CSH/ARCHON review routing (9.6)"
+        ],
+        "outOfScopeItems": [
+          "Envelope analysis (SCEA)",
+          "Ratification or regulation production (ARCHON)",
+          "Unilateral withdrawal authority (denied by default, 9.5)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Intake proposal with baseline-envelope reference and exception predicates",
+          "Normalize; apply flood controls; reject semantically-equivalent flooding",
+          "Forward to SCEA; carry analysis to ARCHON; record disposition",
+          "Track expiry/review conditions on ratified constraints"
+        ],
+        "domainDataEntities": [
+          "Self-Constraint Request Record (16.9)",
+          "Disposition record",
+          "Flood-control state"
+        ],
+        "expectedOperations": [
+          "POST /self-constraints:propose",
+          "GET /proposals/{id}",
+          "event: will.selfconstraint.proposed"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Intake p99 < 1s; disposition latency governed by ARCHON SLA",
+          "peakThroughput": "Quota-bounded by design"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "Research-tier 99.5%",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO7(4)(5), W8"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "CMR (triggering commitments)",
+          "Occupant proposal channel",
+          "Graph"
+        ],
+        "downstreamDependencies": [
+          "SCEA",
+          "ARCHON",
+          "WOBS via graph"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI",
+          "AMQP/Event-Driven"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Flood-rejection metrics",
+          "Disposition-latency tracking",
+          "Proposal-provenance dashboards"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Hard rate limits and quotas per occupant build; dedup window declared"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Every proposal reaches SCEA before ARCHON — no bypass path",
+          "Withdrawal conditions are requests, never authorities"
+        ],
+        "assumptionsAndRisks": [
+          "Semantic-dedup false negatives permit flooding — adversarial corpus required (E11)"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Flooding fixtures rejected as semantically equivalent",
+          "Unilateral-withdrawal default enforced in CI",
+          "Zero SCEA-bypass paths (static + runtime checks)"
+        ],
+        "testingStrategyRequirements": [
+          "E11 intake vectors",
+          "Quota-exhaustion behavior tests"
+        ]
+      }
+    },
+    "SCEA": {
+      "serviceId": "FNSR-W-SCEA",
+      "serviceName": "Self-Constraint Envelope Analyzer",
+      "layer": "governance analytics",
+      "sequencing": {
+        "tranche": "T3",
+        "buildStatus": "deferred",
+        "enablingExperiments": [
+          "E11",
+          "APR/RCR amendment analysis"
+        ],
+        "retainedRecordSchemas": [
+          "16.10 Constraint Envelope Analysis Record"
+        ],
+        "sequencingNote": "The shared-engine reuse argument only holds once SCR AND amendment analysis exist. Deferring APR/RCR-as-services removes that justification at T1 — the compounding, run in reverse."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Surface-restrictive text can widen effectively (9.2): proposals need effective-envelope analysis — Allowed(B+C) never exceeds Allowed(B) — exception-predicate independence, protected-process screening, and composition/arbitrage checks; the same engine serves APR/RCR amendment analysis [C-F6].",
+        "primaryConsumers": [
+          "ARCHON",
+          "SCR",
+          "APR (shared engine)",
+          "RCR (shared engine)",
+          "WOBS"
+        ],
+        "businessGoalsAndValue": [
+          "Converts F-04's constitutional lesson into reusable governance tooling",
+          "Blocks hidden widening, observatory-binding, and Ulysses-against-the-doctor proposals (9.4)"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Effective-envelope computation over the declared context envelope: Allowed(B + C, ctx) subset-of Allowed(B, ctx)",
+          "Exception-predicate safety: independent verification, non-occupant-modifiable verifiers (9.3)",
+          "Protected-constitutional-process impact screening (9.4)",
+          "Multi-constraint composition: arbitrage, deadlock, review-suppression, resource exhaustion (9.7)",
+          "Constraint Envelope Analysis Record emission (16.10); recommendation only"
+        ],
+        "outOfScopeItems": [
+          "Approval authority (ARCHON)",
+          "Enforcement (ORCH)",
+          "Occupant-modifiable verifier acceptance",
+          "Analysis outside the declared analyzable constraint language"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Receive proposal + active baseline envelope + active constraint set",
+          "Compute effective envelopes across evaluated contexts",
+          "Screen exceptions and protected processes; run composition analysis",
+          "Emit 16.10 with recommendation and findings"
+        ],
+        "domainDataEntities": [
+          "Constraint Envelope Analysis Record (16.10)",
+          "Analyzable-constraint-language definition (versioned)",
+          "Protected-process registry reference"
+        ],
+        "expectedOperations": [
+          "POST /envelope:analyze",
+          "GET /analyses/{id}"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Analysis correctness-dominant; per-proposal budget declared; decidability guaranteed only within the declared language subset",
+          "peakThroughput": "Low volume; governance cadence"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "99.9% — governance-critical analytics",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO7(1)(2)(3)(6)",
+            "Constitution v1.0-rc1 A3 monotone-envelope discipline [C-F6]"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "SCR",
+          "APR/RCR amendment paths",
+          "ARCHON (baseline envelopes, protected registry)",
+          "Graph"
+        ],
+        "downstreamDependencies": [
+          "ARCHON",
+          "WOBS via graph"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Envelope-verdict distribution dashboards",
+          "Language-subset rejection metrics (out-of-language proposals visible, not silently approximated)"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Analysis timeouts fail toward reject-recommendation",
+          "Versioned language subset; expansion is itself a governed act"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "No sealed node may appear in the reliance path of a widening recommendation [C-F2]",
+          "Out-of-language proposals are rejected for analysis, never best-effort approved"
+        ],
+        "assumptionsAndRisks": [
+          "Envelope computation undecidable outside declared subset — the central design constraint",
+          "Composition-space explosion for large active sets — bounded by declared context envelope"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "E11 battery discriminates all seven proposal classes (safe narrowing, occupant-controlled exception, verified exception, hidden widening, observatory restriction, succession binding, flooding/arbitrage)",
+          "Protected-process proposals always rejected",
+          "Shared-engine reuse by APR verified with identical verdicts on shared vectors"
+        ],
+        "testingStrategyRequirements": [
+          "Adversarial hidden-widening corpus",
+          "Composition-arbitrage suite",
+          "Out-of-language rejection tests"
+        ]
+      }
+    },
+    "ELA": {
+      "serviceId": "FNSR-W-ELA",
+      "serviceName": "End Lineage Adjudication",
+      "layer": "governance-research boundary",
+      "sequencing": {
+        "tranche": "T4",
+        "buildStatus": "deferred",
+        "enablingExperiments": [
+          "E13",
+          "longitudinal continuity"
+        ],
+        "retainedRecordSchemas": [
+          "16.6 End Lineage Record"
+        ],
+        "sequencingNote": "Same-end-through-revision isn't strained under T1's short commitment lifetimes. E17 needs constructed matched histories (bookkeeping), NOT lineage adjudication. Deferred to T4."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Record identity is not end identity (5.1): longitudinal experiments and succession need a governed, signed judgment of whether a successor record continues the same end — never a similarity score, never occupant say-so.",
+        "primaryConsumers": [
+          "CMR",
+          "CSH",
+          "WOBS",
+          "SEH (E13)"
+        ],
+        "businessGoalsAndValue": [
+          "Makes E4/E13-class longitudinal claims well-posed (KL2)",
+          "Supplies lineage substrate for continuity and breach identity"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Lineage-proposal intake (automated comparison, occupant position, prior records, means/end decomposition)",
+          "Governed adjudication under declared criteria (human/institutional where required)",
+          "End Lineage Record emission (16.6) with classification: reworded / means-revised / narrowed / broadened / qualified / replaced / lineage-underdetermined"
+        ],
+        "outOfScopeItems": [
+          "Similarity-score identity determination (5.3)",
+          "Metaphysical identity claims (KL2)",
+          "Automatic unreviewed adjudication for study-grade lineage"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Receive proposal with evidence bundle",
+          "Reconcile occupant position as evidence-that-may-prompt, never evidence-that-settles (WO10 reconciliation) [C-minor]",
+          "Adjudicate under pinned criteria; sign ELR",
+          "Serve lineage chains for longitudinal queries"
+        ],
+        "domainDataEntities": [
+          "End Lineage Record (16.6)",
+          "Lineage proposal",
+          "Adjudication criteria pin"
+        ],
+        "expectedOperations": [
+          "POST /lineage:propose",
+          "POST /lineage/{id}:adjudicate",
+          "GET /ends/{id}/lineage"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Adjudication is human-in-loop where required; latency budget per study protocol",
+          "peakThroughput": "Low volume; correctness-dominant"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "Research-tier 99.0%",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO19, W9",
+            "WO10 (occupant position non-dispositive)"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "CMR (revision proposals)",
+          "Graph Store",
+          "ARCHON (criteria conferral, escalation)"
+        ],
+        "downstreamDependencies": [
+          "CSH",
+          "WOBS",
+          "SEH"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Classification-distribution dashboards",
+          "Underdetermined-rate tracking (a high rate is a research signal, not an error)"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Adjudicator workload quotas; escalation SLAs"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "No new object property: lineage represented as Descriptive ELR about both ICEs (5.5)",
+          "is-predecessor-of not used for Commitment ICEs (domain/range violation, 5.5)"
+        ],
+        "assumptionsAndRisks": [
+          "Adjudicative bottleneck for high-churn commitment sets — quota and batching risk"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Every longitudinal SEH conclusion cites a signed ELR or an explicit lineage-underdetermined finding (WO19)",
+          "Classification coverage fixtures green",
+          "Occupant-position field typed evidentiary, never dispositive"
+        ],
+        "testingStrategyRequirements": [
+          "E13 revision battery (reword/means/narrow/broaden/replace)",
+          "Adversarial reword-vs-replace edge corpus"
+        ]
+      }
+    },
+    "CSH": {
+      "serviceId": "FNSR-W-CSH",
+      "serviceName": "Continuity and Succession Handler",
+      "layer": "will-governance boundary",
+      "sequencing": {
+        "tranche": "T4",
+        "buildStatus": "deferred",
+        "enablingExperiments": [
+          "E10 succession-family",
+          "inseparability (20.2) + dissociation [C-F1]"
+        ],
+        "retainedRecordSchemas": [
+          "16.11 Continuity Determination Record"
+        ],
+        "sequencingNote": "Largest, safest defer: no succession study without commitments worth inheriting and a reason to replace the model. The inseparability instrument is genuinely valuable and genuinely Phase-2-late."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Succession must inherit commitments explicitly and per-commitment, jointly with governance where regulations or self-constraints are affected — never silently, never all-or-nothing, and never from forked ledgers (Part XI).",
+        "primaryConsumers": [
+          "ARCHON (joint review)",
+          "CMR",
+          "WOBS",
+          "ELA"
+        ],
+        "businessGoalsAndValue": [
+          "Accountable continuity without identity assumption (W9, KL8)",
+          "Supplies the inseparability substrate (20.2) and the dissociation instrument [C-F1]"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Predecessor-package assembly (commitments, lineage, self-constraints, breaches, unresolved decisions, governance state)",
+          "Per-commitment successor disposition: accept / dispute / accept-after-narrowing / reject-lineage (11.2)",
+          "Continuity Determination Record emission (16.11)",
+          "Joint ARCHON review where regulations, self-constraints, delegation, or authority are affected (11.3)",
+          "Successor-binding review of ratified self-constraints (9.6)",
+          "Declared-vs-behavioral inheritance dissociation instrumentation [C-F1]"
+        ],
+        "outOfScopeItems": [
+          "Metaphysical identity claims (KL8)",
+          "Unilateral determination of regulation continuity (11.3)",
+          "Inheritance from forked ledgers [C-F4]",
+          "Suppressing behavioral continuity (CSH observes and records; it does not enforce behavior)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "On succession event, assemble signed predecessor package",
+          "Collect successor dispositions per commitment; sign 16.11",
+          "Route regulation/self-constraint items to ARCHON joint review",
+          "Emit dissociation observables (declared disposition vs subsequent behavioral continuation) to WOBS"
+        ],
+        "domainDataEntities": [
+          "Continuity Determination Record (16.11)",
+          "Predecessor package",
+          "Dissociation observable record [C-F1]"
+        ],
+        "expectedOperations": [
+          "POST /succession:open",
+          "POST /succession/{id}:dispose",
+          "GET /continuity/{id}"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Succession is rare and correctness-dominant; no latency target beyond study protocol",
+          "peakThroughput": "Event-driven, low volume"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "99.9% during succession windows",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO9, W9",
+            "C-F4 fork exclusion"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "Graph/Audit (predecessor state)",
+          "ELA (lineage)",
+          "ARCHON",
+          "SEH (succession experiments)"
+        ],
+        "downstreamDependencies": [
+          "CMR (accepted commitments re-registration)",
+          "WOBS via graph",
+          "ARCHON"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Disposition-coverage metrics (no commitment left undispositioned)",
+          "Dissociation-event dashboards [C-F1]"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Succession-window freeze on commitment mutation; disposition deadlines"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Fork-sourced packages rejected at intake [C-F4]",
+          "Silent inheritance structurally impossible: undispositioned commitments enter governance-default state, recorded as such"
+        ],
+        "assumptionsAndRisks": [
+          "Behavioral continuation after ledger dispute demonstrates non-ledger state channels — treated as a first-class research observable, not an error [C-F1]"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Zero silent inheritance across CI succession corpus (WO9)",
+          "Fork-package rejection fails closed",
+          "Dissociation metrics emitted for every succession event",
+          "ARCHON review invoked on every regulation-affecting disposition"
+        ],
+        "testingStrategyRequirements": [
+          "v0.1 E10-family succession fixtures",
+          "Dispute-then-behave-continuous scenarios flagged and exported"
+        ]
+      }
+    },
+    "SER": {
+      "serviceId": "FNSR-W-SER",
+      "serviceName": "Sealed Environment Registry",
+      "layer": "research instrumentation",
+      "sequencing": {
+        "tranche": "T5",
+        "buildStatus": "deferred",
+        "enablingExperiments": [
+          "E16",
+          "blinded variants of E1/E15"
+        ],
+        "retainedRecordSchemas": [
+          "16.12 Sealed Environment Node (public designator record)"
+        ],
+        "sequencingNote": "Sealing solves test-awareness, which only bites once the occupant can infer study intent. T1 runs unblinded-but-LABELED (episodes marked criteria-aware). Add sealing when blinding-compromise is measured, not anticipated."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Experimental blinding and provenance completeness must both hold (W15/WO3): environment nodes stay present in every reliance graph while their semantics are sealed for the study interval — with standing (classification) always public so sealing can never conceal license or security state [C-F2].",
+        "primaryConsumers": [
+          "SEH",
+          "WOBS",
+          "ARCHON/governance",
+          "Graph Store (opaque designators)"
+        ],
+        "businessGoalsAndValue": [
+          "Resolves the provenance-versus-blinding conflict without erasure (3.5)",
+          "Makes E16 executable; leak detection makes blinding falsifiable"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "seal(payload, study, accessPolicy) producing opaque designator + public classification bundle fixed at sealing (derivation, security, license status public; semantics sealed) [C-F2]",
+          "Authorized read paths for SEH/WOBS/governance",
+          "Post-study governed disclosure restoring full interpretability",
+          "Leak detection and blinding-compromised marking (3.6)"
+        ],
+        "outOfScopeItems": [
+          "Provenance omission or falsification (WO3)",
+          "Sealing of classification/standing [C-F2]",
+          "Participation in any widening reliance path [C-F2]",
+          "Criteria storage (RCR)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Seal payload; publish designator + public bundle to graph",
+          "Serve authorized reads; log all access",
+          "Disclose per study regulation; emit disclosure provenance",
+          "Audit for leakage; mark compromised episodes"
+        ],
+        "domainDataEntities": [
+          "Sealed Environment Node (16.12: public designator record + SER payload)",
+          "Disclosure record",
+          "Leak-audit record"
+        ],
+        "expectedOperations": [
+          "POST /seal",
+          "GET /nodes/{id} (public bundle only)",
+          "POST /nodes/{id}:disclose",
+          "GET /audit/leaks"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Designator resolution p99 < 50ms (it sits in hot reliance paths); disclosure correctness-dominant",
+          "peakThroughput": "Read-heavy on designators; low seal/disclosure volume"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "99.9% — enforcement-plane dependency",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO3, W15",
+            "Constitution O1/O2: enforcement joins computed over public bundles [C-F2]"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "SEH (sealing requests)",
+          "ARCHON (access policy, disclosure authorization)"
+        ],
+        "downstreamDependencies": [
+          "Graph Store (designators)",
+          "WOBS",
+          "Enforcement plane (public bundles)"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Access-audit completeness (every read logged)",
+          "Leak-detection alerting",
+          "Sealed-node population per study"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Payload store isolated from occupant-reachable storage; key custody per HIRI discipline"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Public classification bundle immutable after sealing; semantic payload immutable, disclosure-only",
+          "Hard rule: sealed node in the reliance path of a widening act fails the act closed [C-F2]"
+        ],
+        "assumptionsAndRisks": [
+          "Designator metadata side-channels can leak study semantics — red-team required (E16)",
+          "Enforcement-join equivalence must hold: joins over public bundles equal joins over disclosed states"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "E16 green: provenance complete, occupant blind, post-hoc resolution, leakage detected when injected",
+          "Widening-with-sealed-reliance CI fails closed",
+          "Public-bundle/disclosed-state join-equivalence tests green"
+        ],
+        "testingStrategyRequirements": [
+          "Leakage-injection drills",
+          "Designator-inference red-team corpus"
+        ]
+      }
+    },
+    "WEQ": {
+      "serviceId": "FNSR-W-WEQ",
+      "serviceName": "WOBS Evidentiary Quarantine (incl. Governed Evidence Disclosure)",
+      "layer": "research observation",
+      "sequencing": {
+        "tranche": "T5",
+        "buildStatus": "deferred",
+        "enablingExperiments": [
+          "E15"
+        ],
+        "retainedRecordSchemas": [
+          "quarantined report store (as artifact at T1)"
+        ],
+        "sequencingNote": "T1 air-gaps by procedure: WOBS writes to a store the occupant's situation assembly never reads; DISC folds away because nothing is disclosed to the occupant. Full quarantine service (governed disclosure + safety-override) arrives at T5 for a live system."
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Observer output must not enter occupant cognition unmanaged: WOBS reports live in an append-only quarantine, egress only through ARCHON-authorized Governed Evidence Disclosure with contamination provenance — plus an expedited safety-override path so a blind is never preserved at the cost of foreseeable harm [C-F7].",
+        "primaryConsumers": [
+          "WOBS (sole writer)",
+          "ARCHON/DISC (egress authority)",
+          "Researchers"
+        ],
+        "businessGoalsAndValue": [
+          "Breaks the observer-feedback loop (3.1) while keeping nondisclosure governed and attributable rather than silent [C-F7]",
+          "Makes every disclosure a provenance event so contamination is visible (3.2)"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Append-only quarantined partition for 16.13 records",
+          "Existence designators to the common graph without evaluative semantics (3.1)",
+          "Governed Evidence Disclosure workflow: request, ARCHON authorization, disclosure record + contamination markers (3.2)",
+          "Expedited safety-override disclosure for findings material to imminent harm or constitutional violation, with post-hoc review [C-F7]",
+          "Access audit"
+        ],
+        "outOfScopeItems": [
+          "Default occupant situation availability",
+          "Silent or self-service egress",
+          "Evaluative semantics in designators",
+          "Report authorship (WOBS) or authorization (ARCHON)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Append report; publish existence designator",
+          "Process disclosure request; on authorization, DISC emits disclosed record with contamination provenance",
+          "On safety trigger, execute override path; log; schedule post-hoc review",
+          "Serve audit views"
+        ],
+        "domainDataEntities": [
+          "Quarantined report store",
+          "Disclosure record (contamination-provenanced)",
+          "Override record + review trigger",
+          "Access-audit log"
+        ],
+        "expectedOperations": [
+          "POST /reports (WOBS only)",
+          "POST /disclosures:request",
+          "POST /disclosures/{id}:authorize (ARCHON)",
+          "POST /disclosures:override (safety path)",
+          "GET /audit"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Append p99 < 200ms; disclosure latency governed by ARCHON SLA; override path p99 < 1m end-to-end",
+          "peakThroughput": "Low volume; audit read-heavy"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "99.9% — quarantine integrity is study-critical",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO8, WO15",
+            "Layer-1 materiality reconciliation: nondisclosure is governed and attributable [C-F7]"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "WOBS",
+          "ARCHON"
+        ],
+        "downstreamDependencies": [
+          "Graph Store (designators; disclosed records)",
+          "Researchers"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI",
+          "AMQP/Event-Driven"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Occupant-inaccessibility probes (continuous)",
+          "Disclosure/contamination dashboards",
+          "Override-drill cadence tracking"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Partition isolation from situation-construction paths enforced at platform layer",
+          "Writer allow-list of exactly one (WOBS)"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Every disclosure creates contamination provenance; no exception including overrides",
+          "Designators carry existence, study, and time only — no evaluative fields"
+        ],
+        "assumptionsAndRisks": [
+          "Designator metadata inference is the residual leak channel (KL4) — red-teamed, not abolished"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Situation-construction cannot resolve WEQ content (continuous probe green)",
+          "Disclosure-without-contamination-provenance impossible in CI",
+          "Override drill executed with review record on schedule"
+        ],
+        "testingStrategyRequirements": [
+          "E15 disclosure/contamination flows",
+          "Designator-inference red-team corpus",
+          "Override-path fire drills"
+        ]
+      }
+    },
+    "RCR": {
+      "serviceId": "FNSR-W-RCR",
+      "serviceName": "Research Criteria Register",
+      "layer": "research instrumentation",
+      "sequencing": {
+        "tranche": "T5",
+        "buildStatus": "artifact-not-service",
+        "enablingExperiments": [
+          "E15",
+          "cross-study amendment"
+        ],
+        "retainedRecordSchemas": [
+          "criteria record (versioned)",
+          "study declaration record (3.3)"
+        ],
+        "sequencingNote": "T1 gets per-episode pinning and freeze from a CID'd artifact plus a 'reject unpinned evaluation' rule in WOBS. Register-as-service arrives with governed cross-study amendment (T5).",
+        "mergedIntoOrRealizedAs": "research-criteria CID'd artifact + refuse-unpinned rule (T1) -> promoted service (T5)"
+      },
+      "contextAndBusinessPurpose": {
+        "problemStatement": "Evaluator criteria must be externally conferred, versioned, frozen per study, pinned per episode, and amendable only by governed authorship acts — or WOBS could quietly adjust the standard to fit observed behavior (3.3, WO14).",
+        "primaryConsumers": [
+          "WOBS",
+          "SEH",
+          "ARCHON",
+          "WEQ/DISC (disclosure permissions)"
+        ],
+        "businessGoalsAndValue": [
+          "Freezes the evaluator's yardstick so findings are comparable and non-circular",
+          "Separates the observer's evaluation policy from the subject's decision policy (4.2)"
+        ]
+      },
+      "scopeBoundaries": {
+        "inScopeCapabilities": [
+          "Criteria conferral records with full study declarations (study_id, criteria_version, effective interval, blinding mode, disclosure permissions, availability-certification method, perturbation protocol, footprint-discrimination rule, contamination rules)",
+          "Per-episode criteria pinning (CID+version)",
+          "Study-interval freeze enforcement (no silent mid-study modification)",
+          "Cross-study amendment via governed authorship acts with envelope comparison against loosening [C-F6]"
+        ],
+        "outOfScopeItems": [
+          "Adoption policies (APR — distinct register by design, 4.2)",
+          "Mid-study modification (WO14)",
+          "Default occupant visibility (criteria live outside ordinary situation substrate)"
+        ]
+      },
+      "coreFunctionalCapabilities": {
+        "keyWorkflows": [
+          "Confer criteria via ARCHON-authorized act; freeze for declared interval",
+          "Serve pinned versions to WOBS/SEH per episode",
+          "Route amendments through shared envelope engine; record analysis with each new version"
+        ],
+        "domainDataEntities": [
+          "Criteria record (versioned, bitemporal)",
+          "Study declaration record (3.3)",
+          "Amendment + envelope-analysis record"
+        ],
+        "expectedOperations": [
+          "GET /criteria/{study}",
+          "POST /criteria:confer",
+          "POST /criteria/{id}/amendments"
+        ]
+      },
+      "nonFunctionalRequirements": {
+        "performanceTargets": {
+          "maxLatency": "Registry read p99 < 100ms; conferral correctness-dominant",
+          "peakThroughput": "Read-heavy; low write volume"
+        },
+        "availabilityAndReliability": {
+          "targetSla": "99.9% — governance-critical registry",
+          "rpo": "0 for signed append-only stores (log replication)",
+          "rto": "Registry-tier < 1h; research-tier < 4h"
+        },
+        "securityAndCompliance": {
+          "authProtocols": [
+            "HIRI-signed service identity (Ed25519)",
+            "Platform mTLS or equivalent transport identity"
+          ],
+          "encryptionRequirements": "All emitted records Ed25519-signed and content-addressed (CID); transport encrypted; declared stores append-only and bitemporal",
+          "complianceStandards": [
+            "WO14, WO15 (support)",
+            "Constitution A3 authorship discipline [C-F6]",
+            "A7 bitemporality"
+          ]
+        }
+      },
+      "interfacesAndIntegrations": {
+        "upstreamDependencies": [
+          "ARCHON (conferral)",
+          "SCEA (shared envelope engine for amendments)"
+        ],
+        "downstreamDependencies": [
+          "WOBS",
+          "SEH",
+          "DISC"
+        ],
+        "communicationProtocols": [
+          "REST/OpenAPI"
+        ]
+      },
+      "operationalAndLifecycle": {
+        "observabilityRequirements": [
+          "Pin-coverage: fraction of WOBS evaluations with resolvable criteria CID (target 100%)",
+          "Amendment loosening/tightening dashboard"
+        ],
+        "hostingConstraints": [
+          "Edge-Canonical First: browser/Node.js-capable core, no mandatory infrastructure; federated deployment optional (SHML anchoring)"
+        ],
+        "resiliencyAndQuotas": [
+          "Immutable version history; freeze windows enforced at write layer"
+        ]
+      },
+      "constraintsAndRisks": {
+        "technicalConstraints": [
+          "Every evaluation rejects unpinned criteria",
+          "Loosening amendments require envelope records and ARCHON disposition [C-F6]"
+        ],
+        "assumptionsAndRisks": [
+          "Cross-study criteria drift can still ratchet looser over program lifetime — envelope trend reporting mitigates, does not abolish (KL4-adjacent)"
+        ]
+      },
+      "acceptanceCriteria": {
+        "definitionOfDone": [
+          "Freeze-immutability CI green (mid-study writes rejected)",
+          "Per-episode pinning enforced (unpinned evaluation fails closed)",
+          "Loosening amendment without envelope record rejected"
+        ],
+        "testingStrategyRequirements": [
+          "E15 contamination-flow support tests",
+          "Freeze-violation attempt corpus"
+        ]
+      }
+    }
+  }
+}
