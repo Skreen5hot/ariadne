@@ -1,0 +1,565 @@
+# Machine-readable evidence register for Integral Ethics v2.
+# Nothing here changes a claim's standing until Aaron ratifies it (ratified: true).
+# Render register.md with: python tools/render_evidence_register.py
+schema_version: 1
+generated_on: '2026-09-23'
+valuenet_source:
+  repository: https://github.com/Skreen5hot/ValueNet
+  commit: 204259911cd239413e3ed02db84f86b80e507a1d
+  modules:
+  - ontology/bfo/core/valuenet-core.ttl
+  - ontology/bfo/core/valuenet-folk.ttl
+  - ontology/bfo/core/valuenet-schwartz-values.ttl
+  - ontology/bfo/extensions/moral-foundations/valuenet-moral-foundations.ttl
+  - ontology/bfo/extensions/moral-epistemics/valuenet-moral-epistemics.ttl
+claims:
+- id: F1
+  claim: No single perspective captures all morally relevant features
+  kind: Logical, ontological
+  citation_as_given: Grenon & Smith, SNAP and SPAN (2004); Bittner & Smith, granular partitions; Aquinas,
+    mode of the knower
+  current_strength: Strong
+  current_citation_check: Unverified
+  record: citations/F1-single-perspective-incomplete.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: Argued only
+  ratified: false
+- id: F2
+  claim: Added perspectives help only when diverse
+  kind: Logical, empirical
+  citation_as_given: Hong & Page, PNAS (2004); Thompson (2014) critique; Lorenz et al., PNAS (2011)
+  current_strength: Moderate
+  current_citation_check: Unverified
+  record: citations/F2-diverse-perspectives.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: E1
+  claim: People routinely miss available, morally relevant information
+  kind: Empirical
+  citation_as_given: Chugh & Bazerman (2007); Tenbrunsel & Messick (2004); Simons & Chabris (1999)
+  current_strength: Strong
+  current_citation_check: Unverified
+  record: citations/E1-missed-information.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: E2
+  claim: Framing changes choice with facts held fixed
+  kind: Empirical
+  citation_as_given: Tversky & Kahneman, Science (1981)
+  current_strength: Strong
+  current_citation_check: Unverified
+  record: citations/E2-framing.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: E3
+  claim: Structured consideration of alternatives reduces bias
+  kind: Empirical
+  citation_as_given: Lord, Lepper & Preston, JPSP (1984)
+  current_strength: Strong
+  current_citation_check: Unverified
+  record: citations/E3-consider-alternatives.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: E4
+  claim: Prospective hindsight surfaces more reasons for failure
+  kind: Empirical
+  citation_as_given: Mitchell, Russo & Pennington (1989); Klein, premortem (2007)
+  current_strength: Moderate
+  current_citation_check: Unverified
+  record: citations/E4-prospective-hindsight.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: E5
+  claim: Holding competing explanations open improves analysis
+  kind: Practice, limited controlled evidence
+  citation_as_given: Heuer, Psychology of Intelligence Analysis (1999)
+  current_strength: Moderate
+  current_citation_check: Unverified
+  record: citations/E5-competing-explanations.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: E6
+  claim: Perspective-shifting improves wise reasoning
+  kind: Empirical
+  citation_as_given: Kross & Grossmann (2012); Grossmann et al., Psychological Inquiry (2020)
+  current_strength: Moderate
+  current_citation_check: Unverified
+  record: citations/E6-perspective-shifting-wisdom.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: E7
+  claim: Integrating many views outperforms single-model expertise
+  kind: Empirical
+  citation_as_given: Tetlock, Expert Political Judgment (2005); Mellers et al. (2014)
+  current_strength: Strong
+  current_citation_check: Unverified
+  record: citations/E7-integrating-views.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: E8
+  claim: Asking people beats imagining their view
+  kind: Empirical
+  citation_as_given: Eyal, Steffel & Epley, JPSP (2018)
+  current_strength: Strong
+  current_citation_check: Unverified
+  record: citations/E8-asking-beats-imagining.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: C1
+  claim: Flourishing is multidimensional
+  kind: Philosophical, empirical
+  citation_as_given: Finnis (1980); Ryff (1989); VanderWeele, PNAS (2017); Global Flourishing Study (2025);
+    Ryan & Deci (2001); Keyes (2002)
+  current_strength: Moderate
+  current_citation_check: Unverified
+  record: citations/C1-flourishing-multidimensional.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: C4
+  claim: Genuine goods can conflict without one being unreal
+  kind: Philosophical
+  citation_as_given: Ross (1930); Berlin; Raz (1986); Chang (1997); Williams on moral remainder
+  current_strength: Argued only
+  current_citation_check: Unverified
+  record: citations/C4-goods-conflict.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: Argued only
+  ratified: false
+- id: C4a
+  claim: Human values show a stable structure of mutual conflict
+  kind: Empirical
+  citation_as_given: Schwartz (1992) and cross-national replications
+  current_strength: Strong
+  current_citation_check: Unverified
+  record: citations/C4a-value-conflict-structure.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: C5
+  claim: No neutral aggregation of plural criteria into one ranking
+  kind: Formal
+  citation_as_given: Arrow (1951); Keeney & Raiffa (1976)
+  current_strength: Strong
+  current_citation_check: Unverified
+  record: citations/C5-no-neutral-aggregation.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: C6
+  claim: Irreversibility warrants extra weight under uncertainty
+  kind: Formal
+  citation_as_given: Arrow & Fisher (1974)
+  current_strength: Strong
+  current_citation_check: Unverified
+  record: citations/C6-irreversibility-weight.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: C2
+  claim: Dignity acts as a side-constraint, not a quantity to trade
+  kind: Philosophical
+  citation_as_given: Kant; Nozick (1974); Aquinas
+  current_strength: Argued only
+  current_citation_check: Unverified
+  record: citations/C2-dignity-side-constraint.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: Argued only
+  ratified: false
+- id: C7
+  claim: Decision aids bias human choice; the human must stay the decider
+  kind: Empirical
+  citation_as_given: Parasuraman & Manzey, Human Factors (2010)
+  current_strength: Strong
+  current_citation_check: Unverified
+  record: citations/C7-decision-aid-bias.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: C8
+  claim: Many legitimate paths, not all equally good
+  kind: Philosophical
+  citation_as_given: Finnis, basic goods
+  current_strength: Argued only
+  current_citation_check: Unverified
+  record: citations/C8-many-legitimate-paths.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: Argued only
+  ratified: false
+- id: H-P6
+  claim: The six operations are an exhaustive, efficient decomposition
+  kind: Hypothesis
+  citation_as_given: null
+  current_strength: Hypothesis
+  current_citation_check: Unverified
+  record: citations/H-P6-six-operations-decomposition.md
+  access: not_applicable
+  fit: could_not_assess
+  proposed_strength: Hypothesis
+  ratified: false
+candidate_values:
+- id: V01
+  candidate: Human flourishing
+  v1_claim: Multiple dimensions of wellbeing exist that cannot be reduced to single measures (hedonic
+    vs. eudaimonic wellbeing)
+  v1_citation: Ryan & Deci (2001); Keyes (2002)
+  v2_first_pass_role: Telos; the whole the others constitute
+  valuenet_kind: aimed_good
+  valuenet_iri: null
+  valuenet_related: []
+  record: citations/V01-human-flourishing.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V02
+  candidate: Human dignity
+  v1_claim: Human dignity (Constraint (C2))
+  v1_citation: null
+  v2_first_pass_role: Constraint (C2)
+  valuenet_kind: constraint
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#DignityDisposition
+  record: citations/V02-human-dignity.md
+  access: not_applicable
+  fit: could_not_assess
+  proposed_strength: Argued only
+  ratified: false
+- id: V03
+  candidate: Truth / reality-alignment
+  v1_claim: Truth / reality-alignment (Constraint and good (C3))
+  v1_citation: null
+  v2_first_pass_role: Constraint and good (C3)
+  valuenet_kind: constraint
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#HonestyDisposition
+  record: citations/V03-truth-reality-alignment.md
+  access: not_applicable
+  fit: could_not_assess
+  proposed_strength: Argued only
+  ratified: false
+- id: V04
+  candidate: Material wellbeing
+  v1_claim: Material security necessary (though not sufficient) for wellbeing
+  v1_citation: Diener & Biswas-Diener (2002)
+  v2_first_pass_role: Constituent
+  valuenet_kind: aimed_good
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#WealthDisposition
+  record: citations/V04-material-wellbeing.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V05
+  candidate: Experiential richness
+  v1_claim: Positive experiences independent contributor to wellbeing
+  v1_citation: Diener, Suh, Lucas & Smith (1999)
+  v2_first_pass_role: Constituent; test overlap with hedonic wellbeing
+  valuenet_kind: aimed_good
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-schwartz-values#HedonismDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#EnjoymentDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#VarietyDisposition
+  record: citations/V05-experiential-richness.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V06
+  candidate: Meaningful relationships
+  v1_claim: Relationships most robust predictor of life satisfaction
+  v1_citation: Waldinger & Schulz (2023); Baumeister & Leary (1995)
+  v2_first_pass_role: Constituent
+  valuenet_kind: aimed_good
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#FriendshipDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#LoveDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#BelongingDisposition
+  record: citations/V06-meaningful-relationships.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V07
+  candidate: Mastery and excellence
+  v1_claim: Competence and mastery central to motivation and wellbeing
+  v1_citation: Deci & Ryan (2000)
+  v2_first_pass_role: Constituent
+  valuenet_kind: aimed_good
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#MasteryDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#ExcellenceDisposition
+  record: citations/V07-mastery-excellence.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V08
+  candidate: Wisdom
+  v1_claim: Wisdom predicts wellbeing independent of other factors
+  v1_citation: Ardelt (2003)
+  v2_first_pass_role: Constituent and competency
+  valuenet_kind: competency
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#WisdomDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-moral-epistemics#PrudenceDisposition
+  record: citations/V08-wisdom.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V09
+  candidate: Virtue / character
+  v1_claim: Virtue (especially gratitude, kindness, integrity) strongly predicts wellbeing
+  v1_citation: Peterson & Seligman (2004)
+  v2_first_pass_role: Constituent
+  valuenet_kind: value_disposition
+  valuenet_iri: https://fandaws.com/ontology/bfo/valuenet-core#ValueDisposition
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-core#MoralValueDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition
+  record: citations/V09-virtue-character.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V10
+  candidate: Meaning and purpose
+  v1_claim: Meaning independent dimension of wellbeing, predicts health and longevity
+  v1_citation: Steger (2012)
+  v2_first_pass_role: Constituent
+  valuenet_kind: aimed_good
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#MeaningDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#PurposeDisposition
+  record: citations/V10-meaning-purpose.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V11
+  candidate: Authentic agency
+  v1_claim: Autonomy (properly understood) predicts wellbeing; authenticity associated with mental health
+  v1_citation: Ryan & Deci (2000); Wood et al. (2008)
+  v2_first_pass_role: Constituent and constraint
+  valuenet_kind: value_disposition
+  valuenet_iri: https://fandaws.com/ontology/bfo/valuenet-folk#AuthenticityDisposition
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#AutonomyDisposition
+  record: citations/V11-authentic-agency.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V12
+  candidate: Spiritual vitality
+  v1_claim: Spiritual practices enhance wellbeing independent of religious belief; transcendent experiences
+    transformative
+  v1_citation: Koenig (2012); Hood (2001)
+  v2_first_pass_role: Constituent; scope contested
+  valuenet_kind: aimed_good
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#SpiritualityDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#FaithDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#ReligionDisposition
+  record: citations/V12-spiritual-vitality.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V13
+  candidate: Harmonic structure
+  v1_claim: Balance across life domains predicts wellbeing
+  v1_citation: Sirgy & Wu (2009)
+  v2_first_pass_role: Rename 'life-domain balance'; may be a property of the profile, not a dimension
+  valuenet_kind: aimed_good
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#BalanceDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#WorkLifeBalanceDisposition
+  record: citations/V13-harmonic-structure.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V14
+  candidate: Cultural embeddedness
+  v1_claim: Cultural coherence predicts wellbeing
+  v1_citation: Oishi & Diener (2009)
+  v2_first_pass_role: Conditional instrument
+  valuenet_kind: aimed_good
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-schwartz-values#TraditionDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#BelongingDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#CommunityDisposition
+  record: citations/V14-cultural-embeddedness.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V15
+  candidate: Commitment and rootedness
+  v1_claim: Commitment predicts relationship satisfaction and vocational success
+  v1_citation: Rusbult, Martz & Agnew (1998)
+  v2_first_pass_role: Instrument
+  valuenet_kind: value_disposition
+  valuenet_iri: https://fandaws.com/ontology/bfo/valuenet-folk#CommitmentDisposition
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#FidelityDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-folk#StabilityDisposition
+  record: citations/V15-commitment-rootedness.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V16
+  candidate: Critical reflection
+  v1_claim: Reflective capacity predicts better life outcomes
+  v1_citation: Wilson & Dunn (2004)
+  v2_first_pass_role: Competency
+  valuenet_kind: competency
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#OpenMindednessDisposition
+  record: citations/V16-critical-reflection.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V17
+  candidate: Community accountability
+  v1_claim: Social accountability improves behavior
+  v1_citation: Cialdini & Goldstein (2004)
+  v2_first_pass_role: Instrument and constraint
+  valuenet_kind: value_role
+  valuenet_iri: https://fandaws.com/ontology/bfo/valuenet-folk#AccountabilityRole
+  valuenet_related: []
+  record: citations/V17-community-accountability.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V18
+  candidate: Freedom to exit
+  v1_claim: Perceived freedom essential to wellbeing even when not exercised
+  v1_citation: Patall, Cooper & Robinson (2008)
+  v2_first_pass_role: Constraint
+  valuenet_kind: constraint
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#FreedomDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LibertyDisposition
+  record: citations/V18-freedom-to-exit.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V19
+  candidate: Graduated autonomy
+  v1_claim: Developmentally appropriate autonomy support predicts optimal outcomes
+  v1_citation: Soenens & Vansteenkiste (2010)
+  v2_first_pass_role: Developmental rule under C6
+  valuenet_kind: constraint
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#AutonomyDisposition
+  record: citations/V19-graduated-autonomy.md
+  access: could_not_access
+  fit: could_not_assess
+  proposed_strength: null
+  ratified: false
+- id: V20
+  candidate: Non-coercion
+  v1_claim: Non-coercion (Constraint (C7))
+  v1_citation: null
+  v2_first_pass_role: Constraint (C7)
+  valuenet_kind: constraint
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LibertyDisposition
+  - https://fandaws.com/ontology/bfo/valuenet-moral-foundations#OppressionProcess
+  - https://fandaws.com/ontology/bfo/valuenet-folk#FreedomDisposition
+  record: citations/V20-non-coercion.md
+  access: not_applicable
+  fit: could_not_assess
+  proposed_strength: Argued only
+  ratified: false
+- id: V21
+  candidate: Transparency
+  v1_claim: Transparency (Constraint (C7))
+  v1_citation: null
+  v2_first_pass_role: Constraint (C7)
+  valuenet_kind: constraint
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#TransparencyDisposition
+  record: citations/V21-transparency.md
+  access: not_applicable
+  fit: could_not_assess
+  proposed_strength: Argued only
+  ratified: false
+- id: V22
+  candidate: Epistemic humility
+  v1_claim: Epistemic humility (Competency)
+  v1_citation: null
+  v2_first_pass_role: Competency
+  valuenet_kind: competency
+  valuenet_iri: null
+  valuenet_related:
+  - https://fandaws.com/ontology/bfo/valuenet-folk#HumilityDisposition
+  record: citations/V22-epistemic-humility.md
+  access: not_applicable
+  fit: could_not_assess
+  proposed_strength: Argued only
+  ratified: false
+- id: V23
+  candidate: Limited pluralism
+  v1_claim: Limited pluralism (Principle (C8), not a value)
+  v1_citation: null
+  v2_first_pass_role: Principle (C8), not a value
+  valuenet_kind: null
+  valuenet_iri: null
+  valuenet_related: []
+  record: citations/V23-limited-pluralism.md
+  access: not_applicable
+  fit: could_not_assess
+  proposed_strength: Argued only
+  ratified: false
