@@ -1,0 +1,193 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations.owl>
+  a owl:Ontology ;
+  dc:license <https://creativecommons.org/licenses/by/4.0/> ;
+  owl:versionIRI <https://fandaws.com/ontology/bfo/1.0/valuenet-moral-foundations.owl> ;
+  owl:imports <https://fandaws.com/ontology/bfo/valuenet-core.owl> ;
+  dc:title "ValueNet Moral Foundations Module"@en ;
+  dc:description "An ontology of Haidt's six moral foundations (Care, Fairness, Loyalty, Authority, Sanctity, Liberty) modeled as BFO dispositions, together with the processes that contravene them (Harm, Cheating, Betrayal, Subversion, Degradation, Oppression)."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#CareDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#MoralValueDisposition> ;
+  rdfs:label "care Disposition"@en ;
+  skos:altLabel "care"@en ;
+  skos:definition "A moral value disposition to protect others from harm and to act with compassion."@en ;
+  rdfs:comment "The care foundation of Moral Foundations Theory, paired with HarmProcess, the violation that contravenes it. As a moral value disposition it is realized in appraising conduct as right or wrong; folk:CareDisposition, a personal value disposition to provide for others' needs, is a different class."@en ;
+  skos:example "A person's standing inclination to comfort a frightened stranger and to object when an animal is mistreated."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#FairnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#MoralValueDisposition> ;
+  rdfs:label "fairness Disposition"@en ;
+  skos:altLabel "fairness"@en ;
+  skos:definition "A moral value disposition to uphold principles of justice, reciprocity, and equality."@en ;
+  rdfs:comment "The fairness foundation of Moral Foundations Theory, paired with CheatingProcess, the violation that contravenes it. folk:FairnessDisposition, a personal value disposition to treat people impartially, is a different class."@en ;
+  skos:example "A person's standing inclination to condemn someone who takes more than their share of a common fund."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LoyaltyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#MoralValueDisposition> ;
+  rdfs:label "loyalty Disposition"@en ;
+  skos:altLabel "loyalty"@en ;
+  skos:definition "A moral value disposition to be loyal to one's ingroup, family, or nation."@en ;
+  rdfs:comment "The loyalty foundation of Moral Foundations Theory, paired with BetrayalProcess, the violation that contravenes it. folk:LoyaltyDisposition, a personal value disposition to be faithful to a person, group or cause, is a different class."@en ;
+  skos:example "A person's standing inclination to judge a teammate who sells the team's plans to a rival as having done wrong."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#AuthorityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#MoralValueDisposition> ;
+  rdfs:label "authority Disposition"@en ;
+  skos:altLabel "authority"@en ;
+  skos:definition "A moral value disposition to respect tradition, hierarchy, and legitimate authority."@en ;
+  rdfs:comment "The authority foundation of Moral Foundations Theory, paired with SubversionProcess, the violation that contravenes it. Its object is legitimate authority, hierarchy and tradition; obedience to illegitimate power is not what it values."@en ;
+  skos:example "A person's standing inclination to disapprove of players who defy a referee's legitimate ruling."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#SanctityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#MoralValueDisposition> ;
+  rdfs:label "sanctity Disposition"@en ;
+  skos:altLabel "sanctity"@en ;
+  skos:definition "A moral value disposition to value purity, avoid degradation, and treat certain things as sacred."@en ;
+  rdfs:comment "The sanctity foundation of Moral Foundations Theory, paired with DegradationProcess, the violation that contravenes it. What is treated as sacred or pure varies between bearers; the disposition is to protect whatever that is."@en ;
+  skos:example "A person's standing inclination to regard defacing a grave as a wrong, independently of any harm it causes."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LibertyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#MoralValueDisposition> ;
+  rdfs:label "liberty Disposition"@en ;
+  skos:altLabel "liberty"@en ;
+  skos:definition "A moral value disposition to resist domination and oppression, and to value freedom."@en ;
+  rdfs:comment "The liberty foundation, added to Moral Foundations Theory after the original five, paired with OppressionProcess, the violation that contravenes it. folk:FreedomDisposition, a personal value disposition to value the absence of coercion in one's own choices, is a different class."@en ;
+  skos:example "A person's standing inclination to condemn a manager who controls employees' private lives."@en .
+#################################################################
+#    Dyadic opposition
+#
+#    Moral Foundations Theory is dyadic: each foundation is paired
+#    with the violation that contravenes it. The original mft.ttl
+#    declares Violation and its six subclasses, and declares an
+#    opposedTo property, but asserts that property zero times, so
+#    the pairings themselves have never been encoded anywhere in
+#    this repository. They are asserted here for the first time.
+#
+#    A violation is a process, not a disposition. "Harm" in MFT is
+#    not a trait an agent bears; it is what an act does to the Care
+#    foundation. Each class below is therefore a subclass of
+#    vn-core:ValueViolationProcess, and the dyad is carried by the
+#    contravenes restriction rather than by a separate relation:
+#    "Harm is opposed to Care" and "a harm process contravenes a
+#    care disposition" are the same claim, and only the second is
+#    something a reasoner can use.
+#################################################################
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf>
+  a owl:AnnotationProperty ;
+  rdfs:label "dyadic opposite of"@en ;
+  skos:definition "Links a moral foundation to the violation that contravenes it, and vice versa, as documentation of the dyadic structure of Moral Foundations Theory."@en ;
+  <https://fandaws.com/ontology/bfo/valuenet-core#historicallyCorrespondsTo> <https://w3id.org/spice/SON/HaidtValues#opposedTo> ;
+  rdfs:comment "An annotation property, not an object property. Its arguments are classes, and relating two classes with an object property is OWL 2 punning; the logical content of the dyad is carried by the contravenes restriction on each violation class."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/moral-foundations#dyadicOppositeOf> ;
+  skos:example "moral-foundations:CareDisposition dyadicOppositeOf moral-foundations:HarmProcess, and HarmProcess dyadicOppositeOf CareDisposition."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#HarmProcess>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueViolationProcess> ,
+    [ a owl:Restriction ;
+      owl:onProperty <https://fandaws.com/ontology/bfo/valuenet-core#contravenes> ;
+      owl:someValuesFrom <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#CareDisposition> ] ;
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#CareDisposition> ;
+  rdfs:label "Harm Process"@en ;
+  skos:altLabel "Harm"@en ;
+  skos:definition "A value violation process that inflicts suffering or damage on another, contravening a care disposition."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/moral-foundations#HarmProcess> ;
+  rdfs:comment "The violation paired with CareDisposition in Moral Foundations Theory. The care disposition it contravenes may be borne by the agent who inflicts the harm or by another agent (ValueViolationProcess, D-010)."@en ;
+  skos:example "Striking a person in anger; mocking a child until the child cries."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#CheatingProcess>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueViolationProcess> ,
+    [ a owl:Restriction ;
+      owl:onProperty <https://fandaws.com/ontology/bfo/valuenet-core#contravenes> ;
+      owl:someValuesFrom <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#FairnessDisposition> ] ;
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#FairnessDisposition> ;
+  rdfs:label "Cheating Process"@en ;
+  skos:altLabel "Cheating"@en ;
+  skos:definition "A value violation process that takes benefit without reciprocation or breaks the terms of an exchange, contravening a fairness disposition."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/moral-foundations#CheatingProcess> ;
+  rdfs:comment "The violation paired with FairnessDisposition in Moral Foundations Theory. The fairness disposition it contravenes may be borne by the cheating agent or by another agent (ValueViolationProcess, D-010)."@en ;
+  skos:example "Keeping goods received in an exchange and refusing to pay the agreed price."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#BetrayalProcess>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueViolationProcess> ,
+    [ a owl:Restriction ;
+      owl:onProperty <https://fandaws.com/ontology/bfo/valuenet-core#contravenes> ;
+      owl:someValuesFrom <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LoyaltyDisposition> ] ;
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LoyaltyDisposition> ;
+  rdfs:label "Betrayal Process"@en ;
+  skos:altLabel "Betrayal"@en ;
+  skos:definition "A value violation process that abandons or works against one's own group, contravening a loyalty disposition."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/moral-foundations#BetrayalProcess> ;
+  rdfs:comment "The violation paired with LoyaltyDisposition in Moral Foundations Theory. The loyalty disposition it contravenes may be borne by the betraying agent or by another agent (ValueViolationProcess, D-010)."@en ;
+  skos:example "Passing a team's plans to a rival team."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#SubversionProcess>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueViolationProcess> ,
+    [ a owl:Restriction ;
+      owl:onProperty <https://fandaws.com/ontology/bfo/valuenet-core#contravenes> ;
+      owl:someValuesFrom <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#AuthorityDisposition> ] ;
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#AuthorityDisposition> ;
+  rdfs:label "Subversion Process"@en ;
+  skos:altLabel "Subversion"@en ;
+  skos:definition "A value violation process that undermines legitimate authority, hierarchy, or tradition, contravening an authority disposition."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/moral-foundations#SubversionProcess> ;
+  rdfs:comment "The violation paired with AuthorityDisposition in Moral Foundations Theory. The authority disposition it contravenes may be borne by the subverting agent or by another agent (ValueViolationProcess, D-010)."@en ;
+  skos:example "Inciting players to ignore a referee's legitimate rulings."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#DegradationProcess>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueViolationProcess> ,
+    [ a owl:Restriction ;
+      owl:onProperty <https://fandaws.com/ontology/bfo/valuenet-core#contravenes> ;
+      owl:someValuesFrom <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#SanctityDisposition> ] ;
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#SanctityDisposition> ;
+  rdfs:label "Degradation Process"@en ;
+  skos:altLabel "Degradation"@en ;
+  skos:definition "A value violation process that defiles or debases what is treated as sacred or pure, contravening a sanctity disposition."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/moral-foundations#DegradationProcess> ;
+  rdfs:comment "The violation paired with SanctityDisposition in Moral Foundations Theory. The sanctity disposition it contravenes may be borne by the degrading agent or by another agent (ValueViolationProcess, D-010)."@en ;
+  skos:example "Spray-painting graffiti on a gravestone."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#OppressionProcess>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueViolationProcess> ,
+    [ a owl:Restriction ;
+      owl:onProperty <https://fandaws.com/ontology/bfo/valuenet-core#contravenes> ;
+      owl:someValuesFrom <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LibertyDisposition> ] ;
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LibertyDisposition> ;
+  rdfs:label "Oppression Process"@en ;
+  skos:altLabel "Oppression"@en ;
+  skos:definition "A value violation process that dominates or constrains others against their will, contravening a liberty disposition."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/moral-foundations#OppressionProcess> ;
+  rdfs:comment "The violation paired with LibertyDisposition in Moral Foundations Theory. The liberty disposition it contravenes may be borne by the oppressing agent or by another agent (ValueViolationProcess, D-010)."@en ;
+  skos:example "Forbidding the members of a group to leave their town without permission."@en .
+
+### The dyad read from the foundation side. Annotation only; the logical
+### content lives in the contravenes restriction on each violation.
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#CareDisposition>
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#HarmProcess> .
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#FairnessDisposition>
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#CheatingProcess> .
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LoyaltyDisposition>
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#BetrayalProcess> .
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#AuthorityDisposition>
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#SubversionProcess> .
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#SanctityDisposition>
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#DegradationProcess> .
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LibertyDisposition>
+  <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#dyadicOppositeOf> <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#OppressionProcess> .

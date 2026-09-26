@@ -1,0 +1,380 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix vn-core: <https://fandaws.com/ontology/bfo/valuenet-core#> .
+@prefix cco: <https://www.commoncoreontologies.org/> .
+@prefix core-shapes: <https://fandaws.com/ontology/bfo/valuenet-core-shapes#> .
+
+<https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl>
+  a owl:Ontology ;
+  dc:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dc:title "ValueNet Core Shapes"@en ;
+  dc:description "SHACL shapes for realization integrity and annotation well-formedness, covering the bearer-participant contract, vn-core:TextSpan, and vn-core:isEvidenceFor."@en ;
+  rdfs:comment "The realization shapes enforce closed-world annotation requirements that OWL's open-world semantics cannot: a realized value instance must have a recorded agent bearer, and at least one of its recorded bearers must participate in the realizing process. vn-core:isEvidenceFor is an annotation property: its rdfs:domain and rdfs:range are documentary and no OWL reasoner enforces them, and it cannot appear in a class restriction. Run these shapes over an annotated data graph together with valuenet-core.ttl. Referenced from annotationGuide.md."@en .
+
+### 1. An exact textual representation has one canonical string and a carrier.
+core-shapes:TextualRepresentationShape
+  a sh:NodeShape ;
+  sh:targetClass vn-core:TextualRepresentation ;
+  sh:not [
+    sh:class cco:ont00000253 ;
+  ] ;
+  sh:message "A TextualRepresentation is a form-level generically dependent continuant and must be distinct from its cco:Information Bearing Entity carrier."@en ;
+  sh:property [
+    sh:path vn-core:hasTextualSequenceValue ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+    sh:severity sh:Violation ;
+    sh:message "A TextualRepresentation must carry exactly one canonical xsd:string."@en ;
+  ] ;
+  sh:property [
+    sh:path [ sh:inversePath obo:BFO_0000101 ] ;
+    sh:minCount 1 ;
+    sh:class cco:ont00000253 ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation ;
+    sh:message "A TextualRepresentation must have a distinct named cco:Information Bearing Entity linked by bfo:is_carrier_of (BFO_0000101)."@en ;
+  ] .
+
+### 2. A text span is a positioned part of one exact textual representation.
+core-shapes:TextSpanContentShape
+  a sh:NodeShape ;
+  sh:targetClass vn-core:TextSpan ;
+  sh:property [
+    sh:path vn-core:hasTextualSequenceValue ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+    sh:severity sh:Violation ;
+    sh:message "A TextSpan must carry exactly one vn-core:hasTextualSequenceValue. A span recorded only as a link cannot be re-read or re-scored, and the annotation becomes unauditable once the source corpus changes."@en ;
+  ] ;
+  sh:property [
+    sh:path vn-core:isTextSpanOf ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:class vn-core:TextualRepresentation ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation ;
+    sh:message "A TextSpan must be part of exactly one named TextualRepresentation."@en ;
+  ] ;
+  sh:property [
+    sh:path vn-core:hasStartOffset ;
+    sh:maxCount 0 ;
+    sh:severity sh:Violation ;
+    sh:message "Offsets belong on a TextSpanSelector, not on the TextSpan."@en ;
+  ] ;
+  sh:property [
+    sh:path vn-core:hasEndOffset ;
+    sh:maxCount 0 ;
+    sh:severity sh:Violation ;
+    sh:message "Offsets belong on a TextSpanSelector, not on the TextSpan."@en ;
+  ] ;
+  sh:sparql [
+    sh:severity sh:Violation ;
+    sh:message "A TextSpan is individuated by its position in its representation (D-005): every TextSpanSelector that selects it must give the same start and end offsets."@en ;
+    sh:prefixes <https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl> ;
+    sh:select """
+      SELECT $this ?selector
+      WHERE {
+        ?selector vn-core:selectsTextSpan $this ;
+                  vn-core:hasStartOffset ?start ;
+                  vn-core:hasEndOffset ?end .
+        ?other vn-core:selectsTextSpan $this ;
+               vn-core:hasStartOffset ?otherStart ;
+               vn-core:hasEndOffset ?otherEnd .
+        FILTER (?selector != ?other)
+        FILTER (xsd:integer(?start) != xsd:integer(?otherStart)
+                || xsd:integer(?end) != xsd:integer(?otherEnd))
+      }
+    """ ;
+  ] .
+
+### 3. A selector anchors a span to one representation with a complete offset pair.
+core-shapes:TextSpanSelectorShape
+  a sh:NodeShape ;
+  sh:targetClass vn-core:TextSpanSelector ;
+  sh:property [
+    sh:path vn-core:hasSourceRepresentation ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:class vn-core:TextualRepresentation ;
+    sh:nodeKind sh:IRI ;
+    sh:message "A TextSpanSelector must name exactly one TextualRepresentation as its coordinate source."@en ;
+  ] ;
+  sh:property [
+    sh:path vn-core:selectsTextSpan ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:class vn-core:TextSpan ;
+    sh:nodeKind sh:IRI ;
+    sh:message "A TextSpanSelector must identify exactly one named TextSpan."@en ;
+  ] ;
+  sh:property [
+    sh:path vn-core:hasStartOffset ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:nonNegativeInteger ;
+    sh:message "A TextSpanSelector must have exactly one non-negative start offset."@en ;
+  ] ;
+  sh:property [
+    sh:path vn-core:hasEndOffset ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:nonNegativeInteger ;
+    sh:message "A TextSpanSelector must have exactly one non-negative end offset."@en ;
+  ] ;
+  sh:sparql [
+    sh:severity sh:Violation ;
+    sh:message "A TextSpanSelector's end offset must be greater than its start offset."@en ;
+    sh:prefixes <https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl> ;
+    sh:select """
+      SELECT $this ?value
+      WHERE {
+        $this vn-core:hasStartOffset ?start ;
+              vn-core:hasEndOffset   ?value .
+        FILTER (xsd:integer(?value) <= xsd:integer(?start))
+      }
+    """ ;
+  ] ;
+  sh:sparql [
+    sh:severity sh:Violation ;
+    sh:message "A TextSpanSelector and its selected TextSpan must use the same source TextualRepresentation."@en ;
+    sh:prefixes <https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl> ;
+    sh:select """
+      SELECT $this ?span
+      WHERE {
+        $this vn-core:hasSourceRepresentation ?source ;
+              vn-core:selectsTextSpan ?span .
+        FILTER NOT EXISTS { ?span vn-core:isTextSpanOf ?source }
+      }
+    """ ;
+  ] ;
+  sh:sparql [
+    sh:severity sh:Violation ;
+    sh:message "A TextSpanSelector's end offset exceeds the Unicode code-point length of its source TextualRepresentation."@en ;
+    sh:prefixes <https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl> ;
+    sh:select """
+      SELECT $this ?end
+      WHERE {
+        $this vn-core:hasSourceRepresentation ?source ;
+              vn-core:hasEndOffset ?end .
+        ?source vn-core:hasTextualSequenceValue ?sourceText .
+        FILTER (xsd:integer(?end) > STRLEN(STR(?sourceText)))
+      }
+    """ ;
+  ] ;
+  sh:sparql [
+    sh:severity sh:Violation ;
+    sh:message "The selector offsets do not delimit the recorded TextSpan text in the source TextualRepresentation."@en ;
+    sh:prefixes <https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl> ;
+    sh:select """
+      SELECT $this ?span
+      WHERE {
+        $this vn-core:hasSourceRepresentation ?source ;
+              vn-core:selectsTextSpan ?span ;
+              vn-core:hasStartOffset ?start ;
+              vn-core:hasEndOffset ?end .
+        ?source vn-core:hasTextualSequenceValue ?sourceText .
+        ?span vn-core:hasTextualSequenceValue ?spanText ;
+              vn-core:isTextSpanOf ?source .
+        FILTER (
+          SUBSTR(
+            STR(?sourceText),
+            xsd:integer(?start) + 1,
+            xsd:integer(?end) - xsd:integer(?start)
+          ) != STR(?spanText)
+        )
+      }
+    """ ;
+  ] .
+
+### 4. Evidence subjects and targets must be approved named individuals.
+core-shapes:EvidenceRelationShape
+  a sh:NodeShape ;
+  sh:targetSubjectsOf vn-core:isEvidenceFor ;
+  sh:nodeKind sh:IRI ;
+  sh:message "The subject of vn-core:isEvidenceFor must be a named individual."@en ;
+  sh:or (
+    [ sh:class vn-core:TextSpan ]
+    [ sh:class vn-core:ValueEvidenceAnnotation ]
+  ) ;
+  sh:message "The subject of vn-core:isEvidenceFor must be typed as a TextSpan or ValueEvidenceAnnotation."@en ;
+  sh:property [
+    sh:path vn-core:isEvidenceFor ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:class obo:BFO_0000015 ;
+    sh:severity sh:Violation ;
+    sh:message "vn-core:isEvidenceFor must point at a named individual typed as a BFO process."@en ;
+  ] .
+
+### 5. A reified evidence annotation keeps source, selector, and target together.
+core-shapes:ValueEvidenceAnnotationShape
+  a sh:NodeShape ;
+  sh:targetClass vn-core:ValueEvidenceAnnotation ;
+  sh:property [
+    sh:path vn-core:hasEvidenceSource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:class vn-core:TextSpan ;
+    sh:nodeKind sh:IRI ;
+    sh:message "A ValueEvidenceAnnotation must have exactly one named TextSpan evidence source."@en ;
+  ] ;
+  sh:property [
+    sh:path vn-core:hasSelector ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:class vn-core:TextSpanSelector ;
+    sh:nodeKind sh:IRI ;
+    sh:message "A ValueEvidenceAnnotation must have exactly one named TextSpanSelector."@en ;
+  ] ;
+  sh:property [
+    sh:path vn-core:isEvidenceFor ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:class obo:BFO_0000015 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "A ValueEvidenceAnnotation must provide evidence for exactly one named BFO process."@en ;
+  ] ;
+  sh:sparql [
+    sh:severity sh:Violation ;
+    sh:message "A ValueEvidenceAnnotation's selector must select its recorded TextSpan evidence source."@en ;
+    sh:prefixes <https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl> ;
+    sh:select """
+      SELECT $this ?span
+      WHERE {
+        $this vn-core:hasEvidenceSource ?span ;
+              vn-core:hasSelector ?selector .
+        FILTER NOT EXISTS { ?selector vn-core:selectsTextSpan ?span }
+      }
+    """ ;
+  ] .
+
+### 6. Whatever bears a value must be an agent.
+core-shapes:ValueBearerIsAgentShape
+  a sh:NodeShape ;
+  rdfs:comment "The closed-world counterpart of the core axiom that a ValueRelatedRealizableEntity inheres in some cco:Agent. The OWL axiom entails that an agent bearer exists; this shape checks that the bearer actually recorded in the data is typed as one."@en ;
+  sh:targetSubjectsOf obo:BFO_0000196 ;
+  sh:sparql [
+    sh:severity sh:Violation ;
+    sh:message "This entity bears a value-related realizable entity but is not typed as a cco:Agent (ont00001017)."@en ;
+    sh:prefixes <https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl> ;
+    sh:select """
+      SELECT $this ?value
+      WHERE {
+        $this obo:BFO_0000196 ?value .
+        ?value rdf:type/rdfs:subClassOf* vn-core:ValueRelatedRealizableEntity .
+        FILTER NOT EXISTS { $this rdf:type/rdfs:subClassOf* cco:ont00001017 }
+      }
+    """ ;
+  ] .
+
+### 7. The inverse inheres-in recording must identify an agent bearer too.
+core-shapes:ValueInheresInAgentShape
+  a sh:NodeShape ;
+  sh:targetSubjectsOf obo:BFO_0000197 ;
+  sh:sparql [
+    sh:severity sh:Violation ;
+    sh:message "This value-related realizable entity inheres in an entity that is not typed as a cco:Agent (ont00001017)."@en ;
+    sh:prefixes <https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl> ;
+    sh:select """
+      SELECT $this ?bearer
+      WHERE {
+        $this rdf:type/rdfs:subClassOf* vn-core:ValueRelatedRealizableEntity ;
+              obo:BFO_0000197 ?bearer .
+        FILTER NOT EXISTS { ?bearer rdf:type/rdfs:subClassOf* cco:ont00001017 }
+      }
+    """ ;
+  ] .
+
+### 8. A process realizes an individual value borne by one of its participants.
+core-shapes:ValueRealizationIntegrityShape
+  a sh:NodeShape ;
+  rdfs:comment "Targets asserted bfo:realizes statements. For each realized ValueRelatedRealizableEntity instance, a bearer must be recorded by bfo:bearer_of or its inverse bfo:inheres_in, and at least one such bearer must be a participant in the process. The participation condition is existential: BFO does not make bearer_of functional, and ValueNet imposes no cardinality that would change BFO's semantics."@en ;
+  sh:targetSubjectsOf obo:BFO_0000055 ;
+  sh:sparql [
+    sh:severity sh:Violation ;
+    sh:message "A process must realize a value instance, not a value class IRI."@en ;
+    sh:prefixes <https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl> ;
+    sh:select """
+      SELECT $this ?value
+      WHERE {
+        $this obo:BFO_0000055 ?value .
+        ?value rdf:type owl:Class ;
+               rdfs:subClassOf* vn-core:ValueRelatedRealizableEntity .
+      }
+    """ ;
+  ] ;
+  sh:sparql [
+    sh:severity sh:Violation ;
+    sh:message "A realized value instance has no recorded bearer; assert bfo:bearer_of or its inverse bfo:inheres_in."@en ;
+    sh:prefixes <https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl> ;
+    sh:select """
+      SELECT $this ?value
+      WHERE {
+        $this obo:BFO_0000055 ?value .
+        ?value rdf:type/rdfs:subClassOf* vn-core:ValueRelatedRealizableEntity .
+        FILTER NOT EXISTS { ?value rdf:type owl:Class }
+        FILTER NOT EXISTS {
+          { ?bearer obo:BFO_0000196 ?value }
+          UNION
+          { ?value obo:BFO_0000197 ?bearer }
+        }
+      }
+    """ ;
+  ] ;
+  sh:sparql [
+    sh:severity sh:Violation ;
+    sh:message "At least one recorded bearer of each realized value must be a participant in the realizing process."@en ;
+    sh:prefixes <https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl> ;
+    sh:select """
+      SELECT $this ?value
+      WHERE {
+        $this obo:BFO_0000055 ?value .
+        ?value rdf:type/rdfs:subClassOf* vn-core:ValueRelatedRealizableEntity .
+        FILTER EXISTS {
+          { ?bearer obo:BFO_0000196 ?value }
+          UNION
+          { ?value obo:BFO_0000197 ?bearer }
+        }
+        FILTER NOT EXISTS {
+          $this obo:BFO_0000057 ?participant .
+          {
+            ?participant obo:BFO_0000196 ?value
+          }
+          UNION
+          {
+            ?value obo:BFO_0000197 ?participant
+          }
+        }
+      }
+    """ ;
+  ] .
+
+<https://fandaws.com/ontology/bfo/valuenet-core-shapes.ttl>
+  sh:declare [
+    sh:prefix "vn-core" ;
+    sh:namespace "https://fandaws.com/ontology/bfo/valuenet-core#"^^xsd:anyURI ;
+  ] , [
+    sh:prefix "xsd" ;
+    sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ;
+  ] , [
+    sh:prefix "cco" ;
+    sh:namespace "https://www.commoncoreontologies.org/"^^xsd:anyURI ;
+  ] , [
+    sh:prefix "obo" ;
+    sh:namespace "http://purl.obolibrary.org/obo/"^^xsd:anyURI ;
+  ] , [
+    sh:prefix "owl" ;
+    sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ;
+  ] , [
+    sh:prefix "rdf" ;
+    sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ;
+  ] , [
+    sh:prefix "rdfs" ;
+    sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
+  ] .
