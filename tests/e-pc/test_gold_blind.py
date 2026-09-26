@@ -13,7 +13,7 @@ import subprocess
 
 import pytest
 
-from conftest import EPC_DIR, ROOT, arm_output_files, git
+from epc_helpers import EPC_DIR, ROOT, arm_output_files, git
 
 
 def first_add_commit(rel: str) -> str | None:

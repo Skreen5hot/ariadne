@@ -9,7 +9,7 @@ import json
 
 import pytest
 
-from conftest import EPC_DIR, epc
+from epc_helpers import EPC_DIR, epc
 
 
 def _ann(aid, start, end, text, dtype, bearer, kind="violation", ptype="mf:HarmProcess", gold_id=None, section=None):

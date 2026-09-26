@@ -5,7 +5,7 @@ are checked as a second, coarser guard so that parity cannot be met by many shor
 """
 from __future__ import annotations
 
-from conftest import epc
+from epc_helpers import epc
 
 
 def test_B_and_C_prompts_within_tolerance(cfg):

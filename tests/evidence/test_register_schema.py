@@ -10,7 +10,7 @@ import re
 
 import pytest
 
-from conftest import CITATIONS, STATUSES, STRENGTHS, VALUENET_KINDS
+from evidence_helpers import CITATIONS, STATUSES, STRENGTHS, VALUENET_KINDS
 
 CLAIM_IDS = ["F1", "F2", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8",
              "C1", "C4", "C4a", "C5", "C6", "C2", "C7", "C8", "H-P6"]
@@ -111,7 +111,7 @@ def test_value_entry(register, records, idx):
 def test_valuenet_iris_exist_in_modules(register):
     """Every IRI the register names must be a class in the downloaded ValueNet modules
     (docs/02-evidence/valuenet/*.ttl, pinned by SHA256SUMS)."""
-    from conftest import EVIDENCE
+    from evidence_helpers import EVIDENCE
     vn = EVIDENCE / "valuenet"
     if not vn.exists():
         pytest.skip("ValueNet modules not vendored")

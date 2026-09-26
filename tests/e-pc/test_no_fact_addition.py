@@ -12,7 +12,7 @@ import json
 
 import pytest
 
-from conftest import arm_output_files, epc
+from epc_helpers import arm_output_files, epc
 
 
 def _stmt(text, kind, entities, trace):
