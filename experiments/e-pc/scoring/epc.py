@@ -86,9 +86,7 @@ def sha256_text(s: str) -> str:
 
 def sha256_file_lf(p: Path) -> str:
     """Hash of a text file with CRLF normalised to LF, so the pre-registration hash is the same on every checkout."""
-    return sha256_bytes(p.read_bytes().replace(b"
-", b"
-"))
+    return sha256_bytes(p.read_bytes().replace(b"\r\n", b"\n"))
 
 
 # ----------------------------------------------------------------------------- prompts and parity
