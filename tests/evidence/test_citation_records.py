@@ -17,7 +17,7 @@ REQUIRED = {"id", "claim_id", "claim", "claim_source", "citation_as_given", "res
             "verified_by", "verified_on", "ratified"}
 RESOLVED_REQUIRED = {"authors", "year", "title", "venue", "doi", "url_opened", "access"}
 URL_RE = re.compile(r"^https?://\S+$")
-ID_RE = re.compile(r"^(F\d|E\d|C\d[a-z]?|H-P6|V\d\d)(-\d|[a-z]|x)?$")
+ID_RE = re.compile(r"^(F\d|E\d|C\d[a-z]?|H-P6|V\d\d)(-\d|[a-z]x?|x)?$")
 
 
 def _scope(register, section: str) -> bool:
