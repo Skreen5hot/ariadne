@@ -1,0 +1,4 @@
+# The E-PC prose is the textual representation every annotation offset refers to.
+# Never convert its line endings; its SHA-256 is recorded in the gold and the results manifest.
+experiments/e-pc/scenarios/*.txt -text
+experiments/e-pc/results/**/*.txt -text

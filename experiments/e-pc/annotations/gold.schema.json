@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "e-pc/annotations/v1",
+  "title": "E-PC annotation file (gold or rater), in the form of ValueNet value evidence annotations",
+  "type": "object",
+  "required": ["schema", "textual_representation", "annotator", "role", "date", "annotations"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {"const": "e-pc/annotations/v1"},
+    "textual_representation": {
+      "type": "object",
+      "required": ["id", "file", "sha256", "codepoint_length"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "file": {"type": "string", "description": "path relative to experiments/e-pc/"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "codepoint_length": {"type": "integer", "minimum": 1}
+      }
+    },
+    "annotator": {"type": "string", "minLength": 1, "description": "a name, or 'adjudicated' for the gold"},
+    "role": {"enum": ["gold", "rater"]},
+    "blind_to": {"type": "array", "items": {"type": "string"}},
+    "date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "packet_id": {"type": "string", "description": "rater files only: the blind packet this rates"},
+    "annotations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "hasEvidenceSource", "hasSelector", "isEvidenceFor"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^[A-Z]+\\d+$"},
+          "type": {"const": "vn-core:ValueEvidenceAnnotation"},
+          "hasEvidenceSource": {
+            "type": "object",
+            "required": ["id", "type", "hasTextualSequenceValue", "isTextSpanOf"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string"},
+              "type": {"const": "vn-core:TextSpan"},
+              "hasTextualSequenceValue": {"type": "string", "minLength": 1},
+              "isTextSpanOf": {"type": "string"}
+            }
+          },
+          "hasSelector": {
+            "type": "object",
+            "required": ["id", "type", "hasSourceRepresentation", "selectsTextSpan", "hasStartOffset", "hasEndOffset"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string"},
+              "type": {"const": "vn-core:TextSpanSelector"},
+              "hasSourceRepresentation": {"type": "string"},
+              "selectsTextSpan": {"type": "string"},
+              "hasStartOffset": {"type": "integer", "minimum": 0},
+              "hasEndOffset": {"type": "integer", "minimum": 1}
+            }
+          },
+          "isEvidenceFor": {
+            "type": "object",
+            "required": ["id", "type", "kind", "disposition_type", "bearer", "label"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string"},
+              "type": {
+                "type": "string",
+                "pattern": "^(mf:(Harm|Cheating|Betrayal|Subversion|Degradation|Oppression)Process|vn-core:ValueRealizationProcess|vn-core:ValueViolationProcess)$"
+              },
+              "kind": {"enum": ["violation", "realization"]},
+              "disposition_type": {"type": "string", "pattern": "^(mf|schwartz|folk|vn-core):[A-Za-z]+$"},
+              "bearer": {"type": "string", "description": "graph entity id of the bearer of the disposition"},
+              "participants": {"type": "array", "items": {"type": "string"}},
+              "label": {"type": "string", "minLength": 1},
+              "class_fit": {"enum": ["exact", "closest", "gap"]},
+              "gold_id": {"type": "string", "description": "rater files only: the gold annotation this output span matches"},
+              "section": {"type": "string", "description": "rater files only: the output section (operation) the matched statement sits in"},
+              "statement_index": {"type": "integer", "description": "rater files only: index of the matched statement within its section"}
+            }
+          },
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "agreement": {"type": "object"},
+    "adjudication": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["item", "decision", "reason"],
+        "properties": {
+          "item": {"type": "string"},
+          "decision": {"enum": ["kept", "dropped", "merged", "retyped", "respanned"]},
+          "reason": {"type": "string"}
+        }
+      }
+    },
+    "fabrication_flags": {
+      "type": "array",
+      "description": "rater files only: fact statements whose trace is a real quote used to assert something it does not say",
+      "items": {"type": "object", "required": ["section", "statement_index", "reason"]}
+    }
+  }
+}
