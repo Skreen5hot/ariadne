@@ -1,5 +1,18 @@
 {
   "permissions": {
+    "allow": [
+      "Bash(git -C \"c:/Users/aaron/OneDrive/Documents/ariadne\" mv \"docs/03-specifications/opa-v1.1.md\" \"docs/03-specifications/opa-v1.2.md\")",
+      "Bash(git -C \"c:/Users/aaron/OneDrive/Documents/ariadne\" mv \"docs/03-specifications/middle-layer-shml.md\" \"docs/03-specifications/archived/middle-layer-shml-v3.0.md\")",
+      "Bash(git -C \"c:/Users/aaron/OneDrive/Documents/ariadne\" mv \"docs/03-specifications/fandaws-type-agent-v2.2.md\" \"docs/03-specifications/fandaws-type-agent-v2.3.md\")",
+      "Bash(git -C \"c:/Users/aaron/OneDrive/Documents/ariadne\" status --short)",
+      "Bash(git -C \"c:/Users/aaron/OneDrive/Documents/ariadne\" status)",
+      "Bash(git -C \"c:/Users/aaron/OneDrive/Documents/ariadne\" log -10 --oneline)",
+      "Bash(git -C \"c:/Users/aaron/OneDrive/Documents/ariadne\" diff --stat docs/00-foundation/)",
+      "Bash(git -C c:/Users/aaron/OneDrive/Documents/ariadne commit -m ' *)",
+      "Bash(git -C \"c:/Users/aaron/OneDrive/Documents/ariadne\" add docs/00-foundation/the-plot.md docs/00-foundation/spec-index.md docs/00-foundation/tension-log.md docs/00-foundation/drift-record.md docs/00-foundation/coherence-review.md)",
+      "Bash(git -C \"c:/Users/aaron/OneDrive/Documents/ariadne\" add docs/00-foundation/the-plot.md docs/00-foundation/tension-log.md docs/00-foundation/coherence-review.md docs/00-foundation/ariadne-readme.md)",
+      "Bash(git -C \"c:/Users/aaron/OneDrive/Documents/ariadne\" log --oneline -3)"
+    ],
     "additionalDirectories": [
       "c:\\Users\\aaron\\OneDrive\\Documents\\ariadne\\docs\\03-specifications"
     ]
