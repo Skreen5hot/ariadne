@@ -84,6 +84,13 @@ def sha256_text(s: str) -> str:
     return sha256_bytes(s.encode("utf-8"))
 
 
+def sha256_file_lf(p: Path) -> str:
+    """Hash of a text file with CRLF normalised to LF, so the pre-registration hash is the same on every checkout."""
+    return sha256_bytes(p.read_bytes().replace(b"
+", b"
+"))
+
+
 # ----------------------------------------------------------------------------- prompts and parity
 
 TOKEN_RE = re.compile(r"\w+|[^\w\s]", re.UNICODE)

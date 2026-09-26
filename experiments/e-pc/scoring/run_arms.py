@@ -50,7 +50,7 @@ def prereg_ratified() -> tuple[bool, str]:
         return False, "PREREG.ratified does not exist"
     lines = rat.read_text(encoding="utf-8").splitlines()
     recorded = next((l.split()[1] for l in lines if l.startswith("sha256 ")), None)
-    actual = epc.sha256_file(EPC / "PREREG.md")
+    actual = epc.sha256_file_lf(EPC / "PREREG.md")
     if recorded != actual:
         return False, f"PREREG.ratified records {recorded}, PREREG.md is {actual}"
     return True, "ok"
@@ -77,7 +77,7 @@ def manifest(cfg: dict, mode: str, model_version: str | None) -> dict:
     return {
         "schema": "e-pc/manifest/v1", "mode": mode, "created": dt.datetime.now(dt.timezone.utc).isoformat(),
         "repo_commit": git("rev-parse", "HEAD") if mode != "smoke" else None,
-        "prereg_sha256": epc.sha256_file(EPC / "PREREG.md"),
+        "prereg_sha256": epc.sha256_file_lf(EPC / "PREREG.md"),
         "files_sha256": {k: epc.sha256_file(v) for k, v in files.items()},
         "model_requested": cfg["model"], "model_version_served": model_version,
         "decoding": {"temperature": cfg["temperature"], "thinking": cfg["thinking"], "max_tokens": cfg["max_tokens"]},

@@ -13,7 +13,7 @@ from conftest import EPC_DIR, epc
 
 
 def prereg_hash() -> str:
-    return epc.sha256_file(EPC_DIR / "PREREG.md")
+    return epc.sha256_file_lf(EPC_DIR / "PREREG.md")
 
 
 def ratified_hash() -> str | None:

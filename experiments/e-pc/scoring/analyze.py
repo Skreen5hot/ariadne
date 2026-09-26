@@ -78,7 +78,7 @@ def main(run_id: str) -> int:
         outcome = "METHOD-FAILED (coverage)"
 
     results = {
-        "schema": "e-pc/results/v1", "run_id": run_id, "prereg_sha256": epc.sha256_file(epc.EPC / "PREREG.md"),
+        "schema": "e-pc/results/v1", "run_id": run_id, "prereg_sha256": epc.sha256_file_lf(epc.EPC / "PREREG.md"),
         "gold_sha256": epc.sha256_file(epc.EPC / "annotations" / f"{cfg['scenario']}.gold.json"),
         "gold_items": len(gold_ids), "distinct_outputs_per_arm": distinct,
         "coverage_means": {"A": statistics.fmean(cov_A), "B": statistics.fmean(cov_B), "C": statistics.fmean(cov_C)},
