@@ -1,0 +1,4 @@
+# The E-PC prose is the textual representation every annotation offset refers to.
+# Never convert its line endings; its SHA-256 is recorded in the gold and the results manifest.
+# The whole experiment is byte-frozen: PREREG.md, arms, scenario and code are hashed into the manifest.
+experiments/e-pc/** -text
