@@ -25,7 +25,7 @@ verified_on: 2026-09-26
 # a pending section is skipped visibly, never silently passed.
 verification_scope:
   claims: verified
-  values: pending
+  values: verified
 
 valuenet_prefixes:
   vn-core: https://fandaws.com/ontology/bfo/valuenet-core#
@@ -297,9 +297,9 @@ values:
     valuenet_iri: null
     valuenet_related: []
     valuenet_note: "Flourishing is the state the value dispositions aim at, not a disposition. No ValueNet class denotes flourishing as a state; gap logged in evidence-delta.md."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Moderate
+    records: [V01a, V01b]
+    status: verified
     ratified: false
 
   - id: V02
@@ -313,9 +313,9 @@ values:
     valuenet_related:
       - "folk:DignityDisposition"
     valuenet_note: "Dignity as a status of persons is what the folk disposition respects; the disposition is related, not identical. No search for empirical support (per brief)."
-    proposed_strength: null
+    proposed_strength: Argued only
     records: []
-    status: unverified
+    status: verified
     ratified: false
 
   - id: V03
@@ -330,9 +330,9 @@ values:
       - "folk:HonestyDisposition"
       - "folk:CandorDisposition"
     valuenet_note: "Reality-alignment of assistance is a constraint on the system, not a disposition of a person. The related folk dispositions concern truth-telling, a different thing. No search for empirical support (per brief)."
-    proposed_strength: null
+    proposed_strength: Argued only
     records: []
-    status: unverified
+    status: verified
     ratified: false
 
   - id: V04
@@ -348,9 +348,9 @@ values:
       - "folk:WealthDisposition"
       - "schwartz:SecurityDisposition"
     valuenet_note: "A state or good aimed at; the related dispositions are the orientations that pursue it."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Moderate
+    records: [V04]
+    status: verified
     ratified: false
 
   - id: V05
@@ -368,9 +368,9 @@ values:
       - "folk:EnjoymentDisposition"
       - "folk:VarietyDisposition"
     valuenet_note: "A state aimed at."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Moderate
+    records: [V05]
+    status: verified
     ratified: false
 
   - id: V06
@@ -391,9 +391,9 @@ values:
       - "folk:FamilyDisposition"
       - "folk:LoveDisposition"
     valuenet_note: "Relationships are relational states aimed at; the related dispositions are the orientations that form and keep them."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Moderate
+    records: [V06a, V06b]
+    status: verified
     ratified: false
 
   - id: V07
@@ -409,9 +409,9 @@ values:
       - "folk:ExcellenceDisposition"
       - "schwartz:AchievementDisposition"
     valuenet_note: "Both folk classes exist as personal value dispositions under schwartz:AchievementDisposition."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Moderate
+    records: [V07]
+    status: verified
     ratified: false
 
   - id: V08
@@ -426,9 +426,9 @@ values:
     valuenet_related:
       - "folk:WisdomDisposition"
     valuenet_note: "Being wise is a capability; folk:WisdomDisposition is the orientation that values wisdom. Related, not identical."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Moderate
+    records: [V08, V08x]
+    status: verified
     ratified: false
 
   - id: V09
@@ -446,9 +446,9 @@ values:
       - "folk:GratitudeDisposition"
       - "folk:KindnessDisposition"
     valuenet_note: "Character strengths are dispositions; the class is the ValueNet parent, the specific strengths are folk subclasses where they exist."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Moderate
+    records: [V09, V09x]
+    status: verified
     ratified: false
 
   - id: V10
@@ -464,9 +464,9 @@ values:
       - "folk:MeaningDisposition"
       - "folk:PurposeDisposition"
     valuenet_note: "Meaning in life is a state aimed at; the folk dispositions are orientations toward it."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Moderate
+    records: [V10, V10x]
+    status: verified
     ratified: false
 
   - id: V11
@@ -483,9 +483,9 @@ values:
       - "folk:AutonomyDisposition"
       - "schwartz:SelfDirectionDisposition"
     valuenet_note: "Agency itself is a capability (CCO agent capability); the authenticity of its exercise is a disposition. Classified by the disposition; the capability half is noted as a gap."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Moderate
+    records: [V11a, V11b]
+    status: verified
     ratified: false
 
   - id: V12
@@ -502,9 +502,9 @@ values:
       - "folk:SpiritualityDisposition"
       - "folk:FaithDisposition"
     valuenet_note: "Vitality is a state; the folk dispositions are orientations."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Hypothesis
+    records: [V12a, V12b, V12bx]
+    status: verified
     ratified: false
 
   - id: V13
@@ -521,9 +521,9 @@ values:
       - "folk:WorkLifeBalanceDisposition"
       - "folk:HarmonyDisposition"
     valuenet_note: "Balance is a property of the whole profile of goods, not a good of its own; candidate for reclassification as a profile property (v2 open item)."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Argued only
+    records: [V13, V13x]
+    status: verified
     ratified: false
 
   - id: V14
@@ -540,9 +540,9 @@ values:
       - "folk:BelongingDisposition"
       - "folk:CommunityDisposition"
     valuenet_note: "A relational state of the person to a culture; instrument to other goods."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Hypothesis
+    records: [V14, V14x]
+    status: verified
     ratified: false
 
   - id: V15
@@ -558,9 +558,9 @@ values:
       - "folk:FidelityDisposition"
       - "folk:LoyaltyDisposition"
     valuenet_note: ""
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Hypothesis
+    records: [V15]
+    status: verified
     ratified: false
 
   - id: V16
@@ -577,9 +577,9 @@ values:
       - "folk:LogicDisposition"
       - "folk:MindfulnessDisposition"
     valuenet_note: "A capability, not an evaluative orientation."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Hypothesis
+    records: [V16, V16x]
+    status: verified
     ratified: false
 
   - id: V17
@@ -595,9 +595,9 @@ values:
       - "folk:GoodCitizenRole"
       - "folk:ResponsibilityDisposition"
     valuenet_note: "Borne because of a position in a community: a value role."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Hypothesis
+    records: [V17, V17x]
+    status: verified
     ratified: false
 
   - id: V18
@@ -614,9 +614,9 @@ values:
       - "mf:OppressionProcess"
       - "folk:FreedomDisposition"
     valuenet_note: "A constraint on institutions; its violation is an mf:OppressionProcess contravening a borne mf:LibertyDisposition."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Hypothesis
+    records: [V18, V18x]
+    status: verified
     ratified: false
 
   - id: V19
@@ -632,9 +632,9 @@ values:
       - "folk:AutonomyDisposition"
       - "schwartz:SelfDirectionDisposition"
     valuenet_note: "A rule about how autonomy is extended over development, not a disposition."
-    proposed_strength: null
-    records: []
-    status: unverified
+    proposed_strength: Moderate
+    records: [V19, V19x]
+    status: verified
     ratified: false
 
   - id: V20
@@ -649,9 +649,9 @@ values:
       - "mf:LibertyDisposition"
       - "mf:OppressionProcess"
     valuenet_note: "Coercion is an mf:OppressionProcess contravening a borne mf:LibertyDisposition. No search for empirical support (per brief)."
-    proposed_strength: null
+    proposed_strength: Argued only
     records: []
-    status: unverified
+    status: verified
     ratified: false
 
   - id: V21
@@ -665,9 +665,9 @@ values:
     valuenet_related:
       - "folk:TransparencyDisposition"
     valuenet_note: "As a system safeguard it is a constraint; folk:TransparencyDisposition is the personal orientation. No search for empirical support (per brief)."
-    proposed_strength: null
+    proposed_strength: Argued only
     records: []
-    status: unverified
+    status: verified
     ratified: false
 
   - id: V22
@@ -682,9 +682,9 @@ values:
       - "folk:HumilityDisposition"
       - "folk:OpenMindednessDisposition"
     valuenet_note: "Wise-reasoning research measures intellectual humility as a competency marker. No search for empirical support (per brief)."
-    proposed_strength: null
+    proposed_strength: Argued only
     records: []
-    status: unverified
+    status: verified
     ratified: false
 
   - id: V23
@@ -697,7 +697,7 @@ values:
     valuenet_iri: null
     valuenet_related: []
     valuenet_note: "A principle about the value space, not a value in it. Classified as a constraint only because the enumeration has no 'principle' kind; candidate for removal from the value list (v2 already says so). No search for empirical support (per brief)."
-    proposed_strength: null
+    proposed_strength: Argued only
     records: []
-    status: unverified
+    status: verified
     ratified: false
