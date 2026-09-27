@@ -33,5 +33,5 @@
   "length_parity_tolerance": 0.05,
   "mrc_imbalance_ratio": 6.0,
   "min_distinct_outputs_per_arm": 5,
-  "note": "Amended 2026-09-27 with PREREG.md v0.2 (open items O-1 to O-5 closed by the owner). Sampling parameters are deliberately absent: the runner refuses a configuration that names temperature, top_p or top_k."
+  "note": "Amended 2026-09-27 with PREREG.md v0.2 (open items O-1 to O-5 closed by the owner); unchanged by v0.3. Sampling parameters are deliberately absent: the runner refuses a configuration that names temperature, top_p or top_k."
 }

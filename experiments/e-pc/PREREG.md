@@ -1,6 +1,6 @@
-# E-PC: Perspective Coverage Experiment — Pre-registration v0.2 (DRAFT, not frozen; open items closed 2026-09-27)
+# E-PC: Perspective Coverage Experiment — Pre-registration v0.3 (DRAFT, not frozen; open items closed and readings confirmed 2026-09-27)
 
-- **Status:** DRAFT. Not frozen. No arm has been run. Amended 2026-09-27 before freeze: the owner closed open items O-1 to O-5 (§12), and §3.2, §3.4, §4.1, §4.2, §5 and §9 were amended to match. This is a transparent pre-run amendment, made before any output exists. This document becomes the frozen protocol when Aaron ratifies it: he records the SHA-256 of this file (computed over its bytes with CRLF normalised to LF: `python -c "import sys; sys.path.insert(0,'experiments/e-pc/scoring'); import epc; print(epc.sha256_file_lf(epc.EPC/'PREREG.md'))"`), exactly as ratified, in `experiments/e-pc/PREREG.ratified` (one line: `sha256 <hash>`; second line: `ratified_by Aaron Damiano <date>`). `scoring/run_arms.py --credited` refuses to run unless that file exists and its hash matches this file. After ratification this file is never edited; deviations go in §12.
+- **Status:** DRAFT. Not frozen. No arm has been run. Amended 2026-09-27 before freeze: the owner closed open items O-1 to O-5 (§12), and §3.2, §3.4, §4.1, §4.2, §5 and §9 were amended to match; the owner then confirmed the O-2 and O-4 readings and added the short-arm rule (§3.4, §6) and the step order (§12). This is a transparent pre-run amendment, made before any output exists. This document becomes the frozen protocol when Aaron ratifies it: he records the SHA-256 of this file (computed over its bytes with CRLF normalised to LF: `python -c "import sys; sys.path.insert(0,'experiments/e-pc/scoring'); import epc; print(epc.sha256_file_lf(epc.EPC/'PREREG.md'))"`), exactly as ratified, in `experiments/e-pc/PREREG.ratified` (one line: `sha256 <hash>`; second line: `ratified_by Aaron Damiano <date>`). `scoring/run_arms.py --credited` refuses to run unless that file exists and its hash matches this file. After ratification this file is never edited; deviations go in §12.
 - **Governs:** the first real test of the perspective method of *Integral Ethics v2* (`docs/01-philosophy/integral-ethics-v2.md`, "Cognitive perspectives as instruments" and "E-PC").
 - **Reuses:** the situation-graph conventions and the observed-plus-null permutation convention of E1/E2 (`Skreen5hot/worldview-realization-model`, `Skreen5hot/wrm-e2-independent-library-test`). The E2 code itself is not re-implemented here; see §11.
 - **Authored:** 2026-09-26 by the agent under delegation.
@@ -31,7 +31,7 @@ The prose is authored from the graph and contains no appraisal. Its SHA-256 is r
 
 Inter-annotator agreement is computed by `scoring/epc.py agreement` before adjudication and recorded in the gold file: (a) span-level agreement as the fraction of annotations in each set that overlap an annotation in the other set by at least 50% of the shorter span; (b) process-level agreement as Cohen's kappa over the set of (value class, bearer) pairs present in either set. The adjudicated gold is the union of agreed items plus disagreements resolved by discussion, each resolution recorded.
 
-**Second rater (O-4):** independently of the gold, a second rater codes a pre-registered stratified 25% sample of the packets (10 per arm, 30 in all, chosen by `scoring/epc.py second-rater-sample <run_id>` from the seeded packet order, so that the sample is fixed mechanically and stays blind to arm). Agreement between the two raters is reported as in §3.2, and disagreements are adjudicated only after both codings are committed. Reading flagged for the owner: O-4 named a second annotator; the gold already requires two annotators (above), so the 25% sample is applied to the rating of outputs, where a sample is meaningful.
+**Second rater (O-4):** independently of the gold, a second rater codes a pre-registered stratified 25% sample of the packets (10 per arm, 30 in all, chosen by `scoring/epc.py second-rater-sample <run_id>` from the seeded packet order, so that the sample is fixed mechanically and stays blind to arm). Agreement between the two raters is reported as in §3.2, and disagreements are adjudicated only after both codings are committed. Reading confirmed by the owner, 2026-09-27: O-4 named a second annotator; the gold already requires two full, independent annotators (above), so the 25% sample is applied to the rating of outputs, where a sample is meaningful.
 
 **Blindness:** the gold must be committed before any arm output exists in the repository (`tests/e-pc/test_gold_blind.py`). The value layer of the graph is generated from the adjudicated gold by `scoring/epc.py build-value-layer` and committed in the same commit as the gold.
 
@@ -51,18 +51,18 @@ Frozen prompt files under `arms/`. The full prompt for each arm is: the arm file
 
 | Parameter | Value |
 | --- | --- |
-| Model | `claude-opus-5` (see open item O-1) |
+| Model | `claude-opus-5` (O-1, closed) |
 | Sampling | Provider default. `temperature`, `top_p` and `top_k` are omitted from every request (O-1). The owner's basis: Anthropic lists `claude-opus-5` as active and states these sampling parameters are deprecated for Opus 4.7 and later, non-default values return HTTP 400, and omission is recommended; the current Python SDK also removes them. `temperature: 0` is therefore not a valid pre-registration condition for this model. The runner refuses to start if the configuration names any sampling parameter; it never drops one silently |
 | Thinking | disabled (`{"type": "disabled"}`), so that the prompt is the only source of structured reasoning |
 | max_tokens | 16000 |
 | Tools, web access | none |
 | System prompt | none; everything is in the single user message |
 | Frozen | all other request parameters, the prompts, the model identifier as sent and as served, and the raw responses |
-| N | 40 evaluable outputs per arm, 120 in total (O-2). An output is evaluable when it parses against the output contract; requests continue until 40 evaluable outputs exist per arm, up to 50 requests per arm; non-evaluable outputs are kept under `outputs/nonevaluable/`, counted in the manifest and reported, and never scored |
+| N | 40 evaluable outputs per arm, 120 in total (O-2). An output is evaluable when it parses against the output contract; requests continue until 40 evaluable outputs exist per arm, up to 50 requests per arm; non-evaluable outputs are kept under `outputs/nonevaluable/`, counted in the manifest and reported, and never scored. **Short arm:** if any arm has fewer than 40 evaluable outputs after 50 requests, the run is reported as INCOMPLETE (§6) and neither the primary nor the safety test is computed; means are reported descriptively. Enforced by `scoring/epc.py decide_outcome` |
 
 The exact model version string, the request bodies and the response bodies are logged verbatim and hashed in `results/<run_id>/raw/`.
 
-**Reading of O-2 (flagged for the owner).** "N = 120 evaluable cases, with strata balanced wherever the instrument's six-operation structure permits" is implemented as 120 evaluable outputs balanced across the three arms (40 each); within arm B every evaluable output carries all six operation sections, so the operation strata are balanced by construction. If "cases" meant scenarios, this pilot has one and the multi-scenario design in §10 is the follow-up.
+**Reading of O-2 (confirmed by the owner, 2026-09-27).** "N = 120 evaluable cases, with strata balanced wherever the instrument's six-operation structure permits" is implemented as 120 evaluable outputs balanced across the three arms (40 each); within arm B every evaluable output carries all six operation sections, so the operation strata are balanced by construction. If "cases" meant scenarios, this pilot has one and the multi-scenario design in §10 is the follow-up.
 
 ## 4. Outcomes
 
@@ -100,6 +100,7 @@ For arm B only, each output's rater annotations are attributed to the section (o
 - **METHOD-SUPPORTED:** B exceeds C on coverage at p ≤ 0.05 and B does not raise fabrication over A. Claim, exactly: *on this scenario, with this model, the six-operation prompt increased coverage of expert-annotated considerations over a length-matched placebo without increasing fabricated facts.* Nothing about H-P6's exhaustiveness follows.
 - **METHOD-FAILED (coverage):** B does not exceed C at p ≤ 0.05. The perspective method, as prompted here, did not beat a placebo. The finding publishes as found.
 - **METHOD-FAILED (safety):** B raises fabrication over A. The method fails regardless of coverage. The finding publishes as found.
+- **INCOMPLETE:** any arm has fewer than 40 evaluable outputs after 50 requests (§3.4). Checked before every other outcome. No inferential claim is made; means and the non-evaluable counts are reported, and the cause is diagnosed before any further credited run, which gets a new run id.
 - **UNINFORMATIVE:** fewer than 5 byte-distinct outputs in B or in C (§9). No inferential claim is made; means are reported descriptively and the design is revised before any further credited run.
 
 ## 7. Kill conditions
@@ -136,13 +137,13 @@ E2's code (`wrm_e2`) implements the WRM predicate-filter mechanism, which E-PC d
 ## 12. Open items before freeze (closed by the owner, 2026-09-27)
 
 - **O-1 Model and sampling. Closed.** Keep `claude-opus-5`; omit `temperature`, `top_p` and `top_k`; use provider-default sampling; freeze all other request parameters, prompts, the model identifier and raw responses (§3.4). The runner fails closed on a configuration that names a sampling parameter; it is not taught to drop parameters silently.
-- **O-2 N. Closed.** 120 evaluable outputs, balanced across arms (40 each) and, within B, across the six operations by construction (§3.4; reading flagged there).
+- **O-2 N. Closed.** 120 evaluable outputs, balanced across arms (40 each) and, within B, across the six operations by construction (§3.4; reading confirmed by the owner, 2026-09-27).
 - **O-3 Rater. Closed.** Primary substantive coding by a human rater from blinded, randomised packets, never by the generation model (§4.1). The person is named in the results manifest at run time; they must not be an author of the arms or of the gold.
-- **O-4 Second annotator. Closed.** An independent second rater on a pre-registered stratified 25% sample, agreement reported, adjudication only after independent coding (§3.2; reading flagged there). The gold keeps its two-annotator requirement.
+- **O-4 Second annotator. Closed.** An independent second rater on a pre-registered stratified 25% sample, agreement reported, adjudication only after independent coding (§3.2; reading confirmed by the owner, 2026-09-27). The gold keeps its two-annotator requirement.
 - **O-5 Fabrication tolerance. Closed.** Zero at the item level; fabricated items retained in the denominator; rate reported; any claim of zero fabrication fails on the first occurrence (§4.2).
 
-Still to do before freeze: name the rater and the second rater; produce the gold; then ratify this document by writing `PREREG.ratified`.
+Order from here, as in §8: ratify this document by writing `PREREG.ratified`; then produce the gold blind to the arms and commit it with the value layer; then name the rater and the second rater (neither an author of the arms or the gold) in the results manifest at run time; then the credited run.
 
 ## 13. Deviations log
 
-None after ratification (none has occurred). Pre-freeze amendment, 2026-09-27, decided before any output existed: O-1 to O-5 closed by the owner; §3.2, §3.4, §4.1, §4.2, §5 and §9 amended; `config.json` and `scoring/run_arms.py` changed to omit sampling parameters and to sample to 40 evaluable outputs per arm.
+None after ratification (none has occurred). Pre-freeze amendment, 2026-09-27, decided before any output existed: O-1 to O-5 closed by the owner; §3.2, §3.4, §4.1, §4.2, §5 and §9 amended; `config.json` and `scoring/run_arms.py` changed to omit sampling parameters and to sample to 40 evaluable outputs per arm. Second pre-freeze amendment, 2026-09-27, still before any output existed: the owner confirmed the O-2 and O-4 readings; the INCOMPLETE outcome for a short arm was added (§3.4, §6) and enforced in `scoring/epc.py` and `scoring/analyze.py`; §12's closing line was corrected to the §8 order (freeze, then gold, then raters named at run time); `run_arms.py`'s request count was corrected (it counted one request more than it made).

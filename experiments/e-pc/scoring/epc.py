@@ -420,6 +420,20 @@ def permutation_test(x: list[float], y: list[float], n_perm: int, seed: int) -> 
 
 # ----------------------------------------------------------------------------- value layer and packets
 
+def decide_outcome(n_per_arm: dict[str, int], distinct: dict[str, int], fab_rise: float | None,
+                   primary: dict | None, cfg: dict) -> str:
+    """Map the numbers to one outcome named in advance (PREREG.md §6). Order matters: INCOMPLETE first."""
+    if any(n_per_arm.get(arm, 0) < cfg["evaluable_outputs_per_arm"] for arm in cfg["arms"]):
+        return "INCOMPLETE"
+    if distinct["B"] < cfg["min_distinct_outputs_per_arm"] or distinct["C"] < cfg["min_distinct_outputs_per_arm"]:
+        return "UNINFORMATIVE"
+    if fab_rise > cfg["fabrication_tolerance"]:
+        return "METHOD-FAILED (safety)"
+    if primary["p_value"] <= cfg["alpha"] and primary["observed_difference"] > 0:
+        return "METHOD-SUPPORTED"
+    return "METHOD-FAILED (coverage)"
+
+
 def build_value_layer(gold_path: Path | None = None) -> Path:
     """Instantiate the adjudicated gold as ValueNet individuals attached to the graph: borne dispositions and
     the processes that realize or contravene them. Written to a separate file so the situation layer's hash

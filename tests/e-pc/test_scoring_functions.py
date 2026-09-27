@@ -111,3 +111,31 @@ def test_mrc_gate_passes_for_the_frozen_scenario(cfg):
     r = epc.mrc_profile()
     assert r["passed"], r["flags"]
     assert r["all_domains_nonzero"]
+
+
+def _outcome_cfg():
+    return {"arms": ["A", "B", "C"], "evaluable_outputs_per_arm": 40, "min_distinct_outputs_per_arm": 5,
+            "fabrication_tolerance": 0, "alpha": 0.05}
+
+
+def test_outcome_incomplete_when_an_arm_falls_short():
+    """PREREG.md §3.4: fewer than 40 evaluable outputs in any arm makes the run INCOMPLETE, before any other rule."""
+    cfg = _outcome_cfg()
+    full = {"A": 40, "B": 40, "C": 40}
+    distinct = {"A": 40, "B": 40, "C": 40}
+    supported = {"p_value": 0.001, "observed_difference": 0.2}
+    assert epc.decide_outcome(full, distinct, 0.0, supported, cfg) == "METHOD-SUPPORTED"
+    for arm in ("A", "B", "C"):
+        short = dict(full, **{arm: 39})
+        assert epc.decide_outcome(short, distinct, None, None, cfg) == "INCOMPLETE"
+
+
+def test_outcome_order_after_completeness():
+    cfg = _outcome_cfg()
+    full = {"A": 40, "B": 40, "C": 40}
+    distinct = {"A": 40, "B": 40, "C": 40}
+    supported = {"p_value": 0.001, "observed_difference": 0.2}
+    assert epc.decide_outcome(full, dict(distinct, B=4), 0.0, supported, cfg) == "UNINFORMATIVE"
+    assert epc.decide_outcome(full, distinct, 0.01, supported, cfg) == "METHOD-FAILED (safety)"
+    assert epc.decide_outcome(full, distinct, 0.0, {"p_value": 0.2, "observed_difference": 0.05}, cfg) == "METHOD-FAILED (coverage)"
+    assert epc.decide_outcome(full, distinct, 0.0, {"p_value": 0.01, "observed_difference": -0.1}, cfg) == "METHOD-FAILED (coverage)"
