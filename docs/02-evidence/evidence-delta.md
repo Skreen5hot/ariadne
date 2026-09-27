@@ -75,11 +75,16 @@ constraints; V22 Argued only, empirical grounding to be commissioned if the text
 effectiveness or wisdom claims; V23 removed from the value list and retained as a principle.
 Ratified distribution: Strong 1 (+ V10m), Moderate 9, Hypothesis 6, Argued only 7 (V23 retired).
 
-*Reading flagged.* The owner adopted "most rewordings" and declined those that would redefine V05,
-V15 or V18. The delta's value rewordings for V01, V04, V06, V08, V09 and V11 do not change the
-referent and are recorded as `ratified_claim` beside the historical `v1_claim`, marked "owner to
-confirm". V12's split and V16's self-insight rewording change the referent and are left as
-proposals; those values keep their v1 sentence at Hypothesis.
+*Reading confirmed, with amendments.* The owner adopted "most rewordings" and declined those that
+would redefine V05, V15 or V18. The rewordings for V01, V04, V06, V08, V09 and V11 do not change the
+referent and are recorded as `ratified_claim` beside the historical `v1_claim`. On review against
+the records the owner confirmed V01 and V04 as worded and amended four (2026-09-27): V06 drops "among
+the strongest" and the plural "cohorts" (no opened source ranks relationships against other
+predictors; one cohort); V08 drops "such as health, finances and social involvement" (that list came
+from a search snippet, not an opened page); V09 says "less strongly (r about .2-.35)" for kindness
+and integrity, not "only weakly"; V11 says "in US and East Asian samples", not "across cultures".
+Grades are unchanged. V12's split and V16's self-insight rewording change the referent and are left
+as proposals; those values keep their v1 sentence at Hypothesis.
 
 **Citation and reference corrections.** All seven v2 corrections applied in v2 (the Nozick chapter
 title turned out to be a slip in the verifier's brief, not in v2; Tetlock's forecast count is not
@@ -95,12 +100,13 @@ Harms outside the six pairs are recorded as gaps, not modelled.
 
 **E-PC.** O-1: keep `claude-opus-5`, omit `temperature`, `top_p`, `top_k`, provider-default
 sampling, all else frozen, runner fails closed. O-2: 120 evaluable outputs, balanced across arms
-and, within B, across the six operations (reading flagged in PREREG §3.4). O-3: human rater from
+and, within B, across the six operations (reading confirmed by the owner, PREREG §3.4). O-3: human rater from
 blinded, randomised packets, never the generation model. O-4: independent second rater on a
 pre-registered stratified 25% sample, agreement reported, adjudication only after independent
-coding (reading flagged in PREREG §3.2). O-5: zero item-level fabrication tolerance, items retained
+coding (reading confirmed by the owner, PREREG §3.2). O-5: zero item-level fabrication tolerance, items retained
 in the denominator, rate reported, any zero-fabrication claim fails on the first occurrence.
-PREREG.md is amended to v0.2 before freeze; it is still unfrozen until `PREREG.ratified` exists.
+PREREG.md is amended to v0.3 before freeze (readings confirmed; a short arm makes the run
+INCOMPLETE); it is still unfrozen until `PREREG.ratified` exists.
 
 ## Summary of Phase 1
 
