@@ -10,6 +10,8 @@ Empty until a run exists. A credited run creates `results/<run_id>/` with:
 | `outputs/<arm>-<i>.txt` | the output's textual representation for rating (the raw text block) |
 | `blind/PKT-<hash>.{json,txt}`, `blind/key.json` | label-stripped packets in seeded random order, and the key (opened only after ratings are committed) |
 | `ratings/PKT-<hash>.rating.json` | the blind rater's annotations |
+| `ratings2/PKT-<hash>.rating.json` | the second rater's annotations on the pre-registered 25% sample (`epc.py second-rater-sample`) |
+| `outputs/nonevaluable/<arm>-<i>.txt` | outputs that did not parse against the contract; counted, reported, never scored |
 | `results.json` | coverage, fabrication, diversity, permutation test, effect sizes, distinct-output counts, `prereg_sha256`, outcome classification |
 | `report.md` | the human-readable report |
 

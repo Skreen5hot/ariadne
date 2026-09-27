@@ -82,3 +82,6 @@ Strength held at Moderate rather than Strong because fit is partial (the "confli
 replications are largely from the originating group; the Bilsky & Janik 2010 report is the most
 independent confirmation opened. If the claim is reworded as suggested, the same evidence would
 support Strong.
+
+## Ratification (2026-09-27)
+The claim was reworded on ratification to the circumplex form suggested in this record; against that wording the fit is supports and the claim-level grade is Strong. The verified fields above are unchanged.

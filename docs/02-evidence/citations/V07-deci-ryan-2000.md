@@ -80,3 +80,6 @@ is applied because two meta-analyses opened here show competence need satisfacti
 higher positive affect and lower negative affect in a consistent direction and the source's fit is
 supports; the ratifier may prefer Moderate if causal (not correlational) centrality is intended.
 - Coordinator note (2026-09-26): proposed_strength changed from Strong to Moderate. The strength rules place a meta-analysis with high heterogeneity at Moderate, and the record itself reports significant heterogeneity in the meta-analytic evidence and cross-sectional self-report designs. Strong is available if the ratifier reads the heterogeneity as acceptable.
+
+## Ratification (2026-09-27)
+Ratified at Moderate (the coordinator's heterogeneity reading stands).

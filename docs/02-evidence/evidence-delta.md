@@ -2,8 +2,11 @@
 
 This is the ratification document. One row per claim whose proposed strength differs from the
 strength printed in *Integral Ethics v2*, or whose wording should change to match its evidence,
-with the record that justifies it. It changes nothing by itself: a row takes effect only when Aaron
-sets `ratified: true` on the register entry and, where wording changes, edits v2.
+with the record that justifies it. **Ratified on 2026-09-27 with owner amendments**; the decisions
+are in the "Ratification record" below and applied in `register.yaml` (every entry `ratified: true`
+with `ratified_on`, `ratified_by`, `ratification_note`), in `integral-ethics-v2.md` (wordings,
+strengths, citation corrections) and in `v1-errata.md`. The proposal tables below are kept as
+proposed, so the record shows what was accepted, amended or declined.
 
 Grades follow the strength rules in `README.md`. The rule that matters most here: a claim's grade is
 the strongest grade its *fitting* records justify, and a philosophical or formal argument with no
@@ -23,18 +26,81 @@ To ratify an item: set `ratified: true` and `status: ratified` on its entry in `
 and `python -m pytest tests/evidence`. The tests refuse a ratified flag without a grade and a grade
 without records. Wording changes are made in `integral-ethics-v2.md`, never in the register.
 
-| # | Decision | Where | Items |
-| --- | --- | --- | --- |
-| 1 | Ratify or revise the 19 claim grades | "Load-bearing claims: status changes" | 10 downgrades proposed; E2 stays Strong; E4 and E5 are below Moderate |
-| 2 | Ratify or revise the 23 value grades | "Candidate values: status changes" | 10 Moderate, 6 Hypothesis, 7 Argued only; six cited sources were neighbouring claims |
-| 3 | Adopt, amend or reject each rewording | both tables, last column | F2, E1, E4, E5, E6, E7, C4a, C5, C7, C8; V01, V04-V06, V08-V12, V14-V19 |
-| 4 | Answer the four rules questions | "Rules questions for Aaron" | formal results (affects F1, C5, C6, F2); same-lab replications (E6); abstract-only originals (E3); claims with a normative half (C7, E5) |
-| 5 | Apply the citation corrections to v2 | "Citation corrections to v2" | 7 items, including the ValueNet mapping count |
-| 6 | Apply the v1 reference corrections | "v1 reference corrections" | Shapiro, Jacobsen, Steiner GA 151; Philosophy of Freedom date noted |
-| 7 | Decide the six uncited values | "Uncited values for Aaron to decide" | V02, V03, V20-V23 |
-| 8 | Acknowledge the ValueNet gaps or commission classes | "ValueNet gaps" | aimed goods, agency capability, competencies, principle kind, harms outside the six pairs |
-| 9 | Close the E-PC pre-registration open items | `experiments/e-pc/PREREG.md` §12 | O-1 model and sampling, O-2 N, O-3 rater, O-4 second annotator, O-5 fabrication tolerance |
+| # | Decision | Where | Items | Decided 2026-09-27 |
+| --- | --- | --- | --- | --- |
+| 1 | Ratify or revise the 19 claim grades | "Load-bearing claims: status changes" | 10 downgrades proposed; E2 stays Strong; E4 and E5 are below Moderate | Ratified with amendments: C4a Strong on rewording; C6 Formal (established); C7 split (Strong / Argued only); E5 retired in favour of the discipline claim plus reported result E5r; E3 and E6 not promoted |
+| 2 | Ratify or revise the 23 value grades | "Candidate values: status changes" | 10 Moderate, 6 Hypothesis, 7 Argued only; six cited sources were neighbouring claims | Ratified with amendments: V05 Hypothesis (not Moderate); V19 Strong; V10 Moderate with V10m Strong; V17 Moderate only in conditional form; V23 retired |
+| 3 | Adopt, amend or reject each rewording | both tables, last column | F2, E1, E4, E5, E6, E7, C4a, C5, C7, C8; V01, V04-V06, V08-V12, V14-V19 | Adopted for E1, E4, E6, E7, C4a, C7 split, C8, V17, V19; amended for F2 and C5; declined where a rewording would redefine the value (V05, V15, V18; V12 split and V16 left as proposals) |
+| 4 | Answer the four rules questions | "Rules questions for Aaron" | formal results (affects F1, C5, C6, F2); same-lab replications (E6); abstract-only originals (E3); claims with a normative half (C7, E5) | Formal (established) added as a grade, applied to C6 only; same-lab replication is not independent; abstract-only originals cannot reach Strong; mixed claims are split |
+| 5 | Apply the citation corrections to v2 | "Citation corrections to v2" | 7 items, including the ValueNet mapping count | Applied to v2 (ValueNet count 93; Chang 1997/2002; Williams's own word; Aquinas locus; Bittner & Smith resolved; Tetlock count not asserted; Nozick title was a slip in the verifier brief, not in v2) |
+| 6 | Apply the v1 reference corrections | "v1 reference corrections" | Shapiro, Jacobsen, Steiner GA 151; Philosophy of Freedom date noted | Applied as `v1-errata.md` (v1 is the record and stays unedited) and in v2 where the content survives; Shapiro's clause removed rather than re-dated; Philosophy of Freedom date flagged, not substituted |
+| 7 | Decide the six uncited values | "Uncited values for Aaron to decide" | V02, V03, V20-V23 | V02, V03, V20, V21 Argued only as normative constraints; V22 Argued only, grounding to be commissioned if effectiveness claims are made; V23 removed from the value list, retained as a principle |
+| 8 | Acknowledge the ValueNet gaps or commission classes | "ValueNet gaps" | aimed goods, agency capability, competencies, principle kind, harms outside the six pairs | Acknowledged; no new classes commissioned; gaps stay explicit `class_fit: gap` records so the pilot exposes where the ontology fails; any extension is a separately governed ontology change |
+| 9 | Close the E-PC pre-registration open items | `experiments/e-pc/PREREG.md` §12 | O-1 model and sampling, O-2 N, O-3 rater, O-4 second annotator, O-5 fabrication tolerance | Closed: Opus 5 with sampling parameters omitted (fail closed); 120 evaluable outputs; human rater from blind packets; second rater on a stratified 25% sample; zero item-level fabrication tolerance |
 
+
+## Ratification record (2026-09-27)
+
+Decisions by Aaron Damiano, applied by the agent. Where the decision left room for reading, the
+reading is stated and flagged; each is reversible in the register.
+
+**Rules.** A new grade, Formal (established), sits above Argued only for a proved and uncontested
+result whose registered claim matches the theorem and its assumptions. It is not an empirical grade
+and lends nothing to surrounding prose. The scheme is now: empirical Strong / Moderate /
+Hypothesis; Formal (established); Argued only for philosophical and normative commitments.
+Preregistered same-lab replication is not independent replication. An abstract-only original
+cannot reach Strong. Mixed claims are split, not averaged.
+
+**Claims** (register `proposed_strength`, all `ratified: true`): F1 Argued only; F2 Argued only with
+the owner's wording ("more useful when they contribute information or considerations not already
+represented", not "in proportion to"); E1 Moderate, delta wording; E2 Strong; E3 Moderate, not
+promoted; E4 Hypothesis, delta wording; E5 Argued only as the analytic discipline, the efficacy
+formulation retired, and E5r added to report that controlled tests of ACH show little or no accuracy
+gain; E6 Moderate, self-distancing wording, not promoted; E7 Moderate, qualified wording; E8
+Moderate; C1 Moderate; C4 Argued only; C4a Strong with the circumplex wording; C5 Argued only with
+the owner's wording ("scalar aggregation of plural criteria requires explicit weighting or trade-off
+assumptions not determined by the criteria themselves"); C6 Formal (established); C2 Argued only;
+C7 split into C7 "Decision aids bias human choice (automation bias)" at Strong and C7n "The human
+must stay the decider" at Argued only; C8 Argued only with the delta wording; H-P6 Hypothesis.
+Ratified distribution: Strong 3, Formal (established) 1, Moderate 6, Argued only 8, Hypothesis 3.
+
+**Values:** V01 Moderate; V04 Moderate; V05 Hypothesis, because the evidence concerns positive
+affect, not experiential richness; V06 Moderate; V07 Moderate; V08 Moderate; V09 Moderate; V10
+Moderate as the broad claim with V10m (purpose predicts lower mortality) recorded separately at
+Strong; V11 Moderate; V12 Hypothesis; V13 Argued only; V14 Hypothesis; V15 Hypothesis while it
+remains the broader value; V16 Hypothesis; V17 Moderate once rewritten conditionally; V18
+Hypothesis, since perceived freedom of choice is not a freedom-to-exit option; V19 Strong with the
+untested "developmentally appropriate" clause removed; V02, V03, V20, V21 Argued only as normative
+constraints; V22 Argued only, empirical grounding to be commissioned if the text makes
+effectiveness or wisdom claims; V23 removed from the value list and retained as a principle.
+Ratified distribution: Strong 1 (+ V10m), Moderate 9, Hypothesis 6, Argued only 7 (V23 retired).
+
+*Reading flagged.* The owner adopted "most rewordings" and declined those that would redefine V05,
+V15 or V18. The delta's value rewordings for V01, V04, V06, V08, V09 and V11 do not change the
+referent and are recorded as `ratified_claim` beside the historical `v1_claim`, marked "owner to
+confirm". V12's split and V16's self-insight rewording change the referent and are left as
+proposals; those values keep their v1 sentence at Hypothesis.
+
+**Citation and reference corrections.** All seven v2 corrections applied in v2 (the Nozick chapter
+title turned out to be a slip in the verifier's brief, not in v2; Tetlock's forecast count is not
+asserted in v2). The v1 corrections are recorded in `v1-errata.md` and applied in v2 where the
+content survives: the Shapiro "depth not breadth" clause is removed rather than re-dated; Jacobsen
+is corrected bibliographically and no longer used as cross-cultural evidence; the twelve worldviews
+are attributed to GA 151; the *Philosophy of Freedom* date is flagged, not replaced.
+
+**ValueNet.** Gaps acknowledged; no classes commissioned as part of ratification. Aimed goods,
+capabilities, competencies and the principle kind stay explicit gap records, so that E-PC exposes
+where the ontology fails to represent the project rather than being repaired to fit the instrument.
+Harms outside the six pairs are recorded as gaps, not modelled.
+
+**E-PC.** O-1: keep `claude-opus-5`, omit `temperature`, `top_p`, `top_k`, provider-default
+sampling, all else frozen, runner fails closed. O-2: 120 evaluable outputs, balanced across arms
+and, within B, across the six operations (reading flagged in PREREG §3.4). O-3: human rater from
+blinded, randomised packets, never the generation model. O-4: independent second rater on a
+pre-registered stratified 25% sample, agreement reported, adjudication only after independent
+coding (reading flagged in PREREG §3.2). O-5: zero item-level fabrication tolerance, items retained
+in the denominator, rate reported, any zero-fabrication claim fails on the first occurrence.
+PREREG.md is amended to v0.2 before freeze; it is still unfrozen until `PREREG.ratified` exists.
 
 ## Summary of Phase 1
 

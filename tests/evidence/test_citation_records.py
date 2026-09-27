@@ -31,10 +31,11 @@ def _cited_ids(register) -> list[tuple[str, str]]:
     out = []
     if _scope(register, "claims"):
         for c in register["claims"]:
-            out.append((c["id"], "claim"))
+            if not c.get("derived_from"):
+                out.append((c["id"], "claim"))
     if _scope(register, "values"):
         for v in register["values"]:
-            if v["citations_as_given"]:
+            if v["citations_as_given"] and not v.get("derived_from"):
                 out.append((v["id"], "value"))
     return out
 
@@ -52,6 +53,8 @@ def test_record_count_matches_citations(register, records):
         import warnings
         warnings.warn("register.verification_scope.values is pending: value records not required yet")
     for entry in entries:
+        if entry.get("derived_from"):
+            continue
         n_cit = len(entry["citations_as_given"])
         n_rec = sum(1 for r in records.values() if r["claim_id"] == entry["id"] and not r["id"].endswith("x"))
         if entry["id"] == "H-P6":

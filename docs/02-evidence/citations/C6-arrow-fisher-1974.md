@@ -83,3 +83,6 @@ ratified: false
 ## Notes
 Graded "Argued only" because it is a formal theorem with no empirical component; the strength rules
 do not have a higher grade for formal results. The theorem is standard in environmental economics.
+
+## Ratification (2026-09-27)
+Ratified at the new claim-level grade Formal (established): the registered claim matches the theorem and its assumptions. Records do not carry that grade; the verified Argued only above stands as the record grade.

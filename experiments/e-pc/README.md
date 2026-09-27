@@ -13,7 +13,7 @@ the arms, following `annotations/ANNOTATION_GUIDE.md`. No arm may be run credite
 | --- | --- |
 | `PREREG.md` | Pre-registration: hypothesis, materials, arms, outcomes, analysis, kill conditions, open items |
 | `PREREG.ratified` | Written by Aaron at ratification: the SHA-256 of `PREREG.md`. Absent until then |
-| `config.json` | Frozen run parameters (model, decoding, N, permutations, seed) |
+| `config.json` | Frozen run parameters (model, provider-default sampling with no sampling parameters, evaluable outputs per arm, permutations, seed, zero fabrication tolerance) |
 | `scenarios/clinic-discharge.json` | Situation graph S=(E,R) in the E1 convention, plus explicit unknowns |
 | `scenarios/clinic-discharge.txt` | The prose the arms see; the exact textual representation all offsets refer to |
 | `scenarios/predicates.json` | The 20-predicate registry with relational domains, reused from E1 with provenance |
