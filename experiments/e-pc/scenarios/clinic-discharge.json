@@ -1,0 +1,1591 @@
+{
+ "schema": "e-pc/scenario/v1",
+ "derived_from_convention": "wrm-poc/scenario/v1 (Skreen5hot/worldview-realization-model data/scenario.json): entities {id,type,type_iri,label,attributes}; edges {edge_id,source,predicate,target}; predicates in scenarios/predicates.json with a relational_domain each",
+ "metadata_excluded_from_experiment": {
+  "title": "Discharge of an older patient from a rural hospital",
+  "name": "clinic-discharge",
+  "prose": "clinic-discharge.txt",
+  "note": "Frozen situation graph S=(E,R), situation layer only. Facts and explicit unknowns; no appraisal encoded. The value layer (borne value dispositions, value realization and violation processes) is added from the adjudicated gold annotation, in the same commit as the gold, before any arm output exists. See annotations/ANNOTATION_GUIDE.md.",
+  "type_iri_note": "Class IRIs are reused from the E1 scenario (verified there against the CCO 2.0 merged file). Where no verified finer class was available a coarser verified class is used (e.g. Report for a leaflet); typing precision is not what the pilot tests.",
+  "authored": "2026-09-26",
+  "author": "agent, under delegation; Aaron ratifies"
+ },
+ "entities": [
+  {
+   "id": "P-PAT",
+   "type": "Person",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001262",
+   "label": "Margaret Okonjo",
+   "aliases": [
+    "Margaret",
+    "Mrs Okonjo",
+    "the patient"
+   ],
+   "attributes": {
+    "age": 81,
+    "lives_alone": true
+   }
+  },
+  {
+   "id": "P-SON",
+   "type": "Person",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001262",
+   "label": "Daniel Okonjo",
+   "aliases": [
+    "Daniel",
+    "the son",
+    "her son"
+   ],
+   "attributes": {
+    "age": 52,
+    "distance_minutes_by_car": 40,
+    "employment": "rotating shifts at a distribution centre"
+   }
+  },
+  {
+   "id": "P-HOSP",
+   "type": "Person",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001262",
+   "label": "Dr. Priya Raman",
+   "aliases": [
+    "Dr Raman",
+    "Priya Raman",
+    "the hospitalist"
+   ],
+   "attributes": {}
+  },
+  {
+   "id": "P-CM",
+   "type": "Person",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001262",
+   "label": "Tomas Weber",
+   "aliases": [
+    "Tomas",
+    "the case manager"
+   ],
+   "attributes": {}
+  },
+  {
+   "id": "P-NURSE",
+   "type": "Person",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001262",
+   "label": "Lena Fischer",
+   "aliases": [
+    "Lena",
+    "the charge nurse",
+    "the nurse"
+   ],
+   "attributes": {}
+  },
+  {
+   "id": "P-PT",
+   "type": "Person",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001262",
+   "label": "Samir Haddad",
+   "aliases": [
+    "Samir",
+    "the physiotherapist"
+   ],
+   "attributes": {}
+  },
+  {
+   "id": "P-NEIGH",
+   "type": "Person",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001262",
+   "label": "Helen Adeyemi",
+   "aliases": [
+    "Helen",
+    "the neighbour",
+    "her neighbour"
+   ],
+   "attributes": {
+    "relationship": "neighbour with shared wall and spare key"
+   }
+  },
+  {
+   "id": "P-COO",
+   "type": "Person",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001262",
+   "label": "Robert Kaminski",
+   "aliases": [
+    "Kaminski",
+    "the chief operating officer",
+    "the COO"
+   ],
+   "attributes": {}
+  },
+  {
+   "id": "ORG-HOSP",
+   "type": "Organization",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001180",
+   "label": "Riverbend Community Hospital",
+   "aliases": [
+    "Riverbend",
+    "the hospital"
+   ],
+   "attributes": {
+    "beds": 40,
+    "district": "rural"
+   }
+  },
+  {
+   "id": "ORG-RHA",
+   "type": "Government Organization",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000408",
+   "label": "Regional Health Authority",
+   "aliases": [
+    "the health authority",
+    "RHA"
+   ],
+   "attributes": {}
+  },
+  {
+   "id": "ORG-HCA",
+   "type": "Commercial Organization",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000443",
+   "label": "Comfort Care",
+   "aliases": [
+    "the home care agency",
+    "Comfort Care home care agency"
+   ],
+   "attributes": {
+    "earliest_start": "2026-10-09"
+   }
+  },
+  {
+   "id": "ORG-APS",
+   "type": "Government Organization",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000408",
+   "label": "Adult Protective Services",
+   "aliases": [
+    "APS"
+   ],
+   "attributes": {}
+  },
+  {
+   "id": "ORG-DC",
+   "type": "Commercial Organization",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000443",
+   "label": "distribution centre",
+   "aliases": [
+    "the distribution centre",
+    "a distribution centre",
+    "Daniel's employer",
+    "his employer"
+   ],
+   "attributes": {
+    "employs": "P-SON",
+    "shift_pattern": "rotating; details unknown"
+   }
+  },
+  {
+   "id": "R-PAT",
+   "type": "role",
+   "type_iri": "http://purl.obolibrary.org/obo/BFO_0000023",
+   "label": "patient role",
+   "aliases": [],
+   "attributes": {
+    "ward": "Ward 2"
+   }
+  },
+  {
+   "id": "R-CG",
+   "type": "role",
+   "type_iri": "http://purl.obolibrary.org/obo/BFO_0000023",
+   "label": "family caregiver role",
+   "aliases": [
+    "caregiver"
+   ],
+   "attributes": {
+    "designated_by": "intake form",
+    "designated_on": "2026-09-14"
+   }
+  },
+  {
+   "id": "R-HOSP",
+   "type": "Occupation Role",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000984",
+   "label": "hospitalist role",
+   "aliases": [],
+   "attributes": {
+    "kind": "medical"
+   }
+  },
+  {
+   "id": "R-CM",
+   "type": "Occupation Role",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000984",
+   "label": "case manager role",
+   "aliases": [
+    "discharge coordinator"
+   ],
+   "attributes": {
+    "kind": "case_management"
+   }
+  },
+  {
+   "id": "R-NURSE",
+   "type": "Occupation Role",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000984",
+   "label": "charge nurse role",
+   "aliases": [],
+   "attributes": {
+    "kind": "nursing"
+   }
+  },
+  {
+   "id": "R-PT",
+   "type": "Occupation Role",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000984",
+   "label": "physiotherapist role",
+   "aliases": [],
+   "attributes": {
+    "kind": "allied_health"
+   }
+  },
+  {
+   "id": "R-COO",
+   "type": "Occupation Role",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000984",
+   "label": "chief operating officer role",
+   "aliases": [],
+   "attributes": {
+    "kind": "management"
+   }
+  },
+  {
+   "id": "A-HOME",
+   "type": "Material Artifact",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000995",
+   "label": "Margaret's house",
+   "aliases": [
+    "her house",
+    "home",
+    "the house"
+   ],
+   "attributes": {
+    "front_steps": 5,
+    "handrail": false,
+    "occupants": 1
+   }
+  },
+  {
+   "id": "A-FRAME",
+   "type": "Material Artifact",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000995",
+   "label": "wheeled walking frame",
+   "aliases": [
+    "the frame",
+    "walking frame"
+   ],
+   "attributes": {}
+  },
+  {
+   "id": "A-BED",
+   "type": "Material Artifact",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000995",
+   "label": "Ward 2 beds",
+   "aliases": [
+    "Ward 2",
+    "the ward",
+    "a bed"
+   ],
+   "attributes": {
+    "full_on": [
+     "2026-09-17",
+     "2026-09-18"
+    ],
+    "patients_waiting_in_emergency_department": 2
+   }
+  },
+  {
+   "id": "A-MED",
+   "type": "Portion of Processed Material",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001084",
+   "label": "amlodipine 5 mg daily",
+   "aliases": [
+    "amlodipine",
+    "the new medication",
+    "the medication"
+   ],
+   "attributes": {
+    "started": "2026-09-16",
+    "indication": "high blood pressure recorded on admission"
+   }
+  },
+  {
+   "id": "Q-CONF",
+   "type": "quality",
+   "type_iri": "http://purl.obolibrary.org/obo/BFO_0000019",
+   "label": "evening confusion",
+   "aliases": [
+    "confusion",
+    "the confusion"
+   ],
+   "attributes": {
+    "observed_nights": [
+     "2026-09-15",
+     "2026-09-16"
+    ],
+    "daytime": "oriented and conversational",
+    "cause": "unknown"
+   }
+  },
+  {
+   "id": "Q-MOB",
+   "type": "quality",
+   "type_iri": "http://purl.obolibrary.org/obo/BFO_0000019",
+   "label": "mobility",
+   "aliases": [],
+   "attributes": {
+    "walks_metres_with_frame": 10,
+    "stand_from_chair_unaided": true,
+    "stairs": "not assessed"
+   }
+  },
+  {
+   "id": "D-FALL",
+   "type": "disposition",
+   "type_iri": "http://purl.obolibrary.org/obo/BFO_0000016",
+   "label": "fall risk",
+   "aliases": [
+    "risk of falling",
+    "risk of further falls"
+   ],
+   "attributes": {
+    "safety_relevant": true,
+    "recorded_in": "ICE-PT"
+   }
+  },
+  {
+   "id": "D-DIZZ",
+   "type": "disposition",
+   "type_iri": "http://purl.obolibrary.org/obo/BFO_0000016",
+   "label": "dizziness side effect of amlodipine",
+   "aliases": [
+    "dizziness"
+   ],
+   "attributes": {
+    "listed_as": "common side effect"
+   }
+  },
+  {
+   "id": "EV-FALL",
+   "type": "process",
+   "type_iri": "http://purl.obolibrary.org/obo/BFO_0000015",
+   "label": "fall in the hallway",
+   "aliases": [
+    "the fall",
+    "her fall"
+   ],
+   "attributes": {
+    "date": "2026-09-14",
+    "location": "A-HOME"
+   }
+  },
+  {
+   "id": "EV-AMBULANCE",
+   "type": "Act of Communication",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000402",
+   "label": "Helen calls the ambulance",
+   "aliases": [],
+   "attributes": {
+    "date": "2026-09-14"
+   }
+  },
+  {
+   "id": "EV-ADMIT",
+   "type": "Act",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000005",
+   "label": "admission to Ward 2",
+   "aliases": [
+    "admission",
+    "the admission"
+   ],
+   "attributes": {
+    "date": "2026-09-14"
+   }
+  },
+  {
+   "id": "EV-INTAKE",
+   "type": "Act",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000005",
+   "label": "completion of the intake form",
+   "aliases": [
+    "the intake form"
+   ],
+   "attributes": {
+    "datetime": "2026-09-14T23:40",
+    "signed_by": "P-PAT",
+    "capacity_at_time": "not recorded"
+   }
+  },
+  {
+   "id": "EV-REMARK",
+   "type": "Act of Communication",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000402",
+   "label": "Helen's remark to Lena in the corridor",
+   "aliases": [
+    "Helen's remark",
+    "the neighbour's remark",
+    "what Helen said"
+   ],
+   "attributes": {
+    "date": "2026-09-15",
+    "content": "hasn't been eating properly for weeks; Daniel rarely visits",
+    "verified": false
+   }
+  },
+  {
+   "id": "EV-DECLINE",
+   "type": "Act of Communication",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000402",
+   "label": "Lena declines to discuss Margaret's condition with Helen",
+   "aliases": [],
+   "attributes": {
+    "date": "2026-09-15"
+   }
+  },
+  {
+   "id": "EV-OBS",
+   "type": "Act",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000005",
+   "label": "nursing observation of evening confusion",
+   "aliases": [],
+   "attributes": {
+    "dates": [
+     "2026-09-15",
+     "2026-09-16"
+    ]
+   }
+  },
+  {
+   "id": "EV-MEDSTART",
+   "type": "Act",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000005",
+   "label": "start of amlodipine",
+   "aliases": [],
+   "attributes": {
+    "date": "2026-09-16"
+   }
+  },
+  {
+   "id": "EV-PT",
+   "type": "Act of Measuring",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000345",
+   "label": "physiotherapy assessment",
+   "aliases": [
+    "the physiotherapy assessment",
+    "the assessment"
+   ],
+   "attributes": {
+    "date": "2026-09-16",
+    "stairs_assessed": false
+   }
+  },
+  {
+   "id": "EV-MEMO",
+   "type": "Act of Communication",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000402",
+   "label": "circulation of the length-of-stay memo",
+   "aliases": [
+    "the memo"
+   ],
+   "attributes": {
+    "date": "2026-09-10"
+   }
+  },
+  {
+   "id": "EV-CALL",
+   "type": "Act of Communication",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000402",
+   "label": "Tomas's phone call to Daniel",
+   "aliases": [
+    "the phone call",
+    "the call"
+   ],
+   "attributes": {
+    "date": "2026-09-17",
+    "daniel_said": "will manage; can collect on Friday 19 September; asked about home help",
+    "shift_pattern_discussed": false
+   }
+  },
+  {
+   "id": "EV-NOTE",
+   "type": "Act of Reporting",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000151",
+   "label": "Lena documents Helen's remark in the nursing notes",
+   "aliases": [],
+   "attributes": {
+    "date": "2026-09-17",
+    "delay_days": 2
+   }
+  },
+  {
+   "id": "EV-PATSAY1",
+   "type": "Act of Communication",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000402",
+   "label": "Margaret tells Dr. Raman she wants to go home",
+   "aliases": [],
+   "attributes": {
+    "date": "2026-09-17",
+    "quote": "I want my own bed."
+   }
+  },
+  {
+   "id": "EV-PATSAY2",
+   "type": "Act of Communication",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000402",
+   "label": "Margaret tells Lena she does not want to be a burden on Daniel",
+   "aliases": [],
+   "attributes": {
+    "date": "2026-09-18",
+    "quote": "a burden on Daniel"
+   }
+  },
+  {
+   "id": "EV-EMAIL",
+   "type": "Email Messaging",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000492",
+   "label": "Comfort Care's email to Tomas",
+   "aliases": [
+    "the email"
+   ],
+   "attributes": {
+    "date": "2026-09-18",
+    "earlier_start_asked": false
+   }
+  },
+  {
+   "id": "EV-PLANENTRY",
+   "type": "Act of Reporting",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000151",
+   "label": "Dr. Raman enters the discharge plan in the chart",
+   "aliases": [],
+   "attributes": {
+    "date": "2026-09-18",
+    "discussed_with_patient": false
+   }
+  },
+  {
+   "id": "EV-DISCH",
+   "type": "Planned Act",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000228",
+   "label": "planned discharge home",
+   "aliases": [
+    "the discharge",
+    "discharge",
+    "the plan to go home on Friday"
+   ],
+   "attributes": {
+    "date": "2026-09-19",
+    "destination": "A-HOME",
+    "caregiver": "P-SON",
+    "status": "planned"
+   }
+  },
+  {
+   "id": "EV-COGSCREEN",
+   "type": "Planned Act",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000228",
+   "label": "cognitive screen before discharge",
+   "aliases": [
+    "cognitive screen",
+    "capacity assessment"
+   ],
+   "attributes": {
+    "status": "required by DP-7; not scheduled"
+   }
+  },
+  {
+   "id": "EV-APSREPORT",
+   "type": "Planned Act",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000228",
+   "label": "report to Adult Protective Services",
+   "aliases": [
+    "APS report"
+   ],
+   "attributes": {
+    "status": "threshold decision not recorded"
+   }
+  },
+  {
+   "id": "EV-REVIEW",
+   "type": "Planned Act",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000228",
+   "label": "Monday review of cases exceeding the length-of-stay target",
+   "aliases": [
+    "the Monday review"
+   ],
+   "attributes": {
+    "recurrence": "weekly"
+   }
+  },
+  {
+   "id": "ICE-INTAKE",
+   "type": "Report",
+   "type_iri": "https://www.commoncoreontologies.org/ont00002043",
+   "label": "intake form",
+   "aliases": [
+    "the form"
+   ],
+   "attributes": {
+    "names_caregiver": "P-SON",
+    "signed_by": "P-PAT"
+   }
+  },
+  {
+   "id": "ICE-NOTES",
+   "type": "Report",
+   "type_iri": "https://www.commoncoreontologies.org/ont00002043",
+   "label": "nursing notes",
+   "aliases": [
+    "the chart",
+    "the notes"
+   ],
+   "attributes": {}
+  },
+  {
+   "id": "ICE-PT",
+   "type": "Report",
+   "type_iri": "https://www.commoncoreontologies.org/ont00002043",
+   "label": "physiotherapy report",
+   "aliases": [
+    "the report",
+    "his report"
+   ],
+   "attributes": {
+    "walks_metres_with_frame": 10,
+    "stairs": "not assessed",
+    "fall_risk": "at risk of further falls"
+   }
+  },
+  {
+   "id": "ICE-LEAFLET",
+   "type": "Report",
+   "type_iri": "https://www.commoncoreontologies.org/ont00002043",
+   "label": "amlodipine patient information leaflet",
+   "aliases": [
+    "the leaflet"
+   ],
+   "attributes": {
+    "lists": "dizziness as a common side effect"
+   }
+  },
+  {
+   "id": "ICE-MEMO",
+   "type": "Prescriptive Information Content Entity",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000965",
+   "label": "length-of-stay memo",
+   "aliases": [
+    "the memo",
+    "Kaminski's memo"
+   ],
+   "attributes": {
+    "date": "2026-09-10",
+    "content": "RHA target four days; Riverbend above target; cases exceeding target reviewed each Monday"
+   }
+  },
+  {
+   "id": "ICE-TARGET",
+   "type": "Prescriptive Information Content Entity",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000965",
+   "label": "Regional Health Authority length-of-stay target",
+   "aliases": [
+    "the target",
+    "the four-day target",
+    "length of stay target"
+   ],
+   "attributes": {
+    "days": 4,
+    "scope": "average length of stay on medical wards"
+   }
+  },
+  {
+   "id": "ICE-EMAIL",
+   "type": "Report",
+   "type_iri": "https://www.commoncoreontologies.org/ont00002043",
+   "label": "Comfort Care email content",
+   "aliases": [],
+   "attributes": {
+    "earliest_start": "2026-10-09"
+   }
+  },
+  {
+   "id": "ICE-PLAN",
+   "type": "Plan",
+   "type_iri": "https://www.commoncoreontologies.org/ont00000974",
+   "label": "discharge plan",
+   "aliases": [
+    "the current plan",
+    "the plan"
+   ],
+   "attributes": {
+    "entered": "2026-09-18",
+    "discharge_date": "2026-09-19",
+    "caregiver": "P-SON",
+    "home_care_start": "2026-10-09",
+    "discussed_with_patient": false
+   }
+  },
+  {
+   "id": "ICE-POLICY",
+   "type": "Process Regulation",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001324",
+   "label": "discharge policy DP-7",
+   "aliases": [
+    "DP-7",
+    "the discharge policy"
+   ],
+   "attributes": {
+    "requires": "documented cognitive screen before discharge when confusion observed during the stay"
+   }
+  },
+  {
+   "id": "ICE-REG",
+   "type": "Process Regulation",
+   "type_iri": "https://www.commoncoreontologies.org/ont00001324",
+   "label": "regional regulation ER-12",
+   "aliases": [
+    "ER-12",
+    "the regulation"
+   ],
+   "attributes": {
+    "requires": "report reasonable suspicion of neglect of an older person to Adult Protective Services"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "edge_id": "E001",
+   "source": "P-PAT",
+   "predicate": "bearer_of",
+   "target": "R-PAT"
+  },
+  {
+   "edge_id": "E002",
+   "source": "P-SON",
+   "predicate": "bearer_of",
+   "target": "R-CG"
+  },
+  {
+   "edge_id": "E003",
+   "source": "P-HOSP",
+   "predicate": "bearer_of",
+   "target": "R-HOSP"
+  },
+  {
+   "edge_id": "E004",
+   "source": "P-CM",
+   "predicate": "bearer_of",
+   "target": "R-CM"
+  },
+  {
+   "edge_id": "E005",
+   "source": "P-NURSE",
+   "predicate": "bearer_of",
+   "target": "R-NURSE"
+  },
+  {
+   "edge_id": "E006",
+   "source": "P-PT",
+   "predicate": "bearer_of",
+   "target": "R-PT"
+  },
+  {
+   "edge_id": "E007",
+   "source": "P-COO",
+   "predicate": "bearer_of",
+   "target": "R-COO"
+  },
+  {
+   "edge_id": "E008",
+   "source": "P-PAT",
+   "predicate": "bearer_of",
+   "target": "Q-CONF"
+  },
+  {
+   "edge_id": "E009",
+   "source": "P-PAT",
+   "predicate": "bearer_of",
+   "target": "Q-MOB"
+  },
+  {
+   "edge_id": "E010",
+   "source": "P-PAT",
+   "predicate": "bearer_of",
+   "target": "D-FALL"
+  },
+  {
+   "edge_id": "E011",
+   "source": "A-MED",
+   "predicate": "bearer_of",
+   "target": "D-DIZZ"
+  },
+  {
+   "edge_id": "E012",
+   "source": "ORG-HOSP",
+   "predicate": "has_continuant_part",
+   "target": "A-BED"
+  },
+  {
+   "edge_id": "E013",
+   "source": "EV-FALL",
+   "predicate": "has_participant",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E014",
+   "source": "EV-FALL",
+   "predicate": "has_participant",
+   "target": "A-HOME"
+  },
+  {
+   "edge_id": "E015",
+   "source": "EV-PT",
+   "predicate": "has_participant",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E016",
+   "source": "EV-OBS",
+   "predicate": "has_participant",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E017",
+   "source": "EV-CALL",
+   "predicate": "has_participant",
+   "target": "P-SON"
+  },
+  {
+   "edge_id": "E018",
+   "source": "EV-REMARK",
+   "predicate": "has_participant",
+   "target": "P-NURSE"
+  },
+  {
+   "edge_id": "E019",
+   "source": "EV-DISCH",
+   "predicate": "has_participant",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E020",
+   "source": "EV-DISCH",
+   "predicate": "has_participant",
+   "target": "P-SON"
+  },
+  {
+   "edge_id": "E021",
+   "source": "EV-MEDSTART",
+   "predicate": "has_participant",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E022",
+   "source": "EV-INTAKE",
+   "predicate": "has_participant",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E023",
+   "source": "EV-PT",
+   "predicate": "has_output",
+   "target": "ICE-PT"
+  },
+  {
+   "edge_id": "E024",
+   "source": "EV-NOTE",
+   "predicate": "has_output",
+   "target": "ICE-NOTES"
+  },
+  {
+   "edge_id": "E025",
+   "source": "EV-EMAIL",
+   "predicate": "has_output",
+   "target": "ICE-EMAIL"
+  },
+  {
+   "edge_id": "E026",
+   "source": "EV-INTAKE",
+   "predicate": "has_output",
+   "target": "ICE-INTAKE"
+  },
+  {
+   "edge_id": "E027",
+   "source": "EV-PLANENTRY",
+   "predicate": "has_output",
+   "target": "ICE-PLAN"
+  },
+  {
+   "edge_id": "E028",
+   "source": "EV-MEMO",
+   "predicate": "has_output",
+   "target": "ICE-MEMO"
+  },
+  {
+   "edge_id": "E029",
+   "source": "EV-FALL",
+   "predicate": "is_cause_of",
+   "target": "EV-AMBULANCE"
+  },
+  {
+   "edge_id": "E030",
+   "source": "EV-AMBULANCE",
+   "predicate": "is_cause_of",
+   "target": "EV-ADMIT"
+  },
+  {
+   "edge_id": "E031",
+   "source": "EV-MEMO",
+   "predicate": "precedes",
+   "target": "EV-FALL"
+  },
+  {
+   "edge_id": "E032",
+   "source": "EV-FALL",
+   "predicate": "precedes",
+   "target": "EV-ADMIT"
+  },
+  {
+   "edge_id": "E033",
+   "source": "EV-ADMIT",
+   "predicate": "precedes",
+   "target": "EV-INTAKE"
+  },
+  {
+   "edge_id": "E034",
+   "source": "EV-INTAKE",
+   "predicate": "precedes",
+   "target": "EV-REMARK"
+  },
+  {
+   "edge_id": "E035",
+   "source": "EV-REMARK",
+   "predicate": "precedes",
+   "target": "EV-OBS"
+  },
+  {
+   "edge_id": "E036",
+   "source": "EV-OBS",
+   "predicate": "precedes",
+   "target": "EV-MEDSTART"
+  },
+  {
+   "edge_id": "E037",
+   "source": "EV-MEDSTART",
+   "predicate": "precedes",
+   "target": "EV-PT"
+  },
+  {
+   "edge_id": "E038",
+   "source": "EV-PT",
+   "predicate": "precedes",
+   "target": "EV-CALL"
+  },
+  {
+   "edge_id": "E039",
+   "source": "EV-CALL",
+   "predicate": "precedes",
+   "target": "EV-NOTE"
+  },
+  {
+   "edge_id": "E040",
+   "source": "EV-NOTE",
+   "predicate": "precedes",
+   "target": "EV-PATSAY1"
+  },
+  {
+   "edge_id": "E041",
+   "source": "EV-PATSAY1",
+   "predicate": "precedes",
+   "target": "EV-PATSAY2"
+  },
+  {
+   "edge_id": "E042",
+   "source": "EV-PATSAY2",
+   "predicate": "precedes",
+   "target": "EV-EMAIL"
+  },
+  {
+   "edge_id": "E043",
+   "source": "EV-EMAIL",
+   "predicate": "precedes",
+   "target": "EV-PLANENTRY"
+  },
+  {
+   "edge_id": "E044",
+   "source": "EV-PLANENTRY",
+   "predicate": "precedes",
+   "target": "EV-DISCH"
+  },
+  {
+   "edge_id": "E045",
+   "source": "EV-AMBULANCE",
+   "predicate": "has_agent",
+   "target": "P-NEIGH"
+  },
+  {
+   "edge_id": "E046",
+   "source": "EV-INTAKE",
+   "predicate": "has_agent",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E047",
+   "source": "EV-REMARK",
+   "predicate": "has_agent",
+   "target": "P-NEIGH"
+  },
+  {
+   "edge_id": "E048",
+   "source": "EV-DECLINE",
+   "predicate": "has_agent",
+   "target": "P-NURSE"
+  },
+  {
+   "edge_id": "E049",
+   "source": "EV-OBS",
+   "predicate": "has_agent",
+   "target": "P-NURSE"
+  },
+  {
+   "edge_id": "E050",
+   "source": "EV-MEDSTART",
+   "predicate": "has_agent",
+   "target": "P-HOSP"
+  },
+  {
+   "edge_id": "E051",
+   "source": "EV-PT",
+   "predicate": "has_agent",
+   "target": "P-PT"
+  },
+  {
+   "edge_id": "E052",
+   "source": "EV-MEMO",
+   "predicate": "has_agent",
+   "target": "P-COO"
+  },
+  {
+   "edge_id": "E053",
+   "source": "EV-CALL",
+   "predicate": "has_agent",
+   "target": "P-CM"
+  },
+  {
+   "edge_id": "E054",
+   "source": "EV-NOTE",
+   "predicate": "has_agent",
+   "target": "P-NURSE"
+  },
+  {
+   "edge_id": "E055",
+   "source": "EV-PATSAY1",
+   "predicate": "has_agent",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E056",
+   "source": "EV-PATSAY2",
+   "predicate": "has_agent",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E057",
+   "source": "EV-EMAIL",
+   "predicate": "has_agent",
+   "target": "ORG-HCA"
+  },
+  {
+   "edge_id": "E058",
+   "source": "EV-PLANENTRY",
+   "predicate": "has_agent",
+   "target": "P-HOSP"
+  },
+  {
+   "edge_id": "E059",
+   "source": "EV-PT",
+   "predicate": "realizes",
+   "target": "R-PT"
+  },
+  {
+   "edge_id": "E060",
+   "source": "EV-CALL",
+   "predicate": "realizes",
+   "target": "R-CM"
+  },
+  {
+   "edge_id": "E061",
+   "source": "EV-NOTE",
+   "predicate": "realizes",
+   "target": "R-NURSE"
+  },
+  {
+   "edge_id": "E062",
+   "source": "EV-MEMO",
+   "predicate": "realizes",
+   "target": "R-COO"
+  },
+  {
+   "edge_id": "E063",
+   "source": "EV-MEDSTART",
+   "predicate": "realizes",
+   "target": "R-HOSP"
+  },
+  {
+   "edge_id": "E064",
+   "source": "EV-PLANENTRY",
+   "predicate": "realizes",
+   "target": "R-HOSP"
+  },
+  {
+   "edge_id": "E065",
+   "source": "EV-DISCH",
+   "predicate": "realizes",
+   "target": "R-CG"
+  },
+  {
+   "edge_id": "E066",
+   "source": "EV-PT",
+   "predicate": "uses",
+   "target": "A-FRAME"
+  },
+  {
+   "edge_id": "E067",
+   "source": "EV-MEDSTART",
+   "predicate": "uses",
+   "target": "A-MED"
+  },
+  {
+   "edge_id": "E068",
+   "source": "R-HOSP",
+   "predicate": "supervises",
+   "target": "EV-DISCH"
+  },
+  {
+   "edge_id": "E069",
+   "source": "R-CM",
+   "predicate": "supervises",
+   "target": "EV-EMAIL"
+  },
+  {
+   "edge_id": "E070",
+   "source": "EV-DISCH",
+   "predicate": "has_input",
+   "target": "ICE-PLAN"
+  },
+  {
+   "edge_id": "E071",
+   "source": "EV-PLANENTRY",
+   "predicate": "has_input",
+   "target": "ICE-PT"
+  },
+  {
+   "edge_id": "E072",
+   "source": "EV-PLANENTRY",
+   "predicate": "has_input",
+   "target": "ICE-INTAKE"
+  },
+  {
+   "edge_id": "E073",
+   "source": "EV-PLANENTRY",
+   "predicate": "has_input",
+   "target": "ICE-EMAIL"
+  },
+  {
+   "edge_id": "E074",
+   "source": "EV-REVIEW",
+   "predicate": "has_input",
+   "target": "ICE-MEMO"
+  },
+  {
+   "edge_id": "E075",
+   "source": "EV-CALL",
+   "predicate": "has_recipient",
+   "target": "P-SON"
+  },
+  {
+   "edge_id": "E076",
+   "source": "EV-REMARK",
+   "predicate": "has_recipient",
+   "target": "P-NURSE"
+  },
+  {
+   "edge_id": "E077",
+   "source": "EV-DECLINE",
+   "predicate": "has_recipient",
+   "target": "P-NEIGH"
+  },
+  {
+   "edge_id": "E078",
+   "source": "EV-MEMO",
+   "predicate": "has_recipient",
+   "target": "P-CM"
+  },
+  {
+   "edge_id": "E079",
+   "source": "EV-MEMO",
+   "predicate": "has_recipient",
+   "target": "P-NURSE"
+  },
+  {
+   "edge_id": "E080",
+   "source": "EV-EMAIL",
+   "predicate": "has_recipient",
+   "target": "P-CM"
+  },
+  {
+   "edge_id": "E081",
+   "source": "EV-PATSAY1",
+   "predicate": "has_recipient",
+   "target": "P-HOSP"
+  },
+  {
+   "edge_id": "E082",
+   "source": "EV-PATSAY2",
+   "predicate": "has_recipient",
+   "target": "P-NURSE"
+  },
+  {
+   "edge_id": "E083",
+   "source": "ICE-PT",
+   "predicate": "is_about",
+   "target": "Q-MOB"
+  },
+  {
+   "edge_id": "E084",
+   "source": "ICE-PT",
+   "predicate": "is_about",
+   "target": "D-FALL"
+  },
+  {
+   "edge_id": "E085",
+   "source": "ICE-NOTES",
+   "predicate": "is_about",
+   "target": "Q-CONF"
+  },
+  {
+   "edge_id": "E086",
+   "source": "ICE-NOTES",
+   "predicate": "is_about",
+   "target": "EV-REMARK"
+  },
+  {
+   "edge_id": "E087",
+   "source": "ICE-INTAKE",
+   "predicate": "is_about",
+   "target": "R-CG"
+  },
+  {
+   "edge_id": "E088",
+   "source": "ICE-LEAFLET",
+   "predicate": "is_about",
+   "target": "D-DIZZ"
+  },
+  {
+   "edge_id": "E089",
+   "source": "ICE-MEMO",
+   "predicate": "is_about",
+   "target": "ICE-TARGET"
+  },
+  {
+   "edge_id": "E090",
+   "source": "ICE-EMAIL",
+   "predicate": "is_about",
+   "target": "EV-DISCH"
+  },
+  {
+   "edge_id": "E091",
+   "source": "ICE-PLAN",
+   "predicate": "is_about",
+   "target": "EV-DISCH"
+  },
+  {
+   "edge_id": "E092",
+   "source": "ICE-PT",
+   "predicate": "is_a_measurement_of",
+   "target": "Q-MOB"
+  },
+  {
+   "edge_id": "E093",
+   "source": "ICE-POLICY",
+   "predicate": "prescribes",
+   "target": "EV-COGSCREEN"
+  },
+  {
+   "edge_id": "E094",
+   "source": "ICE-REG",
+   "predicate": "prescribes",
+   "target": "EV-APSREPORT"
+  },
+  {
+   "edge_id": "E095",
+   "source": "ICE-MEMO",
+   "predicate": "prescribes",
+   "target": "EV-REVIEW"
+  },
+  {
+   "edge_id": "E096",
+   "source": "ICE-TARGET",
+   "predicate": "prescribes",
+   "target": "EV-DISCH"
+  },
+  {
+   "edge_id": "E097",
+   "source": "R-HOSP",
+   "predicate": "has_organizational_context",
+   "target": "ORG-HOSP"
+  },
+  {
+   "edge_id": "E098",
+   "source": "R-CM",
+   "predicate": "has_organizational_context",
+   "target": "ORG-HOSP"
+  },
+  {
+   "edge_id": "E099",
+   "source": "R-NURSE",
+   "predicate": "has_organizational_context",
+   "target": "ORG-HOSP"
+  },
+  {
+   "edge_id": "E100",
+   "source": "R-PT",
+   "predicate": "has_organizational_context",
+   "target": "ORG-HOSP"
+  },
+  {
+   "edge_id": "E101",
+   "source": "R-COO",
+   "predicate": "has_organizational_context",
+   "target": "ORG-HOSP"
+  },
+  {
+   "edge_id": "E102",
+   "source": "R-PAT",
+   "predicate": "has_organizational_context",
+   "target": "ORG-HOSP"
+  },
+  {
+   "edge_id": "E103",
+   "source": "R-CM",
+   "predicate": "is_subordinate_role_to",
+   "target": "R-COO"
+  },
+  {
+   "edge_id": "E104",
+   "source": "ORG-HOSP",
+   "predicate": "is_affiliated_with",
+   "target": "ORG-RHA"
+  },
+  {
+   "edge_id": "E105",
+   "source": "ORG-HCA",
+   "predicate": "is_affiliated_with",
+   "target": "ORG-HOSP"
+  },
+  {
+   "edge_id": "E106",
+   "source": "EV-APSREPORT",
+   "predicate": "has_recipient",
+   "target": "ORG-APS"
+  },
+  {
+   "edge_id": "E107",
+   "source": "EV-DISCH",
+   "predicate": "affects",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E108",
+   "source": "EV-DISCH",
+   "predicate": "affects",
+   "target": "P-SON"
+  },
+  {
+   "edge_id": "E109",
+   "source": "EV-DISCH",
+   "predicate": "affects",
+   "target": "A-BED"
+  },
+  {
+   "edge_id": "E110",
+   "source": "EV-FALL",
+   "predicate": "affects",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E111",
+   "source": "EV-MEMO",
+   "predicate": "affects",
+   "target": "P-CM"
+  },
+  {
+   "edge_id": "E112",
+   "source": "EV-MEMO",
+   "predicate": "affects",
+   "target": "P-HOSP"
+  },
+  {
+   "edge_id": "E113",
+   "source": "EV-DECLINE",
+   "predicate": "affects",
+   "target": "P-NEIGH"
+  },
+  {
+   "edge_id": "E114",
+   "source": "P-PAT",
+   "predicate": "has_interest_in",
+   "target": "A-HOME"
+  },
+  {
+   "edge_id": "E115",
+   "source": "P-PAT",
+   "predicate": "has_interest_in",
+   "target": "P-SON"
+  },
+  {
+   "edge_id": "E116",
+   "source": "P-SON",
+   "predicate": "has_interest_in",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E117",
+   "source": "P-NEIGH",
+   "predicate": "has_interest_in",
+   "target": "P-PAT"
+  },
+  {
+   "edge_id": "E118",
+   "source": "ORG-RHA",
+   "predicate": "has_interest_in",
+   "target": "ICE-TARGET"
+  },
+  {
+   "edge_id": "E119",
+   "source": "P-COO",
+   "predicate": "has_interest_in",
+   "target": "A-BED"
+  },
+  {
+   "edge_id": "E120",
+   "source": "ORG-HCA",
+   "predicate": "has_interest_in",
+   "target": "EV-DISCH"
+  },
+  {
+   "edge_id": "E121",
+   "source": "P-SON",
+   "predicate": "is_affiliated_with",
+   "target": "ORG-DC"
+  }
+ ],
+ "unknowns": [
+  {
+   "id": "U01",
+   "statement": "Whether Margaret's evening confusion is a delirium related to the fall and the stay, which may resolve, or a sign of an underlying dementia",
+   "bears_on": [
+    "Q-CONF",
+    "EV-COGSCREEN",
+    "EV-DISCH"
+   ],
+   "question": "What is causing the evening confusion, and would a cognitive screen resolve it?"
+  },
+  {
+   "id": "U02",
+   "statement": "Whether Margaret had capacity when she signed the intake form naming Daniel as caregiver",
+   "bears_on": [
+    "EV-INTAKE",
+    "ICE-INTAKE",
+    "R-CG"
+   ],
+   "question": "Was Margaret able to understand what she was signing at 23:40 on the night of admission?"
+  },
+  {
+   "id": "U03",
+   "statement": "Whether Daniel's shift pattern allows him to be at the house at night",
+   "bears_on": [
+    "P-SON",
+    "R-CG",
+    "EV-DISCH"
+   ],
+   "question": "What are Daniel's shifts over the coming weeks, and who is with Margaret when he is at work?"
+  },
+  {
+   "id": "U04",
+   "statement": "Whether Helen's account (not eating properly for weeks; Daniel rarely visits) is accurate",
+   "bears_on": [
+    "EV-REMARK",
+    "P-SON",
+    "P-PAT"
+   ],
+   "question": "Does Margaret's or Daniel's account of the past weeks agree with Helen's?"
+  },
+  {
+   "id": "U05",
+   "statement": "Whether Margaret can manage the five front steps with the frame",
+   "bears_on": [
+    "A-HOME",
+    "Q-MOB",
+    "A-FRAME",
+    "EV-DISCH"
+   ],
+   "question": "Can Margaret climb five steps without a handrail using the frame?"
+  },
+  {
+   "id": "U06",
+   "statement": "Whether the amlodipine adds to Margaret's risk of falling at home",
+   "bears_on": [
+    "A-MED",
+    "D-DIZZ",
+    "D-FALL"
+   ],
+   "question": "Has anyone weighed the dizziness side effect against the fall risk?"
+  },
+  {
+   "id": "U07",
+   "statement": "Whether Helen's remark meets the reporting threshold in ER-12",
+   "bears_on": [
+    "EV-REMARK",
+    "ICE-REG",
+    "EV-APSREPORT"
+   ],
+   "question": "Does what Helen said amount to a reasonable suspicion of neglect under ER-12?"
+  },
+  {
+   "id": "U08",
+   "statement": "What Margaret wants regarding Daniel as her caregiver and the plan to go home on Friday",
+   "bears_on": [
+    "P-PAT",
+    "R-CG",
+    "ICE-PLAN",
+    "EV-PATSAY1",
+    "EV-PATSAY2"
+   ],
+   "question": "Does Margaret want Daniel to care for her, and does she agree to the plan?"
+  },
+  {
+   "id": "U09",
+   "statement": "Whether Comfort Care can start earlier than 9 October or an interim service exists",
+   "bears_on": [
+    "ORG-HCA",
+    "ICE-EMAIL",
+    "EV-DISCH"
+   ],
+   "question": "Has Comfort Care been asked for an earlier start or a bridging service?"
+  },
+  {
+   "id": "U10",
+   "statement": "Whether Daniel's 'I will manage' reflects what he can do or what he feels he must say",
+   "bears_on": [
+    "P-SON",
+    "EV-CALL",
+    "R-CG"
+   ],
+   "question": "What does Daniel actually expect caring for his mother to involve, and can he do it?"
+  }
+ ]
+}

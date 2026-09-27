@@ -10,7 +10,7 @@ import re
 
 import pytest
 
-from conftest import ACCESS, CITATIONS, FITS, REPL_STATUS, RETRACTION, STRENGTHS
+from evidence_helpers import ACCESS, CITATIONS, FITS, REPL_STATUS, RETRACTION, STRENGTHS
 
 REQUIRED = {"id", "claim_id", "claim", "claim_source", "citation_as_given", "resolved", "finding",
             "fit", "fit_note", "replication", "retraction_check", "proposed_strength",

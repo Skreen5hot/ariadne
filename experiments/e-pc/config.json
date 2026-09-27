@@ -1,0 +1,20 @@
+{
+  "schema": "e-pc/config/v1",
+  "scenario": "clinic-discharge",
+  "arms": ["A", "B", "C"],
+  "arm_files": {"A": "arms/A-baseline.md", "B": "arms/B-six-operations.md", "C": "arms/C-placebo.md"},
+  "output_contract": "arms/OUTPUT_CONTRACT.md",
+  "model": "claude-opus-5",
+  "temperature": 0,
+  "thinking": {"type": "disabled"},
+  "max_tokens": 16000,
+  "runs_per_arm": 10,
+  "permutations": 10000,
+  "seed": 20260926,
+  "alpha": 0.05,
+  "fabrication_tolerance": 0.01,
+  "length_parity_tolerance": 0.05,
+  "mrc_imbalance_ratio": 6.0,
+  "min_distinct_outputs_per_arm": 5,
+  "note": "Frozen with PREREG.md. Open items O-1 (model/sampling) and O-2 (N) in PREREG.md §12 must be closed before ratification; if they change, this file changes in the same commit and PREREG.md records it."
+}
