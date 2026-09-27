@@ -9,8 +9,32 @@ Grades follow the strength rules in `README.md`. The rule that matters most here
 the strongest grade its *fitting* records justify, and a philosophical or formal argument with no
 empirical component is "Argued only" however well established it is.
 
-Prepared 2026-09-26. Phase 1 (load-bearing claims) complete; Phase 2 (candidate values) section is
-filled after the Phase 2 records are reviewed.
+Prepared 2026-09-26. Phase 1 (load-bearing claims) and Phase 2 (candidate values) complete; this
+document is the Phase 3 deliverable.
+
+## Ratification checklist (Phase 3)
+
+Across both phases: 42 items graded, 73 records, 0 sources invented, 1 source that could not be
+opened at all (Gino & Bazerman 2009, E1x). Proposed grades: Strong 1, Moderate 18, Argued only 15,
+Hypothesis 8. v2 printed Strong for 11 claims; the records bear it for one.
+
+To ratify an item: set `ratified: true` and `status: ratified` on its entry in `register.yaml`
+(and change `proposed_strength` if you decide otherwise), then run `python tools/render_register.py`
+and `python -m pytest tests/evidence`. The tests refuse a ratified flag without a grade and a grade
+without records. Wording changes are made in `integral-ethics-v2.md`, never in the register.
+
+| # | Decision | Where | Items |
+| --- | --- | --- | --- |
+| 1 | Ratify or revise the 19 claim grades | "Load-bearing claims: status changes" | 10 downgrades proposed; E2 stays Strong; E4 and E5 are below Moderate |
+| 2 | Ratify or revise the 23 value grades | "Candidate values: status changes" | 10 Moderate, 6 Hypothesis, 7 Argued only; six cited sources were neighbouring claims |
+| 3 | Adopt, amend or reject each rewording | both tables, last column | F2, E1, E4, E5, E6, E7, C4a, C5, C7, C8; V01, V04-V06, V08-V12, V14-V19 |
+| 4 | Answer the four rules questions | "Rules questions for Aaron" | formal results (affects F1, C5, C6, F2); same-lab replications (E6); abstract-only originals (E3); claims with a normative half (C7, E5) |
+| 5 | Apply the citation corrections to v2 | "Citation corrections to v2" | 7 items, including the ValueNet mapping count |
+| 6 | Apply the v1 reference corrections | "v1 reference corrections" | Shapiro, Jacobsen, Steiner GA 151; Philosophy of Freedom date noted |
+| 7 | Decide the six uncited values | "Uncited values for Aaron to decide" | V02, V03, V20-V23 |
+| 8 | Acknowledge the ValueNet gaps or commission classes | "ValueNet gaps" | aimed goods, agency capability, competencies, principle kind, harms outside the six pairs |
+| 9 | Close the E-PC pre-registration open items | `experiments/e-pc/PREREG.md` §12 | O-1 model and sampling, O-2 N, O-3 rater, O-4 second annotator, O-5 fabrication tolerance |
+
 
 ## Summary of Phase 1
 
