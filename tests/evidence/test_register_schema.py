@@ -10,11 +10,14 @@ import re
 
 import pytest
 
-from evidence_helpers import CITATIONS, STATUSES, STRENGTHS, VALUENET_KINDS
+from evidence_helpers import CITATIONS, CLAIM_STRENGTHS, STATUSES, STRENGTHS, VALUENET_KINDS
 
-CLAIM_IDS = ["F1", "F2", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8",
-             "C1", "C4", "C4a", "C5", "C6", "C2", "C7", "C8", "H-P6"]
-VALUE_IDS = [f"V{i:02d}" for i in range(1, 24)]
+CLAIM_IDS = ["F1", "F2", "E1", "E2", "E3", "E4", "E5", "E5r", "E6", "E7", "E8",
+             "C1", "C4", "C4a", "C5", "C6", "C2", "C7", "C7n", "C8", "H-P6"]
+VALUE_IDS = [f"V{i:02d}" for i in range(1, 11)] + ["V10m"] + [f"V{i:02d}" for i in range(11, 24)]
+# Optional keys an entry may carry once ratified or split.
+RATIFICATION_KEYS = {"claim_original", "ratified_claim", "derived_from", "evidence_records",
+                     "ratified_on", "ratified_by", "ratification_note"}
 
 CLAIM_KEYS = {"id", "claim", "claim_source", "kind", "citations_as_given", "current_strength",
               "proposed_strength", "records", "status", "ratified"}
@@ -44,7 +47,7 @@ def test_value_ids_exact(register):
 
 def _common_checks(entry: dict, keys: set[str]):
     missing = keys - set(entry)
-    extra = set(entry) - keys
+    extra = set(entry) - keys - RATIFICATION_KEYS
     assert not missing, f"{entry.get('id')}: missing keys {sorted(missing)}"
     assert not extra, f"{entry.get('id')}: unexpected keys {sorted(extra)}"
     assert isinstance(entry["citations_as_given"], list)
@@ -52,18 +55,28 @@ def _common_checks(entry: dict, keys: set[str]):
     assert entry["status"] in STATUSES, entry["id"]
     assert isinstance(entry["ratified"], bool), entry["id"]
     ps = entry["proposed_strength"]
-    assert ps is None or ps in STRENGTHS, f"{entry['id']}: proposed_strength {ps!r}"
+    assert ps is None or ps in CLAIM_STRENGTHS, f"{entry['id']}: proposed_strength {ps!r}"
     assert isinstance(entry["records"], list)
+    derived = entry.get("derived_from")
     if ps is not None:
-        if entry["citations_as_given"]:
+        if derived:
+            # A split entry rests on its parent's records, named in evidence_records.
+            for rid in entry.get("evidence_records") or []:
+                assert list(CITATIONS.glob(f"{rid}-*.md")), f"{entry['id']}: evidence record {rid} missing"
+            if ps in {"Strong", "Moderate", "Formal (established)"}:
+                assert entry.get("evidence_records"), f"{entry['id']}: {ps} split entry without evidence_records"
+        elif entry["citations_as_given"]:
             assert entry["records"], f"{entry['id']}: proposed_strength set without records"
         else:
             # An uncited item is Argued only by rule; it has no records to point at.
             assert ps in {"Argued only", "Hypothesis"}, f"{entry['id']}: uncited item proposed {ps}"
-        assert entry["status"] in {"verified", "ratified"}, f"{entry['id']}: proposed_strength set but status {entry['status']}"
+        assert entry["status"] in {"verified", "ratified", "retired"}, f"{entry['id']}: proposed_strength set but status {entry['status']}"
     if entry["ratified"]:
-        assert entry["status"] == "ratified", f"{entry['id']}: ratified without status ratified"
+        assert entry["status"] in {"ratified", "retired"}, f"{entry['id']}: ratified without status ratified/retired"
         assert ps is not None, f"{entry['id']}: ratified without proposed_strength"
+        assert entry.get("ratified_on") and entry.get("ratified_by"), f"{entry['id']}: ratified without ratified_on/ratified_by"
+    if ps == "Formal (established)":
+        assert entry.get("kind") == "formal", f"{entry['id']}: Formal (established) only for kind formal"
     for rid in entry["records"]:
         matches = list(CITATIONS.glob(f"{rid}-*.md"))
         assert len(matches) == 1, f"{entry['id']}: record {rid} has {len(matches)} files"
@@ -73,11 +86,13 @@ def _common_checks(entry: dict, keys: set[str]):
 def test_claim_entry(register, records, idx):
     c = register["claims"][idx]
     _common_checks(c, CLAIM_KEYS)
-    assert c["current_strength"] in STRENGTHS, c["id"]
+    assert c["current_strength"] in CLAIM_STRENGTHS, c["id"]
     assert c["claim"].strip() and c["claim_source"].strip() and c["kind"].strip()
     if c["id"] == "H-P6":
         assert c["citations_as_given"] == []
         assert c["current_strength"] == "Hypothesis"
+    elif c.get("derived_from"):
+        assert c["derived_from"] in CLAIM_IDS, f"{c['id']}: derived_from unknown"
     else:
         assert c["citations_as_given"], f"{c['id']}: no citations"
     for rid in c["records"]:
@@ -100,7 +115,7 @@ def test_value_entry(register, records, idx):
         assert iri is not None, f"{v['id']}: {v['valuenet_kind']} without a ValueNet class"
     else:
         assert iri is None, f"{v['id']}: {v['valuenet_kind']} must not claim a ValueNet class as identity"
-    if not v["citations_as_given"]:
+    if not v["citations_as_given"] and not v.get("derived_from"):
         # Uncited values are Argued only by rule; nothing else may be proposed.
         assert v["proposed_strength"] in (None, "Argued only"), v["id"]
     for rid in v["records"]:

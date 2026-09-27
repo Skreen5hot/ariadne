@@ -14,7 +14,8 @@ authored under delegation; Aaron ratifies every change of status. Until a row in
 
 | File | What it is | Who writes it |
 | --- | --- | --- |
-| `register.yaml` | Machine-readable register: the 19 load-bearing claims (F1–H-P6) and the 23 candidate values (V01–V23), each with its citations as given, its current strength, the proposed strength derived from the records, and its ValueNet ontological kind | Agent proposes; Aaron ratifies (`ratified: true`) |
+| `register.yaml` | Machine-readable register: the load-bearing claims (F1–H-P6 plus the split entries E5r and C7n) and the candidate values (V01–V23 plus the subclaim V10m), each with its citations as given, its current strength, the proposed strength, its ratification fields and its ValueNet ontological kind | Agent proposes; Aaron ratifies (`ratified`, `ratified_on`, `ratified_by`, `ratification_note`) |
+| `v1-errata.md` | The ratified corrections to the v1 reference list, kept here because v1 is the record and is never edited | Agent, from ratified decisions |
 | `register.md` | Rendered view of `register.yaml`. Regenerate with `python tools/render_register.py`; never edit by hand | Generated |
 | `citations/<ID>-<slug>.md` | One verification record per citation. YAML front matter (schema below) plus optional notes. `<ID>` is the claim id plus a letter when the claim has several citations | Agent |
 | `evidence-delta.md` | The ratification document: one row per claim whose proposed strength differs from its current one, or whose wording should change to match its evidence, with the record that justifies it. Also holds the v1 reference corrections and the ValueNet gaps | Agent proposes; Aaron ratifies |
@@ -70,12 +71,21 @@ claim.
 | --- | --- |
 | Strong | A meta-analysis or systematic review, or at least two independent replications, all in a consistent direction, and fit = supports |
 | Moderate | One or two primary studies with fit = supports, or a meta-analysis with high heterogeneity, or fit = partially_supports on otherwise strong evidence |
-| Argued only | Philosophical or formal argument with no empirical component, or the claim is a presupposition rather than a finding |
+| Formal (established) | A proved and uncontested formal result, where the registered claim states exactly what the theorem states, under the theorem's assumptions. Not an empirical grade: surrounding prose or any generalisation beyond the theorem gets no strength from it. Claim-level only; a record never proposes it (added on ratification, 2026-09-27) |
+| Argued only | Philosophical or normative argument with no empirical component and no exact formal result, or the claim is a presupposition or a design commitment rather than a finding |
 | Hypothesis | No source supports the claim as stated; a test is planned |
 
 A claim's proposed strength is the strongest grade its *fitting* records
 justify under these rules, never the strongest grade among its records. A
 citation with fit = neighbouring_claim is recorded and then set aside.
+
+The scheme after ratification: empirical Strong / Moderate / Hypothesis; Formal
+(established) for exact formal results; Argued only for philosophical and normative
+commitments. A mixed claim is split rather than averaged (C7 into an empirical half
+and a design commitment C7n; E5 into the analytic discipline and the reported result
+E5r; V10 and its mortality subclaim V10m). A claim reworded on ratification keeps its
+earlier wording in `claim_original` (claims) or beside `v1_claim` as `ratified_claim`
+(values).
 
 ## Ground rules for verifiers
 

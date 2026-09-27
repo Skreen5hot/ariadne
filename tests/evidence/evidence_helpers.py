@@ -12,12 +12,13 @@ REGISTER = EVIDENCE / "register.yaml"
 CITATIONS = EVIDENCE / "citations"
 
 STRENGTHS = {"Strong", "Moderate", "Argued only", "Hypothesis"}
+CLAIM_STRENGTHS = STRENGTHS | {"Formal (established)"}   # claim-level only; a record never proposes it
 FITS = {"supports", "partially_supports", "neighbouring_claim", "does_not_support", "could_not_assess"}
 ACCESS = {"full_text", "abstract_only", "could_not_access", "not_applicable"}
 REPL_STATUS = {"replicated", "mixed", "failed", "none_found", "not_applicable"}
 RETRACTION = {"clean", "retracted", "expression_of_concern", "not_checked"}
 VALUENET_KINDS = {"value_disposition", "value_role", "aimed_good", "constraint", "competency"}
-STATUSES = {"unverified", "verified", "ratified"}
+STATUSES = {"unverified", "verified", "ratified", "retired"}
 
 
 def load_front_matter(path: Path) -> dict:
