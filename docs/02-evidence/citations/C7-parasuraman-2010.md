@@ -90,3 +90,6 @@ ratified: false
 ## Notes
 - Grade logic: the empirical half is backed by this review plus two systematic reviews in a consistent direction, which would meet the Strong bar on its own; fit is partially_supports because the claim bundles a normative sentence the source cannot bear, so the record proposes Moderate per the strength rules. If the claim is split as suggested, the empirical half could be re-graded Strong on the same evidence.
 - Goddard et al. 2012 was reachable only as a PubMed abstract via the E-utilities API; the reported range of bias rates in its abstract was not captured and is not recorded.
+
+## Ratification (2026-09-27)
+The claim was split on ratification into C7 "Decision aids bias human choice (automation bias)" and C7n "The human must stay the decider". Against the empirical half this record's fit is supports, and its opened replication sources (Goddard, Roudsari & Wyatt 2012 systematic review; Lyell & Coiera 2017) meet the Strong bar; the claim-level grade is Strong. The verified fields above are unchanged.

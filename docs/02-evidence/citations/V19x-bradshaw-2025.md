@@ -73,3 +73,6 @@ ratified: false
   of Vasquez et al.); they are independent of each other but not of the theory being tested.
 - Extra record: not cited in v1. Grade Moderate (partial fit on a meta-analysis); Strong would apply to the
   reworded claim without the 'developmentally appropriate' qualifier.
+
+## Ratification (2026-09-27)
+On ratification the untested "developmentally appropriate" clause was removed from V19; against the ratified wording this meta-analysis fits exactly and the claim-level grade is Strong.

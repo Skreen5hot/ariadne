@@ -81,3 +81,6 @@ exists (Busseri 2018, Personality and Individual Differences 122, 68-71, DOI 10.
 metadata seen on CrossRef) but its abstract was withheld from the APIs I could reach, so it is not
 cited as a replication source. If the ratifier keeps the value label "experiential richness", a
 different source is needed; this paper does not address variety or richness of experience.
+
+## Ratification (2026-09-27)
+On ratification V05 was graded Hypothesis, not Moderate: the owner declined to let the rewording redefine the value from experiential richness to positive affect.

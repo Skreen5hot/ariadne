@@ -108,3 +108,6 @@ ratified: false
   MITRE Technical Report MTR 04B0000017 (PDF returned 403; it is the report version of Lehner et al. 2008), and
   Coulthart (2017), 'An evidence-based evaluation of 12 core structured analytic techniques', IJIC 30(2) (the
   OpenAlex abstract gave no ACH-specific result).
+
+## Ratification (2026-09-27)
+On ratification the efficacy formulation was retired: E5 now states the analytic discipline (Argued only) and E5r reports separately that controlled tests of ACH show little or no accuracy gain (Hypothesis), citing the replication sources listed above.

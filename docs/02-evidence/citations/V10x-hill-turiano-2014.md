@@ -72,3 +72,6 @@ has a meta-analysis plus an independent replication in a consistent direction an
 its own; the record is held at Moderate because the fit to the exact sentence is partial (meaning vs
 purpose; health vs mortality; "independent dimension" only indirectly tested). If the coordinator
 adopts the suggested rewording, Strong is defensible for the reworded claim.
+
+## Ratification (2026-09-27)
+On ratification the purpose-to-mortality subclaim was recorded separately as V10m at Strong, resting on this record and its replication sources; V10 stays Moderate as the broad value claim.

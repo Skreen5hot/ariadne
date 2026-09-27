@@ -75,3 +75,6 @@ ratified: false
 - Found but not opened for content: Harari, M. B., & Rudolph, C. W. (2017), 'The effect of rater accountability on
   performance ratings: A meta-analytic review', Human Resource Management Review 27(1), 121-133, doi
   10.1016/j.hrmr.2016.09.007 (OpenAlex metadata only; abstract not available). It concerns one applied domain.
+
+## Ratification (2026-09-27)
+On ratification V17 was rewritten in the conditional form this record supports and graded Moderate; as originally worded it is Hypothesis.
