@@ -1,0 +1,1410 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vn-core: <https://fandaws.com/ontology/bfo/valuenet-core#> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk.owl>
+  a owl:Ontology ;
+  <http://purl.org/dc/terms/license> <https://creativecommons.org/licenses/by/4.0/> ;
+  <http://purl.org/dc/terms/title> "ValueNet Folk Values Module"@en ;
+  <http://purl.org/dc/terms/description> "An ontology of common-sense or 'folk' human values, aligned with BFO and the ValueNet suite. This module extends the core psychological models with more granular, everyday value concepts."@en ;
+  owl:versionIRI <https://fandaws.com/ontology/bfo/1.0/valuenet-folk.owl> ;
+  owl:imports <https://fandaws.com/ontology/bfo/valuenet-core.owl>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl> ;
+  rdfs:comment "An ontology of common-sense or 'folk' human values, aligned with BFO and the ValueNet suite. This module extends the core psychological models with more granular, everyday value concepts." ;
+  rdfs:label "ValueNet Folk Values" ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#KindnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to be friendly, generous, and considerate in action or speech."@en ;
+  rdfs:label "Kindness Disposition"@en ;
+  skos:altLabel "Kindness"@en ;
+  rdfs:comment "Being friendly, generous, and considerate as the everyday manner of dealing with others. 'Approachability', 'consideration', and 'welcoming' correspond to it (D-014). CompassionDisposition responds to suffering in particular."@en ;
+  skos:example "A person's standing inclination to welcome a new neighbor with a meal and an offer of help."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#KindnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LoyaltyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to be faithful and devoted to a person, group, cause, or nation."@en ;
+  rdfs:label "Loyalty Disposition"@en ;
+  skos:altLabel "Loyalty"@en ;
+  rdfs:comment "Faithfulness and devotion to a person, group, cause, or nation; 'loyal' is a Schwartz survey item. Its subclass PatriotismDisposition is loyalty to one's country or political community, and FidelityDisposition, under Integrity, keeps faith with what one has pledged."@en ;
+  skos:example "A person's standing inclination to defend a friend who is being criticized in their absence."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LoyaltyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#IntegrityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A universalism disposition to adhere to moral and ethical principles, demonstrating honesty, consistency, and strong moral character."@en ;
+  rdfs:label "Integrity Disposition"@en ;
+  skos:altLabel "Integrity"@en ;
+  rdfs:comment "Adherence to moral and ethical principles as a matter of character. 'Conviction' corresponds to it (D-014). Its subclasses divide it into truthfulness (Honesty), faithfulness (Fidelity), principle (Ethics), and right conduct (Honor)."@en ;
+  skos:example "A person's standing inclination to act the same way whether or not anyone is watching."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#IntegrityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CuriosityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#StimulationDisposition> ;
+  skos:definition "A stimulation disposition to explore, investigate, and learn about new things or ideas."@en ;
+  rdfs:label "Curiosity Disposition"@en ;
+  skos:altLabel "Curiosity"@en ;
+  rdfs:comment "Wanting to explore, investigate, and learn about what is new. Its subclasses are ExplorationDisposition, which travels through the unfamiliar, and DiscoveryDisposition, which values finding. LearningDisposition values acquiring knowledge or skill, new or not."@en ;
+  skos:example "A person's standing inclination to look up how something works whenever they come across a device they do not understand."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CuriosityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#ConformityDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to be reliable, trustworthy, and accountable for one's actions and duties."@en ;
+  rdfs:label "Responsibility Disposition"@en ;
+  skos:altLabel "Responsibility"@en ;
+  rdfs:comment "Being reliable, trustworthy, and accountable for one's actions and duties. Its subclasses divide it: Dependability, Trustworthiness, Commitment, Duty, and Sustainability. AccountabilityRole is the expectation a position creates; this is valuing it."@en ;
+  skos:example "A person's standing inclination to own up to a mistake that delayed a project."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ResponsibilityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AccountabilityRole>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueRole> ;
+  skos:definition "A value role borne by an agent in a social or professional context, conferring the normative expectation of being answerable for one's actions and decisions."@en ;
+  rdfs:label "Accountability Role"@en ;
+  rdfs:comment "A role, not a disposition: it is grounded in the social or professional position that makes its bearer answerable, whatever the bearer values. Valuing being accountable is part of ResponsibilityDisposition."@en ;
+  skos:example "The role a club treasurer bears of answering to the members for how the club's funds were spent."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AccountabilityRole> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PunctualityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to complete a required task or fulfill an obligation before or at a previously designated time."@en ;
+  rdfs:label "Punctuality Disposition"@en ;
+  skos:altLabel "Punctuality"@en ;
+  rdfs:comment "Completing tasks and meeting obligations at or before the agreed time. 'Timeliness' corresponds to it (D-014). PunctualPersonRole is the expectation an arrangement creates; this is valuing meeting it."@en ;
+  skos:example "A person's standing inclination to arrive ten minutes early for appointments."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PunctualityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PunctualPersonRole>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueRole> ;
+  skos:definition "A value role borne by a person in a social context that confers a normative expectation of being on time for appointments or deadlines."@en ;
+  rdfs:label "Punctual Person Role"@en ;
+  rdfs:comment "A role grounded in an arrangement that sets a time, such as an appointment or a deadline, and in the expectation it creates. PunctualityDisposition is valuing being on time; a person can bear this role without it."@en ;
+  skos:example "The role a guest who has accepted a dinner invitation for seven o'clock bears of arriving at that time."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PunctualPersonRole> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AuthenticityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to represent oneself in a way that is true to one's own personality, spirit, or character, despite external pressures."@en ;
+  rdfs:label "Authenticity Disposition"@en ;
+  skos:altLabel "Authenticity"@en ;
+  rdfs:comment "Being true to one's own character under outside pressure. Its subclass ExpressivenessDisposition concerns conveying one's thoughts and feelings; HonestyDisposition concerns truthfulness toward others rather than fidelity to oneself."@en ;
+  skos:example "A person's standing inclination to keep dressing and speaking as they choose after joining a firm where everyone conforms to one style."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AuthenticityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CreativityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  vn-core:hasRelatedConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#StimulationDisposition> ;
+  skos:definition "A self-direction disposition towards generating or recognizing ideas, alternatives, or possibilities that may be useful in solving problems, communicating with others, and entertaining oneself and others."@en ;
+  rdfs:label "Creativity Disposition"@en ;
+  skos:altLabel "Creativity"@en ;
+  rdfs:comment "Generating and recognizing useful new ideas. Its subclasses divide it: ImaginationDisposition forms ideas not present to the senses, and InnovationDisposition introduces new methods and products. 'Originality' and 'improvisation' correspond to it (D-014). D-015 placed it under Schwartz Self-Direction, whose defining goal is independent thought and action and whose survey items include creativity; the related match records what it shares with Stimulation, which is novelty rather than origination."@en ;
+  skos:example "A person's standing inclination to invent a new game for the children rather than buying one."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CreativityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AmbitionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#AchievementDisposition> ;
+  skos:definition "An achievement disposition to strive for success, power, or distinction."@en ;
+  rdfs:label "Ambition Disposition"@en ;
+  skos:altLabel "Ambition"@en ;
+  rdfs:comment "The drive toward success and distinction. DeterminationDisposition persists in a task however hard it is, and ExcellenceDisposition aims at the quality of a performance rather than the standing it brings."@en ;
+  skos:example "A person's standing inclination to apply for promotion at every opportunity and to plan a career several steps ahead."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AmbitionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ExcellenceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#AchievementDisposition> ;
+  skos:definition "An achievement disposition to strive for qualities of a very high degree and for superiority in performance or outcome."@en ;
+  rdfs:label "Excellence Disposition"@en ;
+  skos:altLabel "Excellence"@en ;
+  rdfs:comment "Achievement measured against a high standard of quality. 'Quality', 'performance', 'greatness', and 'workmanship' correspond to it (D-014). CompetitionDisposition measures against other people, and MasteryDisposition seeks command of a field rather than an outstanding result."@en ;
+  skos:example "A person's standing inclination to rework a piece of furniture until every joint is flawless, although no one else would notice."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ExcellenceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LearningDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to acquire new knowledge, behaviors, skills, or understanding."@en ;
+  rdfs:label "Learning Disposition"@en ;
+  skos:altLabel "Learning"@en ;
+  rdfs:comment "Acquiring new knowledge, behavior, skill, or understanding. 'Knowledge', 'education', and 'continuous learning' correspond to it (D-014). CuriosityDisposition is drawn to what is new, and IntelligenceDisposition values intellectual ability itself."@en ;
+  skos:example "A person's standing inclination to take an evening course in a subject unrelated to their work."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LearningDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DeterminationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#AchievementDisposition> ;
+  skos:definition "An achievement disposition to continue trying to do something, although it is very difficult."@en ;
+  rdfs:label "Determination Disposition"@en ;
+  skos:altLabel "Determination"@en ;
+  rdfs:comment "Persisting with something difficult. 'Perseverance' corresponds to it rather than naming it (D-014). Its subclass DiligenceDisposition applies careful, persistent effort; AmbitionDisposition supplies a goal rather than persistence."@en ;
+  skos:example "A person's standing inclination to keep resubmitting a rejected grant proposal, revising it each time."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DeterminationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#GrowthDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A self-direction disposition to seek continuous personal development and improvement."@en ;
+  rdfs:label "Growth Disposition"@en ;
+  skos:altLabel "Growth"@en ;
+  rdfs:comment "Continuous personal development and improvement. 'Development', 'evolution', 'improvement', and 'potential' correspond to it (D-014). LearningDisposition acquires knowledge or skill; growth is development of the person."@en ;
+  skos:example "A person's standing inclination to ask for honest feedback after every project and act on it."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#GrowthDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#MasteryDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#AchievementDisposition> ;
+  skos:definition "An achievement disposition to seek comprehensive knowledge or skill in a particular subject or activity."@en ;
+  rdfs:label "Mastery Disposition"@en ;
+  skos:altLabel "Mastery"@en ;
+  rdfs:comment "Seeking comprehensive knowledge or skill in a subject or activity. ExcellenceDisposition aims at an outstanding result; mastery aims at command of a whole field."@en ;
+  skos:example "A person's standing inclination to practice the piano daily for years, working through the whole repertoire."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#MasteryDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ResilienceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to recover quickly from difficulties or setbacks."@en ;
+  rdfs:label "Resilience Disposition"@en ;
+  skos:altLabel "Resilience"@en ;
+  rdfs:comment "Recovering quickly from difficulties and setbacks. Its subclass StrengthDisposition values the capacity to withstand pressure, and EnduranceDisposition withstands hardship over a long time rather than recovering from it."@en ;
+  skos:example "A person's standing inclination to start rebuilding the week after their business fails."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ResilienceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#WisdomDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to seek and apply experience, knowledge, and good judgment."@en ;
+  rdfs:label "Wisdom Disposition"@en ;
+  skos:altLabel "Wisdom"@en ;
+  rdfs:comment "Seeking and applying experience, knowledge, and good judgment. 'Common sense' and 'realism' correspond to it (D-014). LearningDisposition acquires knowledge, and wisdom applies it well; moral-epistemics:PrudenceDisposition is the moral value disposition of fitting judgment to evidence."@en ;
+  skos:example "A person's standing inclination to draw on past mistakes before advising a friend who faces a similar choice."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#WisdomDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AltruismDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to act with selfless concern for the well-being of others."@en ;
+  rdfs:label "Altruism Disposition"@en ;
+  skos:altLabel "Altruism"@en ;
+  rdfs:comment "Concern for others' well-being for its own sake, not from obligation, loyalty, or expected return. Its subclass SelflessnessDisposition puts others' needs ahead of one's own; GenerosityDisposition concerns giving, which can have other motives."@en ;
+  skos:example "A person's standing inclination to spend weekends helping an elderly neighbor, expecting nothing in return."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AltruismDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CompassionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to recognize the suffering of others and be motivated to alleviate it."@en ;
+  rdfs:label "Compassion Disposition"@en ;
+  skos:altLabel "Compassion"@en ;
+  rdfs:comment "Moved by others' suffering to relieve it. EmpathyDisposition shares others' feelings without being directed at relieving them, and CareDisposition provides for needs whether or not anyone is suffering."@en ;
+  skos:example "A person's standing inclination to stop and help someone who has fallen in the street and is in pain."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CompassionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FriendshipDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to form and maintain bonds of mutual affection with others."@en ;
+  rdfs:label "Friendship Disposition"@en ;
+  skos:altLabel "Friendship"@en ;
+  rdfs:comment "Forming and keeping bonds of mutual affection. ConnectionDisposition values rapport more widely, and IntimacyDisposition close and usually loving relationships."@en ;
+  skos:example "A person's standing inclination to keep in touch with school friends decades later."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FriendshipDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#GenerosityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to freely give to others, such as time, resources, or kindness."@en ;
+  rdfs:label "Generosity Disposition"@en ;
+  skos:altLabel "Generosity"@en ;
+  rdfs:comment "Giving freely, whether time, resources, or kindness. 'Giving' corresponds to it (D-014). Its subclass CharityDisposition gives to those in need; SharingDisposition shares what one has rather than giving it away."@en ;
+  skos:example "A person's standing inclination to lend their car to a neighbor without being asked."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#GenerosityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CooperationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to work together with others towards a shared goal."@en ;
+  rdfs:label "Cooperation Disposition"@en ;
+  skos:altLabel "Cooperation"@en ;
+  rdfs:comment "Working with others toward a shared goal. Its subclasses divide it: CollaborationDisposition produces something jointly, and TeamworkDisposition takes part in a group's combined action."@en ;
+  skos:example "A person's standing inclination to agree on a common plan with the other parents before a school event rather than acting alone."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CooperationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ContributionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to provide service or make a positive impact on a community, cause, or group."@en ;
+  rdfs:label "Contribution Disposition"@en ;
+  skos:altLabel "Contribution"@en ;
+  rdfs:comment "Making a positive difference to a community, cause, or group through service. 'Service' corresponds to it (D-014). CommunityDisposition values belonging to and taking part in a particular community."@en ;
+  skos:example "A person's standing inclination to spend a Saturday each month volunteering at an animal shelter."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ContributionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#GoodCitizenRole>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueRole> ;
+  skos:definition "A value role borne by a person within a community or state that confers a normative expectation of contributing to the public good and upholding laws and social norms."@en ;
+  rdfs:label "Good Citizen Role"@en ;
+  rdfs:comment "A role grounded in membership of a community or state, which carries its expectation whether or not the bearer values civic life. Valuing one's own country is PatriotismDisposition; valuing service to a community is ContributionDisposition."@en ;
+  skos:example "The role a resident of a town bears of obeying its laws, paying its taxes, and serving on a jury when called."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#GoodCitizenRole> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HonestyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#IntegrityDisposition> ;
+  skos:definition "An integrity disposition to be truthful, sincere, and straightforward in communication and action."@en ;
+  rdfs:label "Honesty Disposition"@en ;
+  skos:altLabel "Honesty"@en ;
+  rdfs:comment "Truthfulness, sincerity, and straightforwardness. 'Sincerity' and 'truth' correspond to it (D-014). Its subclasses are CandorDisposition, frankness in speech, and TransparencyDisposition, openness of action; AuthenticityDisposition is truthfulness to oneself."@en ;
+  skos:example "A person's standing inclination to point out when a store has undercharged them."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HonestyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DependabilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition> ;
+  skos:definition "A responsibility disposition to be consistently reliable and trustworthy, such that others can count on one to fulfill commitments."@en ;
+  rdfs:label "Dependability Disposition"@en ;
+  skos:altLabel "Dependability"@en, "Reliability"@en ;
+  rdfs:comment "Being someone others can count on to fulfill commitments. 'Reliability' is an alternative label (D-014). TrustworthinessDisposition concerns deserving others' confidence in general, and CommitmentDisposition dedication to a cause, activity, or person."@en ;
+  skos:example "A person's standing inclination to turn up on the day they promised to help a friend move, whatever else comes up."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DependabilityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#TrustworthinessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition> ;
+  skos:definition "A responsibility disposition to act in a way that makes one worthy of the confidence or trust of others."@en ;
+  rdfs:label "Trustworthiness Disposition"@en ;
+  skos:altLabel "Trustworthiness"@en ;
+  rdfs:comment "Acting so as to deserve others' confidence. 'Earning trust' corresponds to it (D-014). DependabilityDisposition is being counted on for commitments; trustworthiness deserves confidence in general, secrets and valuables included."@en ;
+  skos:example "A person's standing inclination to keep a confidence even after falling out with the friend who shared it."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#TrustworthinessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FidelityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#IntegrityDisposition> ;
+  skos:definition "An integrity disposition to be faithful to a person, cause, or belief, demonstrated by continuing loyalty and support."@en ;
+  rdfs:label "Fidelity Disposition"@en ;
+  skos:altLabel "Fidelity"@en ;
+  rdfs:comment "Integrity as continuing faithfulness to a person, cause, or belief one has pledged oneself to. LoyaltyDisposition, under Benevolence, is devotion to a person, group, cause, or nation, whether or not anything was pledged."@en ;
+  skos:example "A person's standing inclination to remain faithful to their spouse when temptation arises."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FidelityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SelfRespectDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to hold oneself in esteem and to act in a way that upholds one's own dignity and honor."@en ;
+  rdfs:label "Self-Respect Disposition"@en ;
+  skos:altLabel "Respect for self"@en ;
+  rdfs:comment "Holding oneself in esteem and upholding one's own dignity. 'Respect for self' is an alternative label; 'self-love' corresponds (D-014). DignityDisposition values worth in oneself and others alike."@en ;
+  skos:example "A person's standing inclination to leave a relationship in which they are repeatedly belittled."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SelfRespectDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#StabilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SecurityDisposition> ;
+  skos:definition "A security disposition to prefer constancy, predictability, and resistance to change."@en ;
+  rdfs:label "Stability Disposition"@en ;
+  skos:altLabel "Stability"@en ;
+  rdfs:comment "Preferring constancy and predictability in one's circumstances. 'Certainty' corresponds to it (D-014). ConsistencyDisposition is steadiness in one's own conduct; stability is steadiness in what surrounds one."@en ;
+  skos:example "A person's standing inclination to stay in the same town and job for decades."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#StabilityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#OrderDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#ConformityDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SecurityDisposition> ;
+  skos:definition "A personal value disposition to prefer neatness, organization, and adherence to established structures or arrangements."@en ;
+  rdfs:label "Order Disposition"@en ;
+  skos:altLabel "Order"@en ;
+  rdfs:comment "Preferring neatness, organization, and established structure. 'Organization' and 'structure' correspond to it (D-014). CleanlinessDisposition values freedom from dirt, and ConsistencyDisposition steadiness of one's own conduct."@en ;
+  skos:example "A person's standing inclination to keep files labeled and a fixed place for every tool."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#OrderDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ConsistencyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#ConformityDisposition> ;
+  skos:definition "A personal value disposition to act or think in a steady, uniform, and predictable manner over time."@en ;
+  rdfs:label "Consistency Disposition"@en ;
+  skos:altLabel "Consistency"@en ;
+  rdfs:comment "Steadiness and predictability in one's own conduct and thought over time. StabilityDisposition prefers constancy in one's circumstances, and DependabilityDisposition is being reliable to others."@en ;
+  skos:example "A person's standing inclination to keep the same morning routine and to apply the same standards to every decision of a kind."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ConsistencyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CleanlinessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#ConformityDisposition> ;
+  skos:definition "A personal value disposition to be neat and to keep oneself and one's surroundings clean and free from dirt."@en ;
+  rdfs:label "Cleanliness Disposition"@en ;
+  skos:altLabel "Cleanliness"@en ;
+  rdfs:comment "Keeping oneself and one's surroundings clean. OrderDisposition values neatness of arrangement and structure rather than freedom from dirt."@en ;
+  skos:example "A person's standing inclination to wash up and wipe down the kitchen before going to bed."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CleanlinessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AutonomyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A self-direction disposition to be self-directing and independent in thought and action."@en ;
+  rdfs:label "Autonomy Disposition"@en ;
+  skos:altLabel "Autonomy"@en, "Independence"@en ;
+  rdfs:comment "Independence in thought and action, the core of Schwartz's self-direction value. FreedomDisposition values the absence of external constraint rather than governing oneself. 'Independence' is an alternative label; 'empowerment' only corresponds (D-014)."@en ;
+  skos:example "A person's standing inclination to work out their own view of a contested question rather than adopting the one their friends hold."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AutonomyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FreedomDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A self-direction disposition to value liberty and the absence of necessity, coercion, or constraint in choice or action."@en ;
+  rdfs:label "Freedom Disposition"@en ;
+  skos:altLabel "Freedom"@en ;
+  rdfs:comment "Valuing liberty and the absence of constraint on choice and action, for oneself and for others. AutonomyDisposition values governing oneself; freedom values the room to do so."@en ;
+  skos:example "A person's standing inclination to oppose rules that would restrict what their neighbors may say or do."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FreedomDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PrivacyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SecurityDisposition> ;
+  skos:definition "A personal value disposition to value being free from public attention, observation, or intrusion."@en ;
+  rdfs:label "Privacy Disposition"@en ;
+  skos:altLabel "Privacy"@en ;
+  rdfs:comment "Freedom from public attention, observation, or intrusion; 'privacy' is a Schwartz survey item. 'Isolation' and 'solitude' correspond to it (D-014). TransparencyDisposition values the opposite for one's actions."@en ;
+  skos:example "A person's standing inclination to keep their social media accounts closed and their address unlisted."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PrivacyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#BalanceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to seek equilibrium and harmony among different aspects of one's life, such as work, family, and self."@en ;
+  rdfs:label "Balance Disposition"@en ;
+  skos:altLabel "Balance"@en ;
+  rdfs:comment "Equilibrium among the parts of a life, so that none crowds out the rest. Its subclass WorkLifeBalanceDisposition concerns the division between work and everything else; ModerationDisposition avoids excess in any one thing rather than weighing several against each other."@en ;
+  skos:example "A person's standing inclination to rearrange their commitments when one part of life, whether work, family, friends, or health, starts to take over the rest."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#BalanceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CalmnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SecurityDisposition> ;
+  skos:definition "A personal value disposition to remain tranquil, serene, and free from agitation or disturbance."@en ;
+  rdfs:label "Calmness Disposition"@en ;
+  skos:altLabel "Calmness"@en ;
+  rdfs:comment "Remaining tranquil and free from agitation. Kept under D-014 on direct attestation: Scott Jeffrey lists 'Calm' and DevelopGoodHabits 'Calmness'. The states composure, serenity, and tranquility correspond to the class without naming it."@en ;
+  skos:example "A person's standing inclination to slow down and speak evenly when a situation at work turns tense."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CalmnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HarmonyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to seek agreement, concord, and a pleasing arrangement of parts, both internally and in social relations."@en ;
+  rdfs:label "Harmony Disposition"@en ;
+  skos:altLabel "Harmony"@en ;
+  rdfs:comment "Agreement and concord, within oneself and in relations with others. PeaceDisposition seeks freedom from disturbance, and UnityDisposition a group's being joined as a whole."@en ;
+  skos:example "A person's standing inclination to look for a solution both sides of a family dispute can accept."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HarmonyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#JoyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#HedonismDisposition> ;
+  skos:definition "A personal value disposition to seek and experience intense happiness, delight, or elation."@en ;
+  rdfs:label "Joy Disposition"@en ;
+  skos:altLabel "Joy"@en ;
+  rdfs:comment "Seeking intense happiness and delight. 'Happiness', 'contentment', and 'satisfaction' correspond to it without naming it: they are emotional states, and the class is valuing them (D-014). EnjoymentDisposition seeks lighter fun."@en ;
+  skos:example "A person's standing inclination to arrange their weekends around the things that delight them most."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#JoyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#OptimismDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to maintain a hopeful and confident attitude about the future or the successful outcome of something."@en ;
+  rdfs:label "Optimism Disposition"@en ;
+  skos:altLabel "Optimism"@en ;
+  rdfs:comment "A hopeful, confident attitude toward the future. 'Positivity' corresponds to it (D-014). Its subclass HopeDisposition hopes for a particular outcome."@en ;
+  skos:example "A person's standing inclination to treat a setback as temporary and plan the next attempt."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#OptimismDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PurposeDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to seek a central, self-organizing life aim that stimulates goals and gives life meaning."@en ;
+  rdfs:label "Purpose Disposition"@en ;
+  skos:altLabel "Purpose"@en ;
+  rdfs:comment "Seeking a central life aim that organizes one's goals. 'Meaningful work' corresponds to it (D-014). Its subclass MeaningDisposition seeks the significance such an aim gives, and VisionDisposition plans the future with a clear direction."@en ;
+  skos:example "A person's standing inclination to judge job offers by whether they serve their aim of improving public health."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PurposeDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SpiritualityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to be concerned with the human spirit or soul and the search for meaning, as opposed to material or physical things."@en ;
+  rdfs:label "Spirituality Disposition"@en ;
+  skos:altLabel "Spirituality"@en ;
+  rdfs:comment "Concern with the human spirit and the search for meaning beyond material things. 'Spirit' corresponds to it, and 'reverence' to it and to RespectDisposition (D-014). ReligionDisposition holds a particular system of belief and practice; spirituality need not."@en ;
+  skos:example "A person's standing inclination to spend time each week in contemplation, without belonging to any religion."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SpiritualityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#JusticeDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A universalism disposition to uphold just behavior and treatment, ensuring fairness and moral rightness in actions and systems."@en ;
+  rdfs:label "Justice Disposition"@en ;
+  skos:altLabel "Justice"@en ;
+  rdfs:comment "Upholding just treatment and moral rightness in actions and systems. Its subclasses are EqualityDisposition, identical treatment, and EquityDisposition, treatment sensitive to relevant differences; FairnessDisposition is impartiality in one's own dealings."@en ;
+  skos:example "A person's standing inclination to campaign against a local rule that falls hardest on those least able to bear it."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#JusticeDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EqualityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#JusticeDisposition> ;
+  skos:definition "A justice disposition to ensure that each individual or group is given the same resources or opportunities, regardless of circumstances."@en ;
+  rdfs:label "Equality Disposition"@en ;
+  skos:altLabel "Equality"@en ;
+  rdfs:comment "Justice as identical treatment. Its sibling EquityDisposition distributes according to materially relevant differences; D-014 keeps both because queries may need to tell equal treatment from fair treatment sensitive to such differences."@en ;
+  skos:example "A person's standing inclination to split a shared restaurant bill evenly among everyone at the table."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EqualityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EquityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#JusticeDisposition> ;
+  skos:definition "A justice disposition to distribute resources and opportunities according to individuals' needs and other materially relevant differences, so that the outcome is fair rather than identical."@en ;
+  rdfs:label "Equity Disposition"@en ;
+  skos:altLabel "Equity"@en ;
+  rdfs:comment "Justice sensitive to materially relevant differences. D-014 keeps the class for that distinction: queries may need to tell equal treatment, which is EqualityDisposition, from fair treatment sensitive to differences such as need. Equity is also measured as a core public value (Favero, Jensen, Kim and Piatak 2025)."@en ;
+  skos:example "A person's standing inclination to give the extra tutoring hours to the pupils who are furthest behind."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EquityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FairnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A universalism disposition to treat people impartially and without favoritism or discrimination."@en ;
+  rdfs:label "Fairness Disposition"@en ;
+  skos:altLabel "Fairness"@en ;
+  rdfs:comment "Treating people impartially, without favoritism or discrimination. 'Impartial' and 'objectivity' correspond to it (D-014). JusticeDisposition upholds just treatment in actions and systems more broadly, and moral-foundations:FairnessDisposition is the moral value disposition, a different class."@en ;
+  skos:example "A person's standing inclination, as a hiring manager, to score every candidate against the same criteria, friends' children included."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FairnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#RespectDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasRelatedConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#ConformityDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#TraditionDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to show due regard for the feelings, wishes, rights, or traditions of others."@en ;
+  rdfs:label "Respect Disposition"@en ;
+  skos:altLabel "Respect"@en ;
+  rdfs:comment "Due regard for others' feelings, wishes, rights, and traditions. 'Consent' and 'responsiveness' correspond to it, and 'reverence' to it and to SpiritualityDisposition (D-014). Its subclass CourtesyDisposition is respect shown in politeness; ToleranceDisposition accepts what one disagrees with. D-015 moved it to the general parent: no one Schwartz value covers that extension, which reaches across Universalism's concern for others' welfare and rights, Conformity's restraint from upsetting people, and Tradition's respect for custom. The three related matches record that overlap."@en ;
+  skos:example "A person's standing inclination to ask before taking someone's photograph."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#RespectDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ForgivenessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to consciously and deliberately decide to release feelings of resentment or vengeance toward a person or group who has harmed one."@en ;
+  rdfs:label "Forgiveness Disposition"@en ;
+  skos:altLabel "Forgiveness"@en ;
+  rdfs:comment "Releasing resentment toward those who have done harm; 'forgiving' is a Schwartz survey item, and it corresponds to the class, as, with GratitudeDisposition, does 'grace' (D-014). The release is chosen, which distinguishes it from forgetting or excusing."@en ;
+  skos:example "A person's standing inclination to resume a friendship after a friend has apologized for betraying a confidence."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ForgivenessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ToleranceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A universalism disposition to accept and permit the opinions, beliefs, practices, or behavior of others that one does not necessarily agree with."@en ;
+  rdfs:label "Tolerance Disposition"@en ;
+  skos:altLabel "Tolerance"@en ;
+  rdfs:comment "Accepting others' opinions, beliefs, and practices that one does not share. 'Acceptance', 'diversity', and 'inclusiveness' correspond to it (D-014). OpenMindednessDisposition is receptive to others' ideas; tolerance permits them without being receptive."@en ;
+  skos:example "A person's standing inclination to let a neighbor fly a flag they dislike without complaint."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ToleranceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LeadershipDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasRelatedConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#PowerDisposition> ;
+  skos:definition "A personal value disposition to guide, direct, or command a group, organization, or country."@en ;
+  rdfs:label "Leadership Disposition"@en ;
+  skos:altLabel "Leadership"@en ;
+  rdfs:comment "Valuing guiding, directing, or commanding a group. D-014 placed it under the general parent, because guiding a group need not seek dominance or status, with a related match to Schwartz Power. LeaderRole is the role of someone in a leadership position, which can be held without this disposition."@en ;
+  skos:example "A person's standing inclination to step forward and organize volunteers when a local emergency needs a response."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LeadershipDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LeaderRole>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueRole> ;
+  skos:definition "A value role borne by a person who holds a formal or informal position of leadership, conferring the normative expectation to guide and make decisions for a group."@en ;
+  rdfs:label "Leader Role"@en ;
+  rdfs:comment "A role grounded in a position of leadership, formal or informal, and in the expectations a group attaches to it. LeadershipDisposition, valuing guiding a group, can be borne by someone who holds no such position, and this role by someone who does not value it."@en ;
+  skos:example "The role the captain of a sports team bears of setting the team's tactics and speaking for it to the referee."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LeaderRole> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#InfluenceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to seek the capacity to have an effect on the character, development, or behavior of someone or something."@en ;
+  rdfs:label "Influence Disposition"@en ;
+  skos:altLabel "Influence"@en ;
+  rdfs:comment "Seeking the capacity to affect the character, development, or behavior of people or things; 'influential' is a Schwartz survey item. D-014 placed it under the general parent, because an effect on development is not dominance and so does not satisfy Schwartz Power."@en ;
+  skos:example "A person's standing inclination to mentor junior colleagues in order to shape how they approach their work."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#InfluenceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AssertivenessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#PowerDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to be self-assured and confident in expressing one's views or needs without being aggressive."@en ;
+  rdfs:label "Assertiveness Disposition"@en ;
+  skos:altLabel "Assertiveness"@en ;
+  rdfs:comment "Stating one's views and needs with confidence while respecting others', which separates it from aggression and from ControlDisposition, which seeks to direct others. The corpus word 'assertion', which names an act, corresponds to it (D-014)."@en ;
+  skos:example "A person's standing inclination to say plainly in a meeting that a deadline cannot be met, without blaming anyone."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AssertivenessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#RecognitionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasRelatedConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#AchievementDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#PowerDisposition> ;
+  skos:definition "A personal value disposition to seek acknowledgment, appreciation, or validation from others for one's achievements or status."@en ;
+  rdfs:label "Recognition Disposition"@en ;
+  skos:altLabel "Recognition"@en ;
+  rdfs:comment "Seeking acknowledgment of one's achievements or status. D-014 placed it under the general parent, because recognition does not entail control, with related matches to Schwartz Power and Achievement, for which 'social recognition' is a survey item. 'Famous' corresponds to it."@en ;
+  skos:example "A person's standing inclination to enter their work for awards and to mention them when they win."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#RecognitionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#VisionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to think about or plan the future with imagination, wisdom, and a clear sense of direction."@en ;
+  rdfs:label "Vision Disposition"@en ;
+  skos:altLabel "Vision"@en ;
+  rdfs:comment "Thinking about and planning the future with imagination and a clear direction. 'Foresight' corresponds to it, and 'preparedness' to it and to Schwartz Security (D-014). PurposeDisposition seeks a central life aim; vision plans the route toward the future."@en ;
+  skos:example "A person's standing inclination to sketch where their small business should be in ten years and plan backward from there."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#VisionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AdventureDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#StimulationDisposition> ;
+  skos:definition "A stimulation disposition to seek out unusual, exciting, and daring experiences."@en ;
+  rdfs:label "Adventure Disposition"@en ;
+  skos:altLabel "Adventure"@en ;
+  rdfs:comment "Seeks experiences that are unusual and carry some risk. VarietyDisposition seeks change without daring, and ChallengeDisposition seeks difficult tasks that test one's abilities."@en ;
+  skos:example "A person's standing inclination to spend vacations trekking in remote country rather than returning to a familiar resort."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AdventureDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#BeautyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to appreciate and seek out qualities that give pleasure to the senses or mind, such as in nature, art, or ideas."@en ;
+  rdfs:label "Beauty Disposition"@en ;
+  skos:altLabel "Beauty"@en ;
+  rdfs:comment "Valuing what pleases the senses or the mind, in nature, art, or ideas. Schwartz's universalism includes the survey item 'a world of beauty', which the class's broader match to Universalism records."@en ;
+  skos:example "A person's standing inclination to take the longer walk to work because it passes through a park in bloom."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#BeautyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ChallengeDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#StimulationDisposition> ;
+  skos:definition "A stimulation disposition to seek out and engage with tasks that are new and difficult, testing one's abilities."@en ;
+  rdfs:label "Challenge Disposition"@en ;
+  skos:altLabel "Challenge"@en ;
+  rdfs:comment "Seeks tasks that are new and difficult because they test one's abilities. AdventureDisposition seeks daring experience rather than difficulty, and MasteryDisposition seeks the skill a challenge might build."@en ;
+  skos:example "A person's standing inclination to volunteer for the project nobody yet knows how to do."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ChallengeDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EnjoymentDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#HedonismDisposition> ;
+  skos:definition "A hedonism disposition to seek pleasure, fun, and lighthearted gratification."@en ;
+  rdfs:label "Enjoyment Disposition"@en ;
+  skos:altLabel "Enjoyment"@en ;
+  rdfs:comment "Hedonism in its lighthearted form. 'Fun' and 'experience' correspond to it (D-014). Its subclass LeisureDisposition values free time; JoyDisposition seeks intense happiness rather than fun."@en ;
+  skos:example "A person's standing inclination to fill a free afternoon with games and outings with friends."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EnjoymentDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HumorDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#HedonismDisposition> ;
+  skos:definition "A personal value disposition to appreciate, express, or seek out what is amusing or comical."@en ;
+  rdfs:label "Humor Disposition"@en ;
+  skos:altLabel "Humor"@en ;
+  rdfs:comment "Appreciating, expressing, and seeking what is amusing. 'Amusement' and 'playfulness' correspond to it, and so, deliberately weakly, does 'irreverent' (D-014). EnjoymentDisposition seeks fun more broadly."@en ;
+  skos:example "A person's standing inclination to find the joke in a frustrating day and share it."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HumorDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#InnovationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CreativityDisposition> ;
+  skos:definition "A creativity disposition to introduce new methods, ideas, or products."@en ;
+  rdfs:label "Innovation Disposition"@en ;
+  skos:altLabel "Innovation"@en ;
+  rdfs:comment "Creativity put into practice through new methods, ideas, or products. Its sibling ImaginationDisposition forms ideas whether or not they are put to use."@en ;
+  skos:example "A person's standing inclination to redesign a tedious office procedure rather than follow it."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#InnovationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PassionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to pursue activities or interests with intense enthusiasm and compelling emotion."@en ;
+  rdfs:label "Passion Disposition"@en ;
+  skos:altLabel "Passion"@en ;
+  rdfs:comment "Pursuing activities with intense enthusiasm and emotion. 'Intensity' corresponds to it, and so, weakly, does 'inspiration', which is closer to a state (D-014). Its subclass EnthusiasmDisposition is eager enjoyment shown."@en ;
+  skos:example "A person's standing inclination to spend every free hour restoring old motorcycles."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PassionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SpontaneityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#StimulationDisposition> ;
+  skos:definition "A stimulation disposition to act upon sudden impulses and desires without premeditation."@en ;
+  rdfs:label "Spontaneity Disposition"@en ;
+  skos:altLabel "Spontaneity"@en ;
+  rdfs:comment "Acting on sudden impulses and desires without planning. VarietyDisposition seeks change; spontaneity acts without premeditation, whether or not the result is new."@en ;
+  skos:example "A person's standing inclination to accept a last-minute invitation to go away for the weekend."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SpontaneityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#VarietyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#StimulationDisposition> ;
+  skos:definition "A stimulation disposition to seek change, novelty, and a lack of uniformity or monotony."@en ;
+  rdfs:label "Variety Disposition"@en ;
+  skos:altLabel "Variety"@en ;
+  rdfs:comment "Seeking change, novelty, and freedom from monotony; 'a varied life' is a Schwartz survey item. 'Novelty' and 'surprise' correspond to it (D-014). AdventureDisposition adds daring; variety needs only change."@en ;
+  skos:example "A person's standing inclination to take a different route to work and try a new recipe every week."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#VarietyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DisciplineDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#ConformityDisposition> ;
+  skos:definition "A personal value disposition to train oneself to follow a code of behavior or to control impulses."@en ;
+  rdfs:label "Discipline Disposition"@en ;
+  skos:altLabel "Discipline"@en, "Self-discipline"@en ;
+  rdfs:comment "Training oneself to follow a code of behavior or to control impulses. 'Self-discipline' is an alternative label; 'self-control' corresponds (D-014). ModerationDisposition avoids excess with or without a code, and ChastityDisposition is discipline applied to sexual conduct."@en ;
+  skos:example "A person's standing inclination to finish their study hours before looking at their phone."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DisciplineDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PatienceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to accept or tolerate delay, problems, or suffering without becoming annoyed or anxious."@en ;
+  rdfs:label "Patience Disposition"@en ;
+  skos:altLabel "Patience"@en ;
+  rdfs:comment "Accepting delay, problems, or suffering without annoyance or anxiety. EnduranceDisposition withstands prolonged hardship; patience is the calm acceptance of waiting."@en ;
+  skos:example "A person's standing inclination to explain a task again to a slow learner without irritation."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PatienceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DecisivenessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to make decisions quickly and effectively."@en ;
+  rdfs:label "Decisiveness Disposition"@en ;
+  skos:altLabel "Decisiveness"@en ;
+  rdfs:comment "Making decisions quickly and effectively. Kept under D-014 on direct attestation: Scott Jeffrey lists 'Decisive' and The Mind Fool 'Decisiveness'. 'Decision making' names an activity and only corresponds."@en ;
+  skos:example "A person's standing inclination to settle a choice as soon as the relevant facts are in, rather than reopening it."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DecisivenessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EnduranceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to withstand hardship, adversity, or stress over a prolonged period."@en ;
+  rdfs:label "Endurance Disposition"@en ;
+  skos:altLabel "Endurance"@en ;
+  rdfs:comment "Withstanding hardship, adversity, or stress over a long period. ResilienceDisposition recovers quickly from setbacks, and PatienceDisposition tolerates delay without annoyance."@en ;
+  skos:example "A person's standing inclination to keep working steadily through a year of caring for a sick parent."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EnduranceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ThriftDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SecurityDisposition> ;
+  skos:definition "A personal value disposition to use money and other resources carefully and not wastefully."@en ;
+  rdfs:label "Thrift Disposition"@en ;
+  skos:altLabel "Thrift"@en, "Frugality"@en ;
+  rdfs:comment "Using money and other resources carefully, without waste. 'Frugality' is an alternative label, so the search that found nothing in a demonstration of the site now finds this class; 'economy' only corresponds, since it also names the economy (D-014)."@en ;
+  skos:example "A person's standing inclination to buy used goods and keep to a monthly budget."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ThriftDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LogicDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to seek and apply principles of valid reasoning and inference."@en ;
+  rdfs:label "Logic Disposition"@en ;
+  skos:altLabel "Logic"@en ;
+  rdfs:comment "Seeking and applying valid reasoning and inference. 'Analysis' and 'reason' correspond to it (D-014). IntuitionDisposition favors understanding reached without conscious reasoning, and WisdomDisposition joins judgment and experience to knowledge."@en ;
+  skos:example "A person's standing inclination to write out the steps of an argument before accepting its conclusion."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LogicDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#OpenMindednessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to be receptive to new and different ideas or the opinions of others."@en ;
+  rdfs:label "Open-Mindedness Disposition"@en ;
+  rdfs:comment "Receptiveness to new and different ideas and to others' opinions. 'Receptiveness' corresponds to it (D-014). The bare word 'openness' is not its label: it also names a personality trait and Schwartz's openness to change, which is why D-014 retired OpennessDisposition. ToleranceDisposition permits views without being receptive to them."@en ;
+  skos:example "A person's standing inclination to read the strongest case for a view they disagree with."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#OpenMindednessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#UnderstandingDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to seek comprehension of people, ideas, or situations, often with empathy and insight."@en ;
+  rdfs:label "Understanding Disposition"@en ;
+  skos:altLabel "Understanding"@en ;
+  rdfs:comment "Seeking comprehension of people, ideas, and situations. 'Clarity' and 'insightful' correspond to it (D-014). EmpathyDisposition shares feelings; understanding comprehends, with or without sharing them."@en ;
+  skos:example "A person's standing inclination to ask why a colleague holds a view before arguing against it."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#UnderstandingDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LoveDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to feel and express deep or intense affection for another person, group, or ideal."@en ;
+  rdfs:label "Love Disposition"@en ;
+  skos:altLabel "Love"@en ;
+  rdfs:comment "Deep affection for a person, group, or ideal, felt and expressed. Its subclasses are FamilyDisposition and IntimacyDisposition; FriendshipDisposition values mutual affection, which may be less deep."@en ;
+  skos:example "A person's standing inclination to tell the people they love that they love them, and to show it in what they do."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LoveDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FamilyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#LoveDisposition> ;
+  skos:definition "A love disposition to prioritize the well-being, support, and bonds of one's family."@en ;
+  rdfs:label "Family Disposition"@en ;
+  skos:altLabel "Family"@en ;
+  rdfs:comment "Love directed at one's family, whoever the bearer counts as family. Its sibling IntimacyDisposition values close relationships wherever they are, and BelongingDisposition seeks acceptance in any group."@en ;
+  skos:example "A person's standing inclination to turn down a job abroad in order to stay near their parents and siblings."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FamilyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#IntimacyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#LoveDisposition> ;
+  skos:definition "A love disposition to seek and maintain close, familiar, and usually affectionate or loving personal relationships with others."@en ;
+  rdfs:label "Intimacy Disposition"@en ;
+  skos:altLabel "Intimacy"@en ;
+  rdfs:comment "Love sought in close, familiar, and usually affectionate relationships; 'mature love' is a Schwartz survey item. FamilyDisposition concerns one's family specifically, and FriendshipDisposition bonds of mutual affection that need not be intimate."@en ;
+  skos:example "A person's standing inclination to set aside time each evening to talk openly with their partner."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#IntimacyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#BelongingDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to seek a sense of fitting in or being an accepted and integral member of a group or community."@en ;
+  rdfs:label "Belonging Disposition"@en ;
+  skos:altLabel "Belonging"@en ;
+  rdfs:comment "Seeks to be an accepted and integral member of a group; 'sense of belonging' is a Schwartz survey item. CommunityDisposition values taking part in a community, and UnityDisposition values a group's being joined together."@en ;
+  skos:example "A person's standing inclination to keep attending a choir for the sense of being one of its members, as much as for the singing."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#BelongingDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CommunityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A universalism disposition to value and actively participate in a social group with shared characteristics, interests, or location."@en ;
+  rdfs:label "Community Disposition"@en ;
+  skos:altLabel "Community"@en ;
+  rdfs:comment "Taking part in, and giving back to, a community one belongs to. BelongingDisposition seeks acceptance in a group, and ContributionDisposition values service to any community, cause, or group."@en ;
+  skos:example "A person's standing inclination to help run the neighborhood association and its annual street fair."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CommunityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ConnectionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to seek and maintain a feeling of rapport and meaningful relationship with others."@en ;
+  rdfs:label "Connection Disposition"@en ;
+  skos:altLabel "Connection"@en ;
+  rdfs:comment "Rapport and meaningful relationship with others. FriendshipDisposition values bonds of mutual affection, and IntimacyDisposition close and usually loving relationships; connection can hold with people who are neither friends nor intimates."@en ;
+  skos:example "A person's standing inclination to learn about the lives of the colleagues they work with, not only about their work."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ConnectionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#UnityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to seek and promote the state of being joined together or in agreement as a whole, especially within a group."@en ;
+  rdfs:label "Unity Disposition"@en ;
+  skos:altLabel "Unity"@en ;
+  rdfs:comment "Seeking and promoting a group's being joined together or in agreement as a whole. BelongingDisposition seeks one's own acceptance in a group, and HarmonyDisposition seeks concord, which a group can have without acting as one."@en ;
+  skos:example "A person's standing inclination to bring two rival factions of a society together behind a single plan."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#UnityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CareDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to provide for the needs of, and show concern for, the well-being of others."@en ;
+  rdfs:label "Care Disposition"@en ;
+  skos:altLabel "Care"@en ;
+  rdfs:comment "Providing for others' needs as well as caring about them. A different class from moral-foundations:CareDisposition, the moral value disposition realized in appraising harm. CompassionDisposition is moved by suffering in particular."@en ;
+  skos:example "A person's standing inclination to cook for and look in on a housebound relative every week."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CareDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CharityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#GenerosityDisposition> ;
+  skos:definition "A generosity disposition to voluntarily give help, typically in the form of money or resources, to those in need."@en ;
+  rdfs:label "Charity Disposition"@en ;
+  skos:altLabel "Charity"@en ;
+  rdfs:comment "Generosity directed at people in need, usually through gifts of money or resources. Its parent GenerosityDisposition covers giving time, kindness, or resources to anyone. 'Philanthropy' corresponds to it (D-014)."@en ;
+  skos:example "A person's standing inclination to give a fixed share of their income each month to a food bank."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CharityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CollaborationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CooperationDisposition> ;
+  skos:definition "A cooperation disposition to work jointly on an activity or project to create or achieve something."@en ;
+  rdfs:label "Collaboration Disposition"@en ;
+  skos:altLabel "Collaboration"@en ;
+  rdfs:comment "Cooperation in making or achieving something together, each contributing to a shared result. Its sibling TeamworkDisposition values taking part in a group's combined action, which need not produce a joint work. 'Partnership' corresponds to it (D-014)."@en ;
+  skos:example "A person's standing inclination to draft a report together with colleagues rather than writing it alone and circulating it."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CollaborationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EmpathyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to understand and share the feelings of another."@en ;
+  rdfs:label "Empathy Disposition"@en ;
+  skos:altLabel "Empathy"@en ;
+  rdfs:comment "Understanding and sharing another's feelings. CompassionDisposition adds the motive to relieve suffering, and its subclass SensitivityDisposition is the quick and delicate appreciation of feelings."@en ;
+  skos:example "A person's standing inclination to imagine how a friend feels about a loss before offering any advice."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EmpathyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EncouragementDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to give support, confidence, or hope to someone."@en ;
+  rdfs:label "Encouragement Disposition"@en ;
+  skos:altLabel "Encouragement"@en ;
+  rdfs:comment "Giving others support, confidence, or hope. SupportDisposition gives assistance and comfort as well; encouragement aims at strengthening someone's own confidence to act."@en ;
+  skos:example "A person's standing inclination to tell a nervous colleague before a presentation that they are well prepared."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EncouragementDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SelflessnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#AltruismDisposition> ;
+  skos:definition "An altruism disposition to be more concerned with the needs and wishes of others than with one's own."@en ;
+  rdfs:label "Selflessness Disposition"@en ;
+  skos:altLabel "Selflessness"@en ;
+  rdfs:comment "Altruism that puts others' needs and wishes ahead of one's own. Its parent AltruismDisposition is concern for others' well-being, which need not come at one's own expense."@en ;
+  skos:example "A person's standing inclination to give up their own vacation so that a colleague can be with their family."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SelflessnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SharingDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to have or use a portion of something with another or others."@en ;
+  rdfs:label "Sharing Disposition"@en ;
+  skos:altLabel "Sharing"@en ;
+  rdfs:comment "Having or using something together with others. GenerosityDisposition gives things away; sharing keeps a portion for oneself."@en ;
+  skos:example "A person's standing inclination to split their lunch with a colleague who has forgotten theirs."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SharingDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SupportDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to give assistance, approval, or comfort to others."@en ;
+  rdfs:label "Support Disposition"@en ;
+  skos:altLabel "Support"@en ;
+  rdfs:comment "Giving assistance, approval, or comfort to others. 'Helpfulness' and 'helping' correspond to it, and 'empowerment' to it and to AutonomyDisposition (D-014). EncouragementDisposition aims at others' confidence, and CareDisposition provides for their needs."@en ;
+  skos:example "A person's standing inclination to sit with a friend through a hospital appointment."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SupportDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#TeamworkDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CooperationDisposition> ;
+  skos:definition "A cooperation disposition to value and effectively participate in the combined action of a group."@en ;
+  rdfs:label "Teamwork Disposition"@en ;
+  skos:altLabel "Teamwork"@en ;
+  rdfs:comment "Cooperation as effective participation in a group's combined action. Its sibling CollaborationDisposition works jointly to produce something; teamwork plays one's part in what the group does."@en ;
+  skos:example "A person's standing inclination to take the unglamorous position their team needs filled."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#TeamworkDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CandorDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#HonestyDisposition> ;
+  skos:definition "An honesty disposition to be frank, open, and sincere in speech or expression."@en ;
+  rdfs:label "Candor Disposition"@en ;
+  skos:altLabel "Candor"@en ;
+  rdfs:comment "Honesty in saying what one thinks, even when it is unwelcome. Its sibling TransparencyDisposition concerns making one's actions visible, not speaking frankly. D-012 gave candor this home when it narrowed OpennessDisposition."@en ;
+  skos:example "A person's standing inclination to tell a friend that their business plan has a serious flaw, rather than offering polite encouragement."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CandorDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DignityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-folk#SelfRespectDisposition> ;
+  skos:definition "A personal value disposition to value the state of being worthy of honor or respect, both for oneself and for others."@en ;
+  rdfs:label "Dignity Disposition"@en ;
+  skos:altLabel "Dignity"@en ;
+  rdfs:comment "Valuing the worth that makes a person deserving of honor or respect, one's own and others'. SelfRespectDisposition concerns one's own dignity only, and RespectDisposition the regard shown to others."@en ;
+  skos:example "A person's standing inclination to object when a colleague is spoken to with contempt, as they would if it were them."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DignityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EthicsDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#IntegrityDisposition> ;
+  skos:definition "An integrity disposition to adhere to a system of moral principles that govern a person's behavior or the conducting of an activity."@en ;
+  rdfs:label "Ethics Disposition"@en ;
+  skos:altLabel "Ethics"@en ;
+  rdfs:comment "Integrity as adherence to a system of moral principles. 'Morality' and 'goodness' correspond to it (D-014). HonorDisposition adheres to what is right or to a standard of conduct, without requiring a system of principles."@en ;
+  skos:example "A person's standing inclination to decline a profitable contract whose terms would require misleading customers."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EthicsDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FaithDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to place complete trust or confidence in someone or something without requiring proof."@en ;
+  rdfs:label "Faith Disposition"@en ;
+  skos:altLabel "Faith"@en ;
+  rdfs:comment "Differs from TrustDisposition, a firm belief in the reliability of someone or something, in not resting on evidence of that reliability. The definition formerly joined a second sense, strong belief in a religious doctrine; that sense is ReligionDisposition (R17, D-012). A person may bear both."@en ;
+  skos:example "A person's standing inclination to stay confident that an estranged friend will make amends, and to keep a place for them, though nothing yet suggests they will."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FaithDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ReligionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to hold a system of religious belief and practice as a guide to living."@en ;
+  rdfs:label "Religion Disposition"@en ;
+  skos:altLabel "Religion"@en ;
+  rdfs:comment "The religious sense formerly joined to FaithDisposition's definition (R17, D-012), and the class for folk:Religion, which this repository added to its copy of the folk corpus, under Beliefs alongside Faith and Belief in God; the upstream corpus has no such value. The system of belief itself is information content, as CCO Religion (ont00000616) models it; this class is the disposition of an agent who holds one as a guide to living, not the religion."@en ;
+  skos:example "A person's standing inclination to keep the prayer and dietary observances of their tradition and to weigh major decisions against its teaching."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ReligionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HonorDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#IntegrityDisposition> ;
+  skos:definition "An integrity disposition to adhere to what is right or to a conventional standard of conduct, showing high respect and esteem."@en ;
+  rdfs:label "Honor Disposition"@en ;
+  skos:altLabel "Honor"@en ;
+  rdfs:comment "Adhering to what is right or to a standard of conduct, and to the esteem that goes with it. EthicsDisposition adheres to a system of moral principles, and DignityDisposition values worthiness of respect rather than conduct."@en ;
+  skos:example "A person's standing inclination to keep their word on a handshake deal when breaking it would cost them nothing."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HonorDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#TransparencyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#HonestyDisposition> ;
+  skos:definition "An honesty disposition to operate in such a way that it is easy for others to see what actions are performed, implying openness and accountability."@en ;
+  rdfs:label "Transparency Disposition"@en ;
+  skos:altLabel "Transparency"@en ;
+  rdfs:comment "Honesty in action: operating so that others can see what one does. Its sibling CandorDisposition is frankness in speech. D-012 gave transparency this home when it narrowed OpennessDisposition."@en ;
+  skos:example "A person's standing inclination, as a club treasurer, to publish the accounts to all members."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#TransparencyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#TrustDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to have a firm belief in the reliability, truth, ability, or strength of someone or something."@en ;
+  rdfs:label "Trust Disposition"@en ;
+  skos:altLabel "Trust"@en ;
+  rdfs:comment "Firm confidence in the reliability, truth, ability, or strength of someone or something. FaithDisposition places confidence without requiring proof, while trust rests on some grounds for it (D-012). TrustworthinessDisposition is deserving trust, not placing it."@en ;
+  skos:example "A person's standing inclination to leave their house keys with a long-standing neighbor while away."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#TrustDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CourageDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#StimulationDisposition> ;
+  skos:definition "A personal value disposition to face and deal with danger, difficulty, or pain without being overcome by fear."@en ;
+  rdfs:label "Courage Disposition"@en ;
+  skos:altLabel "Courage"@en, "Bravery"@en ;
+  rdfs:comment "Facing danger, difficulty, or pain without being overcome by fear. 'Bravery' is an alternative label; 'fearless' and 'valor' only correspond, because fearlessness lacks the fear courage acts despite, and valor is courage in battle (D-014). BoldnessDisposition is its forward, risk-taking form."@en ;
+  skos:example "A person's standing inclination to report a colleague's misconduct despite fearing the consequences for their career."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CourageDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#BoldnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CourageDisposition> ;
+  skos:definition "A courage disposition to take risks and act with confidence and forwardness."@en ;
+  rdfs:label "Boldness Disposition"@en ;
+  skos:altLabel "Boldness"@en ;
+  rdfs:comment "The forward, risk-taking form of courage. CourageDisposition as a whole also covers enduring danger or pain without being overcome by fear, which need not be bold. 'Risk' corresponds to it (D-014)."@en ;
+  skos:example "A person's standing inclination to pitch an untested idea to senior management when colleagues think it too risky."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#BoldnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DiligenceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#DeterminationDisposition> ;
+  skos:definition "A determination disposition to apply careful and persistent work or effort."@en ;
+  rdfs:label "Diligence Disposition"@en ;
+  skos:altLabel "Diligence"@en ;
+  rdfs:comment "Determination in the form of careful, thorough effort. 'Accuracy', 'rigor', and 'thoroughfulness' correspond to it (D-014). Its parent persists against difficulty; diligence attends to care and thoroughness."@en ;
+  skos:example "A person's standing inclination to check every figure in a report twice before sending it."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DiligenceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#StrengthDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResilienceDisposition> ;
+  skos:definition "A resilience disposition to value and cultivate the capacity to withstand great force, pressure, or adversity."@en ;
+  rdfs:label "Strength Disposition"@en ;
+  skos:altLabel "Strength"@en ;
+  rdfs:comment "Resilience as the capacity to withstand pressure, valued and cultivated rather than simply possessed. Its parent ResilienceDisposition recovers from setbacks, and CourageDisposition faces danger despite fear."@en ;
+  skos:example "A person's standing inclination to train hard, physically and mentally, so as to hold up under pressure."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#StrengthDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EnthusiasmDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#PassionDisposition> ;
+  skos:definition "A passion disposition to feel and show intense and eager enjoyment, interest, or approval."@en ;
+  rdfs:label "Enthusiasm Disposition"@en ;
+  skos:altLabel "Enthusiasm"@en ;
+  rdfs:comment "Passion shown as eager enjoyment or approval. 'Zeal' and 'lively' correspond to it (D-014). Its parent PassionDisposition pursues activities with intense emotion; enthusiasm is that emotion shown."@en ;
+  skos:example "A person's standing inclination to throw themselves into every new club project and draw others in."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EnthusiasmDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ExcitementDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#StimulationDisposition> ;
+  skos:definition "A stimulation disposition to seek and experience feelings of great enthusiasm and eagerness."@en ;
+  rdfs:label "Excitement Disposition"@en ;
+  skos:altLabel "Excitement"@en ;
+  rdfs:comment "Seeking feelings of great enthusiasm and eagerness. 'An exciting life', a Schwartz and Rokeach value item, corresponds to it (D-014). AdventureDisposition seeks daring experiences; excitement is the feeling, whatever produces it."@en ;
+  skos:example "A person's standing inclination to choose the fast-paced job over the calm one for the thrill it gives."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ExcitementDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ExplorationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CuriosityDisposition> ;
+  skos:definition "A curiosity disposition to travel in or through an unfamiliar area in order to learn about it."@en ;
+  rdfs:label "Exploration Disposition"@en ;
+  skos:altLabel "Exploration"@en ;
+  rdfs:comment "Curiosity that travels in or through unfamiliar places to learn about them. Its sibling DiscoveryDisposition values finding things, and AdventureDisposition values daring experience whether or not anything is learned."@en ;
+  skos:example "A person's standing inclination to walk the back streets of a new city without a map."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ExplorationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ExpressivenessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#AuthenticityDisposition> ;
+  skos:definition "An authenticity disposition to effectively convey one's thoughts and feelings."@en ;
+  rdfs:label "Expressiveness Disposition"@en ;
+  skos:altLabel "Expressiveness"@en ;
+  rdfs:comment "Authenticity carried into expression: conveying what one actually thinks and feels. 'Communication' corresponds to it (D-014). CandorDisposition is frankness, which may say what is unwelcome; expressiveness is conveying oneself well."@en ;
+  skos:example "A person's standing inclination to tell their partner how an argument left them feeling, rather than letting it pass."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ExpressivenessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FlexibilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to be willing to change or compromise; adaptability."@en ;
+  rdfs:label "Flexibility Disposition"@en ;
+  skos:altLabel "Flexibility"@en, "Adaptability"@en ;
+  rdfs:comment "Willingness to change or compromise. 'Adaptability' is an alternative label; 'versatility' corresponds (D-014). SpontaneityDisposition acts on impulse, and ToleranceDisposition accepts others' views without changing one's own."@en ;
+  skos:example "A person's standing inclination to rework their plans without complaint when a project's requirements change."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FlexibilityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ImaginationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CreativityDisposition> ;
+  skos:definition "A creativity disposition to form new ideas, images, or concepts not present to the senses."@en ;
+  rdfs:label "Imagination Disposition"@en ;
+  skos:altLabel "Imagination"@en ;
+  rdfs:comment "Creativity as forming ideas and images not present to the senses. Its sibling InnovationDisposition introduces new methods or products into use."@en ;
+  skos:example "A person's standing inclination to spend evenings inventing a fictional world, with its maps and histories."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ImaginationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#IntuitionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to favor intuitive judgment, understanding reached immediately without conscious reasoning, as a guide to belief and action."@en ;
+  rdfs:label "Intuition Disposition"@en ;
+  skos:altLabel "Intuition"@en ;
+  rdfs:comment "Valuing and favoring intuitive judgment, not having an intuitive faculty (D-014). Kept on direct attestation: Scott Jeffrey lists 'Intuitive'. 'Intuitive', 'intuitiveness', and 'trust your guts' correspond to it. LogicDisposition favors explicit reasoning instead."@en ;
+  skos:example "A person's standing inclination to go with their first impression of a job candidate when the interview scores are close."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#IntuitionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#UniquenessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to value and express one's quality of being the only one of its kind."@en ;
+  rdfs:label "Uniqueness Disposition"@en ;
+  skos:altLabel "Uniqueness"@en ;
+  rdfs:comment "Valuing and expressing one's distinctiveness. 'Distinctiveness' corresponds to it (D-014). AuthenticityDisposition is fidelity to one's own character, which need not be unusual."@en ;
+  skos:example "A person's standing inclination to design their own clothes rather than buy what is in fashion."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#UniquenessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CommitmentDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition> ;
+  skos:definition "A responsibility disposition to be dedicated to a cause, activity, or person."@en ;
+  rdfs:label "Commitment Disposition"@en ;
+  skos:altLabel "Commitment"@en ;
+  rdfs:comment "Dedication to something one has taken on. DutyDisposition concerns obligations one has whether or not one chose them, and LoyaltyDisposition standing by a person, group, or cause."@en ;
+  skos:example "A person's standing inclination to keep training for a marathon they signed up for after the novelty has worn off."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CommitmentDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CompetitionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#AchievementDisposition> ;
+  skos:definition "A personal value disposition to strive to gain or win something by defeating or establishing superiority over others."@en ;
+  rdfs:label "Competition Disposition"@en ;
+  skos:altLabel "Competition"@en ;
+  rdfs:comment "Seeks to win by outdoing others. ExcellenceDisposition aims at a high standard whatever others achieve, and AmbitionDisposition seeks success and distinction by any route. 'Victory' and 'healthy competition' correspond to it (D-014)."@en ;
+  skos:example "A person's standing inclination to enter every tournament their club runs, for the chance of beating the other players."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CompetitionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ControlDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasRelatedConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#PowerDisposition> ;
+  skos:definition "A personal value disposition to seek the power to influence or direct people's behavior or the course of events."@en ;
+  rdfs:label "Control Disposition"@en ;
+  skos:altLabel "Control"@en ;
+  rdfs:comment "Seeks the power to direct people's behavior or the course of events. D-014 placed it under the general parent rather than Schwartz Power, because directing the course of events need not mean control over people or resources, and records the overlap as a related match. The definition was not narrowed to fit a parent."@en ;
+  skos:example "A person's standing inclination to take charge of planning a group trip so that it goes the way they intend."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ControlDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CourtesyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#RespectDisposition> ;
+  skos:definition "A respect disposition to show politeness in one's attitude and behavior toward others."@en ;
+  rdfs:label "Courtesy Disposition"@en ;
+  skos:altLabel "Courtesy"@en, "Politeness"@en ;
+  rdfs:comment "Respect shown through politeness in manner and speech. 'Politeness' is an alternative label (D-014). Its parent RespectDisposition covers due regard for others' feelings, wishes, rights, and traditions, of which politeness is the outward form."@en ;
+  skos:example "A person's standing inclination to thank store staff and hold doors for the people behind them."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CourtesyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DutyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition> ;
+  skos:definition "A responsibility disposition to fulfill one's moral or legal obligations."@en ;
+  rdfs:label "Duty Disposition"@en ;
+  skos:altLabel "Duty"@en ;
+  rdfs:comment "Fulfilling moral or legal obligations. Kept under D-014 on direct attestation: The Mind Fool lists 'Dutiful', which attests the value but stays a correspondence, since it fails the substitution test. CommitmentDisposition concerns what one has chosen to take on."@en ;
+  skos:example "A person's standing inclination to serve on a jury when summoned, although it disrupts their work."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DutyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#GratitudeDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition> ;
+  skos:definition "A benevolence disposition to be ready to show appreciation for and to return kindness."@en ;
+  rdfs:label "Gratitude Disposition"@en ;
+  skos:altLabel "Gratitude"@en, "Thankfulness"@en ;
+  rdfs:comment "Readiness to show appreciation for kindness and to return it. 'Thankfulness' is an alternative label; 'grace' corresponds, with ForgivenessDisposition (D-014)."@en ;
+  skos:example "A person's standing inclination to write to a former teacher years later to say what their help meant."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#GratitudeDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HopeDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#OptimismDisposition> ;
+  skos:definition "An optimism disposition to maintain a feeling of expectation and desire for a certain thing to happen."@en ;
+  rdfs:label "Hope Disposition"@en ;
+  skos:altLabel "Hope"@en ;
+  rdfs:comment "Optimism directed at a particular outcome one desires. Its parent OptimismDisposition is a hopeful and confident attitude toward the future in general."@en ;
+  skos:example "A person's standing inclination to keep applying for jobs after many rejections, expecting that one will succeed."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HopeDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HumilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#TraditionDisposition> ;
+  skos:definition "A personal value disposition to have a modest or low view of one's own importance."@en ;
+  rdfs:label "Humility Disposition"@en ;
+  skos:altLabel "Humility"@en ;
+  rdfs:comment "A modest view of one's own importance; humility is a value in Schwartz's refined theory. 'Modesty' corresponds to it (D-014). SelflessnessDisposition puts others' needs first, which does not require a modest view of oneself."@en ;
+  skos:example "A person's standing inclination to credit their team when their own work is praised."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HumilityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#MaturityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to respond to the environment in an appropriate manner, showing developed mental and emotional qualities."@en ;
+  rdfs:label "Maturity Disposition"@en ;
+  skos:altLabel "Maturity"@en ;
+  rdfs:comment "Responding to one's circumstances appropriately, with developed mental and emotional qualities. WisdomDisposition applies knowledge and judgment; maturity is concerned with fitting emotional response."@en ;
+  skos:example "A person's standing inclination to take criticism at work calmly and consider whether it is fair."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#MaturityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ProfessionalismRole>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueRole> ;
+  skos:definition "A value role borne by a person in a professional context, conferring the normative expectation to exhibit the competence, skill, and conduct appropriate for that profession."@en ;
+  rdfs:label "Professionalism Role"@en ;
+  rdfs:comment "A role grounded in practicing a profession, whose standards of competence and conduct the profession sets rather than the bearer."@en ;
+  skos:example "The role a nurse bears of keeping to clinical standards of care and confidentiality while on duty."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ProfessionalismRole> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#StatusDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#PowerDisposition> ;
+  skos:definition "A power disposition to seek a high relative social or professional standing."@en ;
+  rdfs:label "Status Disposition"@en ;
+  skos:altLabel "Status"@en ;
+  rdfs:comment "Power as social or professional standing. D-014 placed it under Schwartz Power, whose differentia, social status and prestige, it satisfies; folk Power's other former subclasses went to the general parent. RecognitionDisposition seeks acknowledgment rather than rank."@en ;
+  skos:example "A person's standing inclination to join the most exclusive club in town for the standing it confers."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#StatusDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ChastityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#DisciplineDisposition> ;
+  skos:definition "A discipline disposition to refrain from extramarital, or from all, sexual intercourse."@en ;
+  rdfs:label "Chastity Disposition"@en ;
+  skos:altLabel "Chastity"@en ;
+  rdfs:comment "Discipline applied to sexual conduct. Whether it excludes all sexual intercourse or only intercourse outside marriage depends on the code its bearer follows; the class covers both."@en ;
+  skos:example "A person's standing inclination to keep a religious vow of celibacy."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ChastityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DiscoveryDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CuriosityDisposition> ;
+  skos:definition "A curiosity disposition to value the process of finding something unexpectedly or during a search."@en ;
+  rdfs:label "Discovery Disposition"@en ;
+  skos:altLabel "Discovery"@en ;
+  rdfs:comment "Curiosity that values the finding itself. Its sibling ExplorationDisposition values traveling through the unfamiliar, whether or not anything is found."@en ;
+  skos:example "A person's standing inclination to browse used bookstores for books they did not know existed."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DiscoveryDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LeisureDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#EnjoymentDisposition> ;
+  skos:definition "An enjoyment disposition to value time free from work or other occupation."@en ;
+  rdfs:label "Leisure Disposition"@en ;
+  skos:altLabel "Leisure"@en ;
+  rdfs:comment "Enjoyment of free time as such; Rokeach's 'pleasure (an enjoyable, leisurely life)' attests it. 'Recreation' and 'relaxation' correspond to it (D-014). WorkLifeBalanceDisposition divides time between work and the rest of life; leisure values the rest."@en ;
+  skos:example "A person's standing inclination to keep Sundays unscheduled for reading and walking."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LeisureDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#MeaningDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#PurposeDisposition> ;
+  skos:definition "A purpose disposition to seek and find profound or implicit significance in life."@en ;
+  rdfs:label "Meaning Disposition"@en ;
+  skos:altLabel "Meaning"@en ;
+  rdfs:comment "Seeking profound significance in life. Its parent PurposeDisposition seeks a central aim that organizes one's goals; meaning is the significance such an aim can give."@en ;
+  skos:example "A person's standing inclination to leave a well-paid job for work they find significant."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#MeaningDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#MindfulnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CalmnessDisposition> ;
+  skos:definition "A calmness disposition to maintain a moment-by-moment awareness of one's thoughts, feelings, bodily sensations, and surrounding environment."@en ;
+  rdfs:label "Mindfulness Disposition"@en ;
+  skos:altLabel "Mindfulness"@en ;
+  rdfs:comment "Moment-by-moment awareness of one's thoughts, feelings, body, and surroundings. Kept under D-014 on concept-level attestation: Scott Jeffrey's Presence Values 'emphasize mindfulness, awareness, and inner stillness'. 'Presence', 'alertness', 'concentration', 'consciousness', and 'self-awareness' correspond to it."@en ;
+  skos:example "A person's standing inclination to pause several times a day and notice what they are feeling."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#MindfulnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PeaceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CalmnessDisposition> ;
+  skos:definition "A calmness disposition to seek freedom from disturbance, within oneself and in one's surroundings."@en ;
+  rdfs:label "Peace Disposition"@en ;
+  skos:altLabel "Peace"@en ;
+  rdfs:comment "Calmness sought as freedom from disturbance: valuing peace, not the state of being at peace. 'Inner peace' and 'silence' correspond to it (D-014). HarmonyDisposition seeks concord rather than the absence of disturbance."@en ;
+  skos:example "A person's standing inclination to spend an hour each morning in a quiet room before the household wakes."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PeaceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SensitivityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#EmpathyDisposition> ;
+  skos:definition "An empathy disposition to have a quick and delicate appreciation of others' feelings."@en ;
+  rdfs:label "Sensitivity Disposition"@en ;
+  skos:altLabel "Sensitivity"@en ;
+  rdfs:comment "Empathy in its quick and delicate form: noticing others' feelings readily. Its parent EmpathyDisposition understands and shares feelings once they are noticed."@en ;
+  skos:example "A person's standing inclination to notice that a quiet guest is uncomfortable and draw them into conversation."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SensitivityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SimplicityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to value the quality or condition of being easy to understand or do; being plain, natural, or unembellished."@en ;
+  rdfs:label "Simplicity Disposition"@en ;
+  skos:altLabel "Simplicity"@en ;
+  rdfs:comment "Valuing what is plain, natural, and easy to understand or do; Scott Jeffrey lists it. ThriftDisposition avoids waste; simplicity avoids embellishment and complication."@en ;
+  skos:example "A person's standing inclination to furnish their home sparsely and keep few possessions."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SimplicityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SustainabilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition> ;
+  vn-core:hasBroaderConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition> ;
+  skos:definition "A responsibility disposition to seek the maintenance of ecological balance by avoiding depletion of natural resources."@en ;
+  rdfs:label "Sustainability Disposition"@en ;
+  skos:altLabel "Sustainability"@en ;
+  rdfs:comment "Responsibility for ecological balance, avoiding depletion of natural resources. 'Stewardship' corresponds to it (D-014). ThriftDisposition avoids waste for one's own sake; sustainability avoids it for the environment's."@en ;
+  skos:example "A person's standing inclination to repair appliances rather than replace them, and to cycle instead of driving."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SustainabilityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HealthDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to protect and maintain bodily and mental health."@en ;
+  rdfs:label "Health Disposition"@en ;
+  skos:altLabel "Health"@en ;
+  rdfs:comment "Valuing health, not being healthy: a person in poor health can hold this disposition, and a healthy one can lack it. Schwartz treats health as a value whose meaning varies across cultures. Trait and state words such as vitality and fitness correspond to it in the mapping layer without naming it (D-014)."@en ;
+  skos:example "A person's standing inclination to keep up exercise and medical check-ups through a demanding year because staying well matters to them."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HealthDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#IntelligenceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to seek the development, possession, or exercise of intellectual ability."@en ;
+  rdfs:label "Intelligence Disposition"@en ;
+  skos:altLabel "Intelligence"@en ;
+  rdfs:comment "Valuing intellectual ability, as Rokeach's instrumental value 'intellectual' does, rather than having it. Distinguished from LearningDisposition, which values acquiring knowledge or skill, and from CuriosityDisposition, which values exploring what is new: this disposition values the ability itself."@en ;
+  skos:example "A person's standing inclination to choose the harder course of study for the chance to sharpen their reasoning."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#IntelligenceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ModerationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to avoid excess and extremes in consumption, feeling and action."@en ;
+  rdfs:label "Moderation Disposition"@en ;
+  skos:altLabel "Moderation"@en ;
+  rdfs:comment "Aims at a measure between too much and too little. Distinguished from DisciplineDisposition, which trains conduct to a code or restrains impulses: moderation needs no code, and a disciplined person can follow a code to excess."@en ;
+  skos:example "A person's standing inclination to stop after one drink at a celebration where no one is counting, because more would be too much."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ModerationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#WealthDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  vn-core:hasRelatedConceptualMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#PowerDisposition> ;
+  skos:definition "A personal value disposition to seek the acquisition or retention of financial and material wealth."@en ;
+  rdfs:label "Wealth Disposition"@en ;
+  skos:altLabel "Wealth"@en ;
+  rdfs:comment "Placed under the general personal-value parent rather than Schwartz Power, because wealth can be valued for security, independence or family as much as for power; Schwartz's survey item 'wealth' indicates Power, and is recorded as a related match rather than a parent (D-014)."@en ;
+  skos:example "A person's standing inclination to take the better-paid of two job offers, over the one with more congenial work, in order to build up savings and property."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#WealthDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PatriotismDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#LoyaltyDisposition> ;
+  skos:definition "A loyalty disposition that concerns commitment to and special concern for the bearer's country or political community."@en ;
+  rdfs:label "Patriotism Disposition"@en ;
+  skos:altLabel "Patriotism"@en ;
+  rdfs:comment "Loyalty whose object is one's own country or political community. It carries no claim that the country is superior to others, which is what distinguishes patriotism from nationalism (D-014)."@en ;
+  skos:example "A person's standing inclination to help rebuild their town after a flood, and to vote in every election, out of attachment to their country."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PatriotismDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#WorkLifeBalanceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#BalanceDisposition> ;
+  skos:definition "A balance disposition that concerns maintaining an appropriate allocation of time, attention, or effort between occupational and non-occupational domains."@en ;
+  rdfs:label "Work-Life Balance Disposition"@en ;
+  skos:altLabel "Work-Life Balance"@en ;
+  rdfs:comment "The case of BalanceDisposition that divides a life between work and everything else; BalanceDisposition itself concerns equilibrium among all the aspects of a life."@en ;
+  skos:example "A person's standing inclination to decline routine evening meetings in order to be home for dinner, while giving the job full attention during working hours."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#WorkLifeBalanceDisposition> .

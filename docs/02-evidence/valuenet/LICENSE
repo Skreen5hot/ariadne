@@ -1,0 +1,119 @@
+# Licensing
+
+This repository holds material with four different licensing
+dispositions. Which one governs a given file is **derived from recorded
+provenance**, not from a list maintained by hand: run
+
+    python tools/licensing/disposition.py
+
+to print the disposition of every tracked file, or
+
+    python tools/licensing/disposition.py --list project-content
+
+to list one category. `tests/licensing/test_disposition.py` requires every
+tracked file to fall under exactly one.
+
+---
+
+## 1. Project-authored content — CC BY 4.0
+
+The BFO-aligned ontology modules, their annotations, project
+documentation, diagrams, and site content.
+
+    SPDX-License-Identifier: CC-BY-4.0
+
+Full text: [LICENSES/CC-BY-4.0.txt](LICENSES/CC-BY-4.0.txt).
+Summary: <https://creativecommons.org/licenses/by/4.0/>
+
+You may share and adapt this material, including commercially, provided
+you give appropriate credit.
+
+## 2. Project-authored software — Apache License 2.0
+
+Code, tests, build tools, generators, checkers, repository
+configuration, and CI workflows.
+
+    SPDX-License-Identifier: Apache-2.0
+
+Full text: [LICENSES/Apache-2.0.txt](LICENSES/Apache-2.0.txt).
+
+Apache-2.0 is permissive and includes an express patent grant.
+
+## 3. Third-party material — under its own licence
+
+Vendored upstream dependencies, redistributed under the terms their
+authors set. This repository grants nothing over them and changes
+nothing about them.
+
+| material | licence | full text |
+|---|---|---|
+| Basic Formal Ontology (BFO) | CC BY 4.0 | [LICENSES/CC-BY-4.0.txt](LICENSES/CC-BY-4.0.txt) |
+| Common Core Ontologies (CCO) extract | BSD-3-Clause | [LICENSES/BSD-3-Clause.txt](LICENSES/BSD-3-Clause.txt) |
+
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+## 4. Original ValueNet material — no licence identified, no rights granted
+
+The original ValueNet corpus, trigger frames, folk-value fragments, and
+associated data descend from upstream work whose licence this repository
+has **not been able to identify**.
+
+**No rights are granted over this material by this repository.** Nothing
+here relicenses it, and its presence in this repository is not a
+statement that it may be reused. It is excluded from the public download
+bundle until its redistribution terms are established. If you want to use
+it, establish the terms with the upstream authors.
+
+This is the largest category in the repository by file count. That is a
+fact about where ValueNet came from, not an oversight.
+
+---
+
+## Why the split
+
+The two project licences are the most permissive terms this project can
+lawfully grant: broad reuse including commercial use and modification,
+with attribution. No NonCommercial, NoDerivatives, ShareAlike,
+source-availability, or field-of-use restriction is imposed.
+
+"Most permissive" is bounded by what is ours to grant. It does not
+extend to third-party material and does not extend to upstream content
+whose terms are unknown — relicensing either by omission would be the
+opposite of permissive.
+
+## How a file's disposition is decided
+
+From **recorded provenance plus explicit owner adjudications**.
+
+Provenance does most of the work: `config/move-manifest.yaml` records
+each file's origin, frozen and reviewed before this licensing work
+began. A tracked file the manifest does not mention is confirmed absent
+from a recorded upstream snapshot before it is treated as fork-authored.
+
+That snapshot is a specific commit, named in
+`config/upstream-snapshot.yaml`, and never a branch. A remote-tracking
+branch moves when somebody else pushes, which would let the licence of a
+file here change with no commit in this repository and let two clones
+disagree about the same file. The snapshot is an ancestor of this
+repository's history, so any full clone can reproduce the classification
+with no remote configured.
+
+Provenance answers where a file came from. A licence question asks who
+wrote what is there now, and occasionally those diverge. Where they do,
+the answer is a judgement rather than a measurement, so it is made once,
+by the owner, for a named file, and recorded in `ADJUDICATIONS` in
+`tools/licensing/disposition.py` with the evidence it rests on. The
+historical origin is preserved, never rewritten.
+
+There is currently one adjudication:
+
+| file | ruling | evidence |
+|---|---|---|
+| `README.md` | project content, CC BY 4.0 | rewritten in full at commit `39a8001`; shares one line with the upstream original, and that line is a bare markdown code fence |
+
+This is deliberately **not** a similarity threshold. A rule of the form
+"below N% shared lines counts as fork-authored" would apply itself to
+files nobody adjudicated, and relicensing somebody else's work by
+heuristic is the failure the whole classifier exists to avoid. Every
+other file descended from upstream ValueNet — the folk fragments among
+them — remains unresolved and excluded, and a test asserts exactly that.

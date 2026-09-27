@@ -1,0 +1,329 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vn-core: <https://fandaws.com/ontology/bfo/valuenet-core#> .
+
+<https://fandaws.com/ontology/bfo/valuenet-core.owl>
+  a owl:Ontology ;
+  dc:license <https://creativecommons.org/licenses/by/4.0/> ;
+  owl:versionIRI <https://fandaws.com/ontology/bfo/1.0/valuenet-core.owl> ;
+  owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.ttl> ,
+    <https://fandaws.com/ontology/imports/cco-valuenet-extract/2.2-2026-09-16-d005> ;
+  dc:title "ValueNet Core Ontology (BFO-Aligned)"@en ;
+  dc:description "The core module of the BFO-aligned ValueNet suite. It defines the top-level entities for modeling human values as BFO realizable entities."@en ;
+  rdfs:comment "This ontology refactors the original ValueNet (which used DUL) into a realist framework based on BFO 2020."@en ,
+    "Namespace policy: https://fandaws.com/ontology/bfo/valuenet-<module># is the canonical namespace for every entity in this suite. These IRIs are identifiers: they are not currently HTTP-dereferenceable, and nothing should assume that resolving one returns a definition. The https://w3id.org/valuenet/<module># IRIs that appear throughout as rdfs:seeAlso are reserved aliases and are not currently registered; nothing should be declared under them, and no query should rely on them."@en .
+
+#################################################################
+#    Annotation-only ontology-entity mapping vocabulary
+#################################################################
+
+vn-core:ontologyEntityMapping
+  a owl:AnnotationProperty ;
+  rdfs:label "ontology entity mapping"@en ;
+  skos:definition "An annotation property that records a reviewed correspondence between ontology entities without asserting identity, class inclusion, property inclusion, or that either entity is an individual."@en ;
+  rdfs:comment "D-003 reserves canonical SKOS mapping properties for distinct skos:Concept individuals. This project-local annotation vocabulary may instead annotate OWL classes and properties directly without creating an OWL individual layer."@en ;
+  skos:example "Never asserted itself. An assertion of one of its three subproperties is an assertion of it, such as folk:OpennessDisposition hasBroaderConceptualMatch schwartz-values:SelfDirectionDisposition."@en .
+
+vn-core:hasBroaderConceptualMatch
+  a owl:AnnotationProperty ;
+  rdfs:subPropertyOf vn-core:ontologyEntityMapping ;
+  rdfs:label "has broader conceptual match"@en ;
+  skos:definition "An annotation property that records a reviewed conceptual correspondence whose target supplies a broader organizing category for the source."@en ;
+  rdfs:comment "This annotation does not assert rdfs:subClassOf, extension inclusion, or a SKOS concept relation. Use rdfs:subClassOf only after a universal-to-universal inclusion review."@en ;
+  skos:example "folk:OpennessDisposition hasBroaderConceptualMatch schwartz-values:StimulationDisposition."@en .
+
+vn-core:hasRelatedConceptualMatch
+  a owl:AnnotationProperty ;
+  rdfs:subPropertyOf vn-core:ontologyEntityMapping ;
+  rdfs:label "has related conceptual match"@en ;
+  skos:definition "An annotation property that records a reviewed non-hierarchical conceptual association between ontology entities."@en ;
+  rdfs:comment "This annotation asserts neither identity nor extension inclusion and does not turn its subject or object into an individual."@en ;
+  skos:example "moral-epistemics:ProtectiveAction hasRelatedConceptualMatch HaidtValues#Care."@en .
+
+vn-core:historicallyCorrespondsTo
+  a owl:AnnotationProperty ;
+  rdfs:subPropertyOf vn-core:ontologyEntityMapping ;
+  rdfs:label "historically corresponds to"@en ;
+  skos:definition "An annotation property that links a ValueNet ontology entity to a legacy or predecessor ontology entity from which it was refactored or with which it has a documented historical correspondence."@en ;
+  rdfs:comment "A historical correspondence may cross BFO categories and supplies provenance and query continuity only; it asserts no class, property, or individual identity and no extension relation."@en ;
+  skos:example "moral-foundations:CareDisposition historicallyCorrespondsTo HaidtValues#Care."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#ValueRelatedRealizableEntity>
+  a owl:Class ;
+  rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000017> ;
+  owl:equivalentClass [
+    a owl:Class ;
+    owl:unionOf (
+      <https://fandaws.com/ontology/bfo/valuenet-core#ValueDisposition>
+      <https://fandaws.com/ontology/bfo/valuenet-core#ValueRole>
+    )
+  ] ;
+  rdfs:label "value-related realizable entity"@en ;
+  skos:definition "A realizable entity that inheres in an agent and whose characteristic realizations are processes in which that agent appraises, chooses, feels, or acts in accordance with a standing evaluative orientation by which kinds of actions, relationships, states, or outcomes are treated as good, right, worthy, or preferable."@en ;
+  rdfs:comment "Under D-001 this class is exhaustive over ValueDisposition and ValueRole. 'Standing evaluative orientation' distinguishes these entities from transient desires, occurrent judgments, ordinary capabilities, and position roles whose realization has no evaluative differentia."@en ;
+  skos:example "An honesty disposition; a protector role."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#ValueDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueRelatedRealizableEntity>, <http://purl.obolibrary.org/obo/BFO_0000016> ;
+  rdfs:label "value disposition"@en ;
+  skos:altLabel "value"@en ;
+  skos:definition "A disposition that inheres in an agent in virtue of the agent's physical make-up and whose characteristic realizations are processes in which the agent appraises, chooses, feels, or acts in accordance with a standing evaluative orientation toward kinds of actions, relationships, states, or outcomes."@en ;
+  skos:example "A disposition towards benevolence, a disposition to seek security."@en ;
+  rdfs:comment "A disposition rather than a role: it is grounded in how its bearer is, and would persist if the bearer's social circumstances changed. Contrast ValueRole. Its two specializations, MoralValueDisposition and PersonalValueDisposition, are not disjoint."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#ValueRole>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueRelatedRealizableEntity>, <http://purl.obolibrary.org/obo/BFO_0000023> ;
+  rdfs:label "value role"@en ;
+  skos:definition "A role that inheres in an agent because the agent occupies a contingent social or institutional circumstance and whose characteristic realizations are processes in which the agent exemplifies a mode of conduct that the relevant community or institution evaluates as good, right, or worthy for an occupant of that circumstance."@en ;
+  skos:example "The role of being a 'loyal employee', the role of a 'good citizen'."@en ;
+  rdfs:comment "A role rather than a disposition: it exists because of a circumstance its bearer occupies and ends when that circumstance does, though the bearer is otherwise unchanged. Contrast ValueDisposition. One agent may bear both a value disposition and a value role of related content, such as a care disposition and a protector role."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#MoralValueDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueDisposition> ;
+  rdfs:label "moral value disposition"@en ;
+  skos:altLabel "moral value"@en ;
+  skos:definition "A value disposition whose characteristic realizations are processes in which the bearer appraises or governs conduct as right, wrong, obligatory, permitted, or forbidden."@en ;
+  rdfs:comment "MoralValueDisposition and PersonalValueDisposition are not declared disjoint: a disposition may guide trans-situational choice while also governing conduct under moral standards."@en ;
+  skos:example "A care disposition, realized in judging cruelty to be wrong; a fairness disposition, realized in objecting to an unequal share."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#ValueDisposition> ;
+  rdfs:label "personal value disposition"@en ;
+  skos:altLabel "personal value"@en ;
+  skos:definition "A value disposition whose characteristic realizations are processes in which the bearer selects or pursues kinds of actions, relationships, states, or outcomes as preferred ends or means across situations."@en ;
+  rdfs:comment "'Personal' identifies the disposition's trans-situational guidance of its bearer; it does not restrict the disposition to self-regarding ends and does not exclude moral value dispositions."@en ;
+  skos:example "An achievement disposition, realized in choosing demanding work where competence is recognized; an honesty disposition, realized in telling a friend an unwelcome truth."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#ValueRealizationProcess>
+  a owl:Class ;
+  rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000015> ;
+  owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+      <http://purl.obolibrary.org/obo/BFO_0000015>
+      [ a owl:Restriction ;
+        owl:onProperty <http://purl.obolibrary.org/obo/BFO_0000055> ;
+        owl:someValuesFrom <https://fandaws.com/ontology/bfo/valuenet-core#ValueRelatedRealizableEntity> ]
+    )
+  ] ;
+  rdfs:label "value realization process"@en ;
+  skos:definition "A process that realizes some value-related realizable entity."@en ;
+  skos:example "A process of helping someone in need, which realizes a benevolence disposition. A process of voting, which may realize a 'good citizen' role."@en ;
+  rdfs:comment "Defined by necessary and sufficient conditions so that a reasoner can classify any BFO process that realizes at least one ValueRelatedRealizableEntity. Annotation integrity additionally requires the realized entity's recorded bearer to participate in the process; that closed-world condition is enforced in valuenet-core-shapes.ttl rather than OWL."@en .
+skos:definition
+  a owl:AnnotationProperty .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#contravenes>
+  a owl:ObjectProperty ;
+  rdfs:domain <http://purl.obolibrary.org/obo/BFO_0000015> ;
+  rdfs:range <https://fandaws.com/ontology/bfo/valuenet-core#ValueRelatedRealizableEntity> ;
+  rdfs:label "contravenes"@en ;
+  skos:definition "A relation between a process and a value-related realizable entity that holds when the process runs contrary to the characteristic realization of that entity by its bearer."@en ;
+  vn-core:historicallyCorrespondsTo <https://w3id.org/spice/SON/HaidtValues#violates> ;
+  rdfs:comment "The BFO-aligned successor to the dyadic violation structure of the original MFT module (mft:violates, mft:opposedTo, mft:Violation), which the BFO refactor did not carry over. A process cannot bfo:realize a value it violates, so violation requires a relation of its own."@en ,
+    "Justified as a project-local extension in D-010, against the CCO alternatives: disrupts (ont00001888) and inhibits (ont00001959) relate two processes, so they need a value-realizing process to act on, and a contravened value need not be realized at all; realization records the opposite relation; and a norm is information content, which no agent bears, so it cannot answer which acts run against a value the acting agent bears. The object is a particular realizable entity borne by some agent, not a norm. Questions about violating a norm are asked of vn-me:MoralNormICE."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#contravenes> ;
+  skos:example "A rash judgment made by an agent contravenes that agent's own justice disposition."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#ValueViolationProcess>
+  a owl:Class ;
+  rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000015> ;
+  owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+      <http://purl.obolibrary.org/obo/BFO_0000015>
+      [ a owl:Restriction ;
+        owl:onProperty <https://fandaws.com/ontology/bfo/valuenet-core#contravenes> ;
+        owl:someValuesFrom <https://fandaws.com/ontology/bfo/valuenet-core#ValueRelatedRealizableEntity> ]
+    )
+  ] ;
+  rdfs:label "value violation process"@en ;
+  skos:definition "A process that contravenes some value-related realizable entity, whether that entity inheres in a participant in the process or in another agent."@en ;
+  skos:example "An act of cheating, which contravenes a fairness disposition. An act of rash judgment, which contravenes a justice disposition."@en ;
+  rdfs:comment "Deliberately NOT disjoint with ValueRealizationProcess: a single process may realize one value while contravening another, which is the ordinary shape of a moral trade-off. Defined (owl:equivalentClass) so that a reasoner classifies violations automatically from their contravenes axioms."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#ValueViolationProcess> .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#TextualRepresentation>
+  a owl:Class ;
+  rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000031> ,
+    [ a owl:Restriction ;
+      owl:onProperty <http://purl.obolibrary.org/obo/BFO_0000084> ;
+      owl:someValuesFrom <https://www.commoncoreontologies.org/ont00000253>
+    ] ;
+  owl:disjointWith <https://www.commoncoreontologies.org/ont00000958> ;
+  rdfs:label "textual representation"@en ;
+  skos:definition "A generically dependent continuant that is one exact sequence of Unicode code points and that generically depends on at least one information bearing entity."@en ;
+  rdfs:comment "A changed string is a different TextualRepresentation. Its information-bearing carrier is a distinct individual linked to it by BFO_0000101 (is carrier of), and one representation may have several carriers. Text-span selector offsets are measured against it."@en ,
+    "Form, not content (D-005). CCO subtypes information content entities by what they are about; a representation is individuated by its exact sequence, a level CCO's information model has no class for, so it is placed directly under BFO generically dependent continuant. CCO defines information content entity as equivalent to a generically dependent continuant that is about some entity, and this class is disjoint with information content entity (D-011): asserting that a representation is about something, through cco:is about or any subproperty such as designates or describes, makes the data inconsistent. Relate a representation to what it expresses through a content-level information content entity instead."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#TextualRepresentation> ;
+  skos:example "The exact string of version 1 of a family interview transcript, 108 code points long, carried by a file on disk."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#TextSpan>
+  a owl:Class ;
+  rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000031> ;
+  owl:disjointWith <https://www.commoncoreontologies.org/ont00000958> ;
+  rdfs:label "text span"@en ;
+  skos:definition "A generically dependent continuant that is a continuant part of exactly one textual representation and is individuated by a contiguous interval of code-point positions in that representation."@en ;
+  skos:example "The span 'published the story to expose the corruption' within a news article."@en ;
+  rdfs:comment "A TextSpan is form, not its carrier and not its numeric selector. Record offsets on a TextSpanSelector whose source is the exact TextualRepresentation."@en ,
+    "Individuated by position, not by its string (D-005): the same substring at two positions of one representation is two spans with the same hasTextualSequenceValue, and every selector of one span must give the same offsets. Not a subclass of TextualRepresentation, and not an evidence source by classification: it is evidence when an isEvidenceFor assertion or a ValueEvidenceAnnotation says so. Disjoint with information content entity (D-011): a span may be designated by a selector, but a span that is asserted to be about or to designate something makes the data inconsistent."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#TextSpan> .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#TextSpanSelector>
+  a owl:Class ;
+  rdfs:subClassOf <https://www.commoncoreontologies.org/ont00000686> ;
+  rdfs:label "text span selector"@en ;
+  skos:definition "A designative information content entity that identifies one text span within one exact textual representation by a zero-based, end-exclusive pair of Unicode code-point offsets."@en ;
+  rdfs:comment "Offsets are interpreted against the exact xsd:string carried by vn-core:hasTextualSequenceValue on the selected TextualRepresentation. No Unicode normalization or line-ending transformation is implicit."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#TextSpanSelector> ;
+  skos:example "The selector recording that the span 'you could just tell he had bad intentions' begins at code point 67 and ends before code point 108 of version 1 of a family interview transcript."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#ValueEvidenceAnnotation>
+  a owl:Class ;
+  rdfs:subClassOf <https://www.commoncoreontologies.org/ont00000853> ;
+  rdfs:label "value evidence annotation"@en ;
+  skos:definition "A descriptive information content entity that records an annotation assertion connecting one text span, one selector of that span, and one process for which the span supplies evidence."@en ;
+  rdfs:comment "This annotation record is distinct from the text span, the exact textual representation, and every physical or digital information-bearing carrier."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#ValueEvidenceAnnotation> ;
+  skos:example "The annotation recording that the span 'kept an eye on him and made sure he was never alone with the kids', at code points 0 to 65 of an interview transcript, is evidence for a protective action."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#isEvidenceFor>
+  a owl:AnnotationProperty ;
+  rdfs:label "is evidence for"@en ;
+  rdfs:comment "A relation that links an approved ValueNet evidence subject—currently a TextSpan or ValueEvidenceAnnotation—to a BFO process for which it provides evidence."@en ;
+  skos:definition "An annotation property that links a TextSpan or ValueEvidenceAnnotation to a BFO process for which it supplies evidence."@en ;
+  rdfs:comment "The BFO-aligned replacement for the original ValueNet vcvf:triggers property. Specified in Phase4_LinguisticGrounding.md; kept an annotation property so that linking linguistic data to reality carries no logical commitment about the text itself."@en ;
+  rdfs:isDefinedBy <https://fandaws.com/ontology/bfo/valuenet-core.owl> ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#isEvidenceFor> ;
+  skos:example "A value evidence annotation isEvidenceFor a rash judgment act."@en .
+
+#################################################################
+#    Text span content, provenance, and the lexical bridge
+#
+#    Without these a vn-core:TextSpan can be pointed at but cannot
+#    carry the text it delimits, say where that text came from, or
+#    reach the existing MFTriggers lexical data.
+#################################################################
+
+<https://fandaws.com/ontology/bfo/valuenet-core#hasTextualSequenceValue>
+  a owl:DatatypeProperty ;
+  rdfs:domain [ a owl:Class ;
+    owl:unionOf ( <https://fandaws.com/ontology/bfo/valuenet-core#TextualRepresentation> <https://fandaws.com/ontology/bfo/valuenet-core#TextSpan> )
+  ] ;
+  rdfs:range <http://www.w3.org/2001/XMLSchema#string> ;
+  rdfs:label "has textual sequence value"@en ;
+  skos:definition "Relates a textual representation or a text span to the string that expresses its exact sequence of Unicode code points."@en ;
+  rdfs:comment "Use this rather than rdfs:label to carry span content. A label names an entity for a reader; the text value is the datum being annotated."@en ,
+    "Not a duplicate of CCO has text value (ont00001765), whose domain is information bearing entity: that property places strings on carriers, and applied to a form-level representation or span it is inconsistent, because BFO makes independent and generically dependent continuants disjoint (D-005). Where a consumer needs CCO's bearer-level strings, derive them by query through BFO_0000101 (is carrier of) rather than authoring them."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#hasTextualSequenceValue> ;
+  skos:example "A text span hasTextualSequenceValue 'you could just tell he had bad intentions'."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#isTextSpanOf>
+  a owl:ObjectProperty ;
+  rdfs:subPropertyOf <http://purl.obolibrary.org/obo/BFO_0000176> ;
+  rdfs:domain <https://fandaws.com/ontology/bfo/valuenet-core#TextSpan> ;
+  rdfs:range <https://fandaws.com/ontology/bfo/valuenet-core#TextualRepresentation> ;
+  rdfs:label "is text span of"@en ;
+  skos:definition "A specialization of BFO continuant part of that relates a text span to the exact textual representation of which it is a content part."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#isTextSpanOf> ;
+  rdfs:comment "Specializes BFO continuant part of (BFO_0000176), not a proper-part relation: BFO 2020 core supplies none, and a span may cover its whole representation (D-005). The core shapes require exactly one named representation per span."@en ;
+  skos:example "The span 'you could just tell he had bad intentions' isTextSpanOf version 1 of a family interview transcript."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#hasSourceRepresentation>
+  a owl:ObjectProperty ;
+  rdfs:domain <https://fandaws.com/ontology/bfo/valuenet-core#TextSpanSelector> ;
+  rdfs:range <https://fandaws.com/ontology/bfo/valuenet-core#TextualRepresentation> ;
+  rdfs:label "has source representation"@en ;
+  skos:definition "Relates a text span selector to the exact textual representation whose coordinate space its offsets use."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#hasSourceRepresentation> ;
+  rdfs:comment "Names the coordinate space of the selector's offsets. The core shapes require exactly one, and require it to be the representation the selected span is part of."@en ;
+  skos:example "A selector hasSourceRepresentation version 1 of a family interview transcript, against whose exact string its offsets are counted."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#selectsTextSpan>
+  a owl:ObjectProperty ;
+  rdfs:subPropertyOf <https://www.commoncoreontologies.org/ont00001916> ;
+  rdfs:domain <https://fandaws.com/ontology/bfo/valuenet-core#TextSpanSelector> ;
+  rdfs:range <https://fandaws.com/ontology/bfo/valuenet-core#TextSpan> ;
+  rdfs:label "selects text span"@en ;
+  skos:definition "Relates a text span selector to the text span it identifies."@en ;
+  rdfs:comment "Specializes CCO designates (ont00001916) rather than being replaced by it (D-005 item 8): a CCO consumer asking what a selector designates reaches the span, while the local property keeps the TextSpan range that the shapes and the competency questions rely on."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#selectsTextSpan> ;
+  skos:example "The selector at code points 67 to 108 of a transcript selectsTextSpan the span 'you could just tell he had bad intentions'."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#hasEvidenceSource>
+  a owl:ObjectProperty ;
+  rdfs:domain <https://fandaws.com/ontology/bfo/valuenet-core#ValueEvidenceAnnotation> ;
+  rdfs:range <https://fandaws.com/ontology/bfo/valuenet-core#TextSpan> ;
+  rdfs:label "has evidence source"@en ;
+  skos:definition "Relates a value evidence annotation to the text span that supplies its linguistic evidence."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#hasEvidenceSource> ;
+  rdfs:comment "Names the part a span plays for this annotation, not a class of spans: a span is evidence only when an annotation or an isEvidenceFor assertion says so (R10). The core shapes require exactly one named span, and require the annotation's selector to select that same span."@en ;
+  skos:example "A value evidence annotation hasEvidenceSource the span 'you could just tell he had bad intentions'."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#hasSelector>
+  a owl:ObjectProperty ;
+  rdfs:domain <https://fandaws.com/ontology/bfo/valuenet-core#ValueEvidenceAnnotation> ;
+  rdfs:range <https://fandaws.com/ontology/bfo/valuenet-core#TextSpanSelector> ;
+  rdfs:label "has selector"@en ;
+  skos:definition "Relates a value evidence annotation to the text span selector that fixes the span's coordinates in an exact representation."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#hasSelector> ;
+  rdfs:comment "The core shapes require exactly one named selector, and require it to select the annotation's evidence span, so the recorded coordinates and the recorded span cannot disagree."@en ;
+  skos:example "A value evidence annotation hasSelector the selector placing its span at code points 67 to 108 of a transcript."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#hasStartOffset>
+  a owl:DatatypeProperty ;
+  rdfs:domain <https://fandaws.com/ontology/bfo/valuenet-core#TextSpanSelector> ;
+  rdfs:range <http://www.w3.org/2001/XMLSchema#nonNegativeInteger> ;
+  rdfs:label "has start offset"@en ;
+  skos:definition "The zero-based Unicode code-point offset at which a selector's text span begins within its exact source representation."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#hasStartOffset> ;
+  rdfs:comment "Zero-based and inclusive: a representation's first code point is at 0. Recorded on the selector, never on the span. The core shapes require exactly one start and one end offset, with the start less than the end."@en ;
+  skos:example "0, on the selector for 'kept an eye on him and made sure he was never alone with the kids' at the start of a transcript."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#hasEndOffset>
+  a owl:DatatypeProperty ;
+  rdfs:domain <https://fandaws.com/ontology/bfo/valuenet-core#TextSpanSelector> ;
+  rdfs:range <http://www.w3.org/2001/XMLSchema#nonNegativeInteger> ;
+  rdfs:label "has end offset"@en ;
+  skos:definition "The zero-based Unicode code-point offset, exclusive, at which a selector's text span ends within its exact source representation."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#hasEndOffset> ;
+  rdfs:comment "Exclusive, so a span's length is its end offset minus its start offset, and a span covering a whole representation ends at that representation's length in code points. The core shapes reject an end offset beyond the source's length."@en ;
+  skos:example "65, on the selector for 'kept an eye on him and made sure he was never alone with the kids', a string 65 code points long that begins at 0."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#evokesFrame>
+  a owl:ObjectProperty ;
+  rdfs:domain <https://fandaws.com/ontology/bfo/valuenet-core#TextSpan> ;
+  rdfs:label "evokes frame"@en ;
+  skos:definition "A relation between a text span and a semantic frame that the span's lexical material evokes, as produced by a frame-semantic parser."@en ;
+  rdfs:comment "The bridge from BFO-aligned annotation to the existing ValueNet trigger data. A frame reached by this property is the subject of the vcvf:triggers statements in MFTriggers, whose objects are Haidt values, which the BFO-aligned dispositions reach by vn-core:historicallyCorrespondsTo in valuenet-mappings. Text span -> frame -> Haidt value -> ValueDisposition."@en ,
+    "Querying MFTriggers: the corpus holds 12,338 distinct vcvf:triggers statements, all under http://www.ontologydesignpatterns.org/ont/values/valuecore_with_value_frames.owl#, the namespace ValueCore itself declares. This was consolidated from two rival bindings, so a single prefix now suffices where a UNION was previously required."@en ;
+  rdfs:comment "No range is asserted: frames are external Framester individuals (https://w3id.org/framester/framenet/abox/frame/...) and this module does not import Framester."@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/core#evokesFrame> ;
+  skos:example "The span 'kept an eye on him and made sure he was never alone with the kids' evokesFrame the FrameNet frame Protecting."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-core#isEvidenceFor>
+  rdfs:range <http://purl.obolibrary.org/obo/BFO_0000015> ;
+  rdfs:comment "The range is stated for documentation. As an annotation property axiom it is not enforced by an OWL reasoner, and the property cannot appear in class restrictions; the SHACL profile enforces the approved subject classes, named-individual identity, and process target. No domain is stated: the approved subjects, TextSpan and ValueEvidenceAnnotation, have no common named parent short of generically dependent continuant, and OWL 2 DL allows only a named class as the domain of an annotation property."@en .
+
+#################################################################
+#    Agent
+#
+#    CCO Agent and its Agent Capability definition are supplied by
+#    the pinned CCO 2.2 ValueNet extract. No local CCO term stub is
+#    maintained in this module.
+#################################################################
+
+### The realist commitment of the refactor, now stated formally:
+### a value is a property of an agent.
+<https://fandaws.com/ontology/bfo/valuenet-core#ValueRelatedRealizableEntity>
+  rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty <http://purl.obolibrary.org/obo/BFO_0000197> ;
+    owl:someValuesFrom <https://www.commoncoreontologies.org/ont00001017>
+  ] .

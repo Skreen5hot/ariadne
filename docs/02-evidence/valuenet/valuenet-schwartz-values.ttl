@@ -1,0 +1,104 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl>
+  a owl:Ontology ;
+  dc:license <https://creativecommons.org/licenses/by/4.0/> ;
+  owl:versionIRI <https://fandaws.com/ontology/bfo/1.0/valuenet-schwartz-values.owl> ;
+  owl:imports <https://fandaws.com/ontology/bfo/valuenet-core.owl> ;
+  dc:title "ValueNet Schwartz Values Module"@en ;
+  dc:description "An ontology of Shalom Schwartz's 10 Basic Human Values, modeled as BFO dispositions. This module serves as a high-level classification for the more granular folk values."@en ;
+  rdfs:comment "This module is a core component of the BFO-aligned ValueNet suite."@en .
+
+skos:definition a owl:AnnotationProperty .
+<https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SelfDirectionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  rdfs:label "Self-Direction Disposition"@en ;
+  skos:definition "A personal value disposition to seek independent thought and action—choosing, creating, exploring."@en ;
+  rdfs:comment "One of the ten basic values of Schwartz's theory, grouped with Stimulation under openness to change. It is independence of thought and action; excitement and novelty sought for their own sake are Stimulation."@en ;
+  skos:example "A person's standing inclination to work out their own view of a problem rather than adopt the accepted one."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-schwartz-values#StimulationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  rdfs:label "Stimulation Disposition"@en ;
+  skos:altLabel "Stimulation"@en ;
+  skos:definition "A personal value disposition to seek excitement, novelty, and challenge in life."@en ;
+  rdfs:comment "One of the ten basic values of Schwartz's theory, grouped with Self-Direction under openness to change. It is excitement, novelty and challenge sought for their own sake; independence of thought and action is Self-Direction."@en ;
+  skos:example "A person's standing inclination to take up activities they have never tried, such as a sport with real risk or a sudden move to another country."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-schwartz-values#HedonismDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  rdfs:label "Hedonism Disposition"@en ;
+  skos:altLabel "Hedonism"@en ;
+  skos:definition "A personal value disposition to seek pleasure and sensuous gratification for oneself."@en ;
+  rdfs:comment "One of the ten basic values of Schwartz's theory. It shares elements of both openness to change and self-enhancement, and lies between Stimulation and Achievement. Its object is pleasure for oneself; excitement and novelty are Stimulation."@en ;
+  skos:example "A person's standing inclination to choose a long, enjoyable meal with friends over an evening of extra work."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-schwartz-values#AchievementDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  rdfs:label "Achievement Disposition"@en ;
+  skos:altLabel "Achievement"@en ;
+  skos:definition "A personal value disposition to seek personal success through demonstrating competence according to social standards."@en ;
+  rdfs:comment "One of the ten basic values of Schwartz's theory, grouped with Power under self-enhancement. Achievement is success as competence demonstrated against social standards; Power is status and control over people and resources."@en ;
+  skos:example "A student's standing inclination to take the harder course because doing well in it is recognized as a sign of ability."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-schwartz-values#PowerDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  rdfs:label "Power Disposition"@en ;
+  skos:altLabel "Power"@en ;
+  skos:definition "A personal value disposition to seek social status and prestige, and control or dominance over people and resources."@en ;
+  rdfs:comment "One of the ten basic values of Schwartz's theory, grouped with Achievement under self-enhancement. Power is status and control over people and resources; success as demonstrated competence is Achievement."@en ;
+  skos:example "A person's standing inclination to seek positions that bring authority over budgets and staff."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-schwartz-values#SecurityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  rdfs:label "Security Disposition"@en ;
+  skos:altLabel "Security"@en ;
+  skos:definition "A personal value disposition to seek safety, harmony, and stability of society, of relationships, and of self."@en ;
+  rdfs:comment "One of the ten basic values of Schwartz's theory, grouped with Conformity and Tradition under conservation. It covers both personal safety and the stability of the society and relationships one belongs to."@en ;
+  skos:example "A person's standing inclination to choose a stable job over a better-paid uncertain one, and to keep savings against emergencies."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-schwartz-values#ConformityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  rdfs:label "Conformity Disposition"@en ;
+  skos:altLabel "Conformity"@en ;
+  skos:definition "A personal value disposition to restrain actions, inclinations, and impulses likely to upset or harm others and violate social expectations or norms."@en ;
+  rdfs:comment "One of the ten basic values of Schwartz's theory, grouped with Tradition and Security under conservation. Conformity restrains conduct in deference to the expectations of the people one interacts with; commitment to the customs of a culture or religion is Tradition."@en ;
+  skos:example "A person's standing inclination to hold back a sharp remark in a meeting so as not to upset colleagues."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-schwartz-values#TraditionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  rdfs:label "Tradition Disposition"@en ;
+  skos:altLabel "Tradition"@en ;
+  skos:definition "A personal value disposition to respect, be committed to, and accept the customs and ideas that traditional culture or religion provide."@en ;
+  rdfs:comment "One of the ten basic values of Schwartz's theory, grouped with Conformity and Security under conservation. Its object is the customs and ideas of a culture or religion; deference to the expectations of the people one interacts with is Conformity."@en ;
+  skos:example "A person's standing inclination to keep the family and religious customs they were raised in, such as observing holy days."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-schwartz-values#BenevolenceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  rdfs:label "Benevolence Disposition"@en ;
+  skos:altLabel "Benevolence"@en ;
+  skos:definition "A personal value disposition to preserve and enhance the welfare of those with whom one is in frequent personal contact (the 'in-group')."@en ;
+  rdfs:comment "One of the ten basic values of Schwartz's theory, grouped with Universalism under self-transcendence. Benevolence is concern for people one is in frequent personal contact with; concern for all people and for nature is Universalism."@en ;
+  skos:example "A person's standing inclination to set aside their own plans to help a sibling or a close friend in difficulty."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-schwartz-values#UniversalismDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition> ;
+  rdfs:label "Universalism Disposition"@en ;
+  skos:altLabel "Universalism"@en ;
+  skos:definition "A personal value disposition to seek understanding, appreciation, tolerance, and protection for the welfare of all people and for nature."@en ;
+  rdfs:comment "One of the ten basic values of Schwartz's theory, grouped with Benevolence under self-transcendence. Its concern extends to all people and to nature; concern for those one is in frequent contact with is Benevolence."@en ;
+  skos:example "A person's standing inclination to support protecting strangers and the natural environment even at a cost to themselves."@en .
+
