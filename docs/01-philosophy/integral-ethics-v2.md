@@ -4,7 +4,7 @@ Sep 22, 2026 · @Someone
 
 ## Status and change notice
 
-Draft v2.0, unratified. It supersedes *Integral Ethics: A Twelve-Fold Foundation for Human Flourishing*. The twelve-fold worldview taxonomy is removed as a foundation; perspectival plurality is kept as a method and grounded independently.
+Draft v2.0, unratified as a document. It supersedes *Integral Ethics: A Twelve-Fold Foundation for Human Flourishing*. The twelve-fold worldview taxonomy is removed as a foundation; perspectival plurality is kept as a method and grounded independently. The Evidence register was verified against its sources on 2026-09-26 and ratified with owner amendments on 2026-09-27 (`docs/02-evidence/`, especially `evidence-delta.md`, "Ratification record"); the claim wordings and strengths in this draft are the ratified ones.
 
 | Area | v1 (twelve-fold) | v2 (this draft) |
 | --- | --- | --- |
@@ -14,7 +14,7 @@ Draft v2.0, unratified. It supersedes *Integral Ethics: A Twelve-Fold Foundation
 | Steiner | Load-bearing | Inspiration, one paragraph of intellectual history |
 | Evidence standard | Speculative derivation | Every load-bearing claim entered in the Evidence register with strength and status |
 
-Rule for this version: no claim enters the framework without an entry in the Evidence register. A claim marked Hypothesis may be used only as a hypothesis under test.
+Rule for this version: no claim enters the framework without an entry in the Evidence register. A claim marked Hypothesis may be used only as a hypothesis under test. Strength scheme: empirical Strong / Moderate / Hypothesis; Formal (established) for exact formal results; Argued only for philosophical and normative commitments (`docs/02-evidence/README.md`).
 
 ## Disposition of v1
 
@@ -51,7 +51,7 @@ Each commitment is argued from ontology, philosophy or empirical research, and i
 
 Rudolf Steiner's perspectival philosophy was an important inspiration for Integral Ethics. His key insight was that a single standpoint can show genuine aspects of reality, yet distorts when absolutized. Developing the computational framework led away from his twelve-fold taxonomy. Integral Ethics keeps the methodological commitment to perspectival plurality. It grounds its models of cognition, value and flourishing independently, in contemporary ontology, philosophy, psychology, social science and empirical evidence.
 
-Citation correction: v1 attributes the twelve worldviews to *The Riddles of Philosophy*. They are set out in Steiner's 1914 Berlin lectures, published as *Human and Cosmic Thought* (GA 151). Verify the edition before citing.
+Citation correction (verified 2026-09-26): v1 attributes the twelve worldviews to *The Riddles of Philosophy* (GA 18), a history of world conceptions whose contents carry no twelve-fold scheme. They are set out in Steiner's four Berlin lectures of 20-23 January 1914, published as *Human and Cosmic Thought* (GA 151): Lecture 2 introduces the twelve equally justified world-outlooks with the zodiac analogy and Lecture 3 (22 January) lists all twelve with their signs and the seven soul-moods. Cite: Steiner, R. (2015). *Human and Cosmic Thought* (CW 151) (C. Davy, Trans.; 3rd ed.). Rudolf Steiner Press. In text: (Steiner, 1914/2015).
 
 The break was reached by testing, not by preference. Several successive attempts tried to validate the twelve as a structure for values: salience-first alignment (VWA), value primitive–worldview correspondence (VPWC), and the worldview realization "Dial" (WRM). Each attempt required the twelve as an input, a benchmark, or an answer-shape. None could establish them from evidence independent of the taxonomy. The framework therefore stops depending on that question.
 
@@ -63,12 +63,12 @@ There is one reality, and it can be known under many veridical but partial views
 
 **Ontological ground (BFO).** Basic Formal Ontology's SNAP/SPAN design treats continuants and occurrents as complementary views of one reality, neither reducible to the other. Granular partition theory adds that one reality admits many partitions at different grains. Each partition can be true of its domain without being complete.
 
-**Classical ground (Thomist).** Things are known according to the mode of the knower: *quidquid recipitur per modum recipientis recipitur*. Knowledge is aspect-relative, while its object remains one. A standpoint that shows one aspect truly still leaves other aspects out.
+**Classical ground (Thomist).** Things are known according to the mode of the knower. The scholastic axiom *quidquid recipitur ad modum recipientis recipitur* distils Aquinas's own wording, *cognitum est in cognoscente secundum modum cognoscentis* (ST I q.12 a.4 co.; cf. I q.75 a.5; I q.84 a.1). Knowledge is aspect-relative, while its object remains one. A standpoint that shows one aspect truly still leaves other aspects out.
 
 **Formal argument.** Any finite representation of a situation is produced by a selection over it, so it omits something. Adding a second selection increases coverage only when it is not redundant with the first. Two conclusions follow:
 
 1. No single perspective is guaranteed to capture all morally relevant features of a case (P1).
-2. More perspectives help only when they are demonstrably diverse, so diversity must be tested, not assumed (P2).
+2. Added perspectives are more useful when they contribute information or considerations not already represented, so diversity must be tested, not assumed (P2).
 
 Neither conclusion fixes the number or identity of the perspectives. That remains an empirical question; see Research questions.
 
@@ -89,6 +89,8 @@ Eight commitments carry over from v1, each now argued without the worldview deri
 
 C8 is the hinge between pluralism and realism. Plurality holds at the level of realizations. Realism holds at the level of the goods realized.
 
+The evidential form of each commitment, as verified and ratified, is the register row of the same ID below; C7's register row was split on ratification into the empirical finding (automation bias) and the design commitment that the human stays the decider.
+
 C1–C3 are v1's three meta-commitments (§4.2) with the worldview grounding removed. C6's priority rules are v1 §4.5 step 6, unchanged: necessity for flourishing, irreversibility, developmental appropriateness, individual variation.
 
 ## Cognitive perspectives as instruments
@@ -108,7 +110,7 @@ A perspective is a configuration of six cognitive operations applied to a case. 
 | Evaluation | Which goods and harms register | Single-value reduction | Value pluralism; Schwartz value structure |
 | Inquiry | Which questions get asked | Imagined rather than obtained answers | Eyal, Steffel & Epley (perspective-getting) |
 
-**Status.** Each operation is grounded separately. The six-part decomposition as a whole is a Hypothesis (H-P6). It is not yet shown to be exhaustive, independent, or better than other ways of cutting the space.
+**Status.** Each operation is grounded separately, and the groundings differ in strength after verification: framing (E2) is Strong; bounded awareness (E1), consider-the-opposite (E3), self-distancing (E6) and perspective-getting (E8) are Moderate; prospective hindsight (E4) is a Hypothesis, and the competing-hypotheses discipline (E5) stands as analytic practice whose procedure shows no accuracy gain in controlled tests (E5r). The six-part decomposition as a whole is a Hypothesis (H-P6). It is not yet shown to be exhaustive, independent, or better than other ways of cutting the space.
 
 **The perspective-getting constraint.** Imagining another person's view did not improve accuracy about that person across many experiments; asking them did. The perspective engine therefore produces questions, gap flags and alternative framings. It never simulates stakeholder testimony and then treats the simulation as evidence. Any inference about an absent person is labelled as a conjecture awaiting confirmation.
 
@@ -155,13 +157,13 @@ Every value from v1 re-enters as a candidate, not a settled item. A candidate is
 | 20 | Non-coercion | 4 Constraining | None | Constraint (C7) |
 | 21 | Transparency | 4 Constraining | None | Constraint (C7) |
 | 22 | Epistemic humility | 4 Constraining | None | Competency |
-| 23 | Limited pluralism | 4 Constraining | None | Principle (C8), not a value |
+| 23 | Limited pluralism | 4 Constraining | None | Principle (C8), not a value; retired from the value list on ratification (2026-09-27) |
 
 v1's Tier 0, Integral Consciousness, moves to Integrative ethical reasoning, carrying its citations: Commons et al. (1990), Labouvie-Vief (2003), Kegan (1994).
 
-A citation is not yet evidence of fit. Several v1 citations support a neighbouring claim rather than the stated one. Patall et al. (2008) concerns choice and intrinsic motivation, not exit rights. Cialdini & Goldstein (2004) reviews compliance, not the benefits of accountability. Protocol question 3 must test fit for each citation, not just its existence.
+A citation is not yet evidence of fit. Verification (2026-09-26) found six v1 citations that support a neighbouring claim rather than the stated one: Ardelt (2003) validates the wisdom scale (Ardelt 1997 carries the wellbeing claim); Peterson & Seligman (2004) is a classification (Park, Peterson & Seligman 2004 carries the data, and it supports gratitude but not kindness or integrity as strong correlates); Koenig (2012) merges spirituality into religion by declaration and Hood (2001) measures mysticism without showing transformation; Oishi & Diener (2001, reprinted 2009) tests goal-motive fit as a moderator, not cultural coherence; Cialdini & Goldstein (2004) reviews compliance, not accountability (Lerner & Tetlock 1999 does); Patall et al. (2008) concerns choice and intrinsic motivation, not exit rights. Ratified strengths for all 23 candidates: Strong 1 (V19, with the V10 mortality subclaim also Strong), Moderate 9, Hypothesis 6 (V05, V12, V14, V15, V16, V18), Argued only 7; V23 is retired from the value list as a principle. See `docs/02-evidence/register.md`.
 
-**ValueNet is the item base and the ontological pattern.** In the BFO-Aligned ValueNet a value is a realizable entity, a disposition or a role, borne by an agent and realized in processes. Protocol question 2 is therefore answered by the pattern for every candidate. It also splits the v1 list. Care, fairness, honesty and the other moral-foundation items are value dispositions. Material wellbeing, relationships and meaning are states or goods that dispositions aim at, not dispositions themselves. v1 called both kinds "values"; v2 keeps them apart. ValueNet's foundation/contravening-process pairs (harm contravenes care, cheating contravenes fairness, and so on) become the harms half of the Ethical Situation Model. Its 222 mapping annotations to the original ValueNet are weak by design and stay annotations here too.
+**ValueNet is the item base and the ontological pattern.** In the BFO-Aligned ValueNet a value is a realizable entity, a disposition or a role, borne by an agent and realized in processes. Protocol question 2 is therefore answered by the pattern for every candidate. It also splits the v1 list. Care, fairness, honesty and the other moral-foundation items are value dispositions. Material wellbeing, relationships and meaning are states or goods that dispositions aim at, not dispositions themselves. v1 called both kinds "values"; v2 keeps them apart. ValueNet's foundation/contravening-process pairs (harm contravenes care, cheating contravenes fairness, and so on) become the harms half of the Ethical Situation Model. Its 93 mapping statements to the original ValueNet (14 `historicallyCorrespondsTo`, 79 `hasRelatedConceptualMatch`, counted in the checksum-verified module) are weak by design and stay annotations here too.
 
 ## Integrative ethical reasoning
 
@@ -238,44 +240,46 @@ The question "are the twelve worldviews real?" is retired. The program now asks:
 
 ## Evidence register
 
-The register holds 19 load-bearing claims. Fifteen rest on strong or moderate evidence, three on philosophical argument alone, and one is an open hypothesis. Every citation was entered from recall and must be checked against the source before ratification.
+The register holds 21 entries after ratification: 19 load-bearing claims, two of which were split so that a finding and a commitment are not averaged. Three rest on strong evidence, six on moderate evidence, one is an exact formal result, eight stand on philosophical or normative argument, and three are hypotheses. Every citation was verified against its source on 2026-09-26 (`docs/02-evidence/citations/`) and the grades were ratified with owner amendments on 2026-09-27; wordings below are the ratified ones, and the pre-ratification wording is kept in the register as `claim_original`.
 
 | ID | Claim | Kind | Evidence | Strength | Citation check |
 | --- | --- | --- | --- | --- | --- |
-| F1 | No single perspective captures all morally relevant features (P1) | Logical, ontological | Grenon & Smith, SNAP and SPAN (2004); Bittner & Smith, granular partitions; Aquinas, mode of the knower | Strong | Unverified |
-| F2 | Added perspectives help only when diverse (P2) | Logical, empirical | Formal selection argument; Hong & Page, PNAS (2004), contested by Thompson (2014); Lorenz et al., PNAS (2011) | Moderate | Unverified |
-| E1 | People routinely miss available, morally relevant information | Empirical | Chugh & Bazerman (2007); Tenbrunsel & Messick (2004); Simons & Chabris (1999) | Strong | Unverified |
-| E2 | Framing changes choice with facts held fixed | Empirical | Tversky & Kahneman, Science (1981) | Strong | Unverified |
-| E3 | Structured consideration of alternatives reduces bias | Empirical | Lord, Lepper & Preston, JPSP (1984) | Strong | Unverified |
-| E4 | Prospective hindsight surfaces more reasons for failure | Empirical | Mitchell, Russo & Pennington (1989); Klein, premortem (2007) | Moderate | Unverified |
-| E5 | Holding competing explanations open improves analysis | Practice, limited controlled evidence | Heuer, Psychology of Intelligence Analysis (1999) | Moderate | Unverified |
-| E6 | Perspective-shifting improves wise reasoning | Empirical | Kross & Grossmann (2012); Grossmann et al., Psychological Inquiry (2020) | Moderate | Unverified |
-| E7 | Integrating many views outperforms single-model expertise | Empirical | Tetlock, Expert Political Judgment (2005); Mellers et al. (2014) | Strong | Unverified |
-| E8 | Asking people beats imagining their view | Empirical | Eyal, Steffel & Epley, JPSP (2018) | Strong | Unverified |
-| C1 | Flourishing is multidimensional | Philosophical, empirical | Finnis, Natural Law and Natural Rights (1980); Ryff (1989); VanderWeele, PNAS (2017); Global Flourishing Study (2025); v1 adds Ryan & Deci (2001), Keyes (2002) | Moderate | Unverified |
-| C4 | Genuine goods can conflict without one being unreal | Philosophical | Ross (1930); Berlin; Raz (1986); Chang (1997); Williams on moral remainder | Argued only | Unverified |
-| C4a | Human values show a stable structure of mutual conflict | Empirical | Schwartz (1992) and cross-national replications | Strong | Unverified |
-| C5 | No neutral aggregation of plural criteria into one ranking | Formal | Arrow, Social Choice and Individual Values (1951); Keeney & Raiffa (1976) | Strong | Unverified |
-| C6 | Irreversibility warrants extra weight under uncertainty | Formal | Arrow & Fisher, quasi-option value (1974) | Strong | Unverified |
-| C2 | Dignity acts as a side-constraint, not a quantity to trade | Philosophical | Kant; Nozick, side-constraints (1974); Aquinas, natural law | Argued only | Unverified |
-| C7 | Decision aids bias human choice; the human must stay the decider | Empirical | Parasuraman & Manzey, Human Factors (2010) | Strong | Unverified |
-| C8 | Many legitimate paths, not all equally good | Philosophical | Finnis, basic goods with many realizations | Argued only | Unverified |
-| H-P6 | The six operations are an exhaustive, efficient decomposition | Hypothesis | None yet as a whole; tested by E-PC | Hypothesis | Unverified |
+| F1 | No single perspective captures all morally relevant features (P1) | Logical, ontological | Grenon & Smith, SNAP and SPAN (2004); Bittner & Smith, A Theory of Granular Partitions (2003); Aquinas, ST I q.12 a.4 (mode of the knower) | Argued only | Verified; ratified 2026-09-27 |
+| F2 | Added perspectives are more useful when they contribute information or considerations not already represented (P2) | Logical, empirical | Formal selection argument; Hong & Page, PNAS (2004), disputed by Thompson (2014) and defended by Kuehn (2017) and Singer (2019); Lorenz et al., PNAS (2011), qualified by Becker et al. (2017) | Argued only | Verified; ratified 2026-09-27 (owner wording) |
+| E1 | People routinely fail to notice or use easily available information; there is preliminary and contested evidence that this extends to morally relevant information | Empirical | Chugh & Bazerman (2007); Tenbrunsel & Messick (2004); Simons & Chabris (1999); Gino & Bazerman (2009, contested) | Moderate | Verified; ratified 2026-09-27 |
+| E2 | Framing changes choice with facts held fixed | Empirical | Tversky & Kahneman, Science (1981); Many Labs 1 (2014); Steiger & Kühberger (2018) | Strong | Verified; ratified 2026-09-27 |
+| E3 | Structured consideration of alternatives reduces bias | Empirical | Lord, Lepper & Preston, JPSP (1984); Hirt & Markman (1995); Mussweiler, Strack & Pfeiffer (2000) | Moderate | Verified (abstract only); ratified 2026-09-27 |
+| E4 | Framing a future outcome as already certain (prospective hindsight) elicits longer and more concrete explanations than framing it as uncertain | Empirical | Mitchell, Russo & Pennington (1989, abstract only); Klein, premortem (2007, method only) | Hypothesis | Verified; ratified 2026-09-27 |
+| E5 | Keeping competing explanations open until disproved is a recommended analytic discipline | Practice | Heuer, Psychology of Intelligence Analysis (1999) | Argued only | Verified; ratified 2026-09-27 (efficacy formulation retired) |
+| E5r | The Analysis of Competing Hypotheses procedure built on this discipline improves analytic accuracy | Empirical (reported result) | Controlled tests: Folker (2000); Lehner et al. (2008); Whitesmith (2019); Dhami, Belton & Mandel (2019); Maegherman et al. (2021); Wilcox & Mandel (2024) review | Hypothesis | Split from E5 on ratification; little or no accuracy gain found |
+| E6 | Self-distancing (adopting an observer or third-person perspective on one's own situation) increases wise reasoning about that situation | Empirical | Kross & Grossmann (2012); Grossmann & Kross (2014); Grossmann et al. (2021); Grossmann et al., Psychological Inquiry (2020) | Moderate | Verified; ratified 2026-09-27 (same-lab replications) |
+| E7 | Teaming and training improve geopolitical forecasting accuracy; the effects are diminished or reversed when method variance is controlled (Hauenstein et al. 2025) | Empirical | Tetlock, Expert Political Judgment (2005); Mellers et al. (2014); Hauenstein et al. (2025) | Moderate | Verified; ratified 2026-09-27 (qualified wording) |
+| E8 | Asking people beats imagining their view | Empirical | Eyal, Steffel & Epley, JPSP (2018) | Moderate | Verified; ratified 2026-09-27 (no independent replication found) |
+| C1 | Flourishing is multidimensional | Philosophical, empirical | Finnis (1980); Ryff (1989); VanderWeele, PNAS (2017); Global Flourishing Study (2025); Ryan & Deci (2001); Keyes (2002) with Lamers et al. (2011) | Moderate | Verified; ratified 2026-09-27 |
+| C4 | Genuine goods can conflict without one being unreal | Philosophical | Ross (1930); Berlin, Two Concepts of Liberty (1958); Raz (1986); Chang (1997, 2002); Williams, Ethical Consistency (1965) | Argued only | Verified; ratified 2026-09-27 |
+| C4a | Human value priorities show a stable circumplex structure in which opposing value types are negatively related (motivationally incompatible) and adjacent types compatible | Empirical | Schwartz (1992); Schwartz & Sagiv (1995); Bilsky, Janik & Schwartz (2011); Schwartz et al. (2012) | Strong | Verified; ratified 2026-09-27 (circumplex wording) |
+| C5 | Scalar aggregation of plural criteria requires explicit weighting or trade-off assumptions that are not determined by the criteria themselves | Formal | Arrow, Social Choice and Individual Values (1951), by analogy; Keeney & Raiffa (1976) | Argued only | Verified; ratified 2026-09-27 (owner wording) |
+| C6 | Irreversibility warrants extra weight under uncertainty | Formal | Arrow & Fisher, quasi-option value (1974); Henry (1974) | Formal (established) | Verified; ratified 2026-09-27 |
+| C2 | Dignity acts as a side-constraint, not a quantity to trade | Philosophical | Kant, Groundwork (Ak. 4:429, 4:434-435); Nozick, Anarchy, State, and Utopia (1974), ch. 3; Aquinas, ST I-II q.94, I q.29 a.3, II-II q.64 | Argued only | Verified; ratified 2026-09-27 |
+| C7 | Decision aids bias human choice (automation bias) | Empirical | Parasuraman & Manzey, Human Factors (2010); Goddard, Roudsari & Wyatt (2012); Lyell & Coiera (2017) | Strong | Verified; ratified 2026-09-27 (empirical half) |
+| C7n | The human must stay the decider | Normative commitment | None; a design commitment | Argued only | Split from C7 on ratification |
+| C8 | Many legitimate paths; some paths are excluded as unreasonable, and the legitimate ones are not ranked on a single scale | Philosophical | Finnis, Natural Law and Natural Rights (1980), ch. V | Argued only | Verified; ratified 2026-09-27 (delta wording) |
+| H-P6 | The six operations are an exhaustive, efficient decomposition | Hypothesis | None yet as a whole; tested by E-PC | Hypothesis | Ratified as hypothesis 2026-09-27 |
 
-**Known weaknesses.** Hong & Page's diversity result is formally disputed, so F2 rests mainly on the logical argument. Controlled evidence for the premortem is modest. Some perspective-taking effects outside E8 have replicated poorly; E8 is itself the conservative finding the design relies on. C3 (reality-alignment) is treated as a presupposition of realism and is not entered as an empirical claim.
+**Known weaknesses.** Hong & Page's diversity result is formally disputed (Thompson 2014) and defended (Kuehn 2017; Singer 2019), so F2 rests on the logical argument. Prospective hindsight (E4) is a hypothesis: its primary source, opened as an abstract, attributes the effect to certainty framing, and the often-quoted 30% figure exists only in secondary sources. The ACH procedure (E5r) shows little or no accuracy gain in controlled tests. Self-distancing (E6) has replicated only within the originating lab. Some perspective-taking effects outside E8 have replicated poorly; E8 itself has no independent replication and stands at Moderate. C3 (reality-alignment) is treated as a presupposition of realism and is not entered as an empirical claim.
 
 v1's fourth empirical finding, that unlimited choice and fragmentation drive anxiety and meaninglessness, is not entered. Its sources (Schwartz 2004; Twenge 2017; Case & Deaton 2020) are correlational and disputed. Value-level evidence from v1 sits in the candidate table and enters this register only as each value passes admission.
 
 ## Open items for ratification
 
 - [x] Merge v1 content. Done against the GitHub v1; see Disposition of v1.
-- [ ] Check all 19 register citations against their sources and set Citation check on each row.
-- [ ] Check the fit of each v1 value citation in the candidate table (protocol question 3).
-- [ ] Correct the Steiner source to *Human and Cosmic Thought* (GA 151) and fix other v1 reference slips found in checking.
+- [x] Check all 19 register citations against their sources and set Citation check on each row. Done 2026-09-26; ratified 2026-09-27.
+- [x] Check the fit of each v1 value citation in the candidate table (protocol question 3). Done 2026-09-26; six neighbouring citations found; ratified 2026-09-27.
+- [x] Correct the Steiner source to *Human and Cosmic Thought* (GA 151) and fix other v1 reference slips found in checking. Done; v1 itself stays unedited as the record, corrections in `docs/02-evidence/v1-errata.md`.
 - [ ] Rewrite v1 §5 applications as deliberative-assistance cases, removing the verdicts.
 - [ ] Decide whether harmonic structure stays a dimension, becomes "life-domain balance", or is dropped.
-- [ ] Decide whether C2 (dignity), C4 (value conflict) and C8 (many paths) may stand on philosophical argument, or need empirical support too.
-- [ ] Ratify the six-operation model as hypothesis H-P6, to be tested by E-PC.
+- [x] Decide whether C2 (dignity), C4 (value conflict) and C8 (many paths) may stand on philosophical argument, or need empirical support too. Decided 2026-09-27: they stand as Argued only.
+- [x] Ratify the six-operation model as hypothesis H-P6, to be tested by E-PC. Ratified 2026-09-27.
 - [ ] Decide the fate of WRM: port the ratified v0.3 machinery into E-PC, or close it out with an archival record.
 - [ ] Decide whether the E2 run proceeds as a mechanism check, or is superseded by E-PC.
 - [ ] Run the first value candidates through the admission protocol as a pilot, starting with material wellbeing and meaningful relationships.
