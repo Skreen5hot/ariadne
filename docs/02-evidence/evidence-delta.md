@@ -105,8 +105,9 @@ blinded, randomised packets, never the generation model. O-4: independent second
 pre-registered stratified 25% sample, agreement reported, adjudication only after independent
 coding (reading confirmed by the owner, PREREG §3.2). O-5: zero item-level fabrication tolerance, items retained
 in the denominator, rate reported, any zero-fabrication claim fails on the first occurrence.
-PREREG.md is amended to v0.3 before freeze (readings confirmed; a short arm makes the run
-INCOMPLETE); it is still unfrozen until `PREREG.ratified` exists.
+PREREG.md is amended to v0.4 before freeze (readings confirmed; a short arm makes the run
+INCOMPLETE; the scenario is declared not independent of the method); it is still unfrozen until
+`PREREG.ratified` exists.
 
 ## Summary of Phase 1
 
