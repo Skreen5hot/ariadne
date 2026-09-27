@@ -7,8 +7,9 @@
   python experiments/e-pc/scoring/run_arms.py --credited   the credited run; refused unless PREREG.ratified matches PREREG.md,
                                                             the gold is committed and clean, and config.json is committed and clean
 
-The runner sends temperature 0 and thinking disabled exactly as config.json says. If the API rejects a parameter for the
-chosen model it stops with the error; it never silently drops a parameter (PREREG.md §12 O-1).
+Sampling is provider-default (PREREG.md §3.4, O-1): the runner refuses to start if config.json names temperature, top_p or
+top_k, and it never drops a parameter silently. It samples until the configured number of evaluable outputs per arm
+exists (O-2), keeping non-evaluable outputs under outputs/nonevaluable/.
 """
 from __future__ import annotations
 
@@ -80,8 +81,9 @@ def manifest(cfg: dict, mode: str, model_version: str | None) -> dict:
         "prereg_sha256": epc.sha256_file_lf(EPC / "PREREG.md"),
         "files_sha256": {k: epc.sha256_file(v) for k, v in files.items()},
         "model_requested": cfg["model"], "model_version_served": model_version,
-        "decoding": {"temperature": cfg["temperature"], "thinking": cfg["thinking"], "max_tokens": cfg["max_tokens"]},
-        "runs_per_arm": cfg["runs_per_arm"], "python": sys.version, "platform": platform.platform(),
+        "decoding": {"sampling": cfg["sampling"], "omitted_parameters": cfg["omitted_parameters"], "thinking": cfg["thinking"], "max_tokens": cfg["max_tokens"]},
+        "evaluable_outputs_per_arm": cfg["evaluable_outputs_per_arm"], "max_requests_per_arm": cfg["max_requests_per_arm"],
+        "python": sys.version, "platform": platform.platform(),
         "mrc": epc.mrc_profile() if mode != "smoke" else None,
         "parity": epc.parity(cfg),
     }
@@ -109,18 +111,33 @@ def parse_output(text: str) -> dict | None:
         return None
 
 
-def run(mode: str, out_dir: Path, cfg: dict, case_text: str | None, n_runs: int) -> None:
+SAMPLING_PARAMETERS = ("temperature", "top_p", "top_k")
+
+
+def check_config(cfg: dict) -> None:
+    """Fail closed: a configuration that names a sampling parameter is invalid for this pre-registration (O-1)."""
+    named = [k for k in SAMPLING_PARAMETERS if k in cfg]
+    if named or cfg.get("sampling") != "provider_default":
+        raise SystemExit(f"refused: config.json must use provider-default sampling and must not name {SAMPLING_PARAMETERS}; found {named or cfg.get('sampling')!r}")
+
+
+def run(mode: str, out_dir: Path, cfg: dict, case_text: str | None, n_evaluable: int, max_requests: int) -> None:
     import anthropic
 
+    check_config(cfg)
     client = anthropic.Anthropic()
     (out_dir / "raw").mkdir(parents=True, exist_ok=True)
-    (out_dir / "outputs").mkdir(parents=True, exist_ok=True)
+    (out_dir / "outputs" / "nonevaluable").mkdir(parents=True, exist_ok=True)
     model_version = None
+    counts = {}
     for arm in cfg["arms"]:
         prompt = epc.build_prompt(arm, cfg, case_text)
-        for i in range(n_runs):
+        evaluable = 0
+        for i in range(max_requests):
+            if evaluable >= n_evaluable:
+                break
             request = {
-                "model": cfg["model"], "max_tokens": cfg["max_tokens"], "temperature": cfg["temperature"],
+                "model": cfg["model"], "max_tokens": cfg["max_tokens"],
                 "thinking": cfg["thinking"], "messages": [{"role": "user", "content": prompt}],
             }
             (out_dir / "raw" / f"{arm}-{i}.request.json").write_text(json.dumps(request, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
@@ -133,14 +150,22 @@ def run(mode: str, out_dir: Path, cfg: dict, case_text: str | None, n_runs: int)
             if response.stop_reason not in ("end_turn", "stop_sequence"):
                 print(f"warning: {arm}-{i} stop_reason {response.stop_reason}", file=sys.stderr)
             text = extract_text(response)
-            (out_dir / "outputs" / f"{arm}-{i}.txt").write_bytes(text.encode("utf-8"))
             parsed = parse_output(text)
-            if parsed is None:
-                print(f"warning: {arm}-{i} output is not valid JSON; kept as text only", file=sys.stderr)
-                parsed = {"sections": [], "synthesis": [], "_unparsed": True}
+            if parsed is None or not isinstance(parsed.get("sections"), list):
+                # Non-evaluable: kept, counted, reported, never scored (PREREG §3.4, O-2).
+                print(f"warning: {arm}-{i} output does not parse against the contract; kept under outputs/nonevaluable/", file=sys.stderr)
+                (out_dir / "outputs" / "nonevaluable" / f"{arm}-{i}.txt").write_bytes(text.encode("utf-8"))
+                continue
+            (out_dir / "outputs" / f"{arm}-{i}.txt").write_bytes(text.encode("utf-8"))
             (out_dir / "outputs" / f"{arm}-{i}.json").write_text(json.dumps(parsed, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+            evaluable += 1
             print(f"{arm}-{i}: {response.stop_reason}, {response.usage.output_tokens} output tokens")
-    (out_dir / "manifest.json").write_text(json.dumps(manifest(cfg, mode, model_version), indent=1) + "\n", encoding="utf-8", newline="\n")
+        counts[arm] = {"evaluable": evaluable, "requests": i + 1, "nonevaluable": (i + 1) - evaluable}
+        if evaluable < n_evaluable:
+            print(f"warning: arm {arm} reached only {evaluable} evaluable outputs in {i + 1} requests", file=sys.stderr)
+    m = manifest(cfg, mode, model_version)
+    m["counts"] = counts
+    (out_dir / "manifest.json").write_text(json.dumps(m, indent=1) + "\n", encoding="utf-8", newline="\n")
     print(f"wrote {out_dir}")
 
 
@@ -153,12 +178,13 @@ def main() -> int:
     ap.add_argument("--out", default=None, help="smoke only: output directory (default: temp dir)")
     args = ap.parse_args()
     cfg = epc.load_config()
+    check_config(cfg)
     gold = EPC / "annotations" / f"{cfg['scenario']}.gold.json"
 
     if args.smoke:
         fixture = REPO / "tests" / "e-pc" / "fixtures" / "smoke-case.txt"
         out = Path(args.out) if args.out else Path(tempfile.mkdtemp(prefix="epc-smoke-"))
-        run("smoke", out, cfg, epc.load_text_exact(fixture), 1)
+        run("smoke", out, cfg, epc.load_text_exact(fixture), 1, 2)
         return 0
 
     if not is_committed_and_clean(gold):
@@ -173,7 +199,7 @@ def main() -> int:
 
     if args.dev:
         out = EPC / "results" / ("dev_" + dt.datetime.now().strftime("%Y%m%dT%H%M%S"))
-        run("dev", out, cfg, None, cfg["runs_per_arm"])
+        run("dev", out, cfg, None, cfg["evaluable_outputs_per_arm"], cfg["max_requests_per_arm"])
         return 0
 
     ok, why = prereg_ratified()
@@ -186,7 +212,7 @@ def main() -> int:
     out = EPC / "results" / run_id
     if out.exists():
         raise SystemExit("refused: run directory exists")
-    run("credited", out, cfg, None, cfg["runs_per_arm"])
+    run("credited", out, cfg, None, cfg["evaluable_outputs_per_arm"], cfg["max_requests_per_arm"])
     return 0
 
 

@@ -16,6 +16,7 @@ Subcommands:
   coverage GOLD RATING          coverage of one rated output
   build-value-layer             value layer file from the adjudicated gold
   blind-pack RUN_ID             label-stripped packets for the rater, plus the key
+  second-rater-sample RUN_ID    the pre-registered stratified 25% sample of packets for the second rater (O-4)
 """
 from __future__ import annotations
 
@@ -477,6 +478,23 @@ def blind_pack(run_id: str, seed: int | None = None) -> dict:
     return key
 
 
+def second_rater_sample(run_id: str) -> list[str]:
+    """PREREG §3.2 (O-4): a stratified sample of packets, second_rater_sample_fraction per arm, chosen from the seeded
+    packet order in key.json so the choice is mechanical; the returned list carries no arm labels."""
+    cfg = load_config()
+    key = json.loads((EPC / "results" / run_id / "blind" / "key.json").read_text(encoding="utf-8"))["packets"]
+    by_arm: dict[str, list[str]] = {}
+    for pkt, fname in key.items():          # key.json preserves the seeded order
+        by_arm.setdefault(fname.split("-")[0], []).append(pkt)
+    sample: list[str] = []
+    for arm in cfg["arms"]:
+        n = max(1, round(len(by_arm.get(arm, [])) * cfg["second_rater_sample_fraction"]))
+        sample.extend(by_arm.get(arm, [])[:n])
+    rng = random.Random(cfg["seed"])
+    rng.shuffle(sample)
+    return sample
+
+
 # ----------------------------------------------------------------------------- CLI
 
 def main(argv: list[str] | None = None) -> int:
@@ -493,6 +511,7 @@ def main(argv: list[str] | None = None) -> int:
     s = sub.add_parser("coverage"); s.add_argument("gold"); s.add_argument("rating")
     sub.add_parser("build-value-layer")
     s = sub.add_parser("blind-pack"); s.add_argument("run_id")
+    s = sub.add_parser("second-rater-sample"); s.add_argument("run_id")
     args = ap.parse_args(argv)
 
     if args.cmd == "validate":
@@ -525,6 +544,8 @@ def main(argv: list[str] | None = None) -> int:
         print(build_value_layer()); return 0
     if args.cmd == "blind-pack":
         print(json.dumps(blind_pack(args.run_id), indent=1)); return 0
+    if args.cmd == "second-rater-sample":
+        print(json.dumps(second_rater_sample(args.run_id), indent=1)); return 0
     return 2
 
 
