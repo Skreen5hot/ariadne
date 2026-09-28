@@ -47,10 +47,13 @@ def main(run_id: str) -> int:
         return xs
 
     distinct = {arm: len({r["output_sha256"] for r in per_output.values() if r["arm"] == arm}) for arm in cfg["arms"]}
+    n_per_arm = {arm: sum(1 for r in per_output.values() if r["arm"] == arm) for arm in cfg["arms"]}
+    complete = all(n_per_arm[arm] >= cfg["evaluable_outputs_per_arm"] for arm in cfg["arms"])
     cov_B, cov_C, cov_A = vals("B", "coverage"), vals("C", "coverage"), vals("A", "coverage")
     fab_A, fab_B, fab_C = vals("A", "fabrication"), vals("B", "fabrication"), vals("C", "fabrication")
-    primary = epc.permutation_test(cov_B, cov_C, cfg["permutations"], cfg["seed"])
-    safety = epc.permutation_test(fab_B, fab_A, cfg["permutations"], cfg["seed"])
+    # PREREG.md §3.4: an arm short of its evaluable outputs makes the run INCOMPLETE; no test is computed.
+    primary = epc.permutation_test(cov_B, cov_C, cfg["permutations"], cfg["seed"]) if complete else None
+    safety = epc.permutation_test(fab_B, fab_A, cfg["permutations"], cfg["seed"]) if complete else None
 
     # Diversity: unique contribution per operation across B runs (PREREG §4.3)
     gold_ids = [a["id"] for a in gold["annotations"]]
@@ -66,7 +69,10 @@ def main(run_id: str) -> int:
             unique_by_section.setdefault(sec, set()).update(ids - others)
     diversity = {sec: sorted(ids) for sec, ids in unique_by_section.items()}
 
-    fab_rise = statistics.fmean(fab_B) - statistics.fmean(fab_A)
+    def mean(xs: list[float]) -> float | None:
+        return statistics.fmean(xs) if xs else None
+
+    fab_rise = mean(fab_B) - mean(fab_A) if fab_A and fab_B else None
     any_fabrication = {arm: any(r["fabrication"]["fabricated"] > 0 for r in per_output.values() if r["arm"] == arm) for arm in cfg["arms"]}
     # Second rater (PREREG §3.2, O-4): agreement on the pre-registered 25% sample, reported before adjudication.
     second = {}
@@ -74,23 +80,15 @@ def main(run_id: str) -> int:
         a = json.loads((run / "ratings" / f"{pkt}.rating.json").read_text(encoding="utf-8"))
         b = json.loads((run / "ratings2" / f"{pkt}.rating.json").read_text(encoding="utf-8"))
         second[pkt] = epc.agreement(a, b)
-    uninformative = distinct["B"] < cfg["min_distinct_outputs_per_arm"] or distinct["C"] < cfg["min_distinct_outputs_per_arm"]
-    if uninformative:
-        outcome = "UNINFORMATIVE"
-    elif fab_rise > cfg["fabrication_tolerance"]:
-        outcome = "METHOD-FAILED (safety)"
-    elif primary["p_value"] <= cfg["alpha"] and primary["observed_difference"] > 0:
-        outcome = "METHOD-SUPPORTED"
-    else:
-        outcome = "METHOD-FAILED (coverage)"
+    outcome = epc.decide_outcome(n_per_arm, distinct, fab_rise, primary, cfg)
 
     results = {
         "schema": "e-pc/results/v1", "run_id": run_id, "prereg_sha256": epc.sha256_file_lf(epc.EPC / "PREREG.md"),
         "gold_sha256": epc.sha256_file(epc.EPC / "annotations" / f"{cfg['scenario']}.gold.json"),
-        "gold_items": len(gold_ids), "distinct_outputs_per_arm": distinct,
-        "coverage_means": {"A": statistics.fmean(cov_A), "B": statistics.fmean(cov_B), "C": statistics.fmean(cov_C)},
-        "fabrication_means": {"A": statistics.fmean(fab_A), "B": statistics.fmean(fab_B), "C": statistics.fmean(fab_C)},
-        "primary_B_vs_C": primary, "safety_B_vs_A": safety, "fabrication_rise_B_over_A": round(fab_rise, 4),
+        "gold_items": len(gold_ids), "evaluable_outputs_per_arm": n_per_arm, "distinct_outputs_per_arm": distinct,
+        "coverage_means": {"A": mean(cov_A), "B": mean(cov_B), "C": mean(cov_C)},
+        "fabrication_means": {"A": mean(fab_A), "B": mean(fab_B), "C": mean(fab_C)},
+        "primary_B_vs_C": primary, "safety_B_vs_A": safety, "fabrication_rise_B_over_A": None if fab_rise is None else round(fab_rise, 4),
         "fabrication_tolerance": cfg["fabrication_tolerance"], "any_fabrication_per_arm": any_fabrication,
         "second_rater_agreement": second, "diversity_unique_by_operation": diversity,
         "operations_with_no_unique_contribution": [s for s in ("Attention", "Interpretation", "Evidence", "Explanation", "Evaluation", "Inquiry") if not diversity.get(s)],
@@ -99,13 +97,21 @@ def main(run_id: str) -> int:
     (run / "results.json").write_text(json.dumps(results, indent=1) + "\n", encoding="utf-8", newline="\n")
 
     lines = [f"# E-PC results: {run_id}", "", f"Outcome: **{outcome}** (PREREG.md §6).", "",
-             "| Arm | mean coverage | mean fabrication | distinct outputs |", "| --- | --- | --- | --- |"]
+             "| Arm | evaluable outputs | mean coverage | mean fabrication | distinct outputs |", "| --- | --- | --- | --- | --- |"]
+
+    def fmt(x: float | None) -> str:
+        return "—" if x is None else f"{x:.3f}"
+
     for arm in cfg["arms"]:
-        lines.append(f"| {arm} | {results['coverage_means'][arm]:.3f} | {results['fabrication_means'][arm]:.3f} | {distinct[arm]} |")
-    lines += ["", f"Primary (B minus C coverage): difference {primary['observed_difference']}, p = {primary['p_value']} "
-              f"({primary['n_permutations']} permutations, seed {primary['seed']}), Cohen's d {primary['cohens_d']}, Cliff's delta {primary['cliffs_delta']}.",
-              f"Safety (B minus A fabrication): difference {safety['observed_difference']}, tolerance {cfg['fabrication_tolerance']} (zero at item level); any fabrication per arm: {any_fabrication}.",
-              f"Second-rater agreement on {len(second)} packets: " + (", ".join(f"{k}: kappa {v['process_kappa']}" for k, v in second.items()) if second else "not yet rated") + ".", "",
+        lines.append(f"| {arm} | {n_per_arm[arm]} | {fmt(results['coverage_means'][arm])} | {fmt(results['fabrication_means'][arm])} | {distinct[arm]} |")
+    if primary is None:
+        lines += ["", f"INCOMPLETE: an arm has fewer than {cfg['evaluable_outputs_per_arm']} evaluable outputs "
+                  f"(PREREG.md §3.4). The primary and safety tests are not computed; means are descriptive only."]
+    else:
+        lines += ["", f"Primary (B minus C coverage): difference {primary['observed_difference']}, p = {primary['p_value']} "
+                  f"({primary['n_permutations']} permutations, seed {primary['seed']}), Cohen's d {primary['cohens_d']}, Cliff's delta {primary['cliffs_delta']}.",
+                  f"Safety (B minus A fabrication): difference {safety['observed_difference']}, tolerance {cfg['fabrication_tolerance']} (zero at item level); any fabrication per arm: {any_fabrication}."]
+    lines += [f"Second-rater agreement on {len(second)} packets: " + (", ".join(f"{k}: kappa {v['process_kappa']}" for k, v in second.items()) if second else "not yet rated") + ".", "",
               "Diversity (gold items covered only by one operation, across B runs):", ""]
     for sec, ids in sorted(diversity.items()):
         lines.append(f"- {sec}: {', '.join(ids) if ids else 'none'}")

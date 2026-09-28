@@ -132,10 +132,11 @@ def run(mode: str, out_dir: Path, cfg: dict, case_text: str | None, n_evaluable:
     counts = {}
     for arm in cfg["arms"]:
         prompt = epc.build_prompt(arm, cfg, case_text)
-        evaluable = 0
+        evaluable = requests = 0
         for i in range(max_requests):
             if evaluable >= n_evaluable:
                 break
+            requests += 1
             request = {
                 "model": cfg["model"], "max_tokens": cfg["max_tokens"],
                 "thinking": cfg["thinking"], "messages": [{"role": "user", "content": prompt}],
@@ -160,9 +161,10 @@ def run(mode: str, out_dir: Path, cfg: dict, case_text: str | None, n_evaluable:
             (out_dir / "outputs" / f"{arm}-{i}.json").write_text(json.dumps(parsed, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
             evaluable += 1
             print(f"{arm}-{i}: {response.stop_reason}, {response.usage.output_tokens} output tokens")
-        counts[arm] = {"evaluable": evaluable, "requests": i + 1, "nonevaluable": (i + 1) - evaluable}
+        counts[arm] = {"evaluable": evaluable, "requests": requests, "nonevaluable": requests - evaluable}
         if evaluable < n_evaluable:
-            print(f"warning: arm {arm} reached only {evaluable} evaluable outputs in {i + 1} requests", file=sys.stderr)
+            print(f"warning: arm {arm} reached only {evaluable} evaluable outputs in {requests} requests; "
+                  f"the run is INCOMPLETE (PREREG.md §3.4)", file=sys.stderr)
     m = manifest(cfg, mode, model_version)
     m["counts"] = counts
     (out_dir / "manifest.json").write_text(json.dumps(m, indent=1) + "\n", encoding="utf-8", newline="\n")

@@ -414,7 +414,7 @@ values:
     ratified: true
     ratified_on: 2026-09-27
     ratified_by: "Aaron Damiano (ratification message of 2026-09-27, with owner amendments)"
-    ratification_note: "Ratified. Wording adopted under the owner's 'adopt most rewordings'; the referent (multidimensional wellbeing) is unchanged. Owner to confirm."
+    ratification_note: "Ratified. Wording adopted under the owner's 'adopt most rewordings'; the referent (multidimensional wellbeing) is unchanged. Confirmed by the owner 2026-09-27."
 
   - id: V02
     candidate: "Human dignity"
@@ -475,7 +475,7 @@ values:
     ratified: true
     ratified_on: 2026-09-27
     ratified_by: "Aaron Damiano (ratification message of 2026-09-27, with owner amendments)"
-    ratification_note: "Ratified. Wording adopted under 'adopt most rewordings'; referent unchanged. Owner to confirm."
+    ratification_note: "Ratified. Wording adopted under 'adopt most rewordings'; referent unchanged. Confirmed by the owner 2026-09-27."
 
   - id: V05
     candidate: "Experiential richness"
@@ -505,7 +505,7 @@ values:
     v1_tier: "2 Constitutive"
     first_pass_role: "Constituent"
     v1_claim: "Relationships most robust predictor of life satisfaction; humans are fundamentally social beings requiring cultural frameworks"
-    ratified_claim: "Quality of close relationships is among the strongest and most consistent predictors of happiness and later-life health in longitudinal cohorts"
+    ratified_claim: "Quality of close relationships is consistently associated with wellbeing in later life, more strongly than quantity of contact, and predicts later-life outcomes in the Harvard cohort"
     citations_as_given:
       - "Waldinger & Schulz (2023)"
       - "Baumeister & Leary (1995)"
@@ -525,7 +525,7 @@ values:
     ratified: true
     ratified_on: 2026-09-27
     ratified_by: "Aaron Damiano (ratification message of 2026-09-27, with owner amendments)"
-    ratification_note: "Ratified. Wording adopted under 'adopt most rewordings'; replace the trade book with Pinquart & Sörensen 2000 and one SDT relatedness meta-analysis. Owner to confirm."
+    ratification_note: "Ratified. Wording amended by the owner 2026-09-27: the superlative 'among the strongest' and the plural 'longitudinal cohorts' removed, since no opened source ranks relationships against other predictors (V06a) and the evidence is one cohort. Replace the trade book with Pinquart & Sörensen 2000; the SDT relatedness meta-analysis is not yet opened."
 
   - id: V07
     candidate: "Mastery and excellence"
@@ -553,7 +553,7 @@ values:
     v1_tier: "2 Constitutive"
     first_pass_role: "Constituent and competency"
     v1_claim: "Wisdom predicts wellbeing independent of other factors"
-    ratified_claim: "Wisdom is associated with life satisfaction in older adults over and above objective circumstances such as health, finances and social involvement"
+    ratified_claim: "Wisdom is associated with life satisfaction in older adults over and above objective circumstances"
     citations_as_given:
       - "Ardelt (2003)"
     valuenet_kind: competency
@@ -567,14 +567,14 @@ values:
     ratified: true
     ratified_on: 2026-09-27
     ratified_by: "Aaron Damiano (ratification message of 2026-09-27, with owner amendments)"
-    ratification_note: "Ratified. Wording adopted; cite Ardelt 1997 (V08x) beside Ardelt 2003. Owner to confirm."
+    ratification_note: "Ratified. Wording amended by the owner 2026-09-27: 'such as health, finances and social involvement' removed, because that list came from a search snippet, not an opened page (V08x). Cite Ardelt 1997 (V08x) beside Ardelt 2003."
 
   - id: V09
     candidate: "Virtue / character"
     v1_tier: "2 Constitutive"
     first_pass_role: "Constituent"
     v1_claim: "Virtue (especially gratitude, kindness, integrity) strongly predicts wellbeing"
-    ratified_claim: "Character strengths correlate with life satisfaction, most strongly hope, zest, gratitude, love and curiosity; kindness and integrity only weakly"
+    ratified_claim: "Character strengths correlate with life satisfaction, most strongly hope, zest, gratitude, love and curiosity; kindness and integrity less strongly (r about .2-.35)"
     citations_as_given:
       - "Peterson & Seligman (2004)"
     valuenet_kind: value_disposition
@@ -591,7 +591,7 @@ values:
     ratified: true
     ratified_on: 2026-09-27
     ratified_by: "Aaron Damiano (ratification message of 2026-09-27, with owner amendments)"
-    ratification_note: "Ratified. Wording adopted; cite Park, Peterson & Seligman 2004 (V09x). Owner to confirm."
+    ratification_note: "Ratified. Wording amended by the owner 2026-09-27: 'only weakly' replaced by 'less strongly (r about .2-.35)', since integrity reaches r = .36 in one sample (V09x). Cite Park, Peterson & Seligman 2004 (V09x)."
 
   - id: V10
     candidate: "Meaning and purpose"
@@ -640,7 +640,7 @@ values:
     v1_tier: "2 Constitutive"
     first_pass_role: "Constituent and constraint"
     v1_claim: "Autonomy (properly understood) predicts wellbeing; authenticity associated with mental health"
-    ratified_claim: "Satisfaction of the need for autonomy, understood as volition, correlates moderately with subjective wellbeing across cultures; dispositional authenticity correlates moderately with wellbeing, more strongly in individualist cultures"
+    ratified_claim: "Satisfaction of the need for autonomy, understood as volition, correlates moderately with subjective wellbeing in US and East Asian samples; dispositional authenticity correlates moderately with wellbeing, more strongly in individualist cultures"
     citations_as_given:
       - "Ryan & Deci (2000)"
       - "Wood et al. (2008)"
@@ -656,7 +656,7 @@ values:
     ratified: true
     ratified_on: 2026-09-27
     ratified_by: "Aaron Damiano (ratification message of 2026-09-27, with owner amendments)"
-    ratification_note: "Ratified. Wording adopted under 'adopt most rewordings'; referent unchanged. Owner to confirm."
+    ratification_note: "Ratified. Wording amended by the owner 2026-09-27: 'across cultures' narrowed to 'in US and East Asian samples', the coverage of Yu et al. 2018 (V11a)."
 
   - id: V12
     candidate: "Spiritual vitality"
