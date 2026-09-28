@@ -1,0 +1,107 @@
+"""The annotation tool's exporter must produce a file the real validator accepts, and its embedded data must match
+the repository (prose hash, entity ids, ValueNet classes). The exporter's pure functions run under Node.
+"""
+from __future__ import annotations
+
+import json
+import re
+import shutil
+import subprocess
+
+import pytest
+
+from epc_helpers import EPC_DIR, epc
+
+TOOL = EPC_DIR / "annotations" / "tool"
+
+
+def _data() -> dict:
+    html = (TOOL / "annotator.html").read_text(encoding="utf-8")
+    m = re.search(r'<script id="data" type="application/json">(.*?)</script>', html, re.S)
+    assert m, "annotator.html has no embedded data block"
+    return json.loads(m.group(1).replace("<\\/", "</"))
+
+
+def _core_script() -> str:
+    html = (TOOL / "annotator.html").read_text(encoding="utf-8")
+    m = re.search(r'<script id="core">(.*?)</script>', html, re.S)
+    assert m
+    return m.group(1)
+
+
+def test_generated_tool_is_current(tmp_path):
+    """Rebuilding the tool must reproduce the committed file byte for byte."""
+    committed = (TOOL / "annotator.html").read_bytes()
+    r = subprocess.run(["python", str(TOOL / "build_annotator.py")], capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    assert (TOOL / "annotator.html").read_bytes() == committed, "annotator.html is stale: run build_annotator.py and commit"
+
+
+def test_embedded_data_matches_repository(cfg, scenario, prose):
+    d = _data()
+    assert d["expected_sha256"] == epc.sha256_text(prose)
+    assert d["expected_codepoints"] == len(prose)
+    assert {e["id"] for e in d["entities"]} == {e["id"] for e in scenario["entities"]}
+    names = epc.valuenet_local_names()
+    for full in d["dispositions"]["all"]:
+        prefix, local = full.split(":")
+        assert local in names[prefix], full
+    assert all(v["contravenes"] in d["dispositions"]["mf"] for v in d["violations"] if v["type"].startswith("mf:"))
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node not installed")
+def test_export_validates_with_the_real_validator(tmp_path, prose):
+    d = _data()
+    span1 = "I want my own bed."
+    span2 = "No cognitive screen or capacity assessment has been performed."
+    (s1, e1), = epc.codepoint_offsets(span1, prose)
+    (s2, e2), = epc.codepoint_offsets(span2, prose)
+    harness = f"""
+const document = {{ getElementById: () => ({{ textContent: {json.dumps(json.dumps(d))} }}) }};
+{_core_script()}
+const state = {{ annotator: "Test Annotator", date: "2026-09-28", sha256: {json.dumps(d["expected_sha256"])}, codepoints: {d["expected_codepoints"]},
+  annotations: [
+    {{ span: {json.dumps(span1)}, start: {s1}, end: {e1}, kind: "realization", type: "vn-core:ValueRealizationProcess", disposition: "folk:AutonomyDisposition", bearer: "P-PAT", participants: [], label: "Margaret's wish to go home", fit: "exact", note: "" }},
+    {{ span: {json.dumps(span2)}, start: {s2}, end: {e2}, kind: "violation", type: "mf:HarmProcess", disposition: "mf:CareDisposition", bearer: "P-HOSP", participants: ["P-PAT"], label: "discharge without a cognitive screen risks harm", fit: "exact", note: "unknown U01 bears on this" }},
+  ] }};
+const text = {json.dumps(prose)};
+const errs = validateAnnotations(text, state.annotations);
+if (errs.length) {{ console.error(errs.join("\\n")); process.exit(2); }}
+process.stdout.write(JSON.stringify(buildExport(state)));
+"""
+    js = tmp_path / "harness.js"
+    js.write_text(harness, encoding="utf-8")
+    r = subprocess.run(["node", str(js)], capture_output=True, text=True, encoding="utf-8")
+    assert r.returncode == 0, r.stderr
+    out = tmp_path / "export.json"
+    out.write_text(r.stdout, encoding="utf-8")
+    errors = epc.validate_annotations(out, EPC_DIR / "scenarios" / "clinic-discharge.txt")
+    assert errors == [], errors
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node not installed")
+def test_tool_rejects_bad_pairing_and_unknown_bearer(tmp_path, prose):
+    d = _data()
+    span = "I want my own bed."
+    (s, e), = epc.codepoint_offsets(span, prose)
+    harness = f"""
+const document = {{ getElementById: () => ({{ textContent: {json.dumps(json.dumps(d))} }}) }};
+{_core_script()}
+const text = {json.dumps(prose)};
+const bad = [
+  {{ span: {json.dumps(span)}, start: {s}, end: {e}, kind: "violation", type: "mf:HarmProcess", disposition: "mf:FairnessDisposition", bearer: "P-NOBODY", participants: [], label: "x", fit: "exact", note: "" }},
+  {{ span: {json.dumps(span)}, start: {s}, end: {e + 1}, kind: "realization", type: "vn-core:ValueRealizationProcess", disposition: "folk:AutonomyDisposition", bearer: "P-PAT", participants: [], label: "", fit: "gap", note: "" }},
+];
+process.stdout.write(JSON.stringify(validateAnnotations(text, bad)));
+"""
+    js = tmp_path / "harness.js"
+    js.write_text(harness, encoding="utf-8")
+    r = subprocess.run(["node", str(js)], capture_output=True, text=True, encoding="utf-8")
+    assert r.returncode == 0, r.stderr
+    errs = json.loads(r.stdout)
+    joined = "\n".join(errs)
+    assert "contravenes mf:CareDisposition" in joined
+    assert "P-NOBODY" in joined
+    assert "do not delimit" in joined
+    assert "label is empty" in joined
+    assert "needs a note" in joined

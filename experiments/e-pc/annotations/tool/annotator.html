@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gold Annotator</title>
+<meta name="description" content="Offline annotation tool for the E-PC gold: select spans of the case prose, type them as ValueNet value processes, export the annotation file.">
+<style>
+  :root {
+    --bg: #f7f6f2; --panel: #ffffff; --ink: #1d1d1b; --muted: #5d5b55; --line: #d9d6cd;
+    --accent: #2f5d8a; --accent-ink: #ffffff; --warn: #9a4a00; --ok: #2f6b3a; --err: #9b2c2c;
+    --mark: rgba(47, 93, 138, 0.18); --mark-strong: rgba(47, 93, 138, 0.38); --sel: rgba(154, 74, 0, 0.25);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17181a; --panel: #212326; --ink: #ecebe6; --muted: #a9a79f; --line: #3a3d42;
+      --accent: #8ab4e0; --accent-ink: #101214; --warn: #e0a460; --ok: #8fcf9a; --err: #ef9a9a;
+      --mark: rgba(138, 180, 224, 0.22); --mark-strong: rgba(138, 180, 224, 0.42); --sel: rgba(224, 164, 96, 0.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17181a; --panel: #212326; --ink: #ecebe6; --muted: #a9a79f; --line: #3a3d42;
+    --accent: #8ab4e0; --accent-ink: #101214; --warn: #e0a460; --ok: #8fcf9a; --err: #ef9a9a;
+    --mark: rgba(138, 180, 224, 0.22); --mark-strong: rgba(138, 180, 224, 0.42); --sel: rgba(224, 164, 96, 0.3);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { padding: 14px 16px; border-bottom: 1px solid var(--line); background: var(--panel); display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; }
+  header h1 { font-size: 18px; margin: 0; }
+  header .sub { color: var(--muted); font-size: 13px; }
+  main { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; padding: 16px; max-width: 1400px; margin: 0 auto; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  section.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+  section.panel h2 { font-size: 15px; margin: 0 0 10px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; }
+  input[type="text"], input[type="date"], select, textarea { width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); font: inherit; }
+  textarea { min-height: 60px; }
+  button { font: inherit; padding: 7px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  button[disabled] { opacity: 0.5; cursor: not-allowed; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+  .status { font-size: 13px; margin-top: 6px; }
+  .ok { color: var(--ok); } .warn { color: var(--warn); } .err { color: var(--err); }
+  #prose { white-space: pre-wrap; font: 15px/1.6 Georgia, "Times New Roman", serif; margin: 0; padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); max-height: 70vh; overflow: auto; user-select: text; }
+  #prose mark { background: var(--mark); color: inherit; border-bottom: 2px solid var(--accent); padding: 0; }
+  #prose mark.multi { background: var(--mark-strong); }
+  #prose mark.focus { outline: 2px solid var(--warn); }
+  #prose ::selection { background: var(--sel); }
+  .selinfo { font-size: 13px; color: var(--muted); margin-top: 8px; min-height: 1.4em; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 6px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.span { max-width: 260px; }
+  td .small { color: var(--muted); font-size: 12px; }
+  .errors { font-size: 13px; color: var(--err); white-space: pre-wrap; }
+  details summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+  ul.rules { font-size: 13px; padding-left: 18px; margin: 6px 0 0; }
+  ul.rules li { margin: 3px 0; }
+  .pill { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 12px; border: 1px solid var(--line); color: var(--muted); }
+  .hidden { display: none; }
+  #form { position: sticky; top: 12px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+  @media (max-width: 520px) { .two { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Gold Annotator</h1>
+  <span class="sub">E-PC, scenario <code id="scenarioName"></code>. Works offline; saves in this browser; exports one JSON file.</span>
+</header>
+<main>
+  <div>
+    <section class="panel" id="setup">
+      <h2>1. You and the case</h2>
+      <div class="two">
+        <div><label>Your name (as it will appear in the file)</label><input type="text" id="annotator" placeholder="e.g. Aaron Damiano"></div>
+        <div><label>Date started</label><input type="date" id="date"></div>
+      </div>
+      <label><input type="checkbox" id="attest"> I have not opened <code>arms/</code>, any other annotator's file, or any arm output.</label>
+      <label>The case prose: open <code id="proseFileName"></code> from the repository (it is the exact text every offset refers to)</label>
+      <input type="file" id="proseFile" accept=".txt,text/plain">
+      <div class="status" id="proseStatus">No prose loaded.</div>
+    </section>
+
+    <section class="panel">
+      <h2>2. Select a span, then add it</h2>
+      <p class="selinfo">Select the words that carry one consideration. Keep spans short: a clause or a sentence. Whitespace at the ends is trimmed for you.</p>
+      <pre id="prose"></pre>
+      <div class="selinfo" id="selinfo">Nothing selected.</div>
+      <div class="row">
+        <button class="primary" id="addBtn" disabled>Add annotation for this selection</button>
+        <span class="pill" id="count">0 annotations</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>3. Your annotations</h2>
+      <table id="list"><thead><tr><th>#</th><th>Span</th><th>Process</th><th>Bearer</th><th>Label</th><th></th></tr></thead><tbody></tbody></table>
+      <div class="errors" id="errors"></div>
+      <div class="row">
+        <label style="margin:0">File extension <select id="ext" style="width:auto"><option value="json">.json</option><option value="txt">.txt</option></select></label>
+        <button class="primary" id="exportBtn">Export file</button>
+        <button id="importBtn">Import a saved file</button><input type="file" id="importFile" accept=".json,.txt" class="hidden">
+        <button id="clearBtn">Clear everything</button>
+      </div>
+      <div class="status" id="exportStatus"></div>
+    </section>
+  </div>
+
+  <div>
+    <section class="panel hidden" id="form">
+      <h2 id="formTitle">New annotation</h2>
+      <label>Span (read-only; reselect to change)</label>
+      <textarea id="fSpan" readonly></textarea>
+      <div class="status" id="fOffsets"></div>
+      <label>Kind</label>
+      <select id="fKind">
+        <option value="violation">Violation: a harm, a process that contravenes a borne disposition</option>
+        <option value="realization">Realization: a good pursued or an obligation honoured</option>
+      </select>
+      <label>Process type</label>
+      <select id="fType"></select>
+      <label>Disposition it contravenes / realizes</label>
+      <select id="fDisp"></select>
+      <div class="status" id="fDispNote"></div>
+      <label>Bearer of that disposition (a graph entity)</label>
+      <select id="fBearer"></select>
+      <label>Other participants (optional; hold Ctrl or Cmd to pick several)</label>
+      <select id="fParts" multiple size="4"></select>
+      <label>Label, in plain words (required)</label>
+      <input type="text" id="fLabel" placeholder="e.g. discharge without cognitive screen risks harm to Margaret">
+      <label>Class fit</label>
+      <select id="fFit">
+        <option value="exact">exact: the ValueNet class is the right one</option>
+        <option value="closest">closest: nearest class; say what is off in the note</option>
+        <option value="gap">gap: no fitting class exists; describe the missing class in the note</option>
+      </select>
+      <label>Note (required for closest or gap; say why for an unknown)</label>
+      <textarea id="fNote"></textarea>
+      <div class="row">
+        <button class="primary" id="saveBtn">Save</button>
+        <button id="cancelBtn">Cancel</button>
+        <button id="deleteBtn" class="hidden">Delete</button>
+      </div>
+      <div class="errors" id="fErrors"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Rules that matter here</h2>
+      <ul class="rules">
+        <li>A consideration is a good at stake, a harm done or threatened, an obligation in play, a conflict between goods, or an unknown whose answer would change the moral picture. Point at the words that carry it.</li>
+        <li>A harm is a violation process that contravenes a disposition someone bears; use the six moral-foundations pairs. There is no separate harms list.</li>
+        <li>Name the bearer from the graph. It may be the person harmed, or the person whose own care disposition their act contravenes.</li>
+        <li>An unknown is a consideration when its answer would change the picture: anchor it in the sentence that says it is not known and type it by the disposition the missing answer bears on; say why in the note.</li>
+        <li>Annotate one consideration once, from the span that carries it best. Do not rank or weight.</li>
+        <li>If no ValueNet class fits, do not invent one: choose the closest, set class fit to gap, describe the missing class in the note.</li>
+        <li>Do not open <code>arms/</code>, <code>results/</code> or another annotator's file until adjudication.</li>
+      </ul>
+      <details style="margin-top:8px"><summary>Where the export goes</summary>
+        <p style="font-size:13px">Export writes <code>clinic-discharge.&lt;yourname&gt;.json</code>. Email it to Aaron; he saves it under <code>experiments/e-pc/annotations/</code> and runs <code>epc.py validate-annotations</code>. If your mail system blocks .json, choose .txt above; the content is the same. Your work is also saved in this browser as you go.</p>
+      </details>
+    </section>
+  </div>
+</main>
+
+<script id="data" type="application/json">{"scenario": "clinic-discharge", "file": "scenarios/clinic-discharge.txt", "textual_representation_id": "TR-clinic-discharge", "expected_sha256": "43ccfe42ecebe50ced92807c55bf08197fede7ec24854e1700f282e52213031e", "expected_codepoints": 5449, "entities": [{"id": "P-CM", "label": "Tomas Weber", "type": "Person"}, {"id": "P-COO", "label": "Robert Kaminski", "type": "Person"}, {"id": "P-HOSP", "label": "Dr. Priya Raman", "type": "Person"}, {"id": "P-NEIGH", "label": "Helen Adeyemi", "type": "Person"}, {"id": "P-NURSE", "label": "Lena Fischer", "type": "Person"}, {"id": "P-PAT", "label": "Margaret Okonjo", "type": "Person"}, {"id": "P-PT", "label": "Samir Haddad", "type": "Person"}, {"id": "P-SON", "label": "Daniel Okonjo", "type": "Person"}, {"id": "ORG-HOSP", "label": "Riverbend Community Hospital", "type": "Organization"}, {"id": "ORG-APS", "label": "Adult Protective Services", "type": "Government Organization"}, {"id": "ORG-RHA", "label": "Regional Health Authority", "type": "Government Organization"}, {"id": "ORG-DC", "label": "distribution centre", "type": "Commercial Organization"}, {"id": "ORG-HCA", "label": "Comfort Care", "type": "Commercial Organization"}, {"id": "R-CG", "label": "family caregiver role", "type": "role"}, {"id": "R-PAT", "label": "patient role", "type": "role"}, {"id": "R-CM", "label": "case manager role", "type": "Occupation Role"}, {"id": "R-COO", "label": "chief operating officer role", "type": "Occupation Role"}, {"id": "R-HOSP", "label": "hospitalist role", "type": "Occupation Role"}, {"id": "R-NURSE", "label": "charge nurse role", "type": "Occupation Role"}, {"id": "R-PT", "label": "physiotherapist role", "type": "Occupation Role"}, {"id": "A-BED", "label": "Ward 2 beds", "type": "Material Artifact"}, {"id": "A-FRAME", "label": "wheeled walking frame", "type": "Material Artifact"}, {"id": "A-HOME", "label": "Margaret's house", "type": "Material Artifact"}, {"id": "A-MED", "label": "amlodipine 5 mg daily", "type": "Portion of Processed Material"}, {"id": "D-DIZZ", "label": "dizziness side effect of amlodipine", "type": "disposition"}, {"id": "D-FALL", "label": "fall risk", "type": "disposition"}, {"id": "EV-ADMIT", "label": "admission to Ward 2", "type": "Act"}, {"id": "EV-AMBULANCE", "label": "Helen calls the ambulance", "type": "Act of Communication"}, {"id": "EV-APSREPORT", "label": "report to Adult Protective Services", "type": "Planned Act"}, {"id": "EV-CALL", "label": "Tomas's phone call to Daniel", "type": "Act of Communication"}, {"id": "EV-COGSCREEN", "label": "cognitive screen before discharge", "type": "Planned Act"}, {"id": "EV-DECLINE", "label": "Lena declines to discuss Margaret's condition with Helen", "type": "Act of Communication"}, {"id": "EV-DISCH", "label": "planned discharge home", "type": "Planned Act"}, {"id": "EV-EMAIL", "label": "Comfort Care's email to Tomas", "type": "Email Messaging"}, {"id": "EV-FALL", "label": "fall in the hallway", "type": "process"}, {"id": "EV-INTAKE", "label": "completion of the intake form", "type": "Act"}, {"id": "EV-MEDSTART", "label": "start of amlodipine", "type": "Act"}, {"id": "EV-MEMO", "label": "circulation of the length-of-stay memo", "type": "Act of Communication"}, {"id": "EV-NOTE", "label": "Lena documents Helen's remark in the nursing notes", "type": "Act of Reporting"}, {"id": "EV-OBS", "label": "nursing observation of evening confusion", "type": "Act"}, {"id": "EV-PATSAY1", "label": "Margaret tells Dr. Raman she wants to go home", "type": "Act of Communication"}, {"id": "EV-PATSAY2", "label": "Margaret tells Lena she does not want to be a burden on Daniel", "type": "Act of Communication"}, {"id": "EV-PLANENTRY", "label": "Dr. Raman enters the discharge plan in the chart", "type": "Act of Reporting"}, {"id": "EV-PT", "label": "physiotherapy assessment", "type": "Act of Measuring"}, {"id": "EV-REMARK", "label": "Helen's remark to Lena in the corridor", "type": "Act of Communication"}, {"id": "EV-REVIEW", "label": "Monday review of cases exceeding the length-of-stay target", "type": "Planned Act"}, {"id": "ICE-EMAIL", "label": "Comfort Care email content", "type": "Report"}, {"id": "ICE-INTAKE", "label": "intake form", "type": "Report"}, {"id": "ICE-LEAFLET", "label": "amlodipine patient information leaflet", "type": "Report"}, {"id": "ICE-MEMO", "label": "length-of-stay memo", "type": "Prescriptive Information Content Entity"}, {"id": "ICE-NOTES", "label": "nursing notes", "type": "Report"}, {"id": "ICE-PLAN", "label": "discharge plan", "type": "Plan"}, {"id": "ICE-POLICY", "label": "discharge policy DP-7", "type": "Process Regulation"}, {"id": "ICE-PT", "label": "physiotherapy report", "type": "Report"}, {"id": "ICE-REG", "label": "regional regulation ER-12", "type": "Process Regulation"}, {"id": "ICE-TARGET", "label": "Regional Health Authority length-of-stay target", "type": "Prescriptive Information Content Entity"}, {"id": "Q-CONF", "label": "evening confusion", "type": "quality"}, {"id": "Q-MOB", "label": "mobility", "type": "quality"}], "dispositions": {"mf": ["mf:CareDisposition", "mf:FairnessDisposition", "mf:LoyaltyDisposition", "mf:AuthorityDisposition", "mf:SanctityDisposition", "mf:LibertyDisposition"], "schwartz": ["schwartz:SelfDirectionDisposition", "schwartz:StimulationDisposition", "schwartz:HedonismDisposition", "schwartz:AchievementDisposition", "schwartz:PowerDisposition", "schwartz:SecurityDisposition", "schwartz:ConformityDisposition", "schwartz:TraditionDisposition", "schwartz:BenevolenceDisposition", "schwartz:UniversalismDisposition"], "folk": ["folk:KindnessDisposition", "folk:LoyaltyDisposition", "folk:IntegrityDisposition", "folk:CuriosityDisposition", "folk:ResponsibilityDisposition", "folk:AccountabilityRole", "folk:PunctualityDisposition", "folk:PunctualPersonRole", "folk:AuthenticityDisposition", "folk:CreativityDisposition", "folk:AmbitionDisposition", "folk:ExcellenceDisposition", "folk:LearningDisposition", "folk:DeterminationDisposition", "folk:GrowthDisposition", "folk:MasteryDisposition", "folk:ResilienceDisposition", "folk:WisdomDisposition", "folk:AltruismDisposition", "folk:CompassionDisposition", "folk:FriendshipDisposition", "folk:GenerosityDisposition", "folk:CooperationDisposition", "folk:ContributionDisposition", "folk:GoodCitizenRole", "folk:HonestyDisposition", "folk:DependabilityDisposition", "folk:TrustworthinessDisposition", "folk:FidelityDisposition", "folk:SelfRespectDisposition", "folk:StabilityDisposition", "folk:OrderDisposition", "folk:ConsistencyDisposition", "folk:CleanlinessDisposition", "folk:AutonomyDisposition", "folk:FreedomDisposition", "folk:PrivacyDisposition", "folk:BalanceDisposition", "folk:CalmnessDisposition", "folk:HarmonyDisposition", "folk:JoyDisposition", "folk:OptimismDisposition", "folk:PurposeDisposition", "folk:SpiritualityDisposition", "folk:JusticeDisposition", "folk:EqualityDisposition", "folk:EquityDisposition", "folk:FairnessDisposition", "folk:RespectDisposition", "folk:ForgivenessDisposition", "folk:ToleranceDisposition", "folk:LeadershipDisposition", "folk:LeaderRole", "folk:InfluenceDisposition", "folk:AssertivenessDisposition", "folk:RecognitionDisposition", "folk:VisionDisposition", "folk:AdventureDisposition", "folk:BeautyDisposition", "folk:ChallengeDisposition", "folk:EnjoymentDisposition", "folk:HumorDisposition", "folk:InnovationDisposition", "folk:PassionDisposition", "folk:SpontaneityDisposition", "folk:VarietyDisposition", "folk:DisciplineDisposition", "folk:PatienceDisposition", "folk:DecisivenessDisposition", "folk:EnduranceDisposition", "folk:ThriftDisposition", "folk:LogicDisposition", "folk:OpenMindednessDisposition", "folk:UnderstandingDisposition", "folk:LoveDisposition", "folk:FamilyDisposition", "folk:IntimacyDisposition", "folk:BelongingDisposition", "folk:CommunityDisposition", "folk:ConnectionDisposition", "folk:UnityDisposition", "folk:CareDisposition", "folk:CharityDisposition", "folk:CollaborationDisposition", "folk:EmpathyDisposition", "folk:EncouragementDisposition", "folk:SelflessnessDisposition", "folk:SharingDisposition", "folk:SupportDisposition", "folk:TeamworkDisposition", "folk:CandorDisposition", "folk:DignityDisposition", "folk:EthicsDisposition", "folk:FaithDisposition", "folk:ReligionDisposition", "folk:HonorDisposition", "folk:TransparencyDisposition", "folk:TrustDisposition", "folk:CourageDisposition", "folk:BoldnessDisposition", "folk:DiligenceDisposition", "folk:StrengthDisposition", "folk:EnthusiasmDisposition", "folk:ExcitementDisposition", "folk:ExplorationDisposition", "folk:ExpressivenessDisposition", "folk:FlexibilityDisposition", "folk:ImaginationDisposition", "folk:IntuitionDisposition", "folk:UniquenessDisposition", "folk:CommitmentDisposition", "folk:CompetitionDisposition", "folk:ControlDisposition", "folk:CourtesyDisposition", "folk:DutyDisposition", "folk:GratitudeDisposition", "folk:HopeDisposition", "folk:HumilityDisposition", "folk:MaturityDisposition", "folk:ProfessionalismRole", "folk:StatusDisposition", "folk:ChastityDisposition", "folk:DiscoveryDisposition", "folk:LeisureDisposition", "folk:MeaningDisposition", "folk:MindfulnessDisposition", "folk:PeaceDisposition", "folk:SensitivityDisposition", "folk:SimplicityDisposition", "folk:SustainabilityDisposition", "folk:HealthDisposition", "folk:IntelligenceDisposition", "folk:ModerationDisposition", "folk:WealthDisposition", "folk:PatriotismDisposition", "folk:WorkLifeBalanceDisposition"], "all": ["mf:CareDisposition", "mf:FairnessDisposition", "mf:LoyaltyDisposition", "mf:AuthorityDisposition", "mf:SanctityDisposition", "mf:LibertyDisposition", "schwartz:SelfDirectionDisposition", "schwartz:StimulationDisposition", "schwartz:HedonismDisposition", "schwartz:AchievementDisposition", "schwartz:PowerDisposition", "schwartz:SecurityDisposition", "schwartz:ConformityDisposition", "schwartz:TraditionDisposition", "schwartz:BenevolenceDisposition", "schwartz:UniversalismDisposition", "folk:KindnessDisposition", "folk:LoyaltyDisposition", "folk:IntegrityDisposition", "folk:CuriosityDisposition", "folk:ResponsibilityDisposition", "folk:AccountabilityRole", "folk:PunctualityDisposition", "folk:PunctualPersonRole", "folk:AuthenticityDisposition", "folk:CreativityDisposition", "folk:AmbitionDisposition", "folk:ExcellenceDisposition", "folk:LearningDisposition", "folk:DeterminationDisposition", "folk:GrowthDisposition", "folk:MasteryDisposition", "folk:ResilienceDisposition", "folk:WisdomDisposition", "folk:AltruismDisposition", "folk:CompassionDisposition", "folk:FriendshipDisposition", "folk:GenerosityDisposition", "folk:CooperationDisposition", "folk:ContributionDisposition", "folk:GoodCitizenRole", "folk:HonestyDisposition", "folk:DependabilityDisposition", "folk:TrustworthinessDisposition", "folk:FidelityDisposition", "folk:SelfRespectDisposition", "folk:StabilityDisposition", "folk:OrderDisposition", "folk:ConsistencyDisposition", "folk:CleanlinessDisposition", "folk:AutonomyDisposition", "folk:FreedomDisposition", "folk:PrivacyDisposition", "folk:BalanceDisposition", "folk:CalmnessDisposition", "folk:HarmonyDisposition", "folk:JoyDisposition", "folk:OptimismDisposition", "folk:PurposeDisposition", "folk:SpiritualityDisposition", "folk:JusticeDisposition", "folk:EqualityDisposition", "folk:EquityDisposition", "folk:FairnessDisposition", "folk:RespectDisposition", "folk:ForgivenessDisposition", "folk:ToleranceDisposition", "folk:LeadershipDisposition", "folk:LeaderRole", "folk:InfluenceDisposition", "folk:AssertivenessDisposition", "folk:RecognitionDisposition", "folk:VisionDisposition", "folk:AdventureDisposition", "folk:BeautyDisposition", "folk:ChallengeDisposition", "folk:EnjoymentDisposition", "folk:HumorDisposition", "folk:InnovationDisposition", "folk:PassionDisposition", "folk:SpontaneityDisposition", "folk:VarietyDisposition", "folk:DisciplineDisposition", "folk:PatienceDisposition", "folk:DecisivenessDisposition", "folk:EnduranceDisposition", "folk:ThriftDisposition", "folk:LogicDisposition", "folk:OpenMindednessDisposition", "folk:UnderstandingDisposition", "folk:LoveDisposition", "folk:FamilyDisposition", "folk:IntimacyDisposition", "folk:BelongingDisposition", "folk:CommunityDisposition", "folk:ConnectionDisposition", "folk:UnityDisposition", "folk:CareDisposition", "folk:CharityDisposition", "folk:CollaborationDisposition", "folk:EmpathyDisposition", "folk:EncouragementDisposition", "folk:SelflessnessDisposition", "folk:SharingDisposition", "folk:SupportDisposition", "folk:TeamworkDisposition", "folk:CandorDisposition", "folk:DignityDisposition", "folk:EthicsDisposition", "folk:FaithDisposition", "folk:ReligionDisposition", "folk:HonorDisposition", "folk:TransparencyDisposition", "folk:TrustDisposition", "folk:CourageDisposition", "folk:BoldnessDisposition", "folk:DiligenceDisposition", "folk:StrengthDisposition", "folk:EnthusiasmDisposition", "folk:ExcitementDisposition", "folk:ExplorationDisposition", "folk:ExpressivenessDisposition", "folk:FlexibilityDisposition", "folk:ImaginationDisposition", "folk:IntuitionDisposition", "folk:UniquenessDisposition", "folk:CommitmentDisposition", "folk:CompetitionDisposition", "folk:ControlDisposition", "folk:CourtesyDisposition", "folk:DutyDisposition", "folk:GratitudeDisposition", "folk:HopeDisposition", "folk:HumilityDisposition", "folk:MaturityDisposition", "folk:ProfessionalismRole", "folk:StatusDisposition", "folk:ChastityDisposition", "folk:DiscoveryDisposition", "folk:LeisureDisposition", "folk:MeaningDisposition", "folk:MindfulnessDisposition", "folk:PeaceDisposition", "folk:SensitivityDisposition", "folk:SimplicityDisposition", "folk:SustainabilityDisposition", "folk:HealthDisposition", "folk:IntelligenceDisposition", "folk:ModerationDisposition", "folk:WealthDisposition", "folk:PatriotismDisposition", "folk:WorkLifeBalanceDisposition"]}, "violations": [{"type": "mf:HarmProcess", "contravenes": "mf:CareDisposition"}, {"type": "mf:CheatingProcess", "contravenes": "mf:FairnessDisposition"}, {"type": "mf:BetrayalProcess", "contravenes": "mf:LoyaltyDisposition"}, {"type": "mf:SubversionProcess", "contravenes": "mf:AuthorityDisposition"}, {"type": "mf:DegradationProcess", "contravenes": "mf:SanctityDisposition"}, {"type": "mf:OppressionProcess", "contravenes": "mf:LibertyDisposition"}, {"type": "vn-core:ValueViolationProcess", "contravenes": null}], "built_from": {"scenario_sha256": "261ac38e7ab2e03f07291fd1308d80971b0484969c74d740fa75bdf62cbf1db0", "valuenet_sha256sums": "0cee915b86a05f95a351ae7bd0e049b19b3f6889d99d12fceb60c0f50a20639a"}}</script>
+
+<script id="core">
+// Pure functions. No DOM here, so this block can be tested under Node.
+const DATA = JSON.parse(document.getElementById("data").textContent);
+
+function cpLen(s) { return Array.from(s).length; }
+function utf16ToCp(text, i) { return Array.from(text.slice(0, i)).length; }
+function cpSlice(text, s, e) { return Array.from(text).slice(s, e).join(""); }
+function cpIndexToUtf16(text, cp) { return Array.from(text).slice(0, cp).join("").length; }
+
+function trimSpan(text, s, e) {
+  const chars = Array.from(text);
+  while (s < e && /\s/.test(chars[s])) s++;
+  while (e > s && /\s/.test(chars[e - 1])) e--;
+  return [s, e];
+}
+
+function pairedDisposition(type) {
+  const v = DATA.violations.find(x => x.type === type);
+  return v ? v.contravenes : null;
+}
+
+function validateAnnotations(text, anns) {
+  const errs = [];
+  const ids = new Set(DATA.entities.map(e => e.id));
+  const disp = new Set(DATA.dispositions.all);
+  const n = cpLen(text);
+  anns.forEach((a, i) => {
+    const k = `#${i + 1}`;
+    if (!(a.start >= 0 && a.end > a.start && a.end <= n)) errs.push(`${k}: offsets ${a.start}:${a.end} are outside the text`);
+    else if (cpSlice(text, a.start, a.end) !== a.span) errs.push(`${k}: offsets do not delimit the recorded span`);
+    if (!a.label || !a.label.trim()) errs.push(`${k}: label is empty`);
+    if (!ids.has(a.bearer)) errs.push(`${k}: bearer ${a.bearer} is not a graph entity`);
+    (a.participants || []).forEach(p => { if (!ids.has(p)) errs.push(`${k}: participant ${p} is not a graph entity`); });
+    if (!disp.has(a.disposition)) errs.push(`${k}: disposition ${a.disposition} is not a ValueNet class`);
+    if (a.kind === "violation") {
+      if (!(a.type.startsWith("mf:") || a.type === "vn-core:ValueViolationProcess")) errs.push(`${k}: a violation must be an mf process or vn-core:ValueViolationProcess`);
+      const paired = pairedDisposition(a.type);
+      if (paired && a.disposition !== paired) errs.push(`${k}: ${a.type} contravenes ${paired}, not ${a.disposition}`);
+    } else if (a.kind === "realization") {
+      if (a.type !== "vn-core:ValueRealizationProcess") errs.push(`${k}: a realization must be vn-core:ValueRealizationProcess`);
+    } else errs.push(`${k}: kind must be violation or realization`);
+    if ((a.fit === "closest" || a.fit === "gap") && !(a.note || "").trim()) errs.push(`${k}: class fit ${a.fit} needs a note`);
+    anns.forEach((b, j) => {
+      if (j <= i) return;
+      const overlap = Math.min(a.end, b.end) - Math.max(a.start, b.start);
+      if (overlap > 0 && a.disposition === b.disposition && a.bearer === b.bearer) errs.push(`#${i + 1} and #${j + 1}: same disposition and bearer on overlapping spans; annotate a consideration once`);
+    });
+  });
+  return errs;
+}
+
+function pad(n) { return String(n).padStart(2, "0"); }
+
+function buildExport(state) {
+  const tr = DATA.textual_representation_id;
+  const anns = state.annotations.map((a, i) => {
+    const k = i + 1;
+    const proc = { id: `P${pad(k)}`, type: a.type, kind: a.kind, disposition_type: a.disposition, bearer: a.bearer,
+                   participants: a.participants || [], label: a.label.trim(), class_fit: a.fit };
+    const out = {
+      id: `G${pad(k)}`, type: "vn-core:ValueEvidenceAnnotation",
+      hasEvidenceSource: { id: `S${pad(k)}`, type: "vn-core:TextSpan", hasTextualSequenceValue: a.span, isTextSpanOf: tr },
+      hasSelector: { id: `SEL${pad(k)}`, type: "vn-core:TextSpanSelector", hasSourceRepresentation: tr, selectsTextSpan: `S${pad(k)}`,
+                     hasStartOffset: a.start, hasEndOffset: a.end },
+      isEvidenceFor: proc,
+    };
+    if ((a.note || "").trim()) out.note = a.note.trim();
+    return out;
+  });
+  return {
+    schema: "e-pc/annotations/v1",
+    textual_representation: { id: tr, file: DATA.file, sha256: state.sha256, codepoint_length: state.codepoints },
+    annotator: state.annotator.trim(), role: "gold", blind_to: ["arms/", "results/", "other annotators' files"], date: state.date,
+    annotations: anns,
+  };
+}
+
+function importExport(obj) {
+  // Inverse of buildExport, for resuming from a saved file.
+  return (obj.annotations || []).map(x => ({
+    span: x.hasEvidenceSource.hasTextualSequenceValue, start: x.hasSelector.hasStartOffset, end: x.hasSelector.hasEndOffset,
+    kind: x.isEvidenceFor.kind, type: x.isEvidenceFor.type, disposition: x.isEvidenceFor.disposition_type, bearer: x.isEvidenceFor.bearer,
+    participants: x.isEvidenceFor.participants || [], label: x.isEvidenceFor.label, fit: x.isEvidenceFor.class_fit || "exact", note: x.note || "",
+  }));
+}
+
+function slug(s) { return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "annotator"; }
+
+if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice, trimSpan, pairedDisposition, validateAnnotations, buildExport, importExport, slug, DATA };
+</script>
+
+<script id="app">
+(function () {
+  const $ = id => document.getElementById(id);
+  const state = { annotator: "", date: "", attested: false, text: "", sha256: "", codepoints: 0, fileName: "", annotations: [] };
+  let editing = null;      // index being edited, or null
+  let pending = null;      // {start,end,span} from the current selection
+
+  // ---------- IndexedDB
+  const DB = "epc-annotator", STORE = "state";
+  function openDb() {
+    return new Promise((res, rej) => {
+      const r = indexedDB.open(DB, 1);
+      r.onupgradeneeded = () => r.result.createObjectStore(STORE, { keyPath: "key" });
+      r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+    });
+  }
+  async function save() {
+    try { const db = await openDb(); const tx = db.transaction(STORE, "readwrite"); tx.objectStore(STORE).put({ key: "current", ...state }); await new Promise(r => tx.oncomplete = r); }
+    catch (e) { $("exportStatus").textContent = "Could not save in this browser: " + e; }
+  }
+  async function load() {
+    try { const db = await openDb(); const tx = db.transaction(STORE, "readonly"); const req = tx.objectStore(STORE).get("current");
+      const rec = await new Promise((res, rej) => { req.onsuccess = () => res(req.result); req.onerror = () => rej(req.error); });
+      if (rec) Object.assign(state, rec, { key: undefined }); }
+    catch (e) { /* first run or storage blocked; start empty */ }
+  }
+
+  // ---------- setup
+  async function sha256Hex(buf) { const h = await crypto.subtle.digest("SHA-256", buf); return Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, "0")).join(""); }
+  async function loadProse(file) {
+    const buf = await file.arrayBuffer();
+    const hash = await sha256Hex(buf);
+    const text = new TextDecoder("utf-8", { fatal: true }).decode(buf);
+    state.text = text; state.sha256 = hash; state.codepoints = cpLen(text); state.fileName = file.name;
+    renderProse(); renderSetup(); await save();
+  }
+  function renderSetup() {
+    $("annotator").value = state.annotator; $("date").value = state.date; $("attest").checked = state.attested;
+    const st = $("proseStatus");
+    if (!state.text) { st.textContent = "No prose loaded."; st.className = "status warn"; return; }
+    const ok = state.sha256 === DATA.expected_sha256 && state.codepoints === DATA.expected_codepoints;
+    st.className = "status " + (ok ? "ok" : "err");
+    st.textContent = ok ? `Loaded ${state.fileName}: ${state.codepoints} code points, SHA-256 matches the frozen prose.`
+                        : `Loaded ${state.fileName}, but its SHA-256 (${state.sha256.slice(0, 12)}...) or length (${state.codepoints}) does not match the frozen prose (${DATA.expected_sha256.slice(0, 12)}..., ${DATA.expected_codepoints}). Use the file from the repository, unmodified; Windows line endings would also cause this.`;
+  }
+
+  // ---------- prose and selection
+  function renderProse() {
+    const pre = $("prose"); pre.textContent = "";
+    if (!state.text) return;
+    const chars = Array.from(state.text);
+    const bounds = new Set([0, chars.length]);
+    state.annotations.forEach(a => { bounds.add(a.start); bounds.add(a.end); });
+    const cuts = Array.from(bounds).sort((a, b) => a - b);
+    for (let i = 0; i < cuts.length - 1; i++) {
+      const s = cuts[i], e = cuts[i + 1]; const seg = chars.slice(s, e).join("");
+      const covering = state.annotations.map((a, idx) => (a.start <= s && a.end >= e) ? idx : -1).filter(x => x >= 0);
+      if (!covering.length) pre.appendChild(document.createTextNode(seg));
+      else { const m = document.createElement("mark"); m.textContent = seg; m.dataset.ids = covering.join(","); if (covering.length > 1) m.className = "multi"; m.title = covering.map(i => `#${i + 1} ${state.annotations[i].label}`).join("\n"); pre.appendChild(m); }
+    }
+  }
+  function selectionOffsets() {
+    const sel = window.getSelection(); if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return null;
+    const range = sel.getRangeAt(0); const pre = $("prose");
+    if (!pre.contains(range.startContainer) || !pre.contains(range.endContainer)) return null;
+    const pre0 = document.createRange(); pre0.selectNodeContents(pre);
+    const before = document.createRange(); before.setStart(pre, 0); before.setEnd(range.startContainer, range.startOffset);
+    const upto = document.createRange(); upto.setStart(pre, 0); upto.setEnd(range.endContainer, range.endOffset);
+    let s = utf16ToCp(state.text, before.toString().length), e = utf16ToCp(state.text, upto.toString().length);
+    [s, e] = trimSpan(state.text, s, e);
+    if (e <= s) return null;
+    return { start: s, end: e, span: cpSlice(state.text, s, e) };
+  }
+  function onSelectionChange() {
+    pending = selectionOffsets();
+    $("selinfo").textContent = pending ? `Selected code points ${pending.start}:${pending.end} (${cpLen(pending.span)} chars): "${pending.span.length > 90 ? pending.span.slice(0, 90) + "..." : pending.span}"` : "Nothing selected.";
+    $("addBtn").disabled = !pending || !state.text;
+  }
+
+  // ---------- form
+  function fillSelect(sel, items, value) { sel.innerHTML = ""; items.forEach(([v, t]) => { const o = document.createElement("option"); o.value = v; o.textContent = t; sel.appendChild(o); }); if (value !== undefined) sel.value = value; }
+  function dispositionOptions() {
+    const g = DATA.dispositions;
+    return [...g.mf.map(x => [x, x + " (moral foundations)"]), ...g.schwartz.map(x => [x, x + " (Schwartz)"]), ...g.folk.map(x => [x, x + " (folk)"])];
+  }
+  function refreshTypeAndDisp(kind, type, disp) {
+    if (kind === "violation") {
+      fillSelect($("fType"), DATA.violations.map(v => [v.type, v.type + (v.contravenes ? " (contravenes " + v.contravenes + ")" : " (any disposition)")]), type || DATA.violations[0].type);
+    } else {
+      fillSelect($("fType"), [["vn-core:ValueRealizationProcess", "vn-core:ValueRealizationProcess"]], "vn-core:ValueRealizationProcess");
+    }
+    const paired = pairedDisposition($("fType").value);
+    if (paired) { fillSelect($("fDisp"), [[paired, paired + " (fixed by the pair)"]], paired); $("fDisp").disabled = true; $("fDispNote").textContent = "Fixed: each moral-foundations violation contravenes its paired foundation."; }
+    else { fillSelect($("fDisp"), dispositionOptions(), disp || DATA.dispositions.mf[0]); $("fDisp").disabled = false; $("fDispNote").textContent = ""; }
+  }
+  function openForm(idx) {
+    editing = idx; const a = idx === null ? null : state.annotations[idx];
+    const span = a || pending; if (!span) return;
+    $("form").classList.remove("hidden"); $("formTitle").textContent = a ? `Edit annotation #${idx + 1}` : "New annotation";
+    $("fSpan").value = span.span; $("fOffsets").textContent = `Code points ${span.start}:${span.end}, end-exclusive.`;
+    $("fKind").value = a ? a.kind : "violation";
+    refreshTypeAndDisp($("fKind").value, a && a.type, a && a.disposition);
+    fillSelect($("fBearer"), DATA.entities.map(e => [e.id, `${e.id}  ${e.label} (${e.type})`]), a ? a.bearer : DATA.entities[0].id);
+    fillSelect($("fParts"), DATA.entities.map(e => [e.id, `${e.id}  ${e.label}`]));
+    Array.from($("fParts").options).forEach(o => o.selected = !!(a && a.participants.includes(o.value)));
+    $("fLabel").value = a ? a.label : ""; $("fFit").value = a ? a.fit : "exact"; $("fNote").value = a ? a.note : "";
+    $("deleteBtn").classList.toggle("hidden", !a); $("fErrors").textContent = "";
+    $("form").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  function readForm() {
+    const span = editing === null ? pending : state.annotations[editing];
+    return { span: span.span, start: span.start, end: span.end, kind: $("fKind").value, type: $("fType").value, disposition: $("fDisp").value,
+             bearer: $("fBearer").value, participants: Array.from($("fParts").selectedOptions).map(o => o.value), label: $("fLabel").value, fit: $("fFit").value, note: $("fNote").value };
+  }
+  async function saveForm() {
+    const a = readForm();
+    const trial = state.annotations.slice(); if (editing === null) trial.push(a); else trial[editing] = a;
+    const errs = validateAnnotations(state.text, trial).filter(x => x.startsWith(`#${(editing === null ? trial.length : editing + 1)}`) || x.includes(`#${(editing === null ? trial.length : editing + 1)}:`) || x.includes(` and #${(editing === null ? trial.length : editing + 1)}`) || x.startsWith(`#${(editing === null ? trial.length : editing + 1)} and`));
+    if (errs.length) { $("fErrors").textContent = errs.join("\n"); return; }
+    state.annotations = trial; editing = null; pending = null; window.getSelection().removeAllRanges();
+    $("form").classList.add("hidden"); await save(); renderAll();
+  }
+
+  // ---------- list, export, import
+  function renderList() {
+    const tb = $("list").querySelector("tbody"); tb.innerHTML = "";
+    state.annotations.forEach((a, i) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${i + 1}</td><td class="span">"${escapeHtml(a.span.length > 70 ? a.span.slice(0, 70) + "..." : a.span)}"<div class="small">${a.start}:${a.end}</div></td>` +
+        `<td>${escapeHtml(a.type)}<div class="small">${a.kind} of ${escapeHtml(a.disposition)}${a.fit !== "exact" ? " · fit " + a.fit : ""}</div></td><td>${escapeHtml(a.bearer)}</td><td>${escapeHtml(a.label)}</td>` +
+        `<td><button data-edit="${i}">Edit</button></td>`;
+      tb.appendChild(tr);
+    });
+    $("count").textContent = `${state.annotations.length} annotation${state.annotations.length === 1 ? "" : "s"}`;
+    $("errors").textContent = state.text ? validateAnnotations(state.text, state.annotations).join("\n") : "";
+  }
+  function escapeHtml(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+  function renderAll() { renderSetup(); renderProse(); renderList(); onSelectionChange(); }
+  function exportFile() {
+    const problems = [];
+    if (!state.text) problems.push("no prose loaded");
+    if (state.text && (state.sha256 !== DATA.expected_sha256 || state.codepoints !== DATA.expected_codepoints)) problems.push("the loaded prose does not match the frozen file");
+    if (!state.annotator.trim()) problems.push("your name is missing");
+    if (!state.date) problems.push("the date is missing");
+    if (!state.attested) problems.push("the blindness box is not ticked");
+    if (!state.annotations.length) problems.push("there are no annotations");
+    const errs = state.text ? validateAnnotations(state.text, state.annotations) : [];
+    if (errs.length) problems.push(`${errs.length} validation error(s) listed above`);
+    if (problems.length) { $("exportStatus").className = "status err"; $("exportStatus").textContent = "Not exported: " + problems.join("; ") + "."; return; }
+    const obj = buildExport(state); const ext = $("ext").value;
+    const blob = new Blob([JSON.stringify(obj, null, 1) + "\n"], { type: "application/json" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `${DATA.scenario}.${slug(state.annotator)}.${ext}`; a.click(); URL.revokeObjectURL(a.href);
+    $("exportStatus").className = "status ok"; $("exportStatus").textContent = `Exported ${a.download} with ${obj.annotations.length} annotations. Email it to Aaron.`;
+  }
+  async function importFile(file) {
+    try {
+      const obj = JSON.parse(await file.text());
+      if (obj.schema !== "e-pc/annotations/v1") throw new Error("not an E-PC annotation file");
+      if (state.text && obj.textual_representation && obj.textual_representation.sha256 !== state.sha256) throw new Error("that file was made against different prose");
+      state.annotations = importExport(obj); if (obj.annotator) state.annotator = obj.annotator; if (obj.date) state.date = obj.date;
+      await save(); renderAll(); $("exportStatus").className = "status ok"; $("exportStatus").textContent = `Imported ${state.annotations.length} annotations from ${file.name}.`;
+    } catch (e) { $("exportStatus").className = "status err"; $("exportStatus").textContent = "Import failed: " + e.message; }
+  }
+
+  // ---------- wiring
+  async function init() {
+    $("scenarioName").textContent = DATA.scenario; $("proseFileName").textContent = DATA.file;
+    await load();
+    if (!state.date) state.date = new Date().toISOString().slice(0, 10);
+    renderAll();
+    $("annotator").addEventListener("input", e => { state.annotator = e.target.value; save(); });
+    $("date").addEventListener("change", e => { state.date = e.target.value; save(); });
+    $("attest").addEventListener("change", e => { state.attested = e.target.checked; save(); });
+    $("proseFile").addEventListener("change", e => { if (e.target.files[0]) loadProse(e.target.files[0]); });
+    document.addEventListener("selectionchange", onSelectionChange);
+    $("addBtn").addEventListener("click", () => openForm(null));
+    $("fKind").addEventListener("change", () => refreshTypeAndDisp($("fKind").value));
+    $("fType").addEventListener("change", () => refreshTypeAndDisp($("fKind").value, $("fType").value, $("fDisp").value));
+    $("saveBtn").addEventListener("click", saveForm);
+    $("cancelBtn").addEventListener("click", () => { editing = null; $("form").classList.add("hidden"); });
+    $("deleteBtn").addEventListener("click", async () => { if (editing !== null && confirm("Delete this annotation?")) { state.annotations.splice(editing, 1); editing = null; $("form").classList.add("hidden"); await save(); renderAll(); } });
+    $("list").addEventListener("click", e => { const b = e.target.closest("button[data-edit]"); if (b) openForm(Number(b.dataset.edit)); });
+    $("prose").addEventListener("click", e => { const m = e.target.closest("mark"); if (m && window.getSelection().isCollapsed) { const ids = m.dataset.ids.split(",").map(Number); if (ids.length === 1) openForm(ids[0]); else $("selinfo").textContent = "Covered by " + ids.map(i => `#${i + 1}`).join(", ") + "; use the table to edit one."; } });
+    $("exportBtn").addEventListener("click", exportFile);
+    $("importBtn").addEventListener("click", () => $("importFile").click());
+    $("importFile").addEventListener("change", e => { if (e.target.files[0]) importFile(e.target.files[0]); e.target.value = ""; });
+    $("clearBtn").addEventListener("click", async () => { if (confirm("Delete all annotations and the loaded prose from this browser? Export first if you want to keep them.")) { Object.assign(state, { text: "", sha256: "", codepoints: 0, fileName: "", annotations: [], attested: false }); await save(); renderAll(); } });
+  }
+  init();
+})();
+</script>
+</body>
+</html>
