@@ -51,6 +51,29 @@ answer bears on (for example an unknown about capacity is evidence for a process
 `folk:AutonomyDisposition` borne by `P-PAT`, or, if you read it as a threatened harm, an
 `mf:HarmProcess` contravening `mf:CareDisposition` borne by `P-HOSP`). Choose one; say why in `note`.
 
+## Worked example (a different case, not this one)
+
+The text below is not the case. It exists only to show the form of an annotation, and nothing in
+it should be read into the scenario. The tool shows the same example in its rules panel.
+
+> A small bakery has two employees. On Monday the owner, Ada Lin, asked the newer employee, Ben
+> Cole, to close the shop alone for the first time. The till was short by twelve pounds on Tuesday
+> morning. Nobody has asked Ben what happened. Whether the shortfall was an error or something else
+> is not known.
+
+Cast for the example only: `P-OWNER` Ada Lin, `P-EMP` Ben Cole, `ORG-BAKERY` the bakery.
+
+| # | Span (highlighted in the tool) | Kind and value | Bearer | Label | Fit and note |
+| --- | --- | --- | --- | --- | --- |
+| 1 | asked the newer employee, Ben Cole, to close the shop alone for the first time | Realization of Trust (`folk:TrustDisposition`) | `P-OWNER`; participant `P-EMP` | Ada extends trust to a new employee | exact |
+| 2 | The till was short by twelve pounds | Violation: Cheating (`mf:CheatingProcess`), contravenes Fairness | `P-OWNER` | money may have been taken from the owner | closest; note: only if the shortfall was taken; the cause is not known |
+| 3 | Nobody has asked Ben what happened. | Realization of Fairness (`mf:FairnessDisposition`) | `P-OWNER`; participant `P-EMP` | Ben should be heard before anyone concludes what happened | exact; note: the unknown (error or something else) bears on this |
+
+In the tool, 1 and 3 show green (a good pursued or an obligation in play), 2 shows red (a harm),
+and each span carries its row number at its end. Hovering a highlight shows its fields; clicking it
+opens it for editing. Selections are trimmed and widened to whole words before they are recorded,
+so a span never starts or ends inside a word.
+
 ## What not to do
 
 - Do not annotate appraisals of your own that the text does not anchor. If you cannot point at
