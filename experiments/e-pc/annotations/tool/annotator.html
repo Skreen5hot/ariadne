@@ -50,6 +50,7 @@
   #prose mark.real { background: var(--real); border-bottom: 2px solid var(--real-line); }
   #prose mark.multi { background: var(--mark-strong); border-bottom: 2px solid var(--accent); }
   #prose mark.focus { outline: 2px solid var(--warn); }
+  #prose mark[data-n]::after { content: attr(data-n); font: 600 10px/1 system-ui, sans-serif; vertical-align: super; margin: 0 2px 0 2px; color: var(--accent); user-select: none; }
   .legend { font-size: 12px; color: var(--muted); margin-top: 6px; display: flex; gap: 14px; flex-wrap: wrap; }
   .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 5px; vertical-align: -2px; border-radius: 2px; }
   .legend .lv::before { background: var(--viol); border-bottom: 2px solid var(--viol-line); }
@@ -284,6 +285,7 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
   const state = { annotator: "", date: "", attested: false, text: "", sha256: "", codepoints: 0, fileName: "", annotations: [] };
   let editing = null;      // index being edited, or null
   let pending = null;      // {start,end,span} from the current selection
+  let draft = null;        // the span the open form is about; captured when the form opens, because clicking a form field collapses the page selection
 
   // ---------- IndexedDB
   const DB = "epc-annotator", STORE = "state";
@@ -339,6 +341,9 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
       else {
         const m = document.createElement("mark"); m.textContent = seg; m.dataset.ids = covering.join(",");
         m.className = covering.length > 1 ? "multi" : (state.annotations[covering[0]].kind === "violation" ? "viol" : "real");
+        // Number badge drawn by CSS from data-n: not part of the text, so it cannot shift any offset.
+        const last = covering.filter(idx => state.annotations[idx].end === e);
+        if (last.length) m.dataset.n = last.map(idx => idx + 1).join(",");
         m.title = covering.map(i => `#${i + 1} ${state.annotations[i].kind}: ${classLabel(state.annotations[i].disposition)} (${state.annotations[i].bearer}). ${state.annotations[i].label}`).join("\n");
         pre.appendChild(m);
       }
@@ -360,6 +365,12 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     pending = selectionOffsets();
     $("selinfo").textContent = pending ? `Selected code points ${pending.start}:${pending.end} (${cpLen(pending.span)} chars): "${pending.span.length > 90 ? pending.span.slice(0, 90) + "..." : pending.span}"` : "Nothing selected.";
     $("addBtn").disabled = !pending || !state.text;
+    // A new selection while adding (not editing) replaces the form's span; a collapsed selection leaves it alone.
+    if (pending && editing === null && !$("form").classList.contains("hidden")) { draft = { ...pending }; showDraft(); }
+  }
+  function showDraft() {
+    $("fSpan").value = draft ? draft.span : "";
+    $("fOffsets").textContent = draft ? `Code points ${draft.start}:${draft.end}, end-exclusive.` : "No span: select text in the case first.";
   }
 
   // ---------- form
@@ -409,8 +420,9 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
   function openForm(idx) {
     editing = idx; const a = idx === null ? null : state.annotations[idx];
     const span = a || pending; if (!span) return;
+    draft = { start: span.start, end: span.end, span: span.span };
     $("form").classList.remove("hidden"); $("formTitle").textContent = a ? `Edit annotation #${idx + 1}` : "New annotation";
-    $("fSpan").value = span.span; $("fOffsets").textContent = `Code points ${span.start}:${span.end}, end-exclusive.`;
+    showDraft();
     $("fKind").value = a ? a.kind : "violation";
     const needAll = !!(a && !pairedDisposition(a.type) && !inPalette(a.disposition));
     $("fShowAll").checked = needAll;
@@ -423,17 +435,20 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     $("form").scrollIntoView({ behavior: "smooth", block: "start" });
   }
   function readForm() {
-    const span = editing === null ? pending : state.annotations[editing];
-    return { span: span.span, start: span.start, end: span.end, kind: $("fKind").value, type: $("fType").value, disposition: $("fDisp").value,
+    if (!draft) throw new Error("No span: select text in the case, then press Add.");
+    return { span: draft.span, start: draft.start, end: draft.end, kind: $("fKind").value, type: $("fType").value, disposition: $("fDisp").value,
              bearer: $("fBearer").value, participants: Array.from($("fParts").selectedOptions).map(o => o.value), label: $("fLabel").value, fit: $("fFit").value, note: $("fNote").value };
   }
   async function saveForm() {
-    const a = readForm();
-    const trial = state.annotations.slice(); if (editing === null) trial.push(a); else trial[editing] = a;
-    const errs = validateAnnotations(state.text, trial).filter(x => x.startsWith(`#${(editing === null ? trial.length : editing + 1)}`) || x.includes(`#${(editing === null ? trial.length : editing + 1)}:`) || x.includes(` and #${(editing === null ? trial.length : editing + 1)}`) || x.startsWith(`#${(editing === null ? trial.length : editing + 1)} and`));
-    if (errs.length) { $("fErrors").textContent = errs.join("\n"); return; }
-    state.annotations = trial; editing = null; pending = null; window.getSelection().removeAllRanges();
-    $("form").classList.add("hidden"); await save(); renderAll();
+    try {
+      const a = readForm();
+      const trial = state.annotations.slice(); if (editing === null) trial.push(a); else trial[editing] = a;
+      const n = editing === null ? trial.length : editing + 1;
+      const errs = validateAnnotations(state.text, trial).filter(x => x.startsWith(`#${n}:`) || x.startsWith(`#${n} and`) || x.includes(` and #${n}:`));
+      if (errs.length) { $("fErrors").textContent = errs.join("\n"); return; }
+      state.annotations = trial; editing = null; pending = null; draft = null; window.getSelection().removeAllRanges();
+      $("form").classList.add("hidden"); await save(); renderAll();
+    } catch (e) { $("fErrors").textContent = "Not saved: " + (e && e.message ? e.message : e); }
   }
 
   // ---------- list, export, import
@@ -500,8 +515,8 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     $("list").addEventListener("mouseover", e => { const tr = e.target.closest("tr[data-idx]"); document.querySelectorAll("#prose mark.focus").forEach(m => m.classList.remove("focus")); if (tr) document.querySelectorAll("#prose mark").forEach(m => { if (m.dataset.ids.split(",").includes(tr.dataset.idx)) m.classList.add("focus"); }); });
     $("list").addEventListener("mouseleave", () => document.querySelectorAll("#prose mark.focus").forEach(m => m.classList.remove("focus")));
     $("saveBtn").addEventListener("click", saveForm);
-    $("cancelBtn").addEventListener("click", () => { editing = null; $("form").classList.add("hidden"); });
-    $("deleteBtn").addEventListener("click", async () => { if (editing !== null && confirm("Delete this annotation?")) { state.annotations.splice(editing, 1); editing = null; $("form").classList.add("hidden"); await save(); renderAll(); } });
+    $("cancelBtn").addEventListener("click", () => { editing = null; draft = null; $("form").classList.add("hidden"); });
+    $("deleteBtn").addEventListener("click", async () => { if (editing !== null && confirm("Delete this annotation?")) { state.annotations.splice(editing, 1); editing = null; draft = null; $("form").classList.add("hidden"); await save(); renderAll(); } });
     $("list").addEventListener("click", e => { const b = e.target.closest("button[data-edit]"); if (b) openForm(Number(b.dataset.edit)); });
     $("prose").addEventListener("click", e => { const m = e.target.closest("mark"); if (m && window.getSelection().isCollapsed) { const ids = m.dataset.ids.split(",").map(Number); if (ids.length === 1) openForm(ids[0]); else $("selinfo").textContent = "Covered by " + ids.map(i => `#${i + 1}`).join(", ") + "; use the table to edit one."; } });
     $("exportBtn").addEventListener("click", exportFile);
