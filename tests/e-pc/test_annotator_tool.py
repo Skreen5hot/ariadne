@@ -108,10 +108,12 @@ process.stdout.write(JSON.stringify(buildExport(state)));
 def test_selection_snaps_to_whole_words(tmp_path, prose):
     d = _data()
     cases = [("forty-bed hospit", "forty-bed hospital"), ("argaret Okonjo, aged 8", "Margaret Okonjo, aged 81"),
-             ("Margaret's hous", "Margaret's house"), ("I want my own bed.", "I want my own bed.")]
+             ("responsible for Margaret's car", "responsible for Margaret's care"), ("I want my own bed.", "I want my own bed.")]
     js_cases = []
     for partial, whole in cases:
-        (s, e), *_ = epc.codepoint_offsets(partial, prose)
+        hits = epc.codepoint_offsets(partial, prose)
+        assert hits, f"test setup: {partial!r} not found in the prose"
+        s, e = hits[0]
         js_cases.append({"s": s, "e": e, "want": whole})
     harness = f"""
 const document = {{ getElementById: () => ({{ textContent: {json.dumps(json.dumps(d))} }}) }};
