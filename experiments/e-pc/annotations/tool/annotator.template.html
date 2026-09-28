@@ -45,12 +45,16 @@
   :root { --viol: rgba(155, 44, 44, 0.20); --viol-line: #9b2c2c; --real: rgba(47, 107, 58, 0.22); --real-line: #2f6b3a; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --viol: rgba(239, 154, 154, 0.26); --viol-line: #ef9a9a; --real: rgba(143, 207, 154, 0.26); --real-line: #8fcf9a; } }
   :root[data-theme="dark"] { --viol: rgba(239, 154, 154, 0.26); --viol-line: #ef9a9a; --real: rgba(143, 207, 154, 0.26); --real-line: #8fcf9a; }
-  #prose mark { color: inherit; padding: 0; cursor: pointer; }
-  #prose mark.viol { background: var(--viol); border-bottom: 2px solid var(--viol-line); }
-  #prose mark.real { background: var(--real); border-bottom: 2px solid var(--real-line); }
+  #prose mark, .ex mark { color: inherit; padding: 0; cursor: pointer; }
+  #prose mark.viol, .ex mark.viol { background: var(--viol); border-bottom: 2px solid var(--viol-line); }
+  #prose mark.real, .ex mark.real { background: var(--real); border-bottom: 2px solid var(--real-line); }
   #prose mark.multi { background: var(--mark-strong); border-bottom: 2px solid var(--accent); }
   #prose mark.focus { outline: 2px solid var(--warn); }
-  #prose mark[data-n]::after { content: attr(data-n); font: 600 10px/1 system-ui, sans-serif; vertical-align: super; margin: 0 2px 0 2px; color: var(--accent); user-select: none; }
+  #prose mark[data-n]::after, .ex mark[data-n]::after { content: attr(data-n); font: 600 10px/1 system-ui, sans-serif; vertical-align: super; margin: 0 2px 0 2px; color: var(--accent); user-select: none; }
+  .ex { font-size: 13px; }
+  .ex p { font: 14px/1.6 Georgia, "Times New Roman", serif; padding: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); margin: 6px 0; }
+  .ex table { font-size: 12px; }
+  .ex td, .ex th { padding: 4px 5px; }
   .legend { font-size: 12px; color: var(--muted); margin-top: 6px; display: flex; gap: 14px; flex-wrap: wrap; }
   .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 5px; vertical-align: -2px; border-radius: 2px; }
   .legend .lv::before { background: var(--viol); border-bottom: 2px solid var(--viol-line); }
@@ -99,7 +103,7 @@
 
     <section class="panel">
       <h2>2. Select a span, then add it</h2>
-      <p class="selinfo">Select the words that carry one consideration. Keep spans short: a clause or a sentence. Whitespace at the ends is trimmed for you.</p>
+      <p class="selinfo">Select the words that carry one consideration. Keep spans short: a clause or a sentence. The selection is trimmed and widened to whole words for you.</p>
       <pre id="prose"></pre>
       <div class="legend"><span class="lv">Violation (a harm)</span><span class="lr">Realization (a good or obligation)</span><span class="lm">More than one annotation</span><span>Click a highlight to edit it</span></div>
       <div class="selinfo" id="selinfo">Nothing selected.</div>
@@ -175,6 +179,19 @@
         <li>If no ValueNet class fits at all, do not invent one: choose the closest, set class fit to gap, describe the missing class in the note.</li>
         <li>Do not open <code>arms/</code>, <code>results/</code> or another annotator's file until adjudication.</li>
       </ul>
+      <details style="margin-top:8px" class="ex"><summary>Worked example (a different case, not this one)</summary>
+        <p>A small bakery has two employees. On Monday the owner, Ada Lin, <mark class="real" data-n="1">asked the newer employee, Ben Cole, to close the shop alone for the first time</mark>. <mark class="viol" data-n="2">The till was short by twelve pounds</mark> on Tuesday morning. <mark class="real" data-n="3">Nobody has asked Ben what happened.</mark> Whether the shortfall was an error or something else is not known.</p>
+        <div>Cast for the example only: <code>P-OWNER</code> Ada Lin, <code>P-EMP</code> Ben Cole, <code>ORG-BAKERY</code> the bakery. Nothing here is about the case you are annotating.</div>
+        <table>
+          <thead><tr><th>#</th><th>Kind and value</th><th>Bearer</th><th>Label</th><th>Fit and note</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><span class="kind real">Realization</span> of Trust</td><td>P-OWNER; participant P-EMP</td><td>Ada extends trust to a new employee</td><td>exact</td></tr>
+            <tr><td>2</td><td><span class="kind viol">Cheating</span>, contravenes Fairness</td><td>P-OWNER</td><td>money may have been taken from the owner</td><td>closest; note: only if the shortfall was taken; the cause is not known</td></tr>
+            <tr><td>3</td><td><span class="kind real">Realization</span> of Fairness</td><td>P-OWNER; participant P-EMP</td><td>Ben should be heard before anyone concludes what happened</td><td>exact; note: the unknown (error or something else) bears on this</td></tr>
+          </tbody>
+        </table>
+        <div>Green is a good pursued or an obligation in play; red is a harm; the number at the end of a span is the annotation's row. Hover a highlight for its fields; click it to edit.</div>
+      </details>
       <details style="margin-top:8px"><summary>Where the export goes</summary>
         <p style="font-size:13px">Export writes <code>clinic-discharge.&lt;yourname&gt;.json</code>. Email it to Aaron; he saves it under <code>experiments/e-pc/annotations/</code> and runs <code>epc.py validate-annotations</code>. If your mail system blocks .json, choose .txt above; the content is the same. Your work is also saved in this browser as you go.</p>
       </details>
@@ -197,6 +214,17 @@ function trimSpan(text, s, e) {
   const chars = Array.from(text);
   while (s < e && /\s/.test(chars[s])) s++;
   while (e > s && /\s/.test(chars[e - 1])) e--;
+  return [s, e];
+}
+
+function isWordChar(c) { return /[\p{L}\p{N}]/u.test(c); }
+function snapToWords(text, s, e) {
+  // Expand outward to whole words. Apostrophes and hyphens between letters stay inside the word (Margaret's, forty-bed).
+  const chars = Array.from(text);
+  const joins = i => (chars[i] === "'" || chars[i] === "’" || chars[i] === "-") && i > 0 && i + 1 < chars.length && isWordChar(chars[i - 1]) && isWordChar(chars[i + 1]);
+  const inWord = i => i >= 0 && i < chars.length && (isWordChar(chars[i]) || joins(i));
+  while (s > 0 && inWord(s) && inWord(s - 1)) s--;
+  while (e < chars.length && inWord(e - 1) && inWord(e)) e++;
   return [s, e];
 }
 
@@ -276,7 +304,7 @@ function classLabel(id) { const c = DATA.classes[id]; return c ? c.label : id; }
 function classDefinition(id) { const c = DATA.classes[id]; return c ? c.definition : ""; }
 function inPalette(id) { return DATA.palette.some(g => g.classes.includes(id)); }
 
-if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice, trimSpan, pairedDisposition, validateAnnotations, buildExport, importExport, slug, classLabel, classDefinition, inPalette, DATA };
+if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice, trimSpan, snapToWords, pairedDisposition, validateAnnotations, buildExport, importExport, slug, classLabel, classDefinition, inPalette, DATA };
 </script>
 
 <script id="app">
@@ -359,6 +387,7 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     let s = utf16ToCp(state.text, before.toString().length), e = utf16ToCp(state.text, upto.toString().length);
     [s, e] = trimSpan(state.text, s, e);
     if (e <= s) return null;
+    [s, e] = snapToWords(state.text, s, e);
     return { start: s, end: e, span: cpSlice(state.text, s, e) };
   }
   function onSelectionChange() {

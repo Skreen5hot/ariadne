@@ -105,6 +105,43 @@ process.stdout.write(JSON.stringify(buildExport(state)));
 
 
 @pytest.mark.skipif(shutil.which("node") is None, reason="node not installed")
+def test_selection_snaps_to_whole_words(tmp_path, prose):
+    d = _data()
+    cases = [("forty-bed hospit", "forty-bed hospital"), ("argaret Okonjo, aged 8", "Margaret Okonjo, aged 81"),
+             ("Margaret's hous", "Margaret's house"), ("I want my own bed.", "I want my own bed.")]
+    js_cases = []
+    for partial, whole in cases:
+        (s, e), *_ = epc.codepoint_offsets(partial, prose)
+        js_cases.append({"s": s, "e": e, "want": whole})
+    harness = f"""
+const document = {{ getElementById: () => ({{ textContent: {json.dumps(json.dumps(d))} }}) }};
+{_core_script()}
+const text = {json.dumps(prose)};
+const out = {json.dumps(js_cases)}.map(c => {{ const [s, e] = snapToWords(text, c.s, c.e); return {{ got: cpSlice(text, s, e), want: c.want }}; }});
+process.stdout.write(JSON.stringify(out));
+"""
+    js = tmp_path / "snap.js"
+    js.write_text(harness, encoding="utf-8")
+    r = subprocess.run(["node", str(js)], capture_output=True, text=True, encoding="utf-8")
+    assert r.returncode == 0, r.stderr
+    for row in json.loads(r.stdout):
+        assert row["got"] == row["want"], row
+
+
+def test_worked_example_is_the_same_in_guide_and_tool():
+    guide = (EPC_DIR / "annotations" / "ANNOTATION_GUIDE.md").read_text(encoding="utf-8")
+    html = (TOOL / "annotator.html").read_text(encoding="utf-8")
+    spans = ["asked the newer employee, Ben Cole, to close the shop alone for the first time",
+             "The till was short by twelve pounds", "Nobody has asked Ben what happened."]
+    for s in spans:
+        assert s in guide and s in html, s
+    for phrase in ["Ada extends trust to a new employee", "money may have been taken from the owner",
+                   "Ben should be heard before anyone concludes what happened"]:
+        assert phrase in guide and phrase in html, phrase
+    assert "not the case" in guide and "not this one" in html
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node not installed")
 def test_tool_rejects_bad_pairing_and_unknown_bearer(tmp_path, prose):
     d = _data()
     span = "I want my own bed."
