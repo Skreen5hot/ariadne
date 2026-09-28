@@ -49,3 +49,13 @@ def test_results_record_current_prereg_hash():
         assert data.get("prereg_sha256") == h, f"{m.parent.name}: manifest prereg_sha256 differs from PREREG.md"
         if data.get("mode") == "credited":
             assert ratified_hash() == h, f"{m.parent.name}: credited run without a matching PREREG.ratified"
+
+
+def test_deviations_are_logged_outside_the_hash():
+    """Deviations go to DEVIATIONS.md; the frozen file must not offer itself as the log."""
+    dev = EPC_DIR / "DEVIATIONS.md"
+    assert dev.exists(), "experiments/e-pc/DEVIATIONS.md is missing"
+    assert "## Entries" in dev.read_text(encoding="utf-8")
+    prereg = (EPC_DIR / "PREREG.md").read_text(encoding="utf-8")
+    assert "DEVIATIONS.md" in prereg
+    assert "deviations go in §12" not in prereg
