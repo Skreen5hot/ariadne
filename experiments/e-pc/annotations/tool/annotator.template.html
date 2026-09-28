@@ -42,9 +42,24 @@
   .status { font-size: 13px; margin-top: 6px; }
   .ok { color: var(--ok); } .warn { color: var(--warn); } .err { color: var(--err); }
   #prose { white-space: pre-wrap; font: 15px/1.6 Georgia, "Times New Roman", serif; margin: 0; padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); max-height: 70vh; overflow: auto; user-select: text; }
-  #prose mark { background: var(--mark); color: inherit; border-bottom: 2px solid var(--accent); padding: 0; }
-  #prose mark.multi { background: var(--mark-strong); }
+  :root { --viol: rgba(155, 44, 44, 0.20); --viol-line: #9b2c2c; --real: rgba(47, 107, 58, 0.22); --real-line: #2f6b3a; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --viol: rgba(239, 154, 154, 0.26); --viol-line: #ef9a9a; --real: rgba(143, 207, 154, 0.26); --real-line: #8fcf9a; } }
+  :root[data-theme="dark"] { --viol: rgba(239, 154, 154, 0.26); --viol-line: #ef9a9a; --real: rgba(143, 207, 154, 0.26); --real-line: #8fcf9a; }
+  #prose mark { color: inherit; padding: 0; cursor: pointer; }
+  #prose mark.viol { background: var(--viol); border-bottom: 2px solid var(--viol-line); }
+  #prose mark.real { background: var(--real); border-bottom: 2px solid var(--real-line); }
+  #prose mark.multi { background: var(--mark-strong); border-bottom: 2px solid var(--accent); }
   #prose mark.focus { outline: 2px solid var(--warn); }
+  .legend { font-size: 12px; color: var(--muted); margin-top: 6px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 5px; vertical-align: -2px; border-radius: 2px; }
+  .legend .lv::before { background: var(--viol); border-bottom: 2px solid var(--viol-line); }
+  .legend .lr::before { background: var(--real); border-bottom: 2px solid var(--real-line); }
+  .legend .lm::before { background: var(--mark-strong); border-bottom: 2px solid var(--accent); }
+  .kind { display: inline-block; padding: 0 6px; border-radius: 4px; font-size: 12px; white-space: nowrap; }
+  .kind.viol { background: var(--viol); border: 1px solid var(--viol-line); }
+  .kind.real { background: var(--real); border: 1px solid var(--real-line); }
+  tr.hover td { background: var(--bg); }
+  .def { font-size: 12px; color: var(--muted); margin-top: 4px; min-height: 1.2em; }
   #prose ::selection { background: var(--sel); }
   .selinfo { font-size: 13px; color: var(--muted); margin-top: 8px; min-height: 1.4em; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -85,6 +100,7 @@
       <h2>2. Select a span, then add it</h2>
       <p class="selinfo">Select the words that carry one consideration. Keep spans short: a clause or a sentence. Whitespace at the ends is trimmed for you.</p>
       <pre id="prose"></pre>
+      <div class="legend"><span class="lv">Violation (a harm)</span><span class="lr">Realization (a good or obligation)</span><span class="lm">More than one annotation</span><span>Click a highlight to edit it</span></div>
       <div class="selinfo" id="selinfo">Nothing selected.</div>
       <div class="row">
         <button class="primary" id="addBtn" disabled>Add annotation for this selection</button>
@@ -114,14 +130,16 @@
       <div class="status" id="fOffsets"></div>
       <label>Kind</label>
       <select id="fKind">
-        <option value="violation">Violation: a harm, a process that contravenes a borne disposition</option>
+        <option value="violation">Violation: a harm, a process that contravenes a value someone holds</option>
         <option value="realization">Realization: a good pursued or an obligation honoured</option>
       </select>
-      <label>Process type</label>
+      <label>What kind of harm (violations only)</label>
       <select id="fType"></select>
-      <label>Disposition it contravenes / realizes</label>
+      <div class="def" id="fTypeDef"></div>
+      <label>The value at stake <span id="fDispHint"></span></label>
       <select id="fDisp"></select>
-      <div class="status" id="fDispNote"></div>
+      <div class="def" id="fDispNote"></div>
+      <label><input type="checkbox" id="fShowAll"> Show every ValueNet class, not only the palette (use when nothing in the palette fits; say why in the note)</label>
       <label>Bearer of that disposition (a graph entity)</label>
       <select id="fBearer"></select>
       <label>Other participants (optional; hold Ctrl or Cmd to pick several)</label>
@@ -152,7 +170,8 @@
         <li>Name the bearer from the graph. It may be the person harmed, or the person whose own care disposition their act contravenes.</li>
         <li>An unknown is a consideration when its answer would change the picture: anchor it in the sentence that says it is not known and type it by the disposition the missing answer bears on; say why in the note.</li>
         <li>Annotate one consideration once, from the span that carries it best. Do not rank or weight.</li>
-        <li>If no ValueNet class fits, do not invent one: choose the closest, set class fit to gap, describe the missing class in the note.</li>
+        <li>Choose the value from the palette (one class per concept, grouped by theme, each with its definition). Tick "show every class" only when nothing in the palette fits, and say why in the note.</li>
+        <li>If no ValueNet class fits at all, do not invent one: choose the closest, set class fit to gap, describe the missing class in the note.</li>
         <li>Do not open <code>arms/</code>, <code>results/</code> or another annotator's file until adjudication.</li>
       </ul>
       <details style="margin-top:8px"><summary>Where the export goes</summary>
@@ -252,7 +271,11 @@ function importExport(obj) {
 
 function slug(s) { return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "annotator"; }
 
-if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice, trimSpan, pairedDisposition, validateAnnotations, buildExport, importExport, slug, DATA };
+function classLabel(id) { const c = DATA.classes[id]; return c ? c.label : id; }
+function classDefinition(id) { const c = DATA.classes[id]; return c ? c.definition : ""; }
+function inPalette(id) { return DATA.palette.some(g => g.classes.includes(id)); }
+
+if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice, trimSpan, pairedDisposition, validateAnnotations, buildExport, importExport, slug, classLabel, classDefinition, inPalette, DATA };
 </script>
 
 <script id="app">
@@ -313,7 +336,12 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
       const s = cuts[i], e = cuts[i + 1]; const seg = chars.slice(s, e).join("");
       const covering = state.annotations.map((a, idx) => (a.start <= s && a.end >= e) ? idx : -1).filter(x => x >= 0);
       if (!covering.length) pre.appendChild(document.createTextNode(seg));
-      else { const m = document.createElement("mark"); m.textContent = seg; m.dataset.ids = covering.join(","); if (covering.length > 1) m.className = "multi"; m.title = covering.map(i => `#${i + 1} ${state.annotations[i].label}`).join("\n"); pre.appendChild(m); }
+      else {
+        const m = document.createElement("mark"); m.textContent = seg; m.dataset.ids = covering.join(",");
+        m.className = covering.length > 1 ? "multi" : (state.annotations[covering[0]].kind === "violation" ? "viol" : "real");
+        m.title = covering.map(i => `#${i + 1} ${state.annotations[i].kind}: ${classLabel(state.annotations[i].disposition)} (${state.annotations[i].bearer}). ${state.annotations[i].label}`).join("\n");
+        pre.appendChild(m);
+      }
     }
   }
   function selectionOffsets() {
@@ -336,19 +364,47 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
 
   // ---------- form
   function fillSelect(sel, items, value) { sel.innerHTML = ""; items.forEach(([v, t]) => { const o = document.createElement("option"); o.value = v; o.textContent = t; sel.appendChild(o); }); if (value !== undefined) sel.value = value; }
-  function dispositionOptions() {
-    const g = DATA.dispositions;
-    return [...g.mf.map(x => [x, x + " (moral foundations)"]), ...g.schwartz.map(x => [x, x + " (Schwartz)"]), ...g.folk.map(x => [x, x + " (folk)"])];
-  }
-  function refreshTypeAndDisp(kind, type, disp) {
-    if (kind === "violation") {
-      fillSelect($("fType"), DATA.violations.map(v => [v.type, v.type + (v.contravenes ? " (contravenes " + v.contravenes + ")" : " (any disposition)")]), type || DATA.violations[0].type);
+  function short(s, n) { return s.length > n ? s.slice(0, n - 1) + "…" : s; }
+  function fillDispSelect(sel, all, value) {
+    sel.innerHTML = "";
+    const addGroup = (name, ids) => {
+      const g = document.createElement("optgroup"); g.label = name;
+      ids.forEach(id => { const o = document.createElement("option"); o.value = id; o.textContent = `${classLabel(id)}: ${short(classDefinition(id), 80)}`; g.appendChild(o); });
+      sel.appendChild(g);
+    };
+    if (all) {
+      addGroup("Moral foundations", DATA.dispositions.mf); addGroup("Schwartz basic values", DATA.dispositions.schwartz); addGroup("Folk values", DATA.dispositions.folk);
     } else {
-      fillSelect($("fType"), [["vn-core:ValueRealizationProcess", "vn-core:ValueRealizationProcess"]], "vn-core:ValueRealizationProcess");
+      DATA.palette.forEach(p => addGroup(p.theme, p.classes));
+    }
+    if (value !== undefined) sel.value = value;
+    if (sel.value !== value && value !== undefined) { // value outside the shown set: fall back to the first option
+      sel.selectedIndex = 0;
+    }
+  }
+  function showDefinitions() {
+    const v = DATA.violations.find(x => x.type === $("fType").value);
+    $("fTypeDef").textContent = v && $("fKind").value === "violation" ? v.definition : "";
+    $("fDispNote").textContent = classDefinition($("fDisp").value);
+  }
+  function refreshTypeAndDisp(kind, type, disp, showAll) {
+    if (kind === "violation") {
+      fillSelect($("fType"), DATA.violations.map(v => [v.type, v.contravenes ? `${v.label}: contravenes ${classLabel(v.contravenes)}` : `${v.label}: contravenes any value`]), type || DATA.violations[0].type);
+      $("fType").disabled = false;
+    } else {
+      fillSelect($("fType"), [["vn-core:ValueRealizationProcess", "Realization: the value is pursued or honoured"]], "vn-core:ValueRealizationProcess");
+      $("fType").disabled = true;
     }
     const paired = pairedDisposition($("fType").value);
-    if (paired) { fillSelect($("fDisp"), [[paired, paired + " (fixed by the pair)"]], paired); $("fDisp").disabled = true; $("fDispNote").textContent = "Fixed: each moral-foundations violation contravenes its paired foundation."; }
-    else { fillSelect($("fDisp"), dispositionOptions(), disp || DATA.dispositions.mf[0]); $("fDisp").disabled = false; $("fDispNote").textContent = ""; }
+    if (paired) {
+      fillSelect($("fDisp"), [[paired, classLabel(paired)]], paired); $("fDisp").disabled = true; $("fShowAll").disabled = true;
+      $("fDispHint").textContent = "(fixed: this harm contravenes its paired foundation)";
+    } else {
+      const all = showAll !== undefined ? showAll : $("fShowAll").checked;
+      $("fShowAll").disabled = false; $("fDisp").disabled = false; $("fDispHint").textContent = all ? "(every class)" : "(palette)";
+      fillDispSelect($("fDisp"), all, disp || DATA.palette[0].classes[0]);
+    }
+    showDefinitions();
   }
   function openForm(idx) {
     editing = idx; const a = idx === null ? null : state.annotations[idx];
@@ -356,7 +412,9 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     $("form").classList.remove("hidden"); $("formTitle").textContent = a ? `Edit annotation #${idx + 1}` : "New annotation";
     $("fSpan").value = span.span; $("fOffsets").textContent = `Code points ${span.start}:${span.end}, end-exclusive.`;
     $("fKind").value = a ? a.kind : "violation";
-    refreshTypeAndDisp($("fKind").value, a && a.type, a && a.disposition);
+    const needAll = !!(a && !pairedDisposition(a.type) && !inPalette(a.disposition));
+    $("fShowAll").checked = needAll;
+    refreshTypeAndDisp($("fKind").value, a && a.type, a && a.disposition, needAll);
     fillSelect($("fBearer"), DATA.entities.map(e => [e.id, `${e.id}  ${e.label} (${e.type})`]), a ? a.bearer : DATA.entities[0].id);
     fillSelect($("fParts"), DATA.entities.map(e => [e.id, `${e.id}  ${e.label}`]));
     Array.from($("fParts").options).forEach(o => o.selected = !!(a && a.participants.includes(o.value)));
@@ -383,9 +441,13 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     const tb = $("list").querySelector("tbody"); tb.innerHTML = "";
     state.annotations.forEach((a, i) => {
       const tr = document.createElement("tr");
+      const v = DATA.violations.find(x => x.type === a.type);
+      const proc = a.kind === "violation" ? `<span class="kind viol">${escapeHtml(v ? v.label : "Violation")}</span> of ${escapeHtml(classLabel(a.disposition))}`
+                                          : `<span class="kind real">Realization</span> of ${escapeHtml(classLabel(a.disposition))}`;
       tr.innerHTML = `<td>${i + 1}</td><td class="span">"${escapeHtml(a.span.length > 70 ? a.span.slice(0, 70) + "..." : a.span)}"<div class="small">${a.start}:${a.end}</div></td>` +
-        `<td>${escapeHtml(a.type)}<div class="small">${a.kind} of ${escapeHtml(a.disposition)}${a.fit !== "exact" ? " · fit " + a.fit : ""}</div></td><td>${escapeHtml(a.bearer)}</td><td>${escapeHtml(a.label)}</td>` +
+        `<td>${proc}<div class="small">${escapeHtml(a.disposition)}${a.fit !== "exact" ? " · fit " + a.fit : ""}</div></td><td>${escapeHtml(a.bearer)}</td><td>${escapeHtml(a.label)}</td>` +
         `<td><button data-edit="${i}">Edit</button></td>`;
+      tr.dataset.idx = i;
       tb.appendChild(tr);
     });
     $("count").textContent = `${state.annotations.length} annotation${state.annotations.length === 1 ? "" : "s"}`;
@@ -433,6 +495,10 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     $("addBtn").addEventListener("click", () => openForm(null));
     $("fKind").addEventListener("change", () => refreshTypeAndDisp($("fKind").value));
     $("fType").addEventListener("change", () => refreshTypeAndDisp($("fKind").value, $("fType").value, $("fDisp").value));
+    $("fDisp").addEventListener("change", showDefinitions);
+    $("fShowAll").addEventListener("change", () => refreshTypeAndDisp($("fKind").value, $("fType").value, $("fDisp").value, $("fShowAll").checked));
+    $("list").addEventListener("mouseover", e => { const tr = e.target.closest("tr[data-idx]"); document.querySelectorAll("#prose mark.focus").forEach(m => m.classList.remove("focus")); if (tr) document.querySelectorAll("#prose mark").forEach(m => { if (m.dataset.ids.split(",").includes(tr.dataset.idx)) m.classList.add("focus"); }); });
+    $("list").addEventListener("mouseleave", () => document.querySelectorAll("#prose mark.focus").forEach(m => m.classList.remove("focus")));
     $("saveBtn").addEventListener("click", saveForm);
     $("cancelBtn").addEventListener("click", () => { editing = null; $("form").classList.add("hidden"); });
     $("deleteBtn").addEventListener("click", async () => { if (editing !== null && confirm("Delete this annotation?")) { state.annotations.splice(editing, 1); editing = null; $("form").classList.add("hidden"); await save(); renderAll(); } });

@@ -67,8 +67,15 @@ and load `scenarios/clinic-discharge.txt` from the repository; the page checks t
 against the frozen prose and refuses to export if it differs. Select words in the prose, press
 "Add annotation", fill in the process fields, save. Offsets are computed by the tool from your
 selection, in code points, end-exclusive; the pairing rule for the six moral-foundations
-violations is enforced; bearer and participants are chosen from the graph's entities; the
-ValueNet classes on offer are read from the vendored modules. "Export file" writes
+violations is enforced; bearer and participants are chosen from the graph's entities. The value
+at stake is chosen from the **palette** in `annotations/PALETTE.md`: one class per concept, grouped
+by theme, each shown with its own label and definition from the ValueNet modules. The palette was
+fixed on 2026-09-28, before any annotator started, so that two annotators who see the same
+consideration choose the same class. Every other class in the modules stays available behind
+"show every class"; use it only when nothing in the palette fits, and say why in the note. In the
+prose, your annotations are shown in colour: red for violations (harms), green for realizations
+(goods and obligations), blue where two overlap; click a highlight or a table row to edit or delete
+it. "Export file" writes
 `clinic-discharge.<yourname>.json` (choose `.txt` if your mail system blocks `.json`; the content
 is the same). Email the file to Aaron. Do not send it to, or receive it from, the other annotator.
 
