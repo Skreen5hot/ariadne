@@ -59,11 +59,31 @@ answer bears on (for example an unknown about capacity is evidence for a process
 - Do not rank or weight. Coverage is presence.
 - Do not read `arms/`, `results/` or any other annotator's file until adjudication.
 
+## The tool
+
+Open `annotations/tool/annotator.html` in a browser (double-click; it runs offline, needs no
+server, and saves your work in that browser as you go). Enter your name, tick the blindness box,
+and load `scenarios/clinic-discharge.txt` from the repository; the page checks the file's SHA-256
+against the frozen prose and refuses to export if it differs. Select words in the prose, press
+"Add annotation", fill in the process fields, save. Offsets are computed by the tool from your
+selection, in code points, end-exclusive; the pairing rule for the six moral-foundations
+violations is enforced; bearer and participants are chosen from the graph's entities; the
+ValueNet classes on offer are read from the vendored modules. "Export file" writes
+`clinic-discharge.<yourname>.json` (choose `.txt` if your mail system blocks `.json`; the content
+is the same). Email the file to Aaron. Do not send it to, or receive it from, the other annotator.
+
+The tool embeds nothing from `arms/` or `results/`. It is generated from the repository by
+`annotations/tool/build_annotator.py`; a test checks the committed page is current and that its
+exports pass the validator below.
+
 ## File
 
-Write `annotations/clinic-discharge.<yourname>.json` conforming to `annotations/gold.schema.json`.
-Validate with `python experiments/e-pc/scoring/epc.py validate-annotations <file>`, which checks
-offsets against the prose, entity ids against the graph, and class names against the ValueNet modules.
+Aaron saves the emailed file as `annotations/clinic-discharge.<yourname>.json` (renaming `.txt`
+back to `.json` if needed). It conforms to `annotations/gold.schema.json`. Validate with
+`python experiments/e-pc/scoring/epc.py validate-annotations <file>`, which checks offsets against
+the prose, entity ids against the graph, and class names against the ValueNet modules. The tool
+performs the same checks before it exports, so a file that exported should validate; if it does
+not, the prose or the tool changed between the two, and the difference is the finding.
 
 ## Adjudication
 
