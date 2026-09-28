@@ -30,11 +30,36 @@ def _core_script() -> str:
 
 
 def test_generated_tool_is_current(tmp_path):
-    """Rebuilding the tool must reproduce the committed file byte for byte."""
+    """Rebuilding the tool must reproduce the committed page and palette byte for byte."""
     committed = (TOOL / "annotator.html").read_bytes()
+    palette = (TOOL.parent / "PALETTE.md").read_bytes()
     r = subprocess.run(["python", str(TOOL / "build_annotator.py")], capture_output=True, text=True)
     assert r.returncode == 0, r.stderr
     assert (TOOL / "annotator.html").read_bytes() == committed, "annotator.html is stale: run build_annotator.py and commit"
+    assert (TOOL.parent / "PALETTE.md").read_bytes() == palette, "PALETTE.md is stale: run build_annotator.py and commit"
+
+
+def test_palette_and_labels_come_from_the_modules():
+    d = _data()
+    names = epc.valuenet_local_names()
+    assert d["palette"], "no palette embedded"
+    seen = []
+    for group in d["palette"]:
+        assert group["theme"] and group["classes"]
+        for cid in group["classes"]:
+            assert cid in d["classes"], cid
+            assert d["classes"][cid]["label"] and d["classes"][cid]["definition"], f"{cid} lacks a label or definition"
+            prefix, local = cid.split(":")
+            assert local in names[prefix], cid
+            assert cid not in seen, f"{cid} appears twice in the palette"
+            seen.append(cid)
+    for v in d["violations"]:
+        assert v["label"] and v["definition"]
+        if v["type"].startswith("mf:"):
+            assert v["contravenes"] in d["classes"]
+    # every class offered anywhere in the tool carries a definition
+    for cid in d["dispositions"]["all"]:
+        assert d["classes"][cid]["definition"], cid
 
 
 def test_embedded_data_matches_repository(cfg, scenario, prose):
