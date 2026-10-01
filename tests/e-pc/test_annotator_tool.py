@@ -169,3 +169,41 @@ process.stdout.write(JSON.stringify(validateAnnotations(text, bad)));
     assert "do not delimit" in joined
     assert "label is empty" in joined
     assert "needs a note" in joined
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node not installed")
+def test_saved_record_keeps_its_key_across_reloads(tmp_path):
+    """Regression: on load the record's key leaked into the state as undefined, so every save after a reload was
+    rejected by IndexedDB and work done after coming back to the page was lost."""
+    d = _data()
+    harness = f"""
+const document = {{ getElementById: () => ({{ textContent: {json.dumps(json.dumps(d))} }}) }};
+{_core_script()}
+const s0 = {{ annotator: "A", date: "2026-10-01", attested: true, text: "abc", sha256: "x", codepoints: 3, fileName: "f", annotations: [{{ span: "a" }}], formDraft: null }};
+const r1 = toRecord(s0, 1000);
+const s1 = Object.assign({{}}, s0, fromRecord(r1));          // what load() does
+const r2 = toRecord(s1, 2000);                              // the first save after a reload
+const s2 = Object.assign({{}}, s1, fromRecord(r2));
+s2.annotations = s2.annotations.concat([{{ span: "b" }}]); s2.formDraft = {{ label: "half typed" }};
+const r3 = toRecord(s2, 3000);
+process.stdout.write(JSON.stringify({{ k1: r1.key, k2: r2.key, k3: r3.key, keyInState: Object.prototype.hasOwnProperty.call(s1, "key"),
+  n3: r3.annotations.length, draft: fromRecord(r3).formDraft.label, newer: newerRecord(r1, r3).savedAt, newer2: newerRecord(r3, r1).savedAt,
+  only: newerRecord(null, r2).savedAt, none: newerRecord(null, null) }}));
+"""
+    js = tmp_path / "record.js"
+    js.write_text(harness, encoding="utf-8")
+    r = subprocess.run(["node", str(js)], capture_output=True, text=True, encoding="utf-8")
+    assert r.returncode == 0, r.stderr
+    out = json.loads(r.stdout)
+    assert out["k1"] == out["k2"] == out["k3"] == "current"
+    assert out["keyInState"] is False
+    assert out["n3"] == 2 and out["draft"] == "half typed"
+    assert out["newer"] == 3000 and out["newer2"] == 3000 and out["only"] == 2000 and out["none"] is None
+
+
+def test_page_saves_visibly_and_offers_a_backup():
+    html = (TOOL / "annotator.html").read_text(encoding="utf-8")
+    assert 'id="saveStatus"' in html and 'id="backupBtn"' in html
+    assert "{ key: undefined }" not in html and '{ key: "current", ...state }' not in html, "the key-leak bug is back"
+    for needle in ["pagehide", "visibilitychange", "beforeunload", "localStorage.setItem", "navigator.storage.persist", "captureFormDraft"]:
+        assert needle in html, needle
