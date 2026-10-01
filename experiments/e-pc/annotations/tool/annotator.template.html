@@ -76,6 +76,9 @@
   ul.rules { font-size: 13px; padding-left: 18px; margin: 6px 0 0; }
   ul.rules li { margin: 3px 0; }
   .pill { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 12px; border: 1px solid var(--line); color: var(--muted); }
+  .pill.ok { color: var(--ok); border-color: var(--ok); }
+  .pill.warn { color: var(--warn); border-color: var(--warn); }
+  .pill.err { color: var(--err); border-color: var(--err); font-weight: 600; }
   .hidden { display: none; }
   #form { position: sticky; top: 12px; }
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
@@ -85,7 +88,8 @@
 <body>
 <header>
   <h1>Gold Annotator</h1>
-  <span class="sub">E-PC, scenario <code id="scenarioName"></code>. Works offline; saves in this browser; exports one JSON file.</span>
+  <span class="sub">E-PC, scenario <code id="scenarioName"></code>. Works offline; saves in this browser as you go; exports one JSON file.</span>
+  <span class="pill" id="saveStatus">Nothing saved yet</span>
 </header>
 <main>
   <div>
@@ -120,6 +124,7 @@
       <div class="row">
         <label style="margin:0">File extension <select id="ext" style="width:auto"><option value="json">.json</option><option value="txt">.txt</option></select></label>
         <button class="primary" id="exportBtn">Export file</button>
+        <button id="backupBtn" title="Writes your work as it is, unchecked, so you can carry it off this browser">Save a backup file</button>
         <button id="importBtn">Import a saved file</button><input type="file" id="importFile" accept=".json,.txt" class="hidden">
         <button id="clearBtn">Clear everything</button>
       </div>
@@ -304,19 +309,28 @@ function classLabel(id) { const c = DATA.classes[id]; return c ? c.label : id; }
 function classDefinition(id) { const c = DATA.classes[id]; return c ? c.definition : ""; }
 function inPalette(id) { return DATA.palette.some(g => g.classes.includes(id)); }
 
-if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice, trimSpan, snapToWords, pairedDisposition, validateAnnotations, buildExport, importExport, slug, classLabel, classDefinition, inPalette, DATA };
+// ---- saved records: built and read by these two functions only, so the storage key can never leak into the state
+// (an earlier version copied the record's key into the state as undefined, and every save after a reload was rejected).
+const STATE_FIELDS = ["annotator", "date", "attested", "text", "sha256", "codepoints", "fileName", "annotations", "formDraft"];
+function toRecord(state, now) { const rec = {}; STATE_FIELDS.forEach(f => { if (state[f] !== undefined) rec[f] = state[f]; }); rec.key = "current"; rec.savedAt = now; return rec; }
+function fromRecord(rec) { const out = {}; STATE_FIELDS.forEach(f => { if (rec && rec[f] !== undefined) out[f] = rec[f]; }); return out; }
+function newerRecord(a, b) { if (!a) return b || null; if (!b) return a; return (b.savedAt || 0) > (a.savedAt || 0) ? b : a; }
+
+if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice, trimSpan, snapToWords, pairedDisposition, validateAnnotations, buildExport, importExport, slug, classLabel, classDefinition, inPalette, toRecord, fromRecord, newerRecord, DATA };
 </script>
 
 <script id="app">
 (function () {
   const $ = id => document.getElementById(id);
-  const state = { annotator: "", date: "", attested: false, text: "", sha256: "", codepoints: 0, fileName: "", annotations: [] };
+  const state = { annotator: "", date: "", attested: false, text: "", sha256: "", codepoints: 0, fileName: "", annotations: [], formDraft: null };
   let editing = null;      // index being edited, or null
   let pending = null;      // {start,end,span} from the current selection
   let draft = null;        // the span the open form is about; captured when the form opens, because clicking a form field collapses the page selection
 
-  // ---------- IndexedDB
-  const DB = "epc-annotator", STORE = "state";
+  // ---------- saving. IndexedDB is the store. localStorage holds a synchronous mirror, which still gets written when the
+  // page is being closed (an IndexedDB write started at that moment may not finish). On load the newer of the two wins.
+  const DB = "epc-annotator", STORE = "state", LS_KEY = "epc-annotator/current";
+  let lastSaveOk = true, lastSavedAt = null, saveTimer = null;
   function openDb() {
     return new Promise((res, rej) => {
       const r = indexedDB.open(DB, 1);
@@ -324,15 +338,47 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
       r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
     });
   }
-  async function save() {
-    try { const db = await openDb(); const tx = db.transaction(STORE, "readwrite"); tx.objectStore(STORE).put({ key: "current", ...state }); await new Promise(r => tx.oncomplete = r); }
-    catch (e) { $("exportStatus").textContent = "Could not save in this browser: " + e; }
+  function idbPut(rec) {
+    return openDb().then(db => new Promise((res, rej) => {
+      const tx = db.transaction(STORE, "readwrite"); tx.objectStore(STORE).put(rec);
+      tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); tx.onabort = () => rej(tx.error || new Error("transaction aborted"));
+    }));
   }
+  function idbGet() {
+    return openDb().then(db => new Promise((res, rej) => {
+      const req = db.transaction(STORE, "readonly").objectStore(STORE).get("current");
+      req.onsuccess = () => res(req.result || null); req.onerror = () => rej(req.error);
+    }));
+  }
+  function mirrorPut(rec) { try { localStorage.setItem(LS_KEY, JSON.stringify(rec)); return true; } catch (e) { return false; } }
+  function mirrorGet() { try { const raw = localStorage.getItem(LS_KEY); return raw ? JSON.parse(raw) : null; } catch (e) { return null; } }
+  async function save() {
+    captureFormDraft();
+    const rec = toRecord(state, Date.now());
+    const mirrored = mirrorPut(rec);                      // synchronous: done before anything is awaited
+    let stored = false, err = null;
+    try { await idbPut(rec); stored = true; } catch (e) { err = e; }
+    lastSaveOk = stored || mirrored; if (lastSaveOk) lastSavedAt = rec.savedAt;
+    renderSaveStatus(stored, mirrored, err);
+  }
+  function saveSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(save, 400); }
   async function load() {
-    try { const db = await openDb(); const tx = db.transaction(STORE, "readonly"); const req = tx.objectStore(STORE).get("current");
-      const rec = await new Promise((res, rej) => { req.onsuccess = () => res(req.result); req.onerror = () => rej(req.error); });
-      if (rec) Object.assign(state, rec, { key: undefined }); }
-    catch (e) { /* first run or storage blocked; start empty */ }
+    let a = null; try { a = await idbGet(); } catch (e) { a = null; }
+    const rec = newerRecord(a, mirrorGet());
+    if (rec) { Object.assign(state, fromRecord(rec)); lastSavedAt = rec.savedAt || null; }
+  }
+  function renderSaveStatus(stored, mirrored, err) {
+    const el = $("saveStatus"); const t = lastSavedAt ? new Date(lastSavedAt).toLocaleTimeString() : "";
+    if (stored) { el.className = "pill ok"; el.textContent = `Saved in this browser at ${t}`; }
+    else if (mirrored) { el.className = "pill warn"; el.textContent = `Saved at ${t} (backup store only)`; }
+    else { el.className = "pill err"; el.textContent = "NOT SAVED in this browser: press Save a backup file now" + (err ? ` (${err.name || err})` : ""); }
+  }
+  function captureFormDraft() {
+    // The half-filled form is part of the work: it is saved with everything else and reopened on return.
+    if ($("form").classList.contains("hidden") || !draft) { state.formDraft = null; return; }
+    state.formDraft = { editing, draft, kind: $("fKind").value, type: $("fType").value, disposition: $("fDisp").value, showAll: $("fShowAll").checked,
+                        bearer: $("fBearer").value, participants: Array.from($("fParts").selectedOptions).map(o => o.value),
+                        label: $("fLabel").value, fit: $("fFit").value, note: $("fNote").value };
   }
 
   // ---------- setup
@@ -395,7 +441,7 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     $("selinfo").textContent = pending ? `Selected code points ${pending.start}:${pending.end} (${cpLen(pending.span)} chars): "${pending.span.length > 90 ? pending.span.slice(0, 90) + "..." : pending.span}"` : "Nothing selected.";
     $("addBtn").disabled = !pending || !state.text;
     // A new selection while adding (not editing) replaces the form's span; a collapsed selection leaves it alone.
-    if (pending && editing === null && !$("form").classList.contains("hidden")) { draft = { ...pending }; showDraft(); }
+    if (pending && editing === null && !$("form").classList.contains("hidden")) { draft = { ...pending }; showDraft(); saveSoon(); }
   }
   function showDraft() {
     $("fSpan").value = draft ? draft.span : "";
@@ -447,21 +493,29 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     showDefinitions();
   }
   function openForm(idx) {
-    editing = idx; const a = idx === null ? null : state.annotations[idx];
+    const a = idx === null ? null : state.annotations[idx];
     const span = a || pending; if (!span) return;
-    draft = { start: span.start, end: span.end, span: span.span };
-    $("form").classList.remove("hidden"); $("formTitle").textContent = a ? `Edit annotation #${idx + 1}` : "New annotation";
+    showForm({ editing: idx, draft: { start: span.start, end: span.end, span: span.span },
+               kind: a ? a.kind : "violation", type: a ? a.type : undefined, disposition: a ? a.disposition : undefined,
+               showAll: !!(a && !pairedDisposition(a.type) && !inPalette(a.disposition)),
+               bearer: a ? a.bearer : DATA.entities[0].id, participants: a ? a.participants : [],
+               label: a ? a.label : "", fit: a ? a.fit : "exact", note: a ? a.note : "" }, true);
+    save();
+  }
+  function showForm(v, scroll) {
+    // Opens the form from a set of values: a new selection, an existing annotation, or a draft restored after a return.
+    editing = (v.editing !== null && v.editing !== undefined && state.annotations[v.editing]) ? v.editing : null;
+    draft = v.draft;
+    $("form").classList.remove("hidden"); $("formTitle").textContent = editing !== null ? `Edit annotation #${editing + 1}` : "New annotation";
     showDraft();
-    $("fKind").value = a ? a.kind : "violation";
-    const needAll = !!(a && !pairedDisposition(a.type) && !inPalette(a.disposition));
-    $("fShowAll").checked = needAll;
-    refreshTypeAndDisp($("fKind").value, a && a.type, a && a.disposition, needAll);
-    fillSelect($("fBearer"), DATA.entities.map(e => [e.id, `${e.id}  ${e.label} (${e.type})`]), a ? a.bearer : DATA.entities[0].id);
+    $("fKind").value = v.kind || "violation"; $("fShowAll").checked = !!v.showAll;
+    refreshTypeAndDisp($("fKind").value, v.type, v.disposition, !!v.showAll);
+    fillSelect($("fBearer"), DATA.entities.map(e => [e.id, `${e.id}  ${e.label} (${e.type})`]), v.bearer || DATA.entities[0].id);
     fillSelect($("fParts"), DATA.entities.map(e => [e.id, `${e.id}  ${e.label}`]));
-    Array.from($("fParts").options).forEach(o => o.selected = !!(a && a.participants.includes(o.value)));
-    $("fLabel").value = a ? a.label : ""; $("fFit").value = a ? a.fit : "exact"; $("fNote").value = a ? a.note : "";
-    $("deleteBtn").classList.toggle("hidden", !a); $("fErrors").textContent = "";
-    $("form").scrollIntoView({ behavior: "smooth", block: "start" });
+    Array.from($("fParts").options).forEach(o => o.selected = (v.participants || []).includes(o.value));
+    $("fLabel").value = v.label || ""; $("fFit").value = v.fit || "exact"; $("fNote").value = v.note || "";
+    $("deleteBtn").classList.toggle("hidden", editing === null); $("fErrors").textContent = "";
+    if (scroll) $("form").scrollIntoView({ behavior: "smooth", block: "start" });
   }
   function readForm() {
     if (!draft) throw new Error("No span: select text in the case, then press Add.");
@@ -515,6 +569,15 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `${DATA.scenario}.${slug(state.annotator)}.${ext}`; a.click(); URL.revokeObjectURL(a.href);
     $("exportStatus").className = "status ok"; $("exportStatus").textContent = `Exported ${a.download} with ${obj.annotations.length} annotations. Email it to Aaron.`;
   }
+  function backupFile() {
+    // Ungated: writes whatever is here, valid or not, so work can be carried off this browser at any moment.
+    captureFormDraft();
+    const obj = buildExport(state);
+    const blob = new Blob([JSON.stringify(obj, null, 1) + "\n"], { type: "application/json" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `${DATA.scenario}.${slug(state.annotator)}.backup.json`; a.click(); URL.revokeObjectURL(a.href);
+    $("exportStatus").className = "status ok";
+    $("exportStatus").textContent = `Backup written: ${a.download} (${obj.annotations.length} annotations). It is not checked and is not the file to send; "Import a saved file" restores it, "Export file" makes the one you send.`;
+  }
   async function importFile(file) {
     try {
       const obj = JSON.parse(await file.text());
@@ -529,8 +592,17 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
   async function init() {
     $("scenarioName").textContent = DATA.scenario; $("proseFileName").textContent = DATA.file;
     await load();
+    if (navigator.storage && navigator.storage.persist) { navigator.storage.persist().catch(() => {}); }   // ask the browser not to evict the store
     if (!state.date) state.date = new Date().toISOString().slice(0, 10);
     renderAll();
+    if (state.formDraft && state.text) showForm(state.formDraft, false);                                    // reopen a half-filled form
+    $("saveStatus").className = "pill" + (lastSavedAt ? " ok" : "");
+    $("saveStatus").textContent = lastSavedAt ? `Restored your work, last saved ${new Date(lastSavedAt).toLocaleString()}` : "Nothing saved yet";
+    $("form").addEventListener("input", saveSoon); $("form").addEventListener("change", saveSoon);
+    window.addEventListener("pagehide", () => { save(); });
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") save(); });
+    window.addEventListener("beforeunload", e => { if (!lastSaveOk) { e.preventDefault(); e.returnValue = ""; } });
+    $("backupBtn").addEventListener("click", backupFile);
     $("annotator").addEventListener("input", e => { state.annotator = e.target.value; save(); });
     $("date").addEventListener("change", e => { state.date = e.target.value; save(); });
     $("attest").addEventListener("change", e => { state.attested = e.target.checked; save(); });
@@ -544,14 +616,14 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     $("list").addEventListener("mouseover", e => { const tr = e.target.closest("tr[data-idx]"); document.querySelectorAll("#prose mark.focus").forEach(m => m.classList.remove("focus")); if (tr) document.querySelectorAll("#prose mark").forEach(m => { if (m.dataset.ids.split(",").includes(tr.dataset.idx)) m.classList.add("focus"); }); });
     $("list").addEventListener("mouseleave", () => document.querySelectorAll("#prose mark.focus").forEach(m => m.classList.remove("focus")));
     $("saveBtn").addEventListener("click", saveForm);
-    $("cancelBtn").addEventListener("click", () => { editing = null; draft = null; $("form").classList.add("hidden"); });
+    $("cancelBtn").addEventListener("click", () => { editing = null; draft = null; $("form").classList.add("hidden"); save(); });
     $("deleteBtn").addEventListener("click", async () => { if (editing !== null && confirm("Delete this annotation?")) { state.annotations.splice(editing, 1); editing = null; draft = null; $("form").classList.add("hidden"); await save(); renderAll(); } });
     $("list").addEventListener("click", e => { const b = e.target.closest("button[data-edit]"); if (b) openForm(Number(b.dataset.edit)); });
     $("prose").addEventListener("click", e => { const m = e.target.closest("mark"); if (m && window.getSelection().isCollapsed) { const ids = m.dataset.ids.split(",").map(Number); if (ids.length === 1) openForm(ids[0]); else $("selinfo").textContent = "Covered by " + ids.map(i => `#${i + 1}`).join(", ") + "; use the table to edit one."; } });
     $("exportBtn").addEventListener("click", exportFile);
     $("importBtn").addEventListener("click", () => $("importFile").click());
     $("importFile").addEventListener("change", e => { if (e.target.files[0]) importFile(e.target.files[0]); e.target.value = ""; });
-    $("clearBtn").addEventListener("click", async () => { if (confirm("Delete all annotations and the loaded prose from this browser? Export first if you want to keep them.")) { Object.assign(state, { text: "", sha256: "", codepoints: 0, fileName: "", annotations: [], attested: false }); await save(); renderAll(); } });
+    $("clearBtn").addEventListener("click", async () => { if (confirm("Delete all annotations and the loaded prose from this browser? Export first if you want to keep them.")) { editing = null; draft = null; $("form").classList.add("hidden"); Object.assign(state, { text: "", sha256: "", codepoints: 0, fileName: "", annotations: [], attested: false, formDraft: null }); await save(); renderAll(); } });
   }
   init();
 })();

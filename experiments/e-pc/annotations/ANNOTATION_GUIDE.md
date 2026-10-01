@@ -102,6 +102,15 @@ it. "Export file" writes
 `clinic-discharge.<yourname>.json` (choose `.txt` if your mail system blocks `.json`; the content
 is the same). Email the file to Aaron. Do not send it to, or receive it from, the other annotator.
 
+**Saving.** The page saves in your browser after every change, including a half-filled form, and the
+header says when: "Saved in this browser at 14:03:22". If you close the tab or the browser and come back,
+open the same file in the same browser and your work, and any form you had open, are restored. Three things
+to know. Saved work lives in that one browser on that one computer; a private or incognito window does not
+keep it. If the header ever turns red and says NOT SAVED, press "Save a backup file" at once. And at any
+time, before a break or at the end of a sitting, "Save a backup file" writes everything as it stands to a
+file you can keep; "Import a saved file" brings it back. The backup is unchecked and is not the file to
+send; "Export file" makes that one.
+
 The tool embeds nothing from `arms/` or `results/`. It is generated from the repository by
 `annotations/tool/build_annotator.py`; a test checks the committed page is current and that its
 exports pass the validator below.
