@@ -35,7 +35,7 @@ Each entry is a `vn-core:ValueEvidenceAnnotation` (BFO-Aligned ValueNet core mod
    - **Realization** (a good pursued or an obligation honoured): a `vn-core:ValueRealizationProcess`
      that realizes a disposition borne by someone. Type the disposition with a ValueNet class from
      the moral-foundations, Schwartz or folk module (`mf:`, `schwartz:`, `folk:`), and name the bearer.
-   Give the process a short label in plain words (`"discharge without cognitive screen risks harm to Margaret"`).
+   Give the process a short label in plain words, a phrase of your own (the worked example below shows three).
 
 There is no separate harms list. A harm *is* a violation process.
 
@@ -47,9 +47,9 @@ class, set `"class_fit": "gap"` and describe the missing class in `note`. Gaps a
 
 An unknown is a consideration when its answer would change the moral picture. Anchor it in the
 sentence that states it is not known. Type it by the disposition whose realization the missing
-answer bears on (for example an unknown about capacity is evidence for a process realizing
-`folk:AutonomyDisposition` borne by `P-PAT`, or, if you read it as a threatened harm, an
-`mf:HarmProcess` contravening `mf:CareDisposition` borne by `P-HOSP`). Choose one; say why in `note`.
+answer bears on: either as a realization of the value the answer would serve, or, if you read it
+as a threatened harm, as a violation. The third row of the worked example below shows one, on a
+different case. Choose one reading; say why in `note`.
 
 ## Worked example (a different case, not this one)
 

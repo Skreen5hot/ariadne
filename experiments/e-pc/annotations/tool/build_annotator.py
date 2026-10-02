@@ -46,9 +46,10 @@ PALETTE = [
     ("Diligence and stewardship of resources", ["folk:DiligenceDisposition", "folk:ThriftDisposition"]),
 ]
 
-# The greyed hint inside the empty label box. The study page keeps the wording its annotators have seen since 2026-09-28;
-# the demo page must carry nothing from the study case, so it has its own.
-STUDY_LABEL_HINT = "e.g. discharge without cognitive screen risks harm to Margaret"
+# The greyed hint inside the empty label box. Until 2026-10-02 the study page's hint was an example drawn from the study
+# case ("e.g. discharge without cognitive screen risks harm to Margaret"), which named a consideration to the annotators.
+# It is now neutral; a test keeps examples drawn from the case out of the tool and the guide.
+STUDY_LABEL_HINT = "a short phrase in your own words"
 DEMO_LABEL_HINT = "a short phrase in your own words"
 
 # The demo: the neutral bakery text (the runner's smoke fixture; also the guide's worked example) and its cast.

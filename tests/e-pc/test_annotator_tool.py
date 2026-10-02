@@ -290,3 +290,14 @@ def test_study_page_is_what_its_annotators_have_been_using():
     assert ".demo-only { display: none !important; }" in html
     for control in ["exportBtn", "backupBtn", "importBtn", "clearBtn", "attest", "proseFile", "saveStatus"]:
         assert f'id="{control}"' in html, control
+
+
+def test_tool_and_guide_carry_no_example_drawn_from_the_case():
+    """Regression: the label placeholder and two guide examples were drawn from the study case, which seeds the gold."""
+    html = (TOOL / "annotator.html").read_text(encoding="utf-8")
+    data_block = re.search(r'<script id="data" type="application/json">.*?</script>', html, re.S).group(0)
+    page = html.replace(data_block, "")
+    guide = (EPC_DIR / "annotations" / "ANNOTATION_GUIDE.md").read_text(encoding="utf-8")
+    for s in ["Margaret", "cognitive screen", "unknown about capacity", "forty-bed"]:
+        assert s not in page, f"the tool's own text contains {s!r}"
+        assert s not in guide, f"the guide contains {s!r}"
