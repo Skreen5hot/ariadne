@@ -207,3 +207,86 @@ def test_page_saves_visibly_and_offers_a_backup():
     assert "{ key: undefined }" not in html and '{ key: "current", ...state }' not in html, "the key-leak bug is back"
     for needle in ["pagehide", "visibilitychange", "beforeunload", "localStorage.setItem", "navigator.storage.persist", "captureFormDraft"]:
         assert needle in html, needle
+
+
+# ---------- the demo page (presentations and practice)
+
+STUDY_ONLY_STRINGS = ["Margaret", "Okonjo", "Riverbend", "Raman", "P-PAT", "P-HOSP", "DP-7", "ER-12", "amlodipine", "clinic-discharge",
+                      "Comfort Care", "cognitive screen", "forty-bed"]
+
+
+def _demo_html() -> str:
+    return (TOOL / "DEMO_annotator.html").read_text(encoding="utf-8")
+
+
+def _demo_data() -> dict:
+    m = re.search(r'<script id="data" type="application/json">(.*?)</script>', _demo_html(), re.S)
+    assert m, "DEMO_annotator.html has no embedded data block"
+    return json.loads(m.group(1).replace("<\\/", "</"))
+
+
+def test_demo_page_is_current():
+    committed = (TOOL / "DEMO_annotator.html").read_bytes()
+    r = subprocess.run(["python", str(TOOL / "build_annotator.py")], capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    assert (TOOL / "DEMO_annotator.html").read_bytes() == committed, "DEMO_annotator.html is stale: run build_annotator.py and commit"
+
+
+def test_demo_page_carries_nothing_from_the_study_case(scenario, prose):
+    """The demo is shown in public. No name, id, label or sentence of the study case may be in the file."""
+    html = _demo_html()
+    for s in STUDY_ONLY_STRINGS:
+        assert s not in html, f"the demo page contains {s!r}"
+    for e in scenario["entities"]:
+        assert f'"{e["id"]}"' not in html, f"the demo page contains the study entity id {e['id']}"
+    for sentence in re.split(r"(?<=[.!?])\s+", prose):
+        if len(sentence) >= 25:
+            assert sentence not in html, f"the demo page contains a sentence of the study prose: {sentence[:40]!r}"
+    assert epc.sha256_text(prose) not in html
+
+
+def test_demo_page_is_separate_from_the_study_page():
+    d, s = _demo_data(), _data()
+    assert d["demo"] is True and s["demo"] is False
+    assert s["storage"] == {"db": "epc-annotator", "key": "epc-annotator/current"}, "the study page must keep its store, or saved work is orphaned"
+    assert d["storage"]["db"] != s["storage"]["db"] and d["storage"]["key"] != s["storage"]["key"]
+    assert [e["id"] for e in d["entities"]] == ["P-OWNER", "P-EMP", "ORG-BAKERY"]
+    fixture = (EPC_DIR.parents[1] / "tests" / "e-pc" / "fixtures" / "smoke-case.txt").read_bytes().decode("utf-8").replace("\r\n", "\n").strip()
+    assert d["embedded_text"] == fixture
+    assert d["expected_sha256"] == epc.sha256_text(fixture) and d["expected_codepoints"] == len(fixture)
+    assert d["palette"] == s["palette"] and d["classes"] == s["classes"] and d["violations"] == s["violations"]
+    assert "embedded_text" not in s and "examples" not in s
+    html = _demo_html()
+    assert 'const DB = DATA.storage.db, STORE = "state", LS_KEY = DATA.storage.key;' in html, "the store's names must come from the build"
+    for control in ["exportBtn", "backupBtn", "importBtn"]:
+        assert re.search(rf'class="[^"]*study-only[^"]*" id="{control}"', html), f"{control} is not hidden in the demo"
+    assert "body.demo .study-only { display: none !important; }" in html
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node not installed")
+def test_demo_examples_are_valid_and_match_the_guide(tmp_path):
+    d = _demo_data()
+    guide = (EPC_DIR / "annotations" / "ANNOTATION_GUIDE.md").read_text(encoding="utf-8")
+    assert len(d["examples"]) == 3
+    for x in d["examples"]:
+        assert d["embedded_text"][x["start"]:x["end"]] == x["span"]
+        assert x["span"] in guide and x["label"] in guide
+    harness = f"""
+const document = {{ getElementById: () => ({{ textContent: {json.dumps(json.dumps(d))} }}) }};
+{re.search(r'<script id="core">(.*?)</script>', _demo_html(), re.S).group(1)}
+process.stdout.write(JSON.stringify(validateAnnotations(DATA.embedded_text, DATA.examples)));
+"""
+    js = tmp_path / "demo.js"
+    js.write_text(harness, encoding="utf-8")
+    r = subprocess.run(["node", str(js)], capture_output=True, text=True, encoding="utf-8")
+    assert r.returncode == 0, r.stderr
+    assert json.loads(r.stdout) == []
+
+
+def test_study_page_is_what_its_annotators_have_been_using():
+    """Building the demo must not change what a study annotator sees or where their work is kept."""
+    html = (TOOL / "annotator.html").read_text(encoding="utf-8")
+    assert "<title>Gold Annotator</title>" in html and "LABEL_HINT__" not in html and "__TITLE" not in html
+    assert ".demo-only { display: none !important; }" in html
+    for control in ["exportBtn", "backupBtn", "importBtn", "clearBtn", "attest", "proseFile", "saveStatus"]:
+        assert f'id="{control}"' in html, control
