@@ -1,11 +1,16 @@
-"""Build annotator.html and PALETTE.md from annotator.template.html and the repository files, embedding the exact
-entity ids, the ValueNet classes with their own labels and definitions, the curated palette and the prose hash, so
-nothing in the tool is typed by hand.
+"""Build annotator.html, DEMO_annotator.html and PALETTE.md from annotator.template.html and the repository files.
 
   python experiments/e-pc/annotations/tool/build_annotator.py
 
-Re-run after any change to the scenario graph, the prose, the vendored ValueNet modules or PALETTE below. The
-generated files are committed so annotators can open the page without Python; a test checks they are current.
+annotator.html is the study tool: the exact entity ids of the scenario graph, the ValueNet classes with their own labels
+and definitions, the curated palette, and the hash of the frozen prose, which the annotator loads from the repository.
+
+DEMO_annotator.html is for presentations and practice. It embeds the made-up bakery text and its three-person cast, keeps
+its saved work in a store of its own (so it can never read, overwrite or clear real annotation work in the same
+browser), offers no export, and contains nothing from the study case.
+
+Re-run after any change to the scenario graph, the prose, the vendored ValueNet modules, the bakery fixture or PALETTE
+below. The generated files are committed so people can open them without Python; a test checks they are current.
 """
 from __future__ import annotations
 
@@ -41,6 +46,28 @@ PALETTE = [
     ("Diligence and stewardship of resources", ["folk:DiligenceDisposition", "folk:ThriftDisposition"]),
 ]
 
+# The greyed hint inside the empty label box. The study page keeps the wording its annotators have seen since 2026-09-28;
+# the demo page must carry nothing from the study case, so it has its own.
+STUDY_LABEL_HINT = "e.g. discharge without cognitive screen risks harm to Margaret"
+DEMO_LABEL_HINT = "a short phrase in your own words"
+
+# The demo: the neutral bakery text (the runner's smoke fixture; also the guide's worked example) and its cast.
+DEMO_FIXTURE = epc.REPO / "tests" / "e-pc" / "fixtures" / "smoke-case.txt"
+DEMO_ENTITIES = [{"id": "P-OWNER", "label": "Ada Lin", "type": "Person"},
+                 {"id": "P-EMP", "label": "Ben Cole", "type": "Person"},
+                 {"id": "ORG-BAKERY", "label": "the bakery", "type": "Organization"}]
+DEMO_EXAMPLES = [  # the same three rows as the worked example in ANNOTATION_GUIDE.md
+    {"span": "asked the newer employee, Ben Cole, to close the shop alone for the first time", "kind": "realization",
+     "type": "vn-core:ValueRealizationProcess", "disposition": "folk:TrustDisposition", "bearer": "P-OWNER", "participants": ["P-EMP"],
+     "label": "Ada extends trust to a new employee", "fit": "exact", "note": ""},
+    {"span": "The till was short by twelve pounds", "kind": "violation",
+     "type": "mf:CheatingProcess", "disposition": "mf:FairnessDisposition", "bearer": "P-OWNER", "participants": [],
+     "label": "money may have been taken from the owner", "fit": "closest", "note": "only if the shortfall was taken; the cause is not known"},
+    {"span": "Nobody has asked Ben what happened.", "kind": "realization",
+     "type": "vn-core:ValueRealizationProcess", "disposition": "mf:FairnessDisposition", "bearer": "P-OWNER", "participants": ["P-EMP"],
+     "label": "Ben should be heard before anyone concludes what happened", "fit": "exact", "note": "the unknown (error or something else) bears on this"},
+]
+
 MODULES = {"mf": "valuenet-moral-foundations", "schwartz": "valuenet-schwartz-values", "folk": "valuenet-folk", "vn-core": "valuenet-core"}
 FILES = {"mf": "valuenet-moral-foundations.ttl", "schwartz": "valuenet-schwartz-values.ttl", "folk": "valuenet-folk.ttl", "vn-core": "valuenet-core.ttl"}
 
@@ -71,6 +98,13 @@ def parse_module(prefix: str) -> dict[str, dict]:
     return out
 
 
+def render(template: str, data: dict, title: str, label_hint: str) -> str:
+    assert template.count("__DATA__") == 1 and template.count("__TITLE__") == 2 and template.count("__LABEL_HINT__") == 1
+    assert not set(label_hint) & set('"<>&'), "the label hint goes into an HTML attribute"
+    return (template.replace("__TITLE__", title).replace("__LABEL_HINT__", label_hint)
+            .replace("__DATA__", json.dumps(data, ensure_ascii=False).replace("</", "<\\/")))
+
+
 def main() -> int:
     cfg = epc.load_config()
     name = cfg["scenario"]
@@ -92,23 +126,51 @@ def main() -> int:
     violations = [{"type": t, "label": classes[t]["label"], "contravenes": d, "definition": classes[t]["definition"]} for t, d in PAIRS]
     violations.append({"type": "vn-core:ValueViolationProcess", "label": "Other violation", "contravenes": None,
                        "definition": classes.get("vn-core:ValueViolationProcess", {}).get("definition", "A process that contravenes a value disposition outside the six moral-foundations pairs.")})
+    shown = set(mf + schwartz + folk) | {t for t, _ in PAIRS} | {"vn-core:ValueViolationProcess"}
+    vocabulary = {
+        "dispositions": {"mf": mf, "schwartz": schwartz, "folk": folk, "all": mf + schwartz + folk},
+        "classes": {k: {"label": v["label"], "definition": v["definition"]} for k, v in classes.items() if k in shown},
+        "palette": [{"theme": theme, "classes": ids} for theme, ids in PALETTE],
+        "violations": violations,
+    }
+    template = (HERE / "annotator.template.html").read_text(encoding="utf-8")
+
+    # ---- the study tool
     entities = sorted(sc["entities"], key=lambda e: (TYPE_ORDER.index(e["type"]) if e["type"] in TYPE_ORDER else len(TYPE_ORDER), e["id"]))
-    data = {
+    study = {
         "scenario": name, "file": f"scenarios/{name}.txt", "textual_representation_id": f"TR-{name}",
         "expected_sha256": hashlib.sha256(prose_bytes).hexdigest(), "expected_codepoints": len(text),
         "entities": [{"id": e["id"], "label": e["label"], "type": e["type"]} for e in entities],
-        "dispositions": {"mf": mf, "schwartz": schwartz, "folk": folk, "all": mf + schwartz + folk},
-        "classes": {k: {"label": v["label"], "definition": v["definition"]} for k, v in classes.items() if k in set(mf + schwartz + folk) or k in {t for t, _ in PAIRS} or k == "vn-core:ValueViolationProcess"},
-        "palette": [{"theme": theme, "classes": ids} for theme, ids in PALETTE],
-        "violations": violations,
+        **vocabulary,
+        "demo": False, "storage": {"db": "epc-annotator", "key": "epc-annotator/current"},
         "built_from": {"scenario_sha256": epc.sha256_file(EPC / "scenarios" / f"{name}.json"), "valuenet_sha256sums": epc.sha256_file(epc.VALUENET_DIR / "SHA256SUMS")},
     }
-    template = (HERE / "annotator.template.html").read_text(encoding="utf-8")
-    assert "__DATA__" in template
-    html = template.replace("__DATA__", json.dumps(data, ensure_ascii=False).replace("</", "<\\/"))
-    (HERE / "annotator.html").write_text(html, encoding="utf-8", newline="\n")
+    (HERE / "annotator.html").write_text(render(template, study, "Gold Annotator", STUDY_LABEL_HINT), encoding="utf-8", newline="\n")
 
-    # PALETTE.md: the same palette, for the guide and for the record.
+    # ---- the demo: bakery text embedded, its own cast, its own store, no export, nothing from the study case
+    # The fixture sits outside experiments/e-pc, so a Windows checkout may give it CRLF: normalise, so the page is the same everywhere.
+    demo_text = DEMO_FIXTURE.read_bytes().decode("utf-8").replace("\r\n", "\n").strip()
+    demo_bytes = demo_text.encode("utf-8")
+    demo_ids = {e["id"] for e in DEMO_ENTITIES}
+    examples = []
+    for ex in DEMO_EXAMPLES:
+        start = demo_text.find(ex["span"])
+        assert start >= 0 and demo_text.count(ex["span"]) == 1, f"demo example span not found exactly once: {ex['span']!r}"
+        assert ex["bearer"] in demo_ids and all(p in demo_ids for p in ex["participants"]) and ex["disposition"] in shown and ex["type"] in shown | {"vn-core:ValueRealizationProcess"}
+        examples.append({**ex, "start": start, "end": start + len(ex["span"])})   # the fixture is ASCII, so code points equal string indices
+    assert demo_text.isascii(), "demo offsets assume an ASCII fixture"
+    demo = {
+        "scenario": "bakery-demo", "file": "practice text (embedded)", "textual_representation_id": "TR-bakery-demo",
+        "expected_sha256": hashlib.sha256(demo_bytes).hexdigest(), "expected_codepoints": len(demo_text),
+        "entities": DEMO_ENTITIES,
+        **vocabulary,
+        "demo": True, "storage": {"db": "epc-annotator-demo", "key": "epc-annotator-demo/current"},
+        "embedded_text": demo_text, "examples": examples,
+        "built_from": {"fixture_sha256": hashlib.sha256(demo_bytes).hexdigest(), "valuenet_sha256sums": epc.sha256_file(epc.VALUENET_DIR / "SHA256SUMS")},
+    }
+    (HERE / "DEMO_annotator.html").write_text(render(template, demo, "Gold Annotator: demo", DEMO_LABEL_HINT), encoding="utf-8", newline="\n")
+
+    # ---- PALETTE.md: the same palette, for the guide and for the record
     lines = ["# Annotation palette (E-PC gold)", "",
              "The value classes offered first in the annotation tool: one class per concept, grouped by theme, with each",
              "class's own label and definition from the vendored BFO-Aligned ValueNet modules. Fixed on 2026-09-28,",
@@ -127,7 +189,8 @@ def main() -> int:
     lines.append("")
     (HERE.parent / "PALETTE.md").write_text("\n".join(lines), encoding="utf-8", newline="\n")
     print(f"annotator.html: {len(entities)} entities, {len(mf)} mf + {len(schwartz)} schwartz + {len(folk)} folk classes, "
-          f"{sum(len(i) for _, i in PALETTE)} palette classes in {len(PALETTE)} themes, prose {data['expected_codepoints']} code points; PALETTE.md written")
+          f"{sum(len(i) for _, i in PALETTE)} palette classes in {len(PALETTE)} themes, prose {study['expected_codepoints']} code points")
+    print(f"DEMO_annotator.html: {len(DEMO_ENTITIES)} entities, practice text {demo['expected_codepoints']} code points, {len(examples)} example annotations; PALETTE.md written")
     return 0
 
 
