@@ -23,4 +23,14 @@ a new run id), and this file records why the old one was abandoned.
 
 ## Entries
 
-None.
+### D-1 (2026-10-02): examples drawn from the study case removed from the annotation guide and the tool
+
+| Field | Value |
+| --- | --- |
+| `date` | 2026-10-02 |
+| `by` | Aaron Damiano |
+| `what` | The annotation guide (PREREG §3, Materials) and the tool's label hint contained two examples drawn from the study case: a harm from discharge without a cognitive screen, and an unknown about capacity with a suggested class and bearer. Both were replaced with pointers to the bakery worked example (commit `3620dd6`). |
+| `why` | The examples were written with the guide on 2026-09-26 and the tool on 2026-09-28, and found on 2026-10-02. They name two considerations the annotators are meant to find themselves. |
+| `timing` | before any output was seen; before any annotation began |
+| `affects` | The independent annotator never saw the examples. Aaron saw them while testing the tool. At adjudication, his annotations of those two considerations are flagged as possibly prompted. No arm prompt contained the examples. |
+| `run` | none |
