@@ -301,3 +301,12 @@ def test_tool_and_guide_carry_no_example_drawn_from_the_case():
     for s in ["Margaret", "cognitive screen", "unknown about capacity", "forty-bed"]:
         assert s not in page, f"the tool's own text contains {s!r}"
         assert s not in guide, f"the guide contains {s!r}"
+
+
+def test_list_and_hover_show_participants():
+    """Regression: participants were saved and exported but never shown in the table or the hover text."""
+    for page in ["annotator.html", "DEMO_annotator.html"]:
+        html = (TOOL / page).read_text(encoding="utf-8")
+        assert "<th>Bearer, participants</th>" in html, page
+        assert "function withParts(a)" in html and "withParts(state.annotations[i])" in html, page
+        assert "with ${escapeHtml(a.participants.join(" in html, page

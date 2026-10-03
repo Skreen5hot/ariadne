@@ -124,7 +124,7 @@
 
     <section class="panel">
       <h2>3. Your annotations</h2>
-      <table id="list"><thead><tr><th>#</th><th>Span</th><th>Process</th><th>Bearer</th><th>Label</th><th></th></tr></thead><tbody></tbody></table>
+      <table id="list"><thead><tr><th>#</th><th>Span</th><th>Process</th><th>Bearer, participants</th><th>Label</th><th></th></tr></thead><tbody></tbody></table>
       <div class="errors" id="errors"></div>
       <div class="row">
         <label class="study-only" style="margin:0">File extension <select id="ext" style="width:auto"><option value="json">.json</option><option value="txt">.txt</option></select></label>
@@ -438,7 +438,7 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
         // Number badge drawn by CSS from data-n: not part of the text, so it cannot shift any offset.
         const last = covering.filter(idx => state.annotations[idx].end === e);
         if (last.length) m.dataset.n = last.map(idx => idx + 1).join(",");
-        m.title = covering.map(i => `#${i + 1} ${state.annotations[i].kind}: ${classLabel(state.annotations[i].disposition)} (${state.annotations[i].bearer}). ${state.annotations[i].label}`).join("\n");
+        m.title = covering.map(i => `#${i + 1} ${state.annotations[i].kind}: ${classLabel(state.annotations[i].disposition)} (${withParts(state.annotations[i])}). ${state.annotations[i].label}`).join("\n");
         pre.appendChild(m);
       }
     }
@@ -563,7 +563,7 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
       const proc = a.kind === "violation" ? `<span class="kind viol">${escapeHtml(v ? v.label : "Violation")}</span> of ${escapeHtml(classLabel(a.disposition))}`
                                           : `<span class="kind real">Realization</span> of ${escapeHtml(classLabel(a.disposition))}`;
       tr.innerHTML = `<td>${i + 1}</td><td class="span">"${escapeHtml(a.span.length > 70 ? a.span.slice(0, 70) + "..." : a.span)}"<div class="small">${a.start}:${a.end}</div></td>` +
-        `<td>${proc}<div class="small">${escapeHtml(a.disposition)}${a.fit !== "exact" ? " · fit " + a.fit : ""}</div></td><td>${escapeHtml(a.bearer)}</td><td>${escapeHtml(a.label)}</td>` +
+        `<td>${proc}<div class="small">${escapeHtml(a.disposition)}${a.fit !== "exact" ? " · fit " + a.fit : ""}</div></td><td>${escapeHtml(a.bearer)}${(a.participants || []).length ? `<div class="small">with ${escapeHtml(a.participants.join(", "))}</div>` : ""}</td><td>${escapeHtml(a.label)}</td>` +
         `<td><button data-edit="${i}">Edit</button></td>`;
       tr.dataset.idx = i;
       tb.appendChild(tr);
@@ -571,6 +571,7 @@ if (typeof module !== "undefined") module.exports = { cpLen, utf16ToCp, cpSlice,
     $("count").textContent = `${state.annotations.length} annotation${state.annotations.length === 1 ? "" : "s"}`;
     $("errors").textContent = state.text ? validateAnnotations(state.text, state.annotations).join("\n") : "";
   }
+  function withParts(a) { return (a.participants || []).length ? `${a.bearer}, with ${a.participants.join(", ")}` : a.bearer; }
   function escapeHtml(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
   function renderAll() { renderSetup(); renderProse(); renderList(); onSelectionChange(); }
   function exportFile() {
