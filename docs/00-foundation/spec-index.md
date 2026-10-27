@@ -37,7 +37,7 @@
 | SHML | 3.2 | Normative Draft | Semantic honesty + Reality/Middle/Logic 3-layer | 2026-05-15 | PASS (v3.0 archived; supersedes via §1 BFO 2020/CCO 2.0 grounding) |
 | Ontological Constraint Engine | 1.3 | Draft | Constraint enforcement | 2026-01-30 | PASS (1 flag) |
 | PFCF | 2.1 | Normative | Function classification | 2026-01-30 | PASS |
-| Semantic Data Dictionary | 2.0 | Draft | Data mapping | 2026-01-30 | PASS |
+| Semantic Data Dictionary | 2.0 | Moved | Data mapping | 2026-10-27 | Moved to [Skreen5hot/SemanticDataDictionary](https://github.com/Skreen5hot/SemanticDataDictionary) (pointer left in place); graded D-0 (2/20) under Falsifiable Spec v0.4, 24 findings in its `review/register.md`; coherence PASS of 2026-01-30 stands as history |
 | Semantic Data Platform | 1.1 | Draft | Data platform | 2026-01-30 | PASS |
 | SFS | 2.2 | Draft | Function schema | 2026-01-30 | PASS |
 | TagTeam Roadmap | 6.6.0 | Active | Perception roadmap | 2026-01-30 | PASS |
