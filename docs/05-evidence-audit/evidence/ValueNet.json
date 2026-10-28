@@ -1,0 +1,66 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T06:32:28+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 65,
+    "ontology": 166,
+    "other": 94,
+    "source": 115,
+    "top_extensions": {
+      ".csv": 20,
+      ".json": 17,
+      ".md": 58,
+      ".png": 22,
+      ".py": 113,
+      ".ttl": 166
+    },
+    "total": 440
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-10-05T22:11:35-04:00",
+    "sha": "fc7486084f179b6d2fe7ba6e799095f561d4bce3",
+    "subject": "Merge pull request #4 from Skreen5hot/site-home-and-documentation"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "ValueNet",
+  "run": {
+    "at": "2026-10-28T06:32:33+00:00",
+    "command": "python3 -m pytest -q -p no:cacheprovider",
+    "duration_s": 1.7,
+    "exit_code": 3,
+    "note": "",
+    "sha": "fc7486084f179b6d2fe7ba6e799095f561d4bce3",
+    "summary": [
+      "INTERNALERROR>     raise SystemExit(",
+      "INTERNALERROR>     ...<5 lines>...",
+      "INTERNALERROR>         % (commit[:12], SNAPSHOT_CONFIG))",
+      "INTERNALERROR> SystemExit: the reviewed upstream snapshot caebd329fc23 is not present in this repository, so no file can be confirmed as fork-authored. It is an ancestor of main, so a full clone contains it and a shallow one does not -- fetch the full history (in Actions, fetch-depth: 0). Recorded in config/upstream-snapshot.yaml.",
+      "15 skipped in 1.22s",
+      "mainloop: caught unexpected SystemExit!"
+    ]
+  },
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/bfo/test_bfo_alignment_remediation.py",
+      "tests/bfo/test_bfo_cco_extract.py",
+      "tests/bfo/test_bfo_core_definitions.py",
+      "tests/bfo/test_bfo_external_closure.py",
+      "tests/bfo/test_bfo_mapping_semantics.py"
+    ],
+    "files": 52,
+    "runner": "pytest"
+  },
+  "url": "https://github.com/Skreen5hot/ValueNet"
+}

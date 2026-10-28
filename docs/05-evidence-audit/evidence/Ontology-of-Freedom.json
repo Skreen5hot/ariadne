@@ -1,0 +1,62 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T06:31:48+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 61,
+    "ontology": 13,
+    "other": 13,
+    "source": 22,
+    "top_extensions": {
+      ".html": 5,
+      ".js": 21,
+      ".json": 3,
+      ".md": 61,
+      ".owl": 5,
+      ".ttl": 8
+    },
+    "total": 109
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-02-14T22:00:26-05:00",
+    "sha": "4c7618fbed866ce0b50d3dbc21805adf0e98309c",
+    "subject": "Add files via upload"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "REORGANIZATION_COMPLETE.md",
+      "kind": "docs",
+      "repo": "ValueNet"
+    },
+    {
+      "file": "docs/01-philosophy/Beyond_the_Categorical_Imperative_v1.3.md",
+      "kind": "docs",
+      "repo": "ariadne"
+    }
+  ],
+  "repo": "Ontology-of-Freedom",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/unit/moral-reasoner.scenarios.test.js",
+      "tests/unit/progress-tracker.test.js",
+      "tests/unit/synchronizations.test.js",
+      "tests/unit/task-manager.test.js",
+      "tests/unit/ui-renderer.test.js"
+    ],
+    "files": 8,
+    "runner": "npm"
+  },
+  "url": "https://github.com/Skreen5hot/Ontology-of-Freedom"
+}

@@ -1,0 +1,47 @@
+# Evidence audit inventory.
+#
+# This file holds the ONLY human-supplied facts in the audit:
+#   1. which repositories exist, and
+#   2. which spec-index entries each repository implements.
+# Everything else (files, tests, test results, dependencies, deployment) is collected by
+# tools/collect_evidence.py into evidence/*.json, and every level is computed from those
+# records by tools/evidence_audit.py. No level, status or "done" flag may be written here.
+#
+# Spec names must match docs/00-foundation/spec-index.md exactly (tests enforce this).
+# A mapping is a claim about the code; mapping_basis says what it rests on.
+
+schema: ariadne-evidence-audit/inventory/v1
+owner: Skreen5hot
+
+# Spec-index layers whose entries are expected to run. Philosophy, Foundation and
+# Communications entries are arguments and records; they are listed, not laddered.
+buildable_layers: [Architecture, Specifications, Governance]
+
+# Entries inside buildable layers that are documents by nature, with the reason.
+not_buildable:
+  - spec: "drift_report (2026-01-31 snapshot)"
+    reason: generated audit snapshot, not a component
+  - spec: "C+S Pattern (IEE impl.)"
+    reason: design pattern description; realized inside other components
+
+# Repositories. Seeded 2026-10-28 with every Skreen5hot repository named in ariadne or
+# known to be public; the full list comes from `gh repo list` (see README).
+repos:
+  - name: ariadne
+    implements: []
+    mapping_basis: governance repository for the spec ecosystem; implements no indexed spec
+  - name: TagTeam.js
+    implements: ["TagTeam Roadmap", "TagTeam Architecture"]
+    mapping_basis: spec-index names TagTeam; repository is the TagTeam.js parser
+  - name: ValueNet
+    implements: []
+    mapping_basis: value ontology suite cited by the evidence register; no spec-index entry
+  - name: BusinessProcessOntology
+    implements: []
+    mapping_basis: no spec-index entry
+  - name: Business-and-Agent-Capabilities-Ontology
+    implements: []
+    mapping_basis: no spec-index entry
+  - name: Ontology-of-Freedom
+    implements: []
+    mapping_basis: named in ariadne as the project's umbrella; mapping not yet established

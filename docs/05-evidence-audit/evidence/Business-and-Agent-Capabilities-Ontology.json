@@ -1,0 +1,63 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": true,
+    "workflows": [
+      "checks.yml",
+      "pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T06:31:46+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 70,
+    "ontology": 16,
+    "other": 64,
+    "source": 35,
+    "top_extensions": {
+      ".html": 9,
+      ".json": 6,
+      ".md": 66,
+      ".py": 32,
+      ".ttl": 16,
+      ".yaml": 43
+    },
+    "total": 185
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-10-28T01:21:05-04:00",
+    "sha": "2fef26587c1a4853645aeddb045a138ec91e9859",
+    "subject": "Merge PR #13: record the architect's approval of Inventory I-1"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "config/upstream-sources.yaml",
+      "kind": "code",
+      "repo": "BusinessProcessOntology"
+    },
+    {
+      "file": "README.md",
+      "kind": "docs",
+      "repo": "BusinessProcessOntology"
+    }
+  ],
+  "repo": "Business-and-Agent-Capabilities-Ontology",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "drafts/BusinessCapabilityOntology_draft_v0.1.0/tests/check_draft.py",
+      "tests/conftest.py",
+      "tests/test_communications.py",
+      "tests/test_conceptual_models.py",
+      "tests/test_imported_artifacts.py"
+    ],
+    "files": 14,
+    "runner": "pytest"
+  },
+  "url": "https://github.com/Skreen5hot/Business-and-Agent-Capabilities-Ontology"
+}
