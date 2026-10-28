@@ -20,8 +20,8 @@ Evidence as of: 2026-10-28. Repositories inventoried: 6, collected: 6.
 | Repository | Evidence level | Why | Last commit | Tests run | Used by | Implements |
 | --- | --- | --- | --- | --- | --- | --- |
 | [ariadne](https://github.com/Skreen5hot/ariadne) | L2 tested · FAILING | 17 source files; 8 test files; tests FAILED | 2026-10-03 | exit 1 at 10eef18, 2026-10-28 | — | no indexed spec |
-| [Business-and-Agent-Capabilities-Ontology](https://github.com/Skreen5hot/Business-and-Agent-Capabilities-Ontology) | L2 tested | 35 source files; 14 test files; tests not executed by the collector | 2026-10-28 | not run | — | no indexed spec |
-| [Ontology-of-Freedom](https://github.com/Skreen5hot/Ontology-of-Freedom) | L2 tested | 22 source files; 8 test files; tests not executed by the collector | 2026-02-14 | not run | — | no indexed spec |
+| [Business-and-Agent-Capabilities-Ontology](https://github.com/Skreen5hot/Business-and-Agent-Capabilities-Ontology) | L2 tested · FAILING | 35 source files; 13 test files; tests FAILED | 2026-10-28 | exit 1 at 2fef265, 2026-10-28 | — | no indexed spec |
+| [Ontology-of-Freedom](https://github.com/Skreen5hot/Ontology-of-Freedom) | L2 tested · FAILING | 22 source files; 8 test files; tests FAILED | 2026-02-14 | exit 1 at 4c7618f, 2026-10-28 | — | no indexed spec |
 | [TagTeam.js](https://github.com/Skreen5hot/TagTeam.js) | L2 tested · FAILING | 246 source files; 139 test files; tests FAILED | 2026-04-06 | exit 1 at 732221c, 2026-10-28 | — | TagTeam Roadmap, TagTeam Architecture |
 | [ValueNet](https://github.com/Skreen5hot/ValueNet) | L2 tested · FAILING | 115 source files; 52 test files; tests FAILED | 2026-10-05 | exit 3 at fc74860, 2026-10-28 | — | no indexed spec |
 | [BusinessProcessOntology](https://github.com/Skreen5hot/BusinessProcessOntology) | L1 code | 29 source files; no test files | 2026-10-23 | not run | — | no indexed spec |
@@ -100,8 +100,8 @@ Document status is copied from spec-index.md. Evidence level is computed. The ga
 Code that exists without a spec-index entry. Either the index is missing something real, or the repository is not part of the ecosystem the index describes.
 
 - ariadne: L2 tested · FAILING
-- Business-and-Agent-Capabilities-Ontology: L2 tested
-- Ontology-of-Freedom: L2 tested
+- Business-and-Agent-Capabilities-Ontology: L2 tested · FAILING
+- Ontology-of-Freedom: L2 tested · FAILING
 - ValueNet: L2 tested · FAILING
 - BusinessProcessOntology: L1 code
 

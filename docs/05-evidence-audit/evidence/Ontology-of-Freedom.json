@@ -7,7 +7,7 @@
       "ci.yml"
     ]
   },
-  "collected_at": "2026-10-28T06:31:48+00:00",
+  "collected_at": "2026-10-28T06:35:12+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -32,20 +32,24 @@
     "subject": "Add files via upload"
   },
   "reachable": true,
-  "references": [
-    {
-      "file": "REORGANIZATION_COMPLETE.md",
-      "kind": "docs",
-      "repo": "ValueNet"
-    },
-    {
-      "file": "docs/01-philosophy/Beyond_the_Categorical_Imperative_v1.3.md",
-      "kind": "docs",
-      "repo": "ariadne"
-    }
-  ],
+  "references": [],
   "repo": "Ontology-of-Freedom",
-  "run": null,
+  "run": {
+    "at": "2026-10-28T06:35:15+00:00",
+    "command": "npm test --silent",
+    "duration_s": 0.7,
+    "exit_code": 1,
+    "note": "$ npm ci -> 0",
+    "sha": "4c7618fbed866ce0b50d3dbc21805adf0e98309c",
+    "summary": [
+      "    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)",
+      "    at node:internal/main/run_main_module:36:49 {",
+      "  code: 'MODULE_NOT_FOUND',",
+      "  requireStack: []",
+      "}",
+      "Node.js v22.23.4"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [

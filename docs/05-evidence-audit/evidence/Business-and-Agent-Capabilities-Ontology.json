@@ -8,7 +8,7 @@
       "pages.yml"
     ]
   },
-  "collected_at": "2026-10-28T06:31:46+00:00",
+  "collected_at": "2026-10-28T06:32:34+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -46,17 +46,32 @@
     }
   ],
   "repo": "Business-and-Agent-Capabilities-Ontology",
-  "run": null,
+  "run": {
+    "at": "2026-10-28T06:35:12+00:00",
+    "command": "python3 -m pytest -q -p no:cacheprovider",
+    "duration_s": 156.4,
+    "exit_code": 1,
+    "note": "$ pip install -r requirements-dev.txt -> 0",
+    "sha": "2fef26587c1a4853645aeddb045a138ec91e9859",
+    "summary": [
+      "assert not [Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commits that introduced revised records cannot all be found; fetch the full history (fetch-depth: 0)')]",
+      " +  where [Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commits that introduced revised records cannot all be found; fetch the full history (fetch-depth: 0)')] = Result(files={}, findings=[Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commi...laceholder pattern, not an IRI')], skipped_tables=[(302, 'Annotation properties', 'Term | Use | Value')], failures=[])).findings",
+      "FAILED tests/test_vocab.py::test_a_stale_committed_file_is_caught - AssertionError: ['[D3-history-shallow] the repository is a shallow clone, so the commits that introduced revised records cannot all be found; fetch the full history (fetch-depth: 0)']",
+      "assert not [Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commits that introduced revised records cannot all be found; fetch the full history (fetch-depth: 0)')]",
+      " +  where [Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commits that introduced revised records cannot all be found; fetch the full history (fetch-depth: 0)')] = Result(files={}, findings=[Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commi...laceholder pattern, not an IRI')], skipped_tables=[(302, 'Annotation properties', 'Term | Use | Value')], failures=[])).findings",
+      "13 failed, 442 passed in 153.80s (0:02:33)"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [
       "drafts/BusinessCapabilityOntology_draft_v0.1.0/tests/check_draft.py",
-      "tests/conftest.py",
       "tests/test_communications.py",
       "tests/test_conceptual_models.py",
-      "tests/test_imported_artifacts.py"
+      "tests/test_imported_artifacts.py",
+      "tests/test_inventory.py"
     ],
-    "files": 14,
+    "files": 13,
     "runner": "pytest"
   },
   "url": "https://github.com/Skreen5hot/Business-and-Agent-Capabilities-Ontology"
