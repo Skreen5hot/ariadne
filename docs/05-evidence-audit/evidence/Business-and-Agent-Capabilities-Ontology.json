@@ -8,7 +8,7 @@
       "pages.yml"
     ]
   },
-  "collected_at": "2026-10-28T06:32:34+00:00",
+  "collected_at": "2026-10-28T06:53:13+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -47,19 +47,20 @@
   ],
   "repo": "Business-and-Agent-Capabilities-Ontology",
   "run": {
-    "at": "2026-10-28T06:35:12+00:00",
+    "at": "2026-10-28T06:38:32+00:00",
     "command": "python3 -m pytest -q -p no:cacheprovider",
-    "duration_s": 156.4,
-    "exit_code": 1,
+    "duration_s": 183.0,
+    "exit_code": 0,
     "note": "$ pip install -r requirements-dev.txt -> 0",
+    "outcome": "passed",
     "sha": "2fef26587c1a4853645aeddb045a138ec91e9859",
     "summary": [
-      "assert not [Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commits that introduced revised records cannot all be found; fetch the full history (fetch-depth: 0)')]",
-      " +  where [Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commits that introduced revised records cannot all be found; fetch the full history (fetch-depth: 0)')] = Result(files={}, findings=[Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commi...laceholder pattern, not an IRI')], skipped_tables=[(302, 'Annotation properties', 'Term | Use | Value')], failures=[])).findings",
-      "FAILED tests/test_vocab.py::test_a_stale_committed_file_is_caught - AssertionError: ['[D3-history-shallow] the repository is a shallow clone, so the commits that introduced revised records cannot all be found; fetch the full history (fetch-depth: 0)']",
-      "assert not [Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commits that introduced revised records cannot all be found; fetch the full history (fetch-depth: 0)')]",
-      " +  where [Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commits that introduced revised records cannot all be found; fetch the full history (fetch-depth: 0)')] = Result(files={}, findings=[Finding(code='D3-history-shallow', message='the repository is a shallow clone, so the commi...laceholder pattern, not an IRI')], skipped_tables=[(302, 'Annotation properties', 'Term | Use | Value')], failures=[])).findings",
-      "13 failed, 442 passed in 153.80s (0:02:33)"
+      "........................................................................ [ 47%]",
+      "........................................................................ [ 63%]",
+      "........................................................................ [ 79%]",
+      "........................................................................ [ 94%]",
+      ".......................                                                  [100%]",
+      "455 passed in 181.61s (0:03:01)"
     ]
   },
   "schema": "ariadne-evidence-audit/repo/v1",
@@ -73,6 +74,11 @@
     ],
     "files": 13,
     "runner": "pytest"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "22.23.4",
+    "python_used": "3.13.18"
   },
   "url": "https://github.com/Skreen5hot/Business-and-Agent-Capabilities-Ontology"
 }

@@ -61,3 +61,5 @@ specification", which is itself a finding.
   through a package registry under a different name is missed until the matcher learns that name.
 - Deployment is read from workflow files and a `gh-pages` branch; the live site is not fetched.
 - The collector cannot see private repositories without credentials that can clone them.
+- Tests run under the collector machine's Node and Python. A repository that pins another toolchain
+  (`.nvmrc`) may fail for that reason alone; the audit says so beside the result rather than hiding it.

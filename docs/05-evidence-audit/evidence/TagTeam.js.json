@@ -8,7 +8,7 @@
       "security.yml"
     ]
   },
-  "collected_at": "2026-10-28T06:32:21+00:00",
+  "collected_at": "2026-10-28T06:53:01+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -36,19 +36,20 @@
   "references": [],
   "repo": "TagTeam.js",
   "run": {
-    "at": "2026-10-28T06:32:28+00:00",
-    "command": "npm test --silent",
-    "duration_s": 1.5,
-    "exit_code": 1,
+    "at": "2026-10-28T06:37:26+00:00",
+    "command": "npm run --silent test:ci",
+    "duration_s": 184.4,
+    "exit_code": 0,
     "note": "$ npm ci -> 0",
+    "outcome": "passed",
     "sha": "732221c3a42cc7c5b5ccffc9f3104dec4934d6d2",
     "summary": [
-      "    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)",
-      "    at node:internal/main/run_main_module:36:49 {",
-      "  code: 'MODULE_NOT_FOUND',",
-      "  requireStack: []",
-      "}",
-      "Node.js v22.23.4"
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().",
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().",
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().",
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().",
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().",
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels()."
     ]
   },
   "schema": "ariadne-evidence-audit/repo/v1",
@@ -62,6 +63,11 @@
     ],
     "files": 139,
     "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "22.23.4",
+    "python_used": "3.13.18"
   },
   "url": "https://github.com/Skreen5hot/TagTeam.js"
 }

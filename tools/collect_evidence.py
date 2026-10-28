@@ -259,6 +259,13 @@ def collect(repo: dict, others: list[str], workdir: Path, run: bool) -> dict:
         ci["deploys"] = True
     rec["ci"] = ci
     rec["references"] = find_references(dest, rels, name, others)
+    pin = None
+    for f in (".nvmrc", ".node-version"):
+        if (dest / f).exists():
+            pin = (dest / f).read_text(encoding="utf-8").strip().lstrip("v")
+    node = sh(["node", "--version"]).stdout.strip().lstrip("v") if shutil.which("node") else None
+    rec["toolchain"] = {"node_pinned": pin, "node_used": node,
+                        "python_used": ".".join(map(str, sys.version_info[:3]))}
     previous = None
     if evidence_file(name).exists():
         previous = json.loads(evidence_file(name).read_text(encoding="utf-8")).get("run")

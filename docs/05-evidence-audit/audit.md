@@ -6,11 +6,13 @@ Evidence as of: 2026-10-28. Repositories inventoried: 6, collected: 6.
 
 ## Headline
 
+> Read L0 with care: it means no inventoried repository is mapped to the spec. With 6 repositories inventoried (5 not yet mapped to any spec), some L0 specs may have code in a repository the audit has not seen. Run `tools/sync_inventory.py` and map the repositories before treating L0 as "nothing built".
+
 - Buildable specifications in the index: **62**.
 - L0 spec-only: **60**
 - L1 code: **0**
-- L2 tested: **2**
-- L3 passing: **0**
+- L2 tested: **0**
+- L3 passing: **2**
 - L4 used: **0**
 - L5 production: **0**
 - Specifications whose document status claims maturity (Final, Hardened, Stable, Candidate, Ready, Normative) but have no mapped code: **27 of 27**.
@@ -19,12 +21,12 @@ Evidence as of: 2026-10-28. Repositories inventoried: 6, collected: 6.
 
 | Repository | Evidence level | Why | Last commit | Tests run | Used by | Implements |
 | --- | --- | --- | --- | --- | --- | --- |
+| [Business-and-Agent-Capabilities-Ontology](https://github.com/Skreen5hot/Business-and-Agent-Capabilities-Ontology) | L3 passing | 35 source files; 13 test files; tests passed at 2fef265 (2026-10-28); no inventoried repository depends on it in code | 2026-10-28 | exit 0 at 2fef265, 2026-10-28 | — | no indexed spec |
+| [TagTeam.js](https://github.com/Skreen5hot/TagTeam.js) | L3 passing | 246 source files; 139 test files; tests passed at 732221c (2026-10-28); no inventoried repository depends on it in code | 2026-04-06 | exit 0 at 732221c, 2026-10-28 | — | TagTeam Roadmap, TagTeam Architecture |
 | [ariadne](https://github.com/Skreen5hot/ariadne) | L2 tested · FAILING | 17 source files; 8 test files; tests FAILED | 2026-10-03 | exit 1 at 10eef18, 2026-10-28 | — | no indexed spec |
-| [Business-and-Agent-Capabilities-Ontology](https://github.com/Skreen5hot/Business-and-Agent-Capabilities-Ontology) | L2 tested · FAILING | 35 source files; 13 test files; tests FAILED | 2026-10-28 | exit 1 at 2fef265, 2026-10-28 | — | no indexed spec |
-| [Ontology-of-Freedom](https://github.com/Skreen5hot/Ontology-of-Freedom) | L2 tested · FAILING | 22 source files; 8 test files; tests FAILED | 2026-02-14 | exit 1 at 4c7618f, 2026-10-28 | — | no indexed spec |
-| [TagTeam.js](https://github.com/Skreen5hot/TagTeam.js) | L2 tested · FAILING | 246 source files; 139 test files; tests FAILED | 2026-04-06 | exit 1 at 732221c, 2026-10-28 | — | TagTeam Roadmap, TagTeam Architecture |
-| [ValueNet](https://github.com/Skreen5hot/ValueNet) | L2 tested · FAILING | 115 source files; 52 test files; tests FAILED | 2026-10-05 | exit 3 at fc74860, 2026-10-28 | — | no indexed spec |
-| [BusinessProcessOntology](https://github.com/Skreen5hot/BusinessProcessOntology) | L1 code | 29 source files; no test files | 2026-10-23 | not run | — | no indexed spec |
+| [Ontology-of-Freedom](https://github.com/Skreen5hot/Ontology-of-Freedom) | L2 tested · NOT RUNNABLE | 22 source files; 8 test files; test suite could not run in a clean checkout | 2026-02-14 | exit 1 at 4c7618f, 2026-10-28 | — | no indexed spec |
+| [ValueNet](https://github.com/Skreen5hot/ValueNet) | L2 tested · FAILING | 115 source files; 52 test files; tests FAILED; collector ran Node 22.23.4; repository pins 24.20.0, so some failures may be toolchain-only | 2026-10-05 | exit 1 at fc74860, 2026-10-28 | ariadne | no indexed spec |
+| [BusinessProcessOntology](https://github.com/Skreen5hot/BusinessProcessOntology) | L1 code | 29 source files; no test files | 2026-10-23 | not run | Business-and-Agent-Capabilities-Ontology | no indexed spec |
 
 ## Buildable specifications
 
@@ -32,8 +34,8 @@ Document status is copied from spec-index.md. Evidence level is computed. The ga
 
 | Specification | Layer | Version | Document status | Evidence level | Repositories |
 | --- | --- | --- | --- | --- | --- |
-| TagTeam Architecture | Architecture | — | Draft | L2 tested | TagTeam.js (L2 tested · FAILING) |
-| TagTeam Roadmap | Specifications | 6.6.0 | Active | L2 tested | TagTeam.js (L2 tested · FAILING) |
+| TagTeam Architecture | Architecture | — | Draft | L3 passing | TagTeam.js (L3 passing) |
+| TagTeam Roadmap | Specifications | 6.6.0 | Active | L3 passing | TagTeam.js (L3 passing) |
 | FNSR | Architecture | 2.1 | Active | L0 spec-only | none mapped |
 | FNSR Integration Spec | Architecture | 1.0 | Active | L0 spec-only | none mapped |
 | FNSR Orchestrator | Architecture | 2.3.0 | Hardened Candidate | L0 spec-only | none mapped |
@@ -99,9 +101,9 @@ Document status is copied from spec-index.md. Evidence level is computed. The ga
 
 Code that exists without a spec-index entry. Either the index is missing something real, or the repository is not part of the ecosystem the index describes.
 
+- Business-and-Agent-Capabilities-Ontology: L3 passing
 - ariadne: L2 tested · FAILING
-- Business-and-Agent-Capabilities-Ontology: L2 tested · FAILING
-- Ontology-of-Freedom: L2 tested · FAILING
+- Ontology-of-Freedom: L2 tested · NOT RUNNABLE
 - ValueNet: L2 tested · FAILING
 - BusinessProcessOntology: L1 code
 

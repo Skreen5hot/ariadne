@@ -7,7 +7,7 @@
       "ci.yml"
     ]
   },
-  "collected_at": "2026-10-28T06:35:12+00:00",
+  "collected_at": "2026-10-28T06:53:15+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -35,11 +35,12 @@
   "references": [],
   "repo": "Ontology-of-Freedom",
   "run": {
-    "at": "2026-10-28T06:35:15+00:00",
-    "command": "npm test --silent",
-    "duration_s": 0.7,
+    "at": "2026-10-28T06:38:35+00:00",
+    "command": "npm run --silent test",
+    "duration_s": 0.6,
     "exit_code": 1,
     "note": "$ npm ci -> 0",
+    "outcome": "could_not_run",
     "sha": "4c7618fbed866ce0b50d3dbc21805adf0e98309c",
     "summary": [
       "    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)",
@@ -61,6 +62,11 @@
     ],
     "files": 8,
     "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "22.23.4",
+    "python_used": "3.13.18"
   },
   "url": "https://github.com/Skreen5hot/Ontology-of-Freedom"
 }

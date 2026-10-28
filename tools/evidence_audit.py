@@ -179,6 +179,10 @@ def repo_level(repo: str, evidence: dict[str, dict], today: date | None = None) 
     if outcome != "passed":
         lv.failing = True
         lv.why.append("tests FAILED")
+        tc = rec.get("toolchain") or {}
+        pin, used = tc.get("node_pinned"), tc.get("node_used")
+        if pin and used and pin.split(".")[0] != used.split(".")[0]:
+            lv.why.append(f"collector ran Node {used}; repository pins {pin}, so some failures may be toolchain-only")
         return lv
     lv.level = 3
     lv.why.append(f"tests passed at {run['sha'][:7]} ({run['at'][:10]})")

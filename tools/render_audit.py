@@ -15,8 +15,8 @@ from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from evidence_audit import (LEVELS, OUT, ROOT, label, load_evidence, load_inventory,  # noqa: E402
-                            load_spec_index, repo_level, spec_level)
+from evidence_audit import (LEVELS, OUT, ROOT, consumers, label, load_evidence,  # noqa: E402
+                            load_inventory, load_spec_index, repo_level, spec_level)
 
 MATURE_WORDS = ("final", "hardened", "stable", "release candidate", "ready", "normative", "governance-ready", "candidate")
 
@@ -51,6 +51,12 @@ def render(inv: dict, specs, evidence: dict[str, dict]) -> str:
     mature_unbuilt = [s for s in mature if slevels[s.name][0] == 0]
     L.append("## Headline")
     L.append("")
+    unmapped = sum(1 for r in inv.get("repos", []) if not r.get("implements"))
+    L.append(f"> Read L0 with care: it means no inventoried repository is mapped to the spec. With "
+             f"{len(repos)} repositories inventoried ({unmapped} not yet mapped to any spec), some L0 specs "
+             "may have code in a repository the audit has not seen. Run `tools/sync_inventory.py` and map "
+             "the repositories before treating L0 as \"nothing built\".")
+    L.append("")
     L.append(f"- Buildable specifications in the index: **{len(buildable)}**.")
     for i, name in enumerate(LEVELS):
         L.append(f"- {name}: **{dist.get(i, 0)}**")
@@ -65,6 +71,7 @@ def render(inv: dict, specs, evidence: dict[str, dict]) -> str:
     L.append("| --- | --- | --- | --- | --- | --- | --- |")
     order = sorted(repos, key=lambda n: (-rlevels[n].level, n.lower()))
     impl = {r["name"]: r.get("implements") or [] for r in inv.get("repos", [])}
+    users = consumers(evidence)
     for n in order:
         lv = rlevels[n]
         rec = evidence.get(n) or {}
@@ -72,7 +79,7 @@ def render(inv: dict, specs, evidence: dict[str, dict]) -> str:
         run = rec.get("run")
         run_s = "not run" if not run else f"exit {run['exit_code']} at {run['sha'][:7]}, {run['at'][:10]}"
         L.append(f"| [{n}]({rec.get('url', '')}) | {label(lv)} | {esc('; '.join(lv.why))} | {head} | {esc(run_s)} | "
-                 f"{esc(', '.join(lv.used_by) or '—')} | {esc(', '.join(impl[n]) or 'no indexed spec')} |")
+                 f"{esc(', '.join(users.get(n, [])) or '—')} | {esc(', '.join(impl[n]) or 'no indexed spec')} |")
     L.append("")
 
     # ---- specs
