@@ -6,53 +6,53 @@ Evidence as of: 2026-10-28. Repositories inventoried: 60, collected: 59.
 
 ## Headline
 
-> Read L0 with care: it means no inventoried repository is mapped to the spec. With 60 repositories inventoried (59 not yet mapped to any spec), some L0 specs may have code in a repository the audit has not seen. Run `tools/sync_inventory.py` and map the repositories before treating L0 as "nothing built".
+> Read L0 with care: it means no inventoried repository is mapped to the spec. With 60 repositories inventoried (40 not yet mapped to any spec), some L0 specs may have code in a repository the audit has not seen. Run `tools/sync_inventory.py` and map the repositories before treating L0 as "nothing built".
 
 - Buildable specifications in the index: **62**.
-- L0 spec-only: **60**
-- L1 code: **0**
-- L2 tested: **0**
+- L0 spec-only: **47**
+- L1 code: **1**
+- L2 tested: **12**
 - L3 passing: **2**
 - L4 used: **0**
 - L5 production: **0**
-- Specifications whose document status claims maturity (Final, Hardened, Stable, Candidate, Ready, Normative) but have no mapped code: **27 of 27**.
+- Specifications whose document status claims maturity (Final, Hardened, Stable, Candidate, Ready, Normative) but have no mapped code: **22 of 27**.
 
 ## Repositories: FNSR components
 
 | Repository | Evidence level | Why | Last commit | Tests run | Used by | Implements |
 | --- | --- | --- | --- | --- | --- | --- |
 | [TagTeam.js](https://github.com/Skreen5hot/TagTeam.js) | L3 passing | 246 source files; 139 test files; tests passed at 732221c (2026-10-28); no inventoried repository depends on it in code | 2026-04-06 | exit 0 at 732221c, 2026-10-28 | — | TagTeam Roadmap, TagTeam Architecture |
-| [BIBS](https://github.com/Skreen5hot/BIBS) | L2 tested | 35 source files; 18 test files; tests not executed by the collector | 2026-10-27 | not run | — | no indexed spec |
-| [BIBS2](https://github.com/Skreen5hot/BIBS2) | L2 tested | 32 source files; 16 test files; tests not executed by the collector | 2026-08-07 | not run | — | no indexed spec |
-| [BIBSS3](https://github.com/Skreen5hot/BIBSS3) | L2 tested | 33 source files; 17 test files; tests not executed by the collector | 2026-06-13 | not run | — | no indexed spec |
+| [BIBS](https://github.com/Skreen5hot/BIBS) | L2 tested | 35 source files; 18 test files; tests not executed by the collector | 2026-10-27 | not run | — | BIBSS (Brain-in-the-Box Schema Service) |
+| [BIBS2](https://github.com/Skreen5hot/BIBS2) | L2 tested | 32 source files; 16 test files; tests not executed by the collector | 2026-08-07 | not run | — | BIBSS (Brain-in-the-Box Schema Service) |
+| [BIBSS3](https://github.com/Skreen5hot/BIBSS3) | L2 tested | 33 source files; 17 test files; tests not executed by the collector | 2026-06-13 | not run | — | BIBSS (Brain-in-the-Box Schema Service) |
 | [BPO-Template-Port](https://github.com/Skreen5hot/BPO-Template-Port) | L2 tested | 43 source files; 17 test files; tests not executed by the collector | 2026-10-26 | not run | — | no indexed spec |
 | [Business-and-Agent-Capabilities-Ontology](https://github.com/Skreen5hot/Business-and-Agent-Capabilities-Ontology) | L2 tested | 35 source files; 13 test files; tests not executed by the collector | 2026-10-28 | not run | — | no indexed spec |
-| [chartcraft](https://github.com/Skreen5hot/chartcraft) | L2 tested | 9 source files; 4 test files; tests not executed by the collector | 2026-02-22 | not run | — | no indexed spec |
+| [chartcraft](https://github.com/Skreen5hot/chartcraft) | L2 tested | 9 source files; 4 test files; tests not executed by the collector | 2026-02-22 | not run | — | ECVE (Edge-Canonical Visualization Engine) |
 | [Fandaws-Sentinel](https://github.com/Skreen5hot/Fandaws-Sentinel) | L2 tested | 280 source files; 138 test files; tests not executed by the collector | 2026-04-30 | not run | — | no indexed spec |
-| [fanlink](https://github.com/Skreen5hot/fanlink) | L2 tested | 6 source files; 2 test files; tests not executed by the collector | 2026-01-18 | not run | — | no indexed spec |
-| [FNSR_ChainVerifier](https://github.com/Skreen5hot/FNSR_ChainVerifier) | L2 tested | 5 source files; 1 test files; tests not executed by the collector | 2026-06-07 | not run | — | no indexed spec |
-| [HIRI](https://github.com/Skreen5hot/HIRI) | L2 tested | 79 source files; 15 test files; tests not executed by the collector | 2026-03-25 | not run | HIRI-Directory, HIRI-Review-and-Signoff | no indexed spec |
-| [HIRI-Directory](https://github.com/Skreen5hot/HIRI-Directory) | L2 tested | 24 source files; 2 test files; tests not executed by the collector | 2026-08-14 | not run | — | no indexed spec |
-| [HIRI-Passport](https://github.com/Skreen5hot/HIRI-Passport) | L2 tested | 313 source files; 116 test files; tests not executed by the collector | 2026-09-15 | not run | HIRI-Review-and-Signoff | no indexed spec |
-| [Integral-Ethics-Engine](https://github.com/Skreen5hot/Integral-Ethics-Engine) | L2 tested | 179 source files; 34 test files; tests not executed by the collector | 2026-01-26 | not run | — | no indexed spec |
+| [fanlink](https://github.com/Skreen5hot/fanlink) | L2 tested | 6 source files; 2 test files; tests not executed by the collector | 2026-01-18 | not run | — | Fandaws |
+| [FNSR_ChainVerifier](https://github.com/Skreen5hot/FNSR_ChainVerifier) | L2 tested | 5 source files; 1 test files; tests not executed by the collector | 2026-06-07 | not run | — | FNSR |
+| [HIRI](https://github.com/Skreen5hot/HIRI) | L2 tested | 79 source files; 15 test files; tests not executed by the collector | 2026-03-25 | not run | HIRI-Directory, HIRI-Review-and-Signoff | HIRI Protocol Spec |
+| [HIRI-Directory](https://github.com/Skreen5hot/HIRI-Directory) | L2 tested | 24 source files; 2 test files; tests not executed by the collector | 2026-08-14 | not run | — | HIRI IPFS Integration |
+| [HIRI-Passport](https://github.com/Skreen5hot/HIRI-Passport) | L2 tested | 313 source files; 116 test files; tests not executed by the collector | 2026-09-15 | not run | HIRI-Review-and-Signoff | HIRI Digital Passport Extension |
+| [Integral-Ethics-Engine](https://github.com/Skreen5hot/Integral-Ethics-Engine) | L2 tested | 179 source files; 34 test files; tests not executed by the collector | 2026-01-26 | not run | — | Integral Ethics Agent (IEA = IEE) |
 | [Ontology-of-Freedom](https://github.com/Skreen5hot/Ontology-of-Freedom) | L2 tested · NOT RUNNABLE | 22 source files; 8 test files; test suite could not run in a clean checkout | 2026-02-14 | exit 1 at 4c7618f, 2026-10-28 | — | no indexed spec |
 | [Percept-Formation-Pipeline](https://github.com/Skreen5hot/Percept-Formation-Pipeline) | L2 tested | 30 source files; 5 test files; tests not executed by the collector | 2026-06-30 | not run | — | no indexed spec |
-| [Sanitization-and-Ingestion-Service](https://github.com/Skreen5hot/Sanitization-and-Ingestion-Service) | L2 tested | 20 source files; 10 test files; tests not executed by the collector | 2026-06-26 | not run | — | no indexed spec |
-| [SchemaAlignment](https://github.com/Skreen5hot/SchemaAlignment) | L2 tested | 13 source files; 7 test files; tests not executed by the collector | 2026-03-02 | not run | — | no indexed spec |
-| [SchemaService](https://github.com/Skreen5hot/SchemaService) | L2 tested | 41 source files; 19 test files; tests not executed by the collector | 2026-03-02 | not run | — | no indexed spec |
-| [SemanticFunctionSchema](https://github.com/Skreen5hot/SemanticFunctionSchema) | L2 tested | 34 source files; 10 test files; tests not executed by the collector | 2026-07-30 | not run | — | no indexed spec |
-| [SemanticNormalization](https://github.com/Skreen5hot/SemanticNormalization) | L2 tested | 11 source files; 6 test files; tests not executed by the collector | 2026-03-01 | not run | — | no indexed spec |
+| [Sanitization-and-Ingestion-Service](https://github.com/Skreen5hot/Sanitization-and-Ingestion-Service) | L2 tested | 20 source files; 10 test files; tests not executed by the collector | 2026-06-26 | not run | — | SIS Specification |
+| [SchemaAlignment](https://github.com/Skreen5hot/SchemaAlignment) | L2 tested | 13 source files; 7 test files; tests not executed by the collector | 2026-03-02 | not run | — | SAS (Schema Alignment Service) |
+| [SchemaService](https://github.com/Skreen5hot/SchemaService) | L2 tested | 41 source files; 19 test files; tests not executed by the collector | 2026-03-02 | not run | — | BIBSS (Brain-in-the-Box Schema Service) |
+| [SemanticFunctionSchema](https://github.com/Skreen5hot/SemanticFunctionSchema) | L2 tested | 34 source files; 10 test files; tests not executed by the collector | 2026-07-30 | not run | — | SFS |
+| [SemanticNormalization](https://github.com/Skreen5hot/SemanticNormalization) | L2 tested | 11 source files; 6 test files; tests not executed by the collector | 2026-03-01 | not run | — | SNP (Semantic Normalization Proxy) |
 | [ValueNet](https://github.com/Skreen5hot/ValueNet) | L2 tested · FAILING | 115 source files; 52 test files; tests FAILED; collector ran Node 25.2.1; repository pins 24.20.0, so some failures may be toolchain-only | 2026-10-05 | exit 1 at fc74860, 2026-10-28 | ariadne | no indexed spec |
-| [worldview-realization-model](https://github.com/Skreen5hot/worldview-realization-model) | L2 tested | 31 source files; 2 test files; tests not executed by the collector | 2026-09-21 | not run | — | no indexed spec |
+| [worldview-realization-model](https://github.com/Skreen5hot/worldview-realization-model) | L2 tested | 31 source files; 2 test files; tests not executed by the collector | 2026-09-21 | not run | — | Integral Ethics Agent (IEA = IEE) |
 | [wrm-e2-independent-library-test](https://github.com/Skreen5hot/wrm-e2-independent-library-test) | L2 tested | 33 source files; 1 test files; tests not executed by the collector | 2026-09-21 | not run | — | no indexed spec |
 | [zenith-graph](https://github.com/Skreen5hot/zenith-graph) | L2 tested | 21 source files; 1 test files; tests not executed by the collector | 2023-09-06 | not run | — | no indexed spec |
 | [BusinessProcessOntology](https://github.com/Skreen5hot/BusinessProcessOntology) | L1 code | 29 source files; no test files | 2026-10-23 | not run | BPO-Template-Port, Business-and-Agent-Capabilities-Ontology, Ontology-Template | no indexed spec |
-| [fandaws](https://github.com/Skreen5hot/fandaws) | L1 code | 52 source files; no test files | 2025-10-24 | not run | — | no indexed spec |
+| [fandaws](https://github.com/Skreen5hot/fandaws) | L1 code | 52 source files; no test files | 2025-10-24 | not run | — | Fandaws |
 | [FNSRBridgeOntology](https://github.com/Skreen5hot/FNSRBridgeOntology) | L1 code | 8 source files; no test files | 2026-03-02 | not run | — | no indexed spec |
 | [GNOMON](https://github.com/Skreen5hot/GNOMON) | L1 code | 3 source files; no test files | 2026-08-24 | not run | — | no indexed spec |
-| [SemanticDataDictionary](https://github.com/Skreen5hot/SemanticDataDictionary) | L1 code | 8 source files; no test files | 2026-10-27 | not run | — | no indexed spec |
+| [SemanticDataDictionary](https://github.com/Skreen5hot/SemanticDataDictionary) | L1 code | 8 source files; no test files | 2026-10-27 | not run | — | Semantic Data Dictionary |
 | [term_relations](https://github.com/Skreen5hot/term_relations) | L1 code | 21 source files; no test files | 2022-06-08 | not run | — | no indexed spec |
-| [EntityResolutionService](https://github.com/Skreen5hot/EntityResolutionService) | L0 spec-only | no source files (documents only) | 2026-02-01 | not run | — | no indexed spec |
+| [EntityResolutionService](https://github.com/Skreen5hot/EntityResolutionService) | L0 spec-only | no source files (documents only) | 2026-02-01 | not run | — | OERS Specification |
 | [HIRI-Conversation-Protocol](https://github.com/Skreen5hot/HIRI-Conversation-Protocol) | L0 spec-only | no source files (documents only) | 2026-06-22 | not run | — | no indexed spec |
 
 ## Repositories: supporting tools
@@ -95,7 +95,19 @@ Document status is copied from spec-index.md. Evidence level is computed. The ga
 | --- | --- | --- | --- | --- | --- |
 | TagTeam Architecture | Architecture | — | Draft | L3 passing | TagTeam.js (L3 passing) |
 | TagTeam Roadmap | Specifications | 6.6.0 | Active | L3 passing | TagTeam.js (L3 passing) |
-| FNSR | Architecture | 2.1 | Active | L0 spec-only | none mapped |
+| FNSR | Architecture | 2.1 | Active | L2 tested | FNSR_ChainVerifier (L2 tested) |
+| BIBSS (Brain-in-the-Box Schema Service) | Specifications | 1.3 | Draft | L2 tested | BIBS (L2 tested), BIBS2 (L2 tested), BIBSS3 (L2 tested), SchemaService (L2 tested) |
+| ECVE (Edge-Canonical Visualization Engine) | Specifications | 4.0 | Final Draft | L2 tested | chartcraft (L2 tested) |
+| Fandaws | Specifications | 3.3 | Draft | L2 tested | fandaws (L1 code), fanlink (L2 tested) |
+| HIRI Digital Passport Extension | Specifications | 1.9.0 RC | Release Candidate | L2 tested | HIRI-Passport (L2 tested) |
+| HIRI IPFS Integration | Specifications | 3.0.0 | Stable | L2 tested | HIRI-Directory (L2 tested) |
+| HIRI Protocol Spec | Specifications | 3.1.1 | Draft | L2 tested | HIRI (L2 tested) |
+| Integral Ethics Agent (IEA = IEE) | Specifications | 2.1 | Draft | L2 tested | Integral-Ethics-Engine (L2 tested), worldview-realization-model (L2 tested) |
+| SAS (Schema Alignment Service) | Specifications | 2.0 + v2.1 addendum | Final Review Draft | L2 tested | SchemaAlignment (L2 tested) |
+| SFS | Specifications | 2.2 | Draft | L2 tested | SemanticFunctionSchema (L2 tested) |
+| SIS Specification | Specifications | 2.0 | Draft | L2 tested | Sanitization-and-Ingestion-Service (L2 tested) |
+| SNP (Semantic Normalization Proxy) | Specifications | 1.3 | Final | L2 tested | SemanticNormalization (L2 tested) |
+| Semantic Data Dictionary | Specifications | 2.0 | Draft | L1 code | SemanticDataDictionary (L1 code) |
 | FNSR Integration Spec | Architecture | 1.0 | Active | L0 spec-only | none mapped |
 | FNSR Orchestrator | Architecture | 2.3.0 | Hardened Candidate | L0 spec-only | none mapped |
 | Portfolio Planning Service | Governance | 1.0 | Draft | L0 spec-only | none mapped |
@@ -106,7 +118,6 @@ Document status is copied from spec-index.md. Evidence level is computed. The ga
 | ARCHON Functional Requirements | Specifications | 3.0 | Draft | L0 spec-only | none mapped |
 | AVS (Affective Valence Service) | Specifications | 2.1.0 | Hardened Candidate | L0 spec-only | none mapped |
 | BAM (Behavioral Alignment Monitor) | Specifications | 1.1.0 | Hardened Draft | L0 spec-only | none mapped |
-| BIBSS (Brain-in-the-Box Schema Service) | Specifications | 1.3 | Draft | L0 spec-only | none mapped |
 | Causal OS Kernel | Specifications | 1.6 | v1.0 release hardening | L0 spec-only | none mapped |
 | CPS (Containment Protocol Service) | Specifications | 1.4.0 | Hardened Draft | L0 spec-only | none mapped |
 | CSS Specification | Specifications | 2.0.0 | Final | L0 spec-only | none mapped |
@@ -115,39 +126,28 @@ Document status is copied from spec-index.md. Evidence level is computed. The ga
 | DSFC | Specifications | 1.2 | Draft | L0 spec-only | none mapped |
 | ECCPS FRD | Specifications | 2.1.1 | Archived | L0 spec-only | none mapped |
 | ECCPS Specification | Specifications | 3.1 | Draft | L0 spec-only | none mapped |
-| ECVE (Edge-Canonical Visualization Engine) | Specifications | 4.0 | Final Draft | L0 spec-only | none mapped |
 | Epistemic Vocabulary Mapping | Specifications | 1.2 | Draft | L0 spec-only | none mapped |
-| Fandaws | Specifications | 3.3 | Draft | L0 spec-only | none mapped |
 | Fandaws Type Agent | Specifications | 2.3 | Hardened Draft | L0 spec-only | none mapped |
 | Fandaws-HIRI-IPFS Architecture | Specifications | 0.3.0 | Proposal | L0 spec-only | none mapped |
 | FNSR Adversarial Defense | Specifications | 2.0.0 | HARDENED | L0 spec-only | none mapped |
 | FNSR Emancipation Protocol | Specifications | 2.0.0 | HARDENED | L0 spec-only | none mapped |
 | FNSR Governance Spec | Specifications | 2.0.0 | Draft | L0 spec-only | none mapped |
 | FNSR Performance Spec | Specifications | 2.0.0 | Final | L0 spec-only | none mapped |
-| HIRI Digital Passport Extension | Specifications | 1.9.0 RC | Release Candidate | L0 spec-only | none mapped |
-| HIRI IPFS Integration | Specifications | 3.0.0 | Stable | L0 spec-only | none mapped |
 | HIRI Privacy & Confidentiality Extension | Specifications | 1.4.1 | Final | L0 spec-only | none mapped |
-| HIRI Protocol Spec | Specifications | 3.1.1 | Draft | L0 spec-only | none mapped |
 | HQL (HIRI Query Layer) | Specifications | 1.2.0 | Candidate for Stable | L0 spec-only | none mapped |
-| Integral Ethics Agent (IEA = IEE) | Specifications | 2.1 | Draft | L0 spec-only | none mapped |
 | IRIS | Specifications | 1.2 | Impl-Ready Draft | L0 spec-only | none mapped |
 | IS (Interpretability Service) | Specifications | 1.0.0 | Hardened Draft | L0 spec-only | none mapped |
 | MDRE Technical Spec | Specifications | 1.3 | Active | L0 spec-only | none mapped |
 | NIS (Narrative Identity Service) | Specifications | 2.1 FINAL | Governance-Ready | L0 spec-only | none mapped |
-| OERS Specification | Specifications | 2.1.0 | Draft | L0 spec-only | none mapped |
+| OERS Specification | Specifications | 2.1.0 | Draft | L0 spec-only | EntityResolutionService (L0 spec-only) |
 | Ontological Constraint Engine | Specifications | 1.3 | Draft | L0 spec-only | none mapped |
 | OPA (Ontological Placement Agent) | Specifications | 1.2 | Hardened Draft | L0 spec-only | none mapped |
 | PFCF | Specifications | 2.1 | Normative | L0 spec-only | none mapped |
 | PPS (Portfolio Planning Service) | Specifications | 1.0.0 | Draft | L0 spec-only | none mapped |
-| SAS (Schema Alignment Service) | Specifications | 2.0 + v2.1 addendum | Final Review Draft | L0 spec-only | none mapped |
-| Semantic Data Dictionary | Specifications | 2.0 | Draft | L0 spec-only | none mapped |
 | Semantic Data Platform | Specifications | 1.1 | Draft | L0 spec-only | none mapped |
-| SFS | Specifications | 2.2 | Draft | L0 spec-only | none mapped |
 | SHACL Event Shape | Specifications | — | Draft | L0 spec-only | none mapped |
 | SHML | Specifications | 3.2 | Normative Draft | L0 spec-only | none mapped |
-| SIS Specification | Specifications | 2.0 | Draft | L0 spec-only | none mapped |
 | SMS (Self-Model Service) | Specifications | 2.0 | Hardened Draft | L0 spec-only | none mapped |
-| SNP (Semantic Normalization Proxy) | Specifications | 1.3 | Final | L0 spec-only | none mapped |
 | SoMS (Social Modeling Service) | Specifications | 1.0.0 | Hardened Draft | L0 spec-only | none mapped |
 | SPCN (Sovereign Personal Compute Node) | Specifications | 2.3.1 | Draft | L0 spec-only | none mapped |
 | SPL (Structured Plan Language) | Specifications | 1.3 FINAL | FINAL | L0 spec-only | none mapped |
@@ -163,23 +163,13 @@ Code that exists without a spec-index entry. Either the index is missing somethi
 - AgenticDev: L2 tested
 - ApplicationRequirementOntology: L2 tested
 - ariadne: L2 tested · FAILING
-- BIBS: L2 tested
-- BIBS2: L2 tested
-- BIBSS3: L2 tested
 - BPO-Template-Port: L2 tested
 - Business-and-Agent-Capabilities-Ontology: L2 tested
-- chartcraft: L2 tested
 - concretize: L2 tested
 - Fandaws-Sentinel: L2 tested
-- fanlink: L2 tested
-- FNSR_ChainVerifier: L2 tested
 - Graph-Discovery-Engine: L2 tested
 - GraphWrite: L2 tested
-- HIRI: L2 tested
-- HIRI-Directory: L2 tested
-- HIRI-Passport: L2 tested
 - HIRI-Review-and-Signoff: L2 tested
-- Integral-Ethics-Engine: L2 tested
 - IntegratedAgent: L2 tested
 - IRI_Linter: L2 tested
 - LexiconCuratorEngine: L2 tested
@@ -190,30 +180,21 @@ Code that exists without a spec-index entry. Either the index is missing somethi
 - OWL-FOL-Bidirectional-Translator: L2 tested
 - Percept-Formation-Pipeline: L2 tested
 - Relationship-Presentation-Compiler: L2 tested
-- Sanitization-and-Ingestion-Service: L2 tested
-- SchemaAlignment: L2 tested
-- SchemaService: L2 tested
-- SemanticFunctionSchema: L2 tested
-- SemanticNormalization: L2 tested
 - SemantiCore: L2 tested
 - ValueNet: L2 tested · FAILING
-- worldview-realization-model: L2 tested
 - wrm-e2-independent-library-test: L2 tested
 - zenith-graph: L2 tested
 - BusinessProcessOntology: L1 code
-- fandaws: L1 code
 - FNSRBridgeOntology: L1 code
 - FunctionRunner: L1 code
 - GNOMON: L1 code
 - GraphForge: L1 code
 - kgModeler: L1 code
 - Lodestar: L1 code
-- SemanticDataDictionary: L1 code
 - SemanticSketch: L1 code
 - term_relations: L1 code
 - assay: L0 spec-only
 - BeyondTokens: L0 spec-only
-- EntityResolutionService: L0 spec-only
 - HIRI-Conversation-Protocol: L0 spec-only
 - Mermaid-OWL: L0 spec-only
 - R2RML-Workbench: L0 spec-only

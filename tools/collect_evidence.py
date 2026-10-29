@@ -305,7 +305,12 @@ def main(argv: list[str]) -> int:
     try:
         for repo in selected:
             print(f"collecting {repo['name']} ...", flush=True)
-            rec = collect(repo, all_names, workdir, run)
+            try:
+                rec = collect(repo, all_names, workdir, run)
+            except subprocess.TimeoutExpired as e:
+                # A stalled git call says nothing about the repository; keep its earlier record.
+                print(f"  timed out ({' '.join(e.cmd[:2])}); earlier evidence kept", flush=True)
+                continue
             evidence_file(repo["name"]).write_text(json.dumps(rec, indent=2, sort_keys=True) + "\n",
                                                    encoding="utf-8", newline="\n")
             status = "unreachable" if not rec["reachable"] else (
