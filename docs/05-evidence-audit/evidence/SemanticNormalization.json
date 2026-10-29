@@ -1,0 +1,57 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml",
+      "pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T13:09:23+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 25,
+    "ontology": 0,
+    "other": 14,
+    "source": 11,
+    "top_extensions": {
+      "(none)": 2,
+      ".csv": 2,
+      ".json": 5,
+      ".md": 25,
+      ".ts": 11,
+      ".yml": 3
+    },
+    "total": 50
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-03-01T17:34:14-05:00",
+    "sha": "80080398b65cf52df70b04cc035cd06ba0e53063",
+    "subject": "Implement \u00c2\u00a74.2.1 Empty Row Removal (SNP v1.4 addendum)"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "SemanticNormalization",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/determinism.test.ts",
+      "tests/domain.test.ts",
+      "tests/invariants.test.ts",
+      "tests/no-network.test.ts",
+      "tests/run-tests.ts"
+    ],
+    "files": 6,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/SemanticNormalization"
+}

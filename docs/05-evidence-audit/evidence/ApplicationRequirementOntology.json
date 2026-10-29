@@ -1,0 +1,56 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": true,
+    "scheduled": true,
+    "workflows": [
+      "checks.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:32:52+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 39,
+    "ontology": 38,
+    "other": 62,
+    "source": 50,
+    "top_extensions": {
+      ".json": 51,
+      ".jsonld": 5,
+      ".md": 38,
+      ".mjs": 5,
+      ".py": 45,
+      ".ttl": 33
+    },
+    "total": 189
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-10-23T10:25:53-04:00",
+    "sha": "5fbbeb7d598f25aeb0fa2fba1c1bbfe9483f09fe",
+    "subject": "C1: the minimal transformer, its gate pins, and a synthetic dry run (9/10, the one miss a stated limit); RLA custody rul"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "ApplicationRequirementOntology",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "spike/projections/ws3/acceptance/C-S3.test.mjs",
+      "spike/projections/ws3/acceptance/C-S7.test.mjs",
+      "spike/projections/ws3/bars/adjudicator.test.mjs",
+      "spike/projections/ws3/bars/ledger.test.mjs",
+      "tests/test_act_tool.py"
+    ],
+    "files": 24,
+    "runner": "pytest"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/ApplicationRequirementOntology"
+}

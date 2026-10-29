@@ -1,0 +1,47 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T12:32:12+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 1,
+    "ontology": 0,
+    "other": 3,
+    "source": 1,
+    "top_extensions": {
+      "(none)": 1,
+      ".css": 1,
+      ".html": 1,
+      ".js": 1,
+      ".md": 1
+    },
+    "total": 5
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2025-10-29T04:37:34-04:00",
+    "sha": "40de19dc6884547e5a02dffe1c31d75c117e597c",
+    "subject": "UX quality fixes"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "kgModeler",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/kgModeler"
+}

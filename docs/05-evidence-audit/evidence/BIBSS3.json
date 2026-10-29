@@ -1,0 +1,50 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T11:35:31+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 2,
+    "ontology": 0,
+    "other": 0,
+    "source": 33,
+    "top_extensions": {
+      ".md": 2,
+      ".mjs": 33
+    },
+    "total": 35
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-06-13T16:32:04-04:00",
+    "sha": "d5ce5426a21b740b9cef9f1819ac07e72863fa01",
+    "subject": "BIBSS3: BIBSS v1.3 implementation built by the IntegratedAgent factory (15/15, 797 tests)"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "BIBSS3",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "test/M01.test.mjs",
+      "test/M02.test.mjs",
+      "test/M03.test.mjs",
+      "test/M04.test.mjs",
+      "test/M05.test.mjs"
+    ],
+    "files": 17,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/BIBSS3"
+}

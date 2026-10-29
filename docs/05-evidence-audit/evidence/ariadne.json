@@ -1,0 +1,86 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T11:10:21+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 196,
+    "ontology": 7,
+    "other": 28,
+    "source": 17,
+    "top_extensions": {
+      "(none)": 10,
+      ".html": 3,
+      ".json": 10,
+      ".md": 194,
+      ".py": 17,
+      ".ttl": 7
+    },
+    "total": 248
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-10-03T12:57:48-04:00",
+    "sha": "10eef18fa9e6edc8f09a8e0f6205d605aaafffb4",
+    "subject": "Merge pull request #18 from Skreen5hot/e-pc/list-participants"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "docs/03-specifications/eccps-specification.md",
+      "kind": "docs",
+      "repo": "Ontology-of-Freedom"
+    },
+    {
+      "file": "docs/02-evidence/register.yaml",
+      "kind": "code",
+      "repo": "ValueNet"
+    },
+    {
+      "file": "docs/02-evidence/README.md",
+      "kind": "docs",
+      "repo": "ValueNet"
+    }
+  ],
+  "repo": "ariadne",
+  "run": {
+    "at": "2026-10-28T06:34:16+00:00",
+    "command": "python3 -m pytest -q -p no:cacheprovider",
+    "duration_s": 1.7,
+    "exit_code": 1,
+    "note": "",
+    "outcome": "failed",
+    "sha": "10eef18fa9e6edc8f09a8e0f6205d605aaafffb4",
+    "summary": [
+      "     b'iting = null; draft = null; $(\"form\").classList.add(\"hidden\"); Object.assign'",
+      "     b'(state, { text: \"\", sha256: \"\", codepoints: 0, fileName: \"\", annotations: []'",
+      "     b', attested: false, formDraft: null }); if (DATA.demo) loadEmbedded(); await '",
+      "     b'save(); renderAll(); } });\\n  }\\n  init();\\n})();\\n</script>\\n</body>\\n</h'",
+      "     b'tml>\\n')",
+      "1 failed, 454 passed, 4 skipped in 1.33s"
+    ]
+  },
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/e-pc/test_annotator_tool.py",
+      "tests/e-pc/test_arm_length_parity.py",
+      "tests/e-pc/test_gold_blind.py",
+      "tests/e-pc/test_no_fact_addition.py",
+      "tests/e-pc/test_prereg_frozen.py"
+    ],
+    "files": 8,
+    "runner": "pytest"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/ariadne"
+}

@@ -1,0 +1,77 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "deploy-pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:50:22+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 398,
+    "ontology": 0,
+    "other": 2433,
+    "source": 1195,
+    "top_extensions": {
+      ".bin": 332,
+      ".cjs": 69,
+      ".json": 2084,
+      ".md": 379,
+      ".mjs": 289,
+      ".ts": 811
+    },
+    "total": 4026
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-10-23T10:53:58-04:00",
+    "sha": "f51081df01c00afc41c94811440da006bec99479",
+    "subject": "test(pwa): add Feature 12 owner fixture"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "project/SOURCE-PINS.json",
+      "kind": "code",
+      "repo": "ApplicationRequirementOntology"
+    },
+    {
+      "file": "project/MINIMUM-ONTOLOGY-PLAN.md",
+      "kind": "docs",
+      "repo": "ApplicationRequirementOntology"
+    },
+    {
+      "file": "project/SOURCE-PINS.json",
+      "kind": "code",
+      "repo": "HIRI"
+    },
+    {
+      "file": "project/SOURCE-PINS.json",
+      "kind": "code",
+      "repo": "HIRI-Passport"
+    }
+  ],
+  "repo": "HIRI-Review-and-Signoff",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "project/phase3-core/canonical-arrays/capture-attempts/CAPTURE-INC-008-001/inputs/tests/core/dev-guard.mjs",
+      "project/phase3-core/canonical-arrays/capture-attempts/CAPTURE-INC-008-001/inputs/tests/core/foundation.test.ts",
+      "project/phase3-core/canonical-arrays/capture-attempts/CAPTURE-INC-008-001/inputs/tests/core/type-roots/node/index.d.ts",
+      "project/phase3-core/canonical-arrays/inputs/tests/core/dev-guard.mjs",
+      "project/phase3-core/canonical-arrays/inputs/tests/core/foundation.test.ts"
+    ],
+    "files": 170,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/HIRI-Review-and-Signoff"
+}

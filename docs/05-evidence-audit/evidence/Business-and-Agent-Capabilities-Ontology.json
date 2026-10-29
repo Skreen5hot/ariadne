@@ -1,0 +1,73 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": true,
+    "workflows": [
+      "checks.yml",
+      "pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:26:00+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 76,
+    "ontology": 16,
+    "other": 64,
+    "source": 35,
+    "top_extensions": {
+      ".html": 9,
+      ".json": 6,
+      ".md": 72,
+      ".py": 32,
+      ".ttl": 16,
+      ".yaml": 43
+    },
+    "total": 191
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-10-28T06:20:25-04:00",
+    "sha": "6c62a9b11b796c5c2586faf1571e1d393fc7e05e",
+    "subject": "Merge PR #17: record the architect's approval of the BPO re-pin (merge commit 6731f59)"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "README.md",
+      "kind": "docs",
+      "repo": "ApplicationRequirementOntology"
+    },
+    {
+      "file": "config/inventory-sources.yaml",
+      "kind": "code",
+      "repo": "BusinessProcessOntology"
+    },
+    {
+      "file": "README.md",
+      "kind": "docs",
+      "repo": "BusinessProcessOntology"
+    }
+  ],
+  "repo": "Business-and-Agent-Capabilities-Ontology",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "drafts/BusinessCapabilityOntology_draft_v0.1.0/tests/check_draft.py",
+      "tests/test_communications.py",
+      "tests/test_conceptual_models.py",
+      "tests/test_imported_artifacts.py",
+      "tests/test_inventory.py"
+    ],
+    "files": 13,
+    "runner": "pytest"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/Business-and-Agent-Capabilities-Ontology"
+}

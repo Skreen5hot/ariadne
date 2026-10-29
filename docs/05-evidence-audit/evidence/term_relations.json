@@ -1,0 +1,48 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T13:14:52+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "master",
+  "files": {
+    "docs": 20,
+    "ontology": 0,
+    "other": 59,
+    "source": 21,
+    "top_extensions": {
+      "(none)": 10,
+      ".docx": 9,
+      ".html": 9,
+      ".js": 21,
+      ".pdf": 6,
+      ".png": 26
+    },
+    "total": 100
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2022-06-08T07:03:10-04:00",
+    "sha": "bfba71b7f8dc0e3e2443408f24d5c3478d391198",
+    "subject": "updated with DB Migration steps"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "term_relations",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/term_relations"
+}

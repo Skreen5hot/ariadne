@@ -1,0 +1,61 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "fixtures.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:44:28+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 59,
+    "ontology": 0,
+    "other": 41,
+    "source": 3,
+    "top_extensions": {
+      "(none)": 4,
+      ".0": 2,
+      ".js": 3,
+      ".json": 4,
+      ".md": 59,
+      ".yaml": 28
+    },
+    "total": 103
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-08-24T07:36:25-04:00",
+    "sha": "dee331a262c57878bab7af976258c1c7f5616f51",
+    "subject": "Close Phase 0-alpha: gate semantics specified, corpus mark mechanized"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "README.md",
+      "kind": "docs",
+      "repo": "HIRI"
+    },
+    {
+      "file": "ROADMAP.md",
+      "kind": "docs",
+      "repo": "ariadne"
+    }
+  ],
+  "repo": "GNOMON",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/GNOMON"
+}

@@ -1,0 +1,56 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T12:51:50+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 8,
+    "ontology": 0,
+    "other": 12,
+    "source": 40,
+    "top_extensions": {
+      "(none)": 4,
+      ".css": 3,
+      ".js": 40,
+      ".json": 2,
+      ".md": 8,
+      ".yml": 2
+    },
+    "total": 60
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-05-21T04:12:56-04:00",
+    "sha": "9eafe0cfc410737028cac2634f6b08f7741506ba",
+    "subject": "Slice 5b: migration + fsaRegistry-sourced project list + IDB audit log"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "mermaid",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/assert.test.js",
+      "tests/concepts/diagramConcept.test.js",
+      "tests/concepts/projectConcept.test.js",
+      "tests/concepts/storageConcept.test.js",
+      "tests/concepts/uiConcept.test.js"
+    ],
+    "files": 16,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/mermaid"
+}

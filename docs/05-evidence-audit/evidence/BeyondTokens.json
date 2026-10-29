@@ -1,0 +1,44 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T11:34:23+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 4,
+    "ontology": 0,
+    "other": 1,
+    "source": 0,
+    "top_extensions": {
+      "(none)": 1,
+      ".md": 4
+    },
+    "total": 5
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-06-21T05:45:31-04:00",
+    "sha": "417813f7a68b29d3acec1d043de3cb56a0f2f6d3",
+    "subject": "Add files via upload"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "BeyondTokens",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/BeyondTokens"
+}

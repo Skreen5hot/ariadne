@@ -1,0 +1,72 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:27:58+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 61,
+    "ontology": 13,
+    "other": 13,
+    "source": 22,
+    "top_extensions": {
+      ".html": 5,
+      ".js": 21,
+      ".json": 3,
+      ".md": 61,
+      ".owl": 5,
+      ".ttl": 8
+    },
+    "total": 109
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-02-14T22:00:26-05:00",
+    "sha": "4c7618fbed866ce0b50d3dbc21805adf0e98309c",
+    "subject": "Add files via upload"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "Ontology-of-Freedom",
+  "run": {
+    "at": "2026-10-28T06:38:35+00:00",
+    "command": "npm run --silent test",
+    "duration_s": 0.6,
+    "exit_code": 1,
+    "note": "$ npm ci -> 0",
+    "outcome": "could_not_run",
+    "sha": "4c7618fbed866ce0b50d3dbc21805adf0e98309c",
+    "summary": [
+      "    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)",
+      "    at node:internal/main/run_main_module:36:49 {",
+      "  code: 'MODULE_NOT_FOUND',",
+      "  requireStack: []",
+      "}",
+      "Node.js v22.23.4"
+    ]
+  },
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/unit/moral-reasoner.scenarios.test.js",
+      "tests/unit/progress-tracker.test.js",
+      "tests/unit/synchronizations.test.js",
+      "tests/unit/task-manager.test.js",
+      "tests/unit/ui-renderer.test.js"
+    ],
+    "files": 8,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/Ontology-of-Freedom"
+}

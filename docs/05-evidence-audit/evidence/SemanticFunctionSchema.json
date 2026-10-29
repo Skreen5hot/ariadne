@@ -1,0 +1,57 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml",
+      "deploy-site.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T13:08:41+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 12,
+    "ontology": 0,
+    "other": 10,
+    "source": 34,
+    "top_extensions": {
+      "(none)": 1,
+      ".js": 1,
+      ".json": 5,
+      ".md": 12,
+      ".ts": 33,
+      ".yml": 2
+    },
+    "total": 56
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-07-30T06:33:45-04:00",
+    "sha": "2500762385dcae8436efe002a548768efe944acd",
+    "subject": "Add V0.1 Functional Specification document"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "SemanticFunctionSchema",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/unit/core/condition.test.ts",
+      "tests/unit/core/context.test.ts",
+      "tests/unit/core/effect.test.ts",
+      "tests/unit/core/error.test.ts",
+      "tests/unit/core/pfcf.test.ts"
+    ],
+    "files": 10,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/SemanticFunctionSchema"
+}

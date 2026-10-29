@@ -1,0 +1,62 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:40:34+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 107,
+    "ontology": 5,
+    "other": 36,
+    "source": 280,
+    "top_extensions": {
+      ".css": 3,
+      ".html": 3,
+      ".js": 279,
+      ".json": 27,
+      ".md": 106,
+      ".ttl": 4
+    },
+    "total": 428
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-04-30T08:44:34-04:00",
+    "sha": "b3c87e7217223ca0b435897440a8cf51a2e6657a",
+    "subject": "SME-D16-X9 Step 7.16 validator pass + Steps 7.18/7.19/7.20 banked"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "docs/communicaitons/From TagTeam/fandaws-hiri-integration-requirements.md",
+      "kind": "docs",
+      "repo": "TagTeam.js"
+    }
+  ],
+  "repo": "Fandaws-Sentinel",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/avc/d16-runner.test.js",
+      "tests/avc/phase-12-runner.test.js",
+      "tests/avc/phase-13-runner.test.js",
+      "tests/avc/phase-b-runner.test.js",
+      "tests/avc/phase-c1-runner.test.js"
+    ],
+    "files": 138,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/Fandaws-Sentinel"
+}

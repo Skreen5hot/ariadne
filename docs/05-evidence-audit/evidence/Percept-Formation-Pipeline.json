@@ -1,0 +1,63 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": true,
+    "workflows": [
+      "deploy-pages.yml",
+      "dl-gate.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T13:02:53+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 19,
+    "ontology": 2,
+    "other": 18,
+    "source": 30,
+    "top_extensions": {
+      ".js": 13,
+      ".json": 13,
+      ".md": 19,
+      ".mjs": 14,
+      ".sh": 2,
+      ".yml": 2
+    },
+    "total": 69
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-06-30T12:49:50-04:00",
+    "sha": "e6c4509b515f8a0f5d04c031af6fdb8b4c95bcd0",
+    "subject": "DL gate: vendor CCO (BFO inline) so the deep gate is self-contained"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "README.md",
+      "kind": "docs",
+      "repo": "IntegratedAgent"
+    }
+  ],
+  "repo": "Percept-Formation-Pipeline",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "docs/js/audit/audit.test.mjs",
+      "docs/js/audit/status-audit.test.mjs",
+      "docs/js/snowflake_test/materialize.test.mjs",
+      "docs/js/snowflake_test/traversal.test.mjs",
+      "docs/js/ssm.mapping.shape.test.mjs"
+    ],
+    "files": 5,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/Percept-Formation-Pipeline"
+}

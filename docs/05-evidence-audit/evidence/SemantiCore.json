@@ -1,0 +1,57 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml",
+      "pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T13:09:43+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 37,
+    "ontology": 2,
+    "other": 13,
+    "source": 32,
+    "top_extensions": {
+      "(none)": 2,
+      ".json": 5,
+      ".jsonld": 2,
+      ".md": 37,
+      ".ts": 31,
+      ".yml": 3
+    },
+    "total": 84
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-05-14T10:58:36-04:00",
+    "sha": "08fea259dea6e09996032c314af8a895b5497fdb",
+    "subject": "Begin Phase 11 receipt packages"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "SemantiCore",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/adapter-integration.test.ts",
+      "tests/app-static.test.ts",
+      "tests/determinism.test.ts",
+      "tests/no-network.test.ts",
+      "tests/run-tests.ts"
+    ],
+    "files": 8,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/SemantiCore"
+}

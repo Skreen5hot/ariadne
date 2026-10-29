@@ -1,0 +1,57 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml",
+      "pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T13:00:49+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 62,
+    "ontology": 4,
+    "other": 36,
+    "source": 121,
+    "top_extensions": {
+      ".html": 4,
+      ".js": 59,
+      ".json": 17,
+      ".md": 62,
+      ".ts": 62,
+      ".yaml": 4
+    },
+    "total": 223
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-05-15T22:28:51-04:00",
+    "sha": "5a9bf67e17933d04a9deecde14f8223a5ec92a9f",
+    "subject": "docs: Phase 4 Step 6 \u00e2\u20ac\u201d regularityCheck(A, importClosure) (Q-4-Step6-A)"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "OWL-FOL-Bidirectional-Translator",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/arc-lift-correctness-phase4-step3.test.ts",
+      "tests/arc-module-loader-phase4-step1.test.ts",
+      "tests/connected-with-bridge-phase4-step5.test.ts",
+      "tests/corpus/_stub-evaluator.d.ts",
+      "tests/corpus/_stub-evaluator.js"
+    ],
+    "files": 77,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/OWL-FOL-Bidirectional-Translator"
+}

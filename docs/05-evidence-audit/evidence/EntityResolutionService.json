@@ -1,0 +1,44 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T11:38:32+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 2,
+    "ontology": 0,
+    "other": 1,
+    "source": 0,
+    "top_extensions": {
+      "(none)": 1,
+      ".md": 2
+    },
+    "total": 3
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-02-01T05:08:05-05:00",
+    "sha": "6243c9882edee3e766dd96632410699bd7aa4f10",
+    "subject": "Rename Specificaiton_OERS.md to OERS-Specificaiton.md"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "EntityResolutionService",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/EntityResolutionService"
+}

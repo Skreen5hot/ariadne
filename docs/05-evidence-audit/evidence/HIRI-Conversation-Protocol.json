@@ -1,0 +1,44 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T11:48:29+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 3,
+    "ontology": 0,
+    "other": 1,
+    "source": 0,
+    "top_extensions": {
+      "(none)": 1,
+      ".md": 3
+    },
+    "total": 4
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-06-22T15:33:15-04:00",
+    "sha": "cdf8761331d60d19f49916e3224b918a769c54b1",
+    "subject": "Delete WEAVER-SDK-HCP-v1.0-HARMONIZATION.md"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "HIRI-Conversation-Protocol",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/HIRI-Conversation-Protocol"
+}

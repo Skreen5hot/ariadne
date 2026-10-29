@@ -1,0 +1,45 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T13:14:23+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 5,
+    "ontology": 0,
+    "other": 2,
+    "source": 0,
+    "top_extensions": {
+      "(none)": 1,
+      ".jsonl": 1,
+      ".md": 5
+    },
+    "total": 7
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-08-19T10:47:31-04:00",
+    "sha": "d0127292399bc6104c664c0e9bdb58c230d2774c",
+    "subject": "Add files via upload"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "Specification-Refinement-System",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/Specification-Refinement-System"
+}

@@ -1,0 +1,61 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "static.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:25:35+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 23,
+    "ontology": 22,
+    "other": 12,
+    "source": 29,
+    "top_extensions": {
+      "(none)": 4,
+      ".json": 3,
+      ".md": 21,
+      ".mjs": 3,
+      ".py": 22,
+      ".ttl": 22
+    },
+    "total": 86
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-10-23T17:35:09-04:00",
+    "sha": "bc64e91839378e1926189c01bf184d6a22d5c1b7",
+    "subject": "Notify BCO of the v0.4.1 prefix rename (no IRI change)"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "communications/bco/README.md",
+      "kind": "docs",
+      "repo": "Business-and-Agent-Capabilities-Ontology"
+    },
+    {
+      "file": "tools/refintegrity/PROVENANCE.md",
+      "kind": "docs",
+      "repo": "IRI_Linter"
+    }
+  ],
+  "repo": "BusinessProcessOntology",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/BusinessProcessOntology"
+}

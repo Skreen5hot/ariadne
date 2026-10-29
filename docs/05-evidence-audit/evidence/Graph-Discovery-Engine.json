@@ -1,0 +1,56 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:44:50+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 27,
+    "ontology": 8,
+    "other": 24,
+    "source": 70,
+    "top_extensions": {
+      ".css": 9,
+      ".json": 6,
+      ".jsonld": 8,
+      ".md": 27,
+      ".ts": 61,
+      ".tsx": 9
+    },
+    "total": 129
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-03-23T15:09:01-04:00",
+    "sha": "afa627a146b1c026e3e75d13f78b074301fe8e68",
+    "subject": "Refactor CSS styles and update HTML structure"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "Graph-Discovery-Engine",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/cgp-serializer.test.ts",
+      "tests/compliance-suite.test.ts",
+      "tests/compose.test.ts",
+      "tests/control-inference.test.ts",
+      "tests/degraded-execution.test.ts"
+    ],
+    "files": 25,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": "22",
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/Graph-Discovery-Engine"
+}

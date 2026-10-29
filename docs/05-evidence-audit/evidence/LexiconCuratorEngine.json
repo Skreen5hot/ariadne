@@ -1,0 +1,56 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T12:32:23+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 2,
+    "ontology": 2,
+    "other": 4,
+    "source": 30,
+    "top_extensions": {
+      "(none)": 1,
+      ".html": 2,
+      ".jsonld": 2,
+      ".md": 2,
+      ".mjs": 30,
+      ".yml": 1
+    },
+    "total": 38
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-06-05T11:08:45-04:00",
+    "sha": "1c9f6146136fd57558c611d78ff8e106abed2e9b",
+    "subject": "Demo-honesty: accurate hash label + published @context (\u00c2\u00a72.2)"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "LexiconCuratorEngine",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "test/smoke-adapter.mjs",
+      "test/smoke-curate.mjs",
+      "test/smoke-e2e.mjs",
+      "test/smoke-identity.mjs",
+      "test/smoke-manifest.mjs"
+    ],
+    "files": 12,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/LexiconCuratorEngine"
+}

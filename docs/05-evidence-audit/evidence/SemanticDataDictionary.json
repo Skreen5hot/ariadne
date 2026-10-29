@@ -1,0 +1,54 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T13:07:28+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 38,
+    "ontology": 27,
+    "other": 23,
+    "source": 8,
+    "top_extensions": {
+      "(none)": 2,
+      ".json": 19,
+      ".jsonld": 27,
+      ".md": 16,
+      ".mjs": 5,
+      ".txt": 22
+    },
+    "total": 96
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-10-27T16:22:10-04:00",
+    "sha": "15e3a50b27bcc46034b08d848c2cdc5ca82e137f",
+    "subject": "prop-002 (proposed, not merged): diff, dispositions F50..F66, verification results"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "communications/OT/README.md",
+      "kind": "docs",
+      "repo": "Ontology-Template"
+    }
+  ],
+  "repo": "SemanticDataDictionary",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/SemanticDataDictionary"
+}

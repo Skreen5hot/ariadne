@@ -1,0 +1,73 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": true,
+    "workflows": [
+      "ci-deploy.yml",
+      "security.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:16:05+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 188,
+    "ontology": 21,
+    "other": 302,
+    "source": 246,
+    "top_extensions": {
+      ".html": 17,
+      ".js": 233,
+      ".json": 271,
+      ".md": 184,
+      ".sparql": 7,
+      ".ttl": 20
+    },
+    "total": 757
+  },
+  "gh_pages_branch": true,
+  "head": {
+    "date": "2026-04-06T17:05:56-04:00",
+    "sha": "732221c3a42cc7c5b5ccffc9f3104dec4934d6d2",
+    "subject": "Production Readiness Checklist v7.0.0 for pause"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "TagTeam.js",
+  "run": {
+    "at": "2026-10-28T06:37:26+00:00",
+    "command": "npm run --silent test:ci",
+    "duration_s": 184.4,
+    "exit_code": 0,
+    "note": "$ npm ci -> 0",
+    "outcome": "passed",
+    "sha": "732221c3a42cc7c5b5ccffc9f3104dec4934d6d2",
+    "summary": [
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().",
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().",
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().",
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().",
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().",
+      "[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels()."
+    ]
+  },
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "packages/iee-values/tests/test-iee-graph-builder.js",
+      "tests/adversarial/edge-cases.test.js",
+      "tests/bundle/bundle-size.test.js",
+      "tests/bundle/core-bundle.test.js",
+      "tests/component/run-component-tests.js"
+    ],
+    "files": 139,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/TagTeam.js"
+}
