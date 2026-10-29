@@ -1,0 +1,45 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T13:10:26+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 0,
+    "ontology": 0,
+    "other": 6,
+    "source": 5,
+    "top_extensions": {
+      ".css": 1,
+      ".html": 5,
+      ".js": 5
+    },
+    "total": 11
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2024-11-01T08:22:28-04:00",
+    "sha": "77a01d0856bd906783b46b0a0893328ba87c15f9",
+    "subject": "Update sparqlTool.js"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "SemanticSketch",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/SemanticSketch"
+}

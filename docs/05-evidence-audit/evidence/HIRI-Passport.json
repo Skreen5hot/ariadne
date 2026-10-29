@@ -1,0 +1,63 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml",
+      "pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:48:56+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 64,
+    "ontology": 0,
+    "other": 46,
+    "source": 313,
+    "top_extensions": {
+      ".js": 4,
+      ".json": 27,
+      ".md": 64,
+      ".mjs": 115,
+      ".ts": 106,
+      ".tsx": 88
+    },
+    "total": 423
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-09-15T10:20:01-04:00",
+    "sha": "1297b612ba228592346d4d81f63903b550221f63",
+    "subject": "Repair synthetic demo Add and Verify workflows"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "docs/specifications/current/HIRI-Digital-Passport-Extension-v2_0_0-DRAFT.md",
+      "kind": "docs",
+      "repo": "HIRI"
+    }
+  ],
+  "repo": "HIRI-Passport",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "test/browser/accessibility.spec.ts",
+      "test/browser/adversarial-display.spec.ts",
+      "test/browser/consent.spec.ts",
+      "test/browser/deployment-smoke.spec.ts",
+      "test/browser/evidence-results.spec.ts"
+    ],
+    "files": 116,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": "24",
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/HIRI-Passport"
+}

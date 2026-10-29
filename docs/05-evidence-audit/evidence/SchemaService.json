@@ -1,0 +1,57 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml",
+      "deploy-site.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T13:06:54+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 24,
+    "ontology": 4,
+    "other": 13,
+    "source": 41,
+    "top_extensions": {
+      "(none)": 2,
+      ".json": 5,
+      ".jsonld": 4,
+      ".md": 24,
+      ".ts": 39,
+      ".yml": 3
+    },
+    "total": 82
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-03-02T03:51:04-05:00",
+    "sha": "99580234196fdee6213045f7d101fc31c9f7f188",
+    "subject": "Fix false BIBSS-006 diagnostics and add demo communication"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "SchemaService",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/adapter-registry.test.ts",
+      "tests/benchmarks.test.ts",
+      "tests/cism-adapter.test.ts",
+      "tests/detect.test.ts",
+      "tests/determinism.test.ts"
+    ],
+    "files": 19,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/SchemaService"
+}

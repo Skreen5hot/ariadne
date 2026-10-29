@@ -1,8 +1,34 @@
 # Evidence audit: handoff to the next agent
 
-Written 2026-10-28 by the Claude session that built the first version. Branch: `evidence-audit`
-(three commits, pushed, not merged, no pull request opened). Read this file and README.md before
-changing anything.
+Written 2026-10-28 by the Claude session that built the first version. Branch: `evidence-audit`.
+Read this file and README.md before changing anything.
+
+## 0. Status, 2026-10-29: paused
+
+Aaron chose to spend the next stretch on the E-PC experiment (option A in that session) and to
+pause this audit once the inventory was settled. Done since the first version:
+
+- **Sweep run on Aaron's machine.** `gh repo list` returned 94 repositories. Aaron sorted them:
+  33 `component` (part of FNSR or content it is built from; BCO and BPO count as content),
+  27 `support` (tooling and process), 15 public repositories listed under `out_of_scope`. The
+  `role` field records the sort; it says what a repository is for, never how far along it is.
+- **Personal private repositories are not named anywhere in ariadne**, which is public. Private
+  FNSR repositories are inventoried; Aaron's rule is that everything non-personal about FNSR
+  belongs in public. `sync_inventory.py` now skips private repositories that are not already
+  inventoried, and names under `out_of_scope`; new public repositories arrive as `role: unsorted`.
+- **Static evidence collected for all 60 inventoried repositories** (no `--run`). Among the 33
+  components: one L3 (TagTeam.js), 22 L2 with tests never run here, two L2 with problems
+  (ValueNet failing, Ontology-of-Freedom not runnable), six L1, two L0. Nothing at L4 or L5.
+- **ariadne's FAILING record is a Linux artefact.** `tests/e-pc/test_annotator_tool.py` passes on
+  Windows (16/16). The record stays until the collector reruns ariadne.
+- `.gitattributes` keeps `docs/05-evidence-audit/**` at LF, so `render_audit.py --check` holds on
+  Windows checkouts.
+
+Still open, for whoever resumes: spec mappings (Step 3) are unproposed, so most specs still read
+L0 because they are unmapped, not because they are unbuilt; four schema-inference engines
+(BIBS, BIBS2, BIBSS3, SchemaService) need one named canonical; and the collector aborts the whole
+run when one `git` call times out (seen on a private repository's `ls-remote`), so it should catch
+`subprocess.TimeoutExpired` per repository and record it as unreachable.
 
 ---
 
@@ -175,12 +201,8 @@ written as a separate narrative document.
 
 ## 6. Repository list from Aaron
 
-<!-- Aaron: paste the full list of repositories and their descriptions below.
-     Any format is fine; the agent will reconcile it against `gh repo list` in Step 1. -->
-
-| Repository | Description |
-| --- | --- |
-| | |
+Superseded: `gh repo list` on Aaron's machine supplied the list on 2026-10-29, and Aaron sorted it
+(see section 0 and `inventory.yaml`).
 
 ## 7. Related context (not required to continue)
 

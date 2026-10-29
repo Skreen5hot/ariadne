@@ -45,13 +45,14 @@ def test_inventory_header(inventory):
 
 def test_inventory_asserts_no_levels(inventory):
     for r in inventory["repos"]:
-        assert set(r) <= {"name", "owner", "implements", "mapping_basis"}, r["name"]
+        assert set(r) <= {"name", "owner", "role", "implements", "mapping_basis"}, r["name"]
         assert not FORBIDDEN & set(r), r["name"]
         assert r.get("mapping_basis"), f"{r['name']}: a mapping needs a stated basis"
+        assert r.get("role") in ea.ROLES, f"{r['name']}: role must be one of {ea.ROLES}"
 
 
 def test_repo_names_unique(inventory):
-    names = [r["name"] for r in inventory["repos"]]
+    names = [r["name"] for r in inventory["repos"]] + list(inventory.get("out_of_scope") or [])
     assert len(names) == len(set(names))
 
 

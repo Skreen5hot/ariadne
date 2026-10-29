@@ -1,0 +1,48 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T11:43:53+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 2,
+    "ontology": 0,
+    "other": 4,
+    "source": 5,
+    "top_extensions": {
+      "(none)": 1,
+      ".jsonl": 3,
+      ".md": 2,
+      ".mjs": 5
+    },
+    "total": 11
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-06-07T10:02:21-04:00",
+    "sha": "98ad30e39d201f41755432c255b6976586b3041a",
+    "subject": "FNSR audit-chain verifier \u00e2\u20ac\u201d built by the IntegratedAgent autonomous build loop"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "FNSR_ChainVerifier",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "test/verify.test.mjs"
+    ],
+    "files": 1,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/FNSR_ChainVerifier"
+}

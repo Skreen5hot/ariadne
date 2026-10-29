@@ -1,0 +1,51 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T13:25:36+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "claude/wrm-poc-experiment-96quv2",
+  "files": {
+    "docs": 15,
+    "ontology": 0,
+    "other": 71,
+    "source": 31,
+    "top_extensions": {
+      "(none)": 1,
+      ".html": 2,
+      ".json": 67,
+      ".md": 15,
+      ".py": 31,
+      ".toml": 1
+    },
+    "total": 117
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-09-21T20:04:39+00:00",
+    "sha": "754318e6724665f753c3222a91a39c1c984e328e",
+    "subject": "Remove temporary E2 staging: both repositories now exist on GitHub"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "worldview-realization-model",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/test_gate_b_and_controls.py",
+      "tests/test_layers.py"
+    ],
+    "files": 2,
+    "runner": "pytest"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/worldview-realization-model"
+}

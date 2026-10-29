@@ -1,0 +1,56 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "deploy-pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T13:06:01+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 2,
+    "ontology": 0,
+    "other": 3,
+    "source": 20,
+    "top_extensions": {
+      "(none)": 1,
+      ".html": 1,
+      ".js": 1,
+      ".md": 2,
+      ".mjs": 19,
+      ".yml": 1
+    },
+    "total": 25
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-06-26T11:24:33-04:00",
+    "sha": "65207c959c2fee1f6e3955837db1221c5bfceaaf",
+    "subject": "Auditor instance 3: SIS output-fidelity ledger (cross-domain generalization validated)"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "Sanitization-and-Ingestion-Service",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "docs/js/audit/sis-audit.test.mjs",
+      "docs/sis/test/_assert.mjs",
+      "docs/sis/test/charset.test.mjs",
+      "docs/sis/test/envelope.test.mjs",
+      "docs/sis/test/normalize.test.mjs"
+    ],
+    "files": 10,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/Sanitization-and-Ingestion-Service"
+}

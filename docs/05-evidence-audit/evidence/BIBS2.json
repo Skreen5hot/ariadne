@@ -1,0 +1,56 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:34:53+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 4,
+    "ontology": 0,
+    "other": 10,
+    "source": 32,
+    "top_extensions": {
+      "(none)": 2,
+      ".html": 1,
+      ".json": 6,
+      ".md": 4,
+      ".mjs": 32,
+      ".yml": 1
+    },
+    "total": 46
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-08-07T04:11:22-04:00",
+    "sha": "5571e467d277b4499bcf6a18c0896d28d5e2c305",
+    "subject": "evaluation"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "BIBS2",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "test/adapter-registry.test.mjs",
+      "test/array-inference.test.mjs",
+      "test/bibss-api.test.mjs",
+      "test/cism-model.test.mjs",
+      "test/config.test.mjs"
+    ],
+    "files": 16,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/BIBS2"
+}

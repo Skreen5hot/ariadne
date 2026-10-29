@@ -30,7 +30,10 @@ A spec's level is the best level among the repositories mapped to it.
 
 Only two things, both in `inventory.yaml`:
 
-1. the list of repositories, and
+1. the list of repositories and what each is for: `role` (`component`, `support`, or `unsorted`
+   until Aaron places it), or the `out_of_scope` list for public repositories outside FNSR. A role
+   is never a measure of progress. Personal private repositories are not named, since ariadne is
+   public; private FNSR repositories are inventoried by hand, and
 2. which spec-index entries each repository implements, with the basis for the claim.
 
 Everything else is collected. Spec names, versions and document status are read from
@@ -41,7 +44,7 @@ Everything else is collected. Spec names, versions and document status are read 
 From the repository root, on a machine signed in to GitHub (`gh auth login`):
 
 ```
-python tools/sync_inventory.py          # add every Skreen5hot repo not yet inventoried
+python tools/sync_inventory.py          # add new public Skreen5hot repos as role: unsorted
 python tools/collect_evidence.py --run  # clone each repo into a temp dir, record facts, run its tests
 python tools/render_audit.py            # regenerate audit.md
 python -m pytest tests/audit            # the audit's own honesty checks

@@ -1,0 +1,46 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T11:44:19+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 1,
+    "ontology": 0,
+    "other": 2,
+    "source": 4,
+    "top_extensions": {
+      ".css": 1,
+      ".html": 1,
+      ".js": 4,
+      ".md": 1
+    },
+    "total": 7
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2025-10-28T06:28:34-04:00",
+    "sha": "6be5b82754d809ae8576064bfa6166f621c9481d",
+    "subject": "testing code assist"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "FunctionRunner",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/FunctionRunner"
+}

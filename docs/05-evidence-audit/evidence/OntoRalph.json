@@ -1,0 +1,57 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml",
+      "release.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T12:59:59+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 15,
+    "ontology": 1,
+    "other": 15,
+    "source": 61,
+    "top_extensions": {
+      "(none)": 4,
+      ".js": 3,
+      ".md": 15,
+      ".py": 50,
+      ".sparql": 6,
+      ".yml": 3
+    },
+    "total": 92
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-02-02T07:43:09-05:00",
+    "sha": "39ded40b5469aaa35e764bfe467927384f97aa36",
+    "subject": "Fix mypy generic type parameter for failed_checks field"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "OntoRalph",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/test_basic.py",
+      "tests/test_batch.py",
+      "tests/test_checklist.py",
+      "tests/test_cli.py",
+      "tests/test_config.py"
+    ],
+    "files": 13,
+    "runner": "pytest"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/OntoRalph"
+}

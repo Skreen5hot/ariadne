@@ -42,6 +42,8 @@ REPO_SCHEMA = "ariadne-evidence-audit/repo/v1"
 INVENTORY_SCHEMA = "ariadne-evidence-audit/inventory/v1"
 
 LEVELS = ["L0 spec-only", "L1 code", "L2 tested", "L3 passing", "L4 used", "L5 production"]
+# What a repository is for (Aaron's sort). Never a measure of progress.
+ROLES = ("component", "support", "unsorted")
 
 
 # ---------------------------------------------------------------- spec index

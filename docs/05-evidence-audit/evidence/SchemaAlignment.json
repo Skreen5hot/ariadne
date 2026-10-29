@@ -1,0 +1,57 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml",
+      "pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T13:06:17+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 29,
+    "ontology": 5,
+    "other": 17,
+    "source": 13,
+    "top_extensions": {
+      "(none)": 2,
+      ".json": 10,
+      ".jsonld": 4,
+      ".md": 29,
+      ".ts": 13,
+      ".yml": 3
+    },
+    "total": 64
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-03-02T18:47:39-05:00",
+    "sha": "cda537568ab55f607e4f5d378658144f61797688",
+    "subject": "Implement SAS v2.1 addendum (task 1.21, 72/72 tests) and plan Phase 1v2/Phase 2"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "SchemaAlignment",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/consensus.test.ts",
+      "tests/determinism.test.ts",
+      "tests/no-network.test.ts",
+      "tests/output.test.ts",
+      "tests/rules.test.ts"
+    ],
+    "files": 7,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/SchemaAlignment"
+}

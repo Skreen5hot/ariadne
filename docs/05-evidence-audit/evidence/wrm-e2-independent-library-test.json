@@ -1,0 +1,49 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T13:26:49+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 16,
+    "ontology": 0,
+    "other": 26,
+    "source": 33,
+    "top_extensions": {
+      "(none)": 1,
+      ".json": 24,
+      ".md": 16,
+      ".py": 33,
+      ".toml": 1
+    },
+    "total": 75
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-09-21T20:20:18+00:00",
+    "sha": "c5371ced31277794cdd637411bdc6ac6c22067a3",
+    "subject": "Commissioning credential from a dedicated environment variable; owner instructions for the cloud environment"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "wrm-e2-independent-library-test",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/test_e2.py"
+    ],
+    "files": 1,
+    "runner": "pytest"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/wrm-e2-independent-library-test"
+}

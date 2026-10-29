@@ -1,0 +1,64 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "deploy-pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:48:40+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 3,
+    "ontology": 0,
+    "other": 16,
+    "source": 24,
+    "top_extensions": {
+      ".json": 6,
+      ".mjs": 5,
+      ".sh": 4,
+      ".svg": 4,
+      ".ts": 11,
+      ".tsx": 4
+    },
+    "total": 43
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-08-14T14:50:11-04:00",
+    "sha": "fc4b28654e8c0d14071bcd7897f4a067efefa7eb",
+    "subject": "Merge pull request #1 from Skreen5hot/agent/hiri-lifecycle-verification"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "app/directory-app.tsx",
+      "kind": "code",
+      "repo": "HIRI"
+    },
+    {
+      "file": "README.md",
+      "kind": "docs",
+      "repo": "HIRI"
+    }
+  ],
+  "repo": "HIRI-Directory",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/hiri-lifecycle.test.mjs",
+      "tests/rendered-html.test.mjs"
+    ],
+    "files": 2,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/HIRI-Directory"
+}

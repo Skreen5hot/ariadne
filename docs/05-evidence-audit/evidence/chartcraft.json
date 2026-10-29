@@ -1,0 +1,55 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:36:33+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 23,
+    "ontology": 4,
+    "other": 10,
+    "source": 9,
+    "top_extensions": {
+      "(none)": 2,
+      ".json": 5,
+      ".jsonld": 4,
+      ".md": 23,
+      ".ts": 9,
+      ".yml": 2
+    },
+    "total": 46
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-02-22T04:24:45-05:00",
+    "sha": "b3d7419b1f019ae57897c73af358aa3cb0a83b80",
+    "subject": "Rename ecve-v2.1-final.md to ecve-v2.1-specification.md"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "chartcraft",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/determinism.test.ts",
+      "tests/no-network.test.ts",
+      "tests/run-tests.ts",
+      "tests/snapshot.test.ts"
+    ],
+    "files": 4,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/chartcraft"
+}

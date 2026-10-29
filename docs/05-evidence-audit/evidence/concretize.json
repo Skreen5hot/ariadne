@@ -1,0 +1,57 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml",
+      "pwa-ci.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:37:32+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 24,
+    "ontology": 2,
+    "other": 26,
+    "source": 51,
+    "top_extensions": {
+      "(none)": 5,
+      ".js": 32,
+      ".json": 9,
+      ".md": 23,
+      ".ts": 19,
+      ".yml": 5
+    },
+    "total": 103
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2025-12-30T18:31:21-05:00",
+    "sha": "7e387195e3c8a732fb51833500225eab8c973d4e",
+    "subject": "justify"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "concretize",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "pwa/tests/integration/phase1Pipeline.test.ts",
+      "pwa/tests/setup.ts",
+      "pwa/tests/unit/concepts/documentIngest.test.ts",
+      "pwa/tests/unit/concepts/documentStructure.test.ts",
+      "pwa/tests/unit/utils/eventBus.test.ts"
+    ],
+    "files": 7,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/concretize"
+}

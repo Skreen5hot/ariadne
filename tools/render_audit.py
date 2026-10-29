@@ -15,7 +15,7 @@ from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from evidence_audit import (LEVELS, OUT, ROOT, consumers, label, load_evidence,  # noqa: E402
+from evidence_audit import (LEVELS, OUT, ROLES, ROOT, consumers, label, load_evidence,  # noqa: E402
                             load_inventory, load_spec_index, repo_level, spec_level)
 
 MATURE_WORDS = ("final", "hardened", "stable", "release candidate", "ready", "normative", "governance-ready", "candidate")
@@ -64,23 +64,31 @@ def render(inv: dict, specs, evidence: dict[str, dict]) -> str:
              f"but have no mapped code: **{len(mature_unbuilt)} of {len(mature)}**.")
     L.append("")
 
-    # ---- repositories
-    L.append("## Repositories")
-    L.append("")
-    L.append("| Repository | Evidence level | Why | Last commit | Tests run | Used by | Implements |")
-    L.append("| --- | --- | --- | --- | --- | --- | --- |")
+    # ---- repositories, one table per role
     order = sorted(repos, key=lambda n: (-rlevels[n].level, n.lower()))
     impl = {r["name"]: r.get("implements") or [] for r in inv.get("repos", [])}
+    role = {r["name"]: r.get("role", "unsorted") for r in inv.get("repos", [])}
     users = consumers(evidence)
-    for n in order:
-        lv = rlevels[n]
-        rec = evidence.get(n) or {}
-        head = (rec.get("head") or {}).get("date", "")[:10]
-        run = rec.get("run")
-        run_s = "not run" if not run else f"exit {run['exit_code']} at {run['sha'][:7]}, {run['at'][:10]}"
-        L.append(f"| [{n}]({rec.get('url', '')}) | {label(lv)} | {esc('; '.join(lv.why))} | {head} | {esc(run_s)} | "
-                 f"{esc(', '.join(users.get(n, [])) or '—')} | {esc(', '.join(impl[n]) or 'no indexed spec')} |")
-    L.append("")
+    titles = {"component": "Repositories: FNSR components",
+              "support": "Repositories: supporting tools",
+              "unsorted": "Repositories: not yet sorted"}
+    for rl in ROLES:
+        members = [n for n in order if role[n] == rl]
+        if not members:
+            continue
+        L.append(f"## {titles[rl]}")
+        L.append("")
+        L.append("| Repository | Evidence level | Why | Last commit | Tests run | Used by | Implements |")
+        L.append("| --- | --- | --- | --- | --- | --- | --- |")
+        for n in members:
+            lv = rlevels[n]
+            rec = evidence.get(n) or {}
+            head = (rec.get("head") or {}).get("date", "")[:10]
+            run = rec.get("run")
+            run_s = "not run" if not run else f"exit {run['exit_code']} at {run['sha'][:7]}, {run['at'][:10]}"
+            L.append(f"| [{n}]({rec.get('url', '')}) | {label(lv)} | {esc('; '.join(lv.why))} | {head} | {esc(run_s)} | "
+                     f"{esc(', '.join(users.get(n, [])) or '—')} | {esc(', '.join(impl[n]) or 'no indexed spec')} |")
+        L.append("")
 
     # ---- specs
     L.append("## Buildable specifications")
@@ -117,6 +125,15 @@ def render(inv: dict, specs, evidence: dict[str, dict]) -> str:
     for name, reason in exempt.items():
         L.append(f"- {name}: {reason}")
     L.append("")
+
+    # ---- out of scope
+    oos = inv.get("out_of_scope") or []
+    if oos:
+        L.append("## Out of scope")
+        L.append("")
+        L.append(f"{len(oos)} public repositories are not part of FNSR; they are not collected or laddered: "
+                 f"{', '.join(oos)}.")
+        L.append("")
     return "\n".join(L)
 
 

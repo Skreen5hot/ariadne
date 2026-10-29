@@ -1,0 +1,48 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T12:33:01+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 25,
+    "ontology": 3,
+    "other": 17,
+    "source": 19,
+    "top_extensions": {
+      ".css": 7,
+      ".html": 5,
+      ".js": 19,
+      ".json": 3,
+      ".md": 25,
+      ".ttl": 2
+    },
+    "total": 64
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-08-01T06:00:07-04:00",
+    "sha": "a6442fc28734c6e2430e5a1570095033584ec197",
+    "subject": "Add plan.json spec and dated backup"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "Lodestar",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/Lodestar"
+}

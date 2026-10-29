@@ -1,0 +1,56 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:47:38+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 22,
+    "ontology": 4,
+    "other": 15,
+    "source": 79,
+    "top_extensions": {
+      "(none)": 4,
+      ".html": 5,
+      ".json": 5,
+      ".jsonld": 4,
+      ".md": 22,
+      ".ts": 77
+    },
+    "total": 120
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-03-25T06:50:59-04:00",
+    "sha": "009c145c9740188fc7a03b19c8ac2079bfe61cdb",
+    "subject": "Fix double-click content corruption: use increment instead of XOR"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "HIRI",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/adversarial-privacy.test.ts",
+      "tests/anonymous-attestation.test.ts",
+      "tests/crypto-primitives.test.ts",
+      "tests/hiri.test.ts",
+      "tests/phase3.test.ts"
+    ],
+    "files": 15,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/HIRI"
+}

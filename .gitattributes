@@ -2,3 +2,6 @@
 # Never convert its line endings; its SHA-256 is recorded in the gold and the results manifest.
 # The whole experiment is byte-frozen: PREREG.md, arms, scenario and code are hashed into the manifest.
 experiments/e-pc/** -text
+
+# Audit renders are compared byte for byte by render_audit.py --check; keep LF on every platform.
+docs/05-evidence-audit/** text eol=lf

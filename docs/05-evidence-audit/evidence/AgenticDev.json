@@ -1,0 +1,60 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T11:31:06+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 70,
+    "ontology": 1,
+    "other": 4,
+    "source": 32,
+    "top_extensions": {
+      "(none)": 2,
+      ".json": 1,
+      ".jsonld": 1,
+      ".md": 70,
+      ".py": 32,
+      ".yml": 1
+    },
+    "total": 107
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-06-06T13:31:23-04:00",
+    "sha": "bd5017550458a6f8289be570169bc22d50774438",
+    "subject": "v3.9.0: PO Review Cycle Primitive (ADR-012)"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "tests/test_status.py",
+      "kind": "code",
+      "repo": "GraphWrite"
+    }
+  ],
+  "repo": "AgenticDev",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/test_adr_and_awaiting.py",
+      "tests/test_apply.py",
+      "tests/test_audit.py",
+      "tests/test_chain_validator.py",
+      "tests/test_coerce_and_backoff.py"
+    ],
+    "files": 23,
+    "runner": "pytest"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/AgenticDev"
+}

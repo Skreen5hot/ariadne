@@ -1,7 +1,7 @@
 # Evidence audit inventory.
 #
 # This file holds the ONLY human-supplied facts in the audit:
-#   1. which repositories exist, and
+#   1. which repositories exist, and what each is for (role, or out_of_scope), and
 #   2. which spec-index entries each repository implements.
 # Everything else (files, tests, test results, dependencies, deployment) is collected by
 # tools/collect_evidence.py into evidence/*.json, and every level is computed from those
@@ -24,24 +24,269 @@ not_buildable:
   - spec: "C+S Pattern (IEE impl.)"
     reason: design pattern description; realized inside other components
 
-# Repositories. Seeded 2026-10-28 with every Skreen5hot repository named in ariadne or
-# known to be public; the full list comes from `gh repo list` (see README).
+# Repositories, each with a role (Aaron's sort, 2026-10-29):
+#   component  a part of FNSR, or content it is built from
+#   support    tooling or process used to build FNSR
+#   unsorted   added by sync_inventory; Aaron has not yet placed it
+# A role says what a repository is for, never how far along it is.
 repos:
-  - name: ariadne
+  - name: BIBS
+    role: component
     implements: []
-    mapping_basis: governance repository for the spec ecosystem; implements no indexed spec
-  - name: TagTeam.js
-    implements: ["TagTeam Roadmap", "TagTeam Architecture"]
-    mapping_basis: spec-index names TagTeam; repository is the TagTeam.js parser
-  - name: ValueNet
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: BIBS2
+    role: component
     implements: []
-    mapping_basis: value ontology suite cited by the evidence register; no spec-index entry
-  - name: BusinessProcessOntology
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: BIBSS3
+    role: component
     implements: []
-    mapping_basis: no spec-index entry
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: BPO-Template-Port
+    role: component
+    implements: []
+    mapping_basis: port of BusinessProcessOntology, which feeds FNSR as ontology content (Aaron, 2026-10-29); no spec-index entry
   - name: Business-and-Agent-Capabilities-Ontology
+    role: component
     implements: []
-    mapping_basis: no spec-index entry
+    mapping_basis: feeds FNSR as ontology content (Aaron, 2026-10-29); no spec-index entry
+  - name: BusinessProcessOntology
+    role: component
+    implements: []
+    mapping_basis: feeds FNSR as ontology content (Aaron, 2026-10-29); no spec-index entry
+  - name: chartcraft
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: EntityResolutionService
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: fandaws
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established (private)
+  - name: Fandaws-Sentinel
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: fanlink
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: FNSR_ChainVerifier
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: FNSRBridgeOntology
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: GNOMON
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: HIRI
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: HIRI-Conversation-Protocol
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: HIRI-Directory
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: HIRI-Passport
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: Integral-Ethics-Engine
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
   - name: Ontology-of-Freedom
+    role: component
     implements: []
     mapping_basis: named in ariadne as the project's umbrella; mapping not yet established
+  - name: Percept-Formation-Pipeline
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: Sanitization-and-Ingestion-Service
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: SchemaAlignment
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: SchemaService
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: SemanticDataDictionary
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: SemanticFunctionSchema
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: SemanticNormalization
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: TagTeam.js
+    role: component
+    implements: ["TagTeam Roadmap", "TagTeam Architecture"]
+    mapping_basis: spec-index names TagTeam; repository is the TagTeam.js parser
+  - name: term_relations
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established (private)
+  - name: ValueNet
+    role: component
+    implements: []
+    mapping_basis: value ontology suite cited by the evidence register; no spec-index entry
+  - name: worldview-realization-model
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: wrm-e2-independent-library-test
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: zenith-graph
+    role: component
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established (private)
+  - name: AgenticDev
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: ApplicationRequirementOntology
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: ariadne
+    role: support
+    implements: []
+    mapping_basis: governance repository for the spec ecosystem; implements no indexed spec
+  - name: assay
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established (private)
+  - name: BeyondTokens
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: concretize
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: FunctionRunner
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: Graph-Discovery-Engine
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: GraphForge
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: GraphWrite
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: HIRI-Review-and-Signoff
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established (private)
+  - name: IntegratedAgent
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established (private)
+  - name: IRI_Linter
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: kgModeler
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: LexiconCuratorEngine
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: Lodestar
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established (private)
+  - name: mermaid
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: Mermaid-OWL
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: Ontology-Template
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: OntoRalph
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: OWL-FOL-Bidirectional-Translator
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: R2RML-Workbench
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: Relationship-Presentation-Compiler
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: SemantiCore
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: SemanticSketch
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: Specification-Refinement-System
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+  - name: Wiki2BFO
+    role: support
+    implements: []
+    mapping_basis: added by sync_inventory; mapping not yet established
+
+# Public repositories that are not part of FNSR. Listed so sync_inventory skips them and the
+# audit shows they were seen; not collected, not laddered. Personal private repositories are
+# not named here or anywhere in this public repository.
+out_of_scope:
+  - BoilerPWA
+  - dataTest
+  - DecisionLink
+  - FuncFlow
+  - GraphViz
+  - Joint-Intelligence-Ontology
+  - manufacturing-reference-condition-authoring
+  - MeetingGraph
+  - serverlessApp
+  - SF-Sidecar
+  - slaf
+  - Sting-Normalizer
+  - unitLab
+  - vanilla
+  - wastewatch

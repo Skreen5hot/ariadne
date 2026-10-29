@@ -1,0 +1,78 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": true,
+    "workflows": [
+      "checks.yml",
+      "dependabot-manifest.yml",
+      "pages.yml",
+      "reasoning.yml",
+      "release.yml",
+      "scale.yml",
+      "term-diff.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T12:59:11+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 26,
+    "ontology": 19,
+    "other": 59,
+    "source": 49,
+    "top_extensions": {
+      ".html": 11,
+      ".md": 25,
+      ".py": 47,
+      ".ttl": 19,
+      ".yaml": 20,
+      ".yml": 11
+    },
+    "total": 153
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-10-28T07:18:11-04:00",
+    "sha": "626ac9ab5a742c9109875b3c4498961d4e550ff4",
+    "subject": "Record decision 14 (WP3 accepted, WP4 authorized) and send the T9 request to Legal"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "config/upstream-sources.yaml",
+      "kind": "code",
+      "repo": "BusinessProcessOntology"
+    },
+    {
+      "file": "tools/ontology/iri_lint.py",
+      "kind": "code",
+      "repo": "IRI_Linter"
+    },
+    {
+      "file": "docs/template/ROADMAP.md",
+      "kind": "docs",
+      "repo": "IRI_Linter"
+    }
+  ],
+  "repo": "Ontology-Template",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/test_authoring.py",
+      "tests/test_communications.py",
+      "tests/test_competency.py",
+      "tests/test_findings.py",
+      "tests/test_init_project.py"
+    ],
+    "files": 20,
+    "runner": "pytest"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/Ontology-Template"
+}

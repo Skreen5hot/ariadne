@@ -1,0 +1,57 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "pages.yml",
+      "phase0.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T13:04:52+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 14,
+    "ontology": 13,
+    "other": 33,
+    "source": 124,
+    "top_extensions": {
+      "(none)": 14,
+      ".js": 58,
+      ".json": 14,
+      ".jsonld": 13,
+      ".md": 13,
+      ".mjs": 63
+    },
+    "total": 184
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-08-16T17:20:54-04:00",
+    "sha": "5ce5c6e1550ff12e67632d3fb0ac7a597bb3f5b0",
+    "subject": "Explain the graph-to-content POC"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "Relationship-Presentation-Compiler",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "test/phase0/browser-worker.test.mjs",
+      "test/phase0/decision-record.test.mjs",
+      "test/phase0/filesystem-lock-holder.mjs",
+      "test/phase0/filesystem-lock.test.mjs",
+      "test/phase0/jsonld-cps.test.mjs"
+    ],
+    "files": 62,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": "24.19.0",
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/Relationship-Presentation-Compiler"
+}

@@ -1,0 +1,62 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T12:20:51+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 134,
+    "ontology": 29,
+    "other": 57,
+    "source": 179,
+    "top_extensions": {
+      ".html": 16,
+      ".js": 156,
+      ".json": 21,
+      ".md": 134,
+      ".svelte": 16,
+      ".ttl": 24
+    },
+    "total": 399
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-01-26T10:40:52-05:00",
+    "sha": "e1c3388ca9271b7e6d826251b9b6a21537949e32",
+    "subject": "Update print statement from 'Hello' to 'Goodbye'"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "collaborations/tagteam/deliverables/week1/DELIVERABLE.md",
+      "kind": "docs",
+      "repo": "TagTeam.js"
+    }
+  ],
+  "repo": "Integral-Ethics-Engine",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "collaborations/tagteam/deliverables/week3/tests/iee-polarity-fix.test.cjs",
+      "collaborations/tagteam/deliverables/week3/tests/iee-polarity-fix.test.js",
+      "testing/frameworks/ui-test-framework/tests/assertionConcept.test.js",
+      "testing/frameworks/ui-test-framework/tests/browserConcept.integration.test.js",
+      "testing/frameworks/ui-test-framework/tests/browserConcept.test.js"
+    ],
+    "files": 34,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/Integral-Ethics-Engine"
+}

@@ -1,0 +1,50 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T11:43:43+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 5,
+    "ontology": 1,
+    "other": 4,
+    "source": 6,
+    "top_extensions": {
+      "(none)": 1,
+      ".css": 3,
+      ".js": 6,
+      ".md": 5,
+      ".ttl": 1
+    },
+    "total": 16
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-01-18T18:08:09-05:00",
+    "sha": "e40792ba4e303d916fc788cb9343a315346dc033",
+    "subject": "Update README.md"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "fanlink",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/concepts/uiConcept.test.js",
+      "tests/test-utils.js"
+    ],
+    "files": 2,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/fanlink"
+}

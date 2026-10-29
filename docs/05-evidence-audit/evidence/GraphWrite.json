@@ -1,0 +1,68 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml",
+      "pages.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:45:53+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 119,
+    "ontology": 21,
+    "other": 23,
+    "source": 134,
+    "top_extensions": {
+      ".json": 13,
+      ".jsonld": 18,
+      ".md": 119,
+      ".py": 32,
+      ".ts": 84,
+      ".tsx": 16
+    },
+    "total": 297
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-06-07T06:07:00-04:00",
+    "sha": "c0a9f56bf4b6ea8edf0b899d19442664eba7f2c2",
+    "subject": "App.tsx: wire filterProjectByMode into browser download paths"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "README.md",
+      "kind": "docs",
+      "repo": "AgenticDev"
+    },
+    {
+      "file": "project/DECISIONS.md",
+      "kind": "docs",
+      "repo": "kgModeler"
+    }
+  ],
+  "repo": "GraphWrite",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/canonical-reserved-name-collision.test.ts",
+      "tests/cli-import-ontology.test.ts",
+      "tests/cli-integration.test.ts",
+      "tests/delete-instance.test.ts",
+      "tests/determinism.test.ts"
+    ],
+    "files": 70,
+    "runner": "npm"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/GraphWrite"
+}

@@ -1,0 +1,77 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": true,
+    "workflows": [
+      "checks.yml",
+      "dependabot-manifest.yml",
+      "pages.yml",
+      "reasoning.yml",
+      "release.yml",
+      "term-diff.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T11:35:55+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 18,
+    "ontology": 34,
+    "other": 59,
+    "source": 43,
+    "top_extensions": {
+      ".html": 11,
+      ".md": 17,
+      ".py": 41,
+      ".ttl": 34,
+      ".yaml": 19,
+      ".yml": 10
+    },
+    "total": 154
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-10-26T05:23:20-04:00",
+    "sha": "68f22125f5075f67e6179ae447876b9f8d496fd1",
+    "subject": "Evaluation of the Ontology Template on BPO, for the Template Team"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "config/upstream-sources.yaml",
+      "kind": "code",
+      "repo": "BusinessProcessOntology"
+    },
+    {
+      "file": "tools/ontology/iri_lint.py",
+      "kind": "code",
+      "repo": "IRI_Linter"
+    },
+    {
+      "file": "README.md",
+      "kind": "docs",
+      "repo": "Ontology-Template"
+    }
+  ],
+  "repo": "BPO-Template-Port",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/test_authoring.py",
+      "tests/test_bpo_port.py",
+      "tests/test_communications.py",
+      "tests/test_competency.py",
+      "tests/test_iri_lint.py"
+    ],
+    "files": 17,
+    "runner": "pytest"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/BPO-Template-Port"
+}

@@ -1,0 +1,50 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T13:04:39+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 3,
+    "ontology": 0,
+    "other": 1,
+    "source": 0,
+    "top_extensions": {
+      "(none)": 1,
+      ".md": 3
+    },
+    "total": 4
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-07-01T10:52:16-04:00",
+    "sha": "0df84d76764ede2976c695fa4131e3864f850e91",
+    "subject": "Revise specification title and update demo link"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "edge-r2rml-workbench-spec-v1_0.md",
+      "kind": "docs",
+      "repo": "Percept-Formation-Pipeline"
+    }
+  ],
+  "repo": "R2RML-Workbench",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [],
+    "files": 0,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/R2RML-Workbench"
+}

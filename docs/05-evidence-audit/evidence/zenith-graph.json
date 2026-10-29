@@ -1,0 +1,50 @@
+{
+  "ci": {
+    "deploys": false,
+    "on_default_branch": false,
+    "scheduled": false,
+    "workflows": []
+  },
+  "collected_at": "2026-10-28T13:27:42+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 5,
+    "ontology": 0,
+    "other": 14,
+    "source": 21,
+    "top_extensions": {
+      "(none)": 3,
+      ".css": 5,
+      ".html": 4,
+      ".json": 2,
+      ".md": 5,
+      ".ts": 20
+    },
+    "total": 40
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2023-09-06T19:08:49+02:00",
+    "sha": "bd7e5245475ff1437a1137d4aee4389304e0ee23",
+    "subject": "build tests"
+  },
+  "reachable": true,
+  "references": [],
+  "repo": "zenith-graph",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "tests/InstanceCreate.ts"
+    ],
+    "files": 1,
+    "runner": "none"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/zenith-graph"
+}

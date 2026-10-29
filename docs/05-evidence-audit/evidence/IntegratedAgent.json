@@ -1,0 +1,82 @@
+{
+  "ci": {
+    "deploys": true,
+    "on_default_branch": true,
+    "scheduled": false,
+    "workflows": [
+      "ci.yml"
+    ]
+  },
+  "collected_at": "2026-10-28T12:24:12+00:00",
+  "collector_version": "1.0.0",
+  "default_branch": "main",
+  "files": {
+    "docs": 112,
+    "ontology": 21,
+    "other": 106,
+    "source": 445,
+    "top_extensions": {
+      "(none)": 3,
+      ".json": 99,
+      ".md": 111,
+      ".mjs": 221,
+      ".py": 223,
+      ".ttl": 21
+    },
+    "total": 684
+  },
+  "gh_pages_branch": false,
+  "head": {
+    "date": "2026-07-13T10:27:30-04:00",
+    "sha": "9d18d74d74259f4a6956d4c106701eeee75803b0",
+    "subject": "Merge: distinct-principal mint terminus + one-command deploy + GM namespace completion (#1)"
+  },
+  "reachable": true,
+  "references": [
+    {
+      "file": "README.md",
+      "kind": "docs",
+      "repo": "AgenticDev"
+    },
+    {
+      "file": "experiments/iri_linter/README.md",
+      "kind": "docs",
+      "repo": "BIBS2"
+    },
+    {
+      "file": "README.md",
+      "kind": "docs",
+      "repo": "BusinessProcessOntology"
+    },
+    {
+      "file": "experiments/HANDOFF.md",
+      "kind": "docs",
+      "repo": "Percept-Formation-Pipeline"
+    },
+    {
+      "file": "experiments/HANDOFF.md",
+      "kind": "docs",
+      "repo": "Sanitization-and-Ingestion-Service"
+    }
+  ],
+  "repo": "IntegratedAgent",
+  "run": null,
+  "schema": "ariadne-evidence-audit/repo/v1",
+  "tests": {
+    "examples": [
+      "experiments/auditor/test/auditor.test.mjs",
+      "experiments/binder/test/_assert.mjs",
+      "experiments/binder/test/abduction.test.mjs",
+      "experiments/binder/test/assignment.test.mjs",
+      "experiments/binder/test/bind.test.mjs"
+    ],
+    "files": 200,
+    "runner": "pytest"
+  },
+  "toolchain": {
+    "node_pinned": null,
+    "node_used": "25.2.1",
+    "python_used": "3.12.10"
+  },
+  "url": "https://github.com/Skreen5hot/IntegratedAgent"
+}
