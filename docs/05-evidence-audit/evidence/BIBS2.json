@@ -7,7 +7,7 @@
       "pages.yml"
     ]
   },
-  "collected_at": "2026-10-28T11:34:53+00:00",
+  "collected_at": "2026-10-29T11:39:47+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -34,7 +34,23 @@
   "reachable": true,
   "references": [],
   "repo": "BIBS2",
-  "run": null,
+  "run": {
+    "at": "2026-10-29T11:40:51+00:00",
+    "command": "node --test test/adapter-registry.test.mjs test/array-inference.test.mjs test/bibss-api.test.mjs test/cism-model.test.mjs test/config.test.mjs test/csv-normalizer.test.mjs test/diagnostics.test.mjs test/format-detector.test.mjs test/id-generator.test.mjs test/json-normalizer.test.mjs test/json-schema-adapter.test.mjs test/primitive-classifier.test.mjs test/raw-cism-adapter.test.mjs test/sampling.test.mjs test/structural-inference-engine.test.mjs test/type-lattice.test.mjs",
+    "duration_s": 23.5,
+    "exit_code": 1,
+    "note": "",
+    "outcome": "could_not_run",
+    "sha": "5571e467d277b4499bcf6a18c0896d28d5e2c305",
+    "summary": [
+      "test at test\\bibss-api.test.mjs:1:1",
+      "\u00e2\u0153\u2013 test\\bibss-api.test.mjs (3053.2307ms)",
+      "  'test failed'",
+      "test at test\\csv-normalizer.test.mjs:1:1",
+      "\u00e2\u0153\u2013 test\\csv-normalizer.test.mjs (2393.9001ms)",
+      "  'test failed'"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [
@@ -45,7 +61,7 @@
       "test/config.test.mjs"
     ],
     "files": 16,
-    "runner": "none"
+    "runner": "node-test"
   },
   "toolchain": {
     "node_pinned": null,

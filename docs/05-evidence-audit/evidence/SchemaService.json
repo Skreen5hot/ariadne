@@ -8,7 +8,7 @@
       "deploy-site.yml"
     ]
   },
-  "collected_at": "2026-10-28T13:06:54+00:00",
+  "collected_at": "2026-10-29T12:26:35+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -35,7 +35,23 @@
   "reachable": true,
   "references": [],
   "repo": "SchemaService",
-  "run": null,
+  "run": {
+    "at": "2026-10-29T12:29:39+00:00",
+    "command": "npm run --silent test",
+    "duration_s": 149.6,
+    "exit_code": 1,
+    "note": "$ npm ci -> 0",
+    "outcome": "failed",
+    "sha": "99580234196fdee6213045f7d101fc31c9f7f188",
+    "summary": [
+      "(Use `node --trace-deprecation ...` to show where the warning was created)",
+      "  \u00e2\u0153\u2014 FAIL: Flat CSV 2000\u00c3\u201420",
+      "    Flat CSV 2000\u00c3\u201420: 581.2ms exceeds 5\u00c3\u2014 target (250ms)",
+      "  \u00e2\u0153\u2014 FAIL: Wide CSV 2000\u00c3\u2014500",
+      "    Wide CSV 2000\u00c3\u2014500: 4850.4ms exceeds 5\u00c3\u2014 target (2500ms)",
+      "Duplicate headers found and renamed."
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [

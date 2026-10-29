@@ -8,7 +8,7 @@
       "pages.yml"
     ]
   },
-  "collected_at": "2026-10-28T13:06:17+00:00",
+  "collected_at": "2026-10-29T12:23:29+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -35,7 +35,23 @@
   "reachable": true,
   "references": [],
   "repo": "SchemaAlignment",
-  "run": null,
+  "run": {
+    "at": "2026-10-29T12:26:35+00:00",
+    "command": "npm run --silent test",
+    "duration_s": 144.2,
+    "exit_code": 0,
+    "note": "$ npm ci -> 0",
+    "outcome": "passed",
+    "sha": "cda537568ab55f607e4f5d378658144f61797688",
+    "summary": [
+      "  Files: 6/6 passed",
+      "  Tests: 72/72 passed",
+      "(node:23984) [DEP0174] DeprecationWarning: Calling promisify on a function that returns a Promise is likely a mistake.",
+      "(Use `node --trace-deprecation ...` to show where the warning was created)",
+      "(node:56428) [DEP0174] DeprecationWarning: Calling promisify on a function that returns a Promise is likely a mistake.",
+      "(Use `node --trace-deprecation ...` to show where the warning was created)"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [

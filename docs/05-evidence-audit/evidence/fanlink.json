@@ -5,7 +5,7 @@
     "scheduled": false,
     "workflows": []
   },
-  "collected_at": "2026-10-28T11:43:43+00:00",
+  "collected_at": "2026-10-29T11:45:20+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -31,7 +31,23 @@
   "reachable": true,
   "references": [],
   "repo": "fanlink",
-  "run": null,
+  "run": {
+    "at": "2026-10-29T11:45:39+00:00",
+    "command": "node --test tests/concepts/uiConcept.test.js",
+    "duration_s": 4.0,
+    "exit_code": 1,
+    "note": "",
+    "outcome": "failed",
+    "sha": "e40792ba4e303d916fc788cb9343a315346dc033",
+    "summary": [
+      "\u00e2\u201e\u00b9 todo 0",
+      "\u00e2\u201e\u00b9 duration_ms 1861.8632",
+      "\u00e2\u0153\u2013 failing tests:",
+      "test at tests\\concepts\\uiConcept.test.js:1:1",
+      "\u00e2\u0153\u2013 tests\\concepts\\uiConcept.test.js (1777.6481ms)",
+      "  'test failed'"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [
@@ -39,7 +55,7 @@
       "tests/test-utils.js"
     ],
     "files": 2,
-    "runner": "none"
+    "runner": "node-test"
   },
   "toolchain": {
     "node_pinned": null,

@@ -7,7 +7,7 @@
       "ci.yml"
     ]
   },
-  "collected_at": "2026-10-28T11:36:33+00:00",
+  "collected_at": "2026-10-29T11:41:38+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -34,7 +34,23 @@
   "reachable": true,
   "references": [],
   "repo": "chartcraft",
-  "run": null,
+  "run": {
+    "at": "2026-10-29T11:43:57+00:00",
+    "command": "npm run --silent test",
+    "duration_s": 116.3,
+    "exit_code": 0,
+    "note": "$ npm ci -> 0",
+    "outcome": "passed",
+    "sha": "b3d7419b1f019ae57897c73af358aa3cb0a83b80",
+    "summary": [
+      "  Files: 3/3 passed",
+      "  Tests: 6/6 passed",
+      "(node:37996) [DEP0174] DeprecationWarning: Calling promisify on a function that returns a Promise is likely a mistake.",
+      "(Use `node --trace-deprecation ...` to show where the warning was created)",
+      "(node:34784) [DEP0174] DeprecationWarning: Calling promisify on a function that returns a Promise is likely a mistake.",
+      "(Use `node --trace-deprecation ...` to show where the warning was created)"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [
