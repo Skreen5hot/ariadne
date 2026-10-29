@@ -34,3 +34,15 @@ a new run id), and this file records why the old one was abandoned.
 | `timing` | before any output was seen; before any annotation began |
 | `affects` | The independent annotator never saw the examples. Aaron saw them while testing the tool. At adjudication, his annotations of those two considerations are flagged as possibly prompted. No arm prompt contained the examples. |
 | `run` | none |
+
+### D-2 (2026-10-29): the second rater is a model, ChatGPT GPT-5.6-sol
+
+| Field | Value |
+| --- | --- |
+| `date` | 2026-10-29 |
+| `by` | Aaron Damiano |
+| `what` | The second rater of PREREG §3.2 (O-4), who codes the pre-registered stratified 25% sample (30 packets), will be the model ChatGPT GPT-5.6-sol, not a person. It receives the same blinded, randomised packets and the same rating instructions as the primary rater, with no access to the arms, the blind key or the primary rater's file. The exact model identifier and the dates of use are recorded in the results manifest at run time, as §12 requires for the raters. The primary rater remains a human who is not an author of the arms or the gold (§4.1, O-3), and the gold keeps its two human annotators (§3.2). |
+| `why` | The protocol requires the second rater to be independent and not an author of the arms or the gold; it does not require a person. No second human rater is available. The model is chosen outside the Claude family: the generation model is `claude-opus-5` (`config.json`) and may not rate (O-3), and the arms were co-authored with Claude Fable 5.1 (commit `4603aab`). A Claude-family rater would be likely to share the generator's blind spots and inflate agreement. |
+| `timing` | before any output was seen; before any annotation or run |
+| `affects` | Second-rater agreement (§3.2, §5) is reported as agreement between the human primary rater and a model, not as reliability between two human raters, and the report says so. The trigger for a full second rating (§10) is unchanged. No arm, scenario, gold or analysis changes. |
+| `run` | none |
