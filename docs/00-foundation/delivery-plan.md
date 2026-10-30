@@ -103,7 +103,7 @@ a named user. One slice is active at a time (R1).
 | | |
 | --- | --- |
 | **Window** | 2026-10-30 to 2026-11-26 |
-| **User** | Aaron's employer's data team (named in the slice record, not here) |
+| **User** | Aaron's employer's data team, named privately, not in this repository |
 | **Outcome** | A Jira schema is mapped to a realist BFO/CCO model through the Semantic Data Dictionary, exported as RML, and executed by an existing RML engine into a knowledge graph that passes the SDD's SHACL shapes. |
 | **In scope** | SemanticDataDictionary: release verification on a real schema; an RML export module. Schema clean-up, if needed, as a script inside the SDD repository. An off-the-shelf RML engine. |
 | **Out of scope** | A separate normalization service. Building an RML engine or a triple store. Fandaws, HIRI, SAS, BIBSS. |
@@ -127,7 +127,7 @@ a named user. One slice is active at a time (R1).
 | | |
 | --- | --- |
 | **Window** | Opens after Slice 2. Timebox set when it opens; eight weeks is the starting proposal. |
-| **User** | A reader of moral deliberations who did not write the cases, named before the slice opens. |
+| **User** | An academic collaborator who reads the deliberations and did not write the cases. Named privately, not in this repository. |
 | **Outcome** | A moral case goes in as text; a traced, multi-perspective deliberation comes out, recorded in a hash-chained log that an independent verifier accepts. |
 | **Chain** | TagTeam.js (read the situation) → ValueNet (name the values at stake) → Integral Ethics Agent, as shaped by the E-PC verdict (deliberate) → hash-chained log checked by FNSR_ChainVerifier (account for it). |
 | **Stubbed** | Self-Model, Commitment Tracking, Affective Valence, Narrative Identity, Social Modeling, Governance, Fandaws, HIRI privacy, and every other service on the path. Each stub has its real interface and returns fixed, hand-written answers. |
@@ -150,7 +150,8 @@ These rules are binding while this plan is in force. "MUST" means the rule is no
 for a later slice may continue.
 
 **R2. A named user.** A slice MUST have a named user before it opens. If no user can be named, the
-slice is the wrong slice and another is chosen.
+slice is the wrong slice and another is chosen. Users are named privately; this repository records
+their role, never their name.
 
 **R3. Done means used.** A slice is done when its named user has used its outcome for a real task.
 Passing tests, finished specifications and green CI are evidence along the way. None of them is done.
