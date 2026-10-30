@@ -8,7 +8,7 @@
 |-----------|-------|
 | **Document ID** | `fnsr-portfolio-plan-v3.6` |
 | **Version** | 3.6.0 |
-| **Status** | ACTIVE |
+| **Status** | ACTIVE for architecture (§3, §4). The phased roadmap (§5) is superseded by `delivery-plan.md` v1.0, ratified 2026-10-30. |
 | **Date** | March 12, 2026 |
 | **Classification** | L1-ATTESTED (Human-validated ground truth) |
 | **Authors** | Aaron / Claude |
