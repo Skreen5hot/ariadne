@@ -1,9 +1,9 @@
 # FNSR Delivery Plan: Slices, Rules, and Why
 
-**Version:** 1.0 (draft for ratification)
+**Version:** 1.0
 **Date:** 2026-10-30
 **Owner:** Aaron Damiano
-**Status:** Draft. In force once Aaron ratifies it (§9).
+**Status:** Ratified 2026-10-30. In force (§9).
 **Supersedes:** the phased roadmap (§5) of Portfolio Planning v3.6. The architecture in that document (§3 and §4: the Minimum Viable Epistemic Loop, the Safety Floor, the Subjectivity Stack) is kept unchanged.
 **Evidence:** `docs/05-evidence-audit/audit.md`, computed from collected evidence on 2026-10-29.
 
@@ -242,6 +242,6 @@ made at ratification.
 
 | Field | Value |
 | --- | --- |
-| Ratified by | |
-| Date | |
-| Amendments at ratification | |
+| Ratified by | Aaron Damiano |
+| Date | 2026-10-30 |
+| Amendments at ratification | None. Before ratification, users were changed to be named privately, never in this repository (R2). |
