@@ -1,33 +1,36 @@
 {
   "ci": {
-    "deploys": false,
-    "on_default_branch": false,
+    "deploys": true,
+    "on_default_branch": true,
     "scheduled": false,
-    "workflows": []
+    "workflows": [
+      "acceptance.yml",
+      "pages.yml"
+    ]
   },
-  "collected_at": "2026-10-28T13:07:28+00:00",
+  "collected_at": "2026-10-29T12:29:39+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
-    "docs": 38,
-    "ontology": 27,
-    "other": 23,
-    "source": 8,
+    "docs": 56,
+    "ontology": 56,
+    "other": 43,
+    "source": 47,
     "top_extensions": {
-      "(none)": 2,
-      ".json": 19,
-      ".jsonld": 27,
-      ".md": 16,
-      ".mjs": 5,
-      ".txt": 22
+      ".cjs": 9,
+      ".json": 34,
+      ".jsonld": 55,
+      ".md": 19,
+      ".mjs": 32,
+      ".txt": 37
     },
-    "total": 96
+    "total": 202
   },
   "gh_pages_branch": false,
   "head": {
-    "date": "2026-10-27T16:22:10-04:00",
-    "sha": "15e3a50b27bcc46034b08d848c2cdc5ca82e137f",
-    "subject": "prop-002 (proposed, not merged): diff, dispositions F50..F66, verification results"
+    "date": "2026-10-28T16:32:21-04:00",
+    "sha": "6686a3f2a8c448f4ae9a803ad8f60ba2928d1230",
+    "subject": "Milestone 4 / OS-1 closed: artifact JSON Schemas and SDD SHACL shapes by the implementer; independent judge (Python json"
   },
   "reachable": true,
   "references": [
@@ -41,8 +44,12 @@
   "run": null,
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
-    "examples": [],
-    "files": 0,
+    "examples": [
+      "src/test/schemas.mjs",
+      "src/test/site.mjs",
+      "src/test/witnesses.mjs"
+    ],
+    "files": 3,
     "runner": "none"
   },
   "toolchain": {

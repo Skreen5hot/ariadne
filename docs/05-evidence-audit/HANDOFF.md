@@ -3,10 +3,12 @@
 Written 2026-10-28 by the Claude session that built the first version. Branch: `evidence-audit`.
 Read this file and README.md before changing anything.
 
-## 0. Status, 2026-10-29: paused
+## 0. Status, 2026-10-29: active, Step 3 (spec mappings) in progress
 
-Aaron chose to spend the next stretch on the E-PC experiment (option A in that session) and to
-pause this audit once the inventory was settled. Done since the first version:
+This audit is the prioritization effort across all FNSR repositories. It is separate from the
+E-PC ethics experiment (`experiments/e-pc/`), which Aaron runs with his own annotators; do not
+merge the two. An earlier note here marked the audit paused in favour of E-PC; that was a
+misreading, corrected the same day. Done since the first version:
 
 - **Sweep run on Aaron's machine.** `gh repo list` returned 94 repositories. Aaron sorted them:
   33 `component` (part of FNSR or content it is built from; BCO and BPO count as content),
@@ -24,11 +26,16 @@ pause this audit once the inventory was settled. Done since the first version:
 - `.gitattributes` keeps `docs/05-evidence-audit/**` at LF, so `render_audit.py --check` holds on
   Windows checkouts.
 
-Still open, for whoever resumes: spec mappings (Step 3) are unproposed, so most specs still read
-L0 because they are unmapped, not because they are unbuilt; four schema-inference engines
-(BIBS, BIBS2, BIBSS3, SchemaService) need one named canonical; and the collector aborts the whole
-run when one `git` call times out (seen on a private repository's `ls-remote`), so it should catch
-`subprocess.TimeoutExpired` per repository and record it as unreachable.
+Step 3 done: Aaron ratified spec mappings for 19 repositories on 2026-10-29 (bases in
+`inventory.yaml`). With them, 47 of 62 buildable specs have no mapped code, and 22 of the 27
+that claim maturity have none. The collector now keeps a repository's earlier evidence when a
+`git` call times out, instead of aborting the run.
+
+Next: Step 2 with `--run` on the mapped components, so levels rest on executed tests; then
+Step 6, the slice. Still open: four schema-inference engines (BIBS, BIBS2, BIBSS3,
+SchemaService) all map to BIBSS and need one named canonical; five repositories carry spec
+documents the index does not list (FNSRBridgeOntology, Graph-Discovery-Engine, Lodestar,
+HIRI-Conversation-Protocol, Fandaws-Sentinel).
 
 ---
 

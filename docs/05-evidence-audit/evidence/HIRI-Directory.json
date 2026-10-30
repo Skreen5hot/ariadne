@@ -7,7 +7,7 @@
       "deploy-pages.yml"
     ]
   },
-  "collected_at": "2026-10-28T11:48:40+00:00",
+  "collected_at": "2026-10-29T11:49:09+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -45,7 +45,23 @@
     }
   ],
   "repo": "HIRI-Directory",
-  "run": null,
+  "run": {
+    "at": "2026-10-29T12:00:15+00:00",
+    "command": "npm run --silent test",
+    "duration_s": 651.7,
+    "exit_code": 124,
+    "note": "$ npm ci -> 0",
+    "outcome": "failed",
+    "sha": "fc4b28654e8c0d14071bcd7897f4a067efefa7eb",
+    "summary": [
+      "  - vinext:react-canary (17%)",
+      "  - vinext:jsx-in-js (8%)",
+      "  - vinext:config (7%)",
+      "  - rsc:use-server (5%)",
+      "See https://rolldown.rs/options/checks#plugintimings for more details.",
+      "\u001b[39m"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [

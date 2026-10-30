@@ -8,7 +8,7 @@
       "deploy-site.yml"
     ]
   },
-  "collected_at": "2026-10-28T13:08:41+00:00",
+  "collected_at": "2026-10-29T12:31:24+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -35,7 +35,23 @@
   "reachable": true,
   "references": [],
   "repo": "SemanticFunctionSchema",
-  "run": null,
+  "run": {
+    "at": "2026-10-29T12:35:51+00:00",
+    "command": "npm run --silent test",
+    "duration_s": 227.5,
+    "exit_code": 0,
+    "note": "$ npm ci -> 0",
+    "outcome": "passed",
+    "sha": "2500762385dcae8436efe002a548768efe944acd",
+    "summary": [
+      "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m10 passed\u001b[39m\u001b[22m\u001b[90m (10)\u001b[39m",
+      "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m313 passed\u001b[39m\u001b[22m\u001b[90m (313)\u001b[39m",
+      "\u001b[2m   Start at \u001b[22m 08:35:23",
+      "\u001b[2m   Duration \u001b[22m 26.42s\u001b[2m (transform 84.90s, setup 2ms, collect 109.46s, tests 1.68s, environment 14ms, prepare 18.23s)\u001b[22m",
+      "(node:8852) [DEP0174] DeprecationWarning: Calling promisify on a function that returns a Promise is likely a mistake.",
+      "(Use `node --trace-deprecation ...` to show where the warning was created)"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [

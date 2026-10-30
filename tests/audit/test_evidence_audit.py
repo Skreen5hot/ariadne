@@ -180,3 +180,11 @@ def test_spec_takes_best_repo(inventory):
     ev = {"a": rec(name="a", tests=0), "b": rec(name="b")}
     level, reps = ea.spec_level("S", inv, ev, TODAY)
     assert level == 3 and len(reps) == 2
+
+
+def test_plain_node_tests_get_a_runner(tmp_path):
+    import collect_evidence as ce
+    tests = ["test/_assert.mjs", "test/M01.test.mjs", "test/M02.test.mjs"]
+    assert ce.detect_runner(tmp_path, tests) == "node-test"
+    assert ce.node_test_files(tests) == ["test/M01.test.mjs", "test/M02.test.mjs"]
+    assert ce.detect_runner(tmp_path, ["docs/notes.md"]) == "none"

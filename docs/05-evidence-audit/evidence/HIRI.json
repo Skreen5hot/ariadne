@@ -7,7 +7,7 @@
       "ci.yml"
     ]
   },
-  "collected_at": "2026-10-28T11:47:38+00:00",
+  "collected_at": "2026-10-29T11:45:59+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -34,7 +34,23 @@
   "reachable": true,
   "references": [],
   "repo": "HIRI",
-  "run": null,
+  "run": {
+    "at": "2026-10-29T11:49:09+00:00",
+    "command": "npm run --silent test",
+    "duration_s": 138.7,
+    "exit_code": 0,
+    "note": "$ npm ci -> 0",
+    "outcome": "passed",
+    "sha": "009c145c9740188fc7a03b19c8ac2079bfe61cdb",
+    "summary": [
+      "  Files: 14/14 passed",
+      "  Tests: 323/323 passed",
+      "(node:51992) [DEP0174] DeprecationWarning: Calling promisify on a function that returns a Promise is likely a mistake.",
+      "(Use `node --trace-deprecation ...` to show where the warning was created)",
+      "(node:55780) [DEP0174] DeprecationWarning: Calling promisify on a function that returns a Promise is likely a mistake.",
+      "(Use `node --trace-deprecation ...` to show where the warning was created)"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [

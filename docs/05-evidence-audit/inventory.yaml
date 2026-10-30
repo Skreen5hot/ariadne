@@ -32,16 +32,16 @@ not_buildable:
 repos:
   - name: BIBS
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["BIBSS (Brain-in-the-Box Schema Service)"]
+    mapping_basis: "README names BIBSS; one of four BIBSS implementations, canonical not yet named; ratified by Aaron 2026-10-29"
   - name: BIBS2
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["BIBSS (Brain-in-the-Box Schema Service)"]
+    mapping_basis: "contains BIBSS-V1.3-SPEC.md; one of four BIBSS implementations, canonical not yet named; ratified by Aaron 2026-10-29"
   - name: BIBSS3
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["BIBSS (Brain-in-the-Box Schema Service)"]
+    mapping_basis: "contains BIBSS-V1.3-SPEC.md; one of four BIBSS implementations, canonical not yet named; ratified by Aaron 2026-10-29"
   - name: BPO-Template-Port
     role: component
     implements: []
@@ -56,28 +56,28 @@ repos:
     mapping_basis: feeds FNSR as ontology content (Aaron, 2026-10-29); no spec-index entry
   - name: chartcraft
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["ECVE (Edge-Canonical Visualization Engine)"]
+    mapping_basis: "contains project/ecve-v2.1-specification.md; builds ECVE v2.1 while the index lists v4.0; ratified by Aaron 2026-10-29"
   - name: EntityResolutionService
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["OERS Specification"]
+    mapping_basis: "README names OERS; documents only; ratified by Aaron 2026-10-29"
   - name: fandaws
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established (private)
+    implements: ["Fandaws"]
+    mapping_basis: "README: the Fact and Answer Web Service, Ontology Building Application; ratified by Aaron 2026-10-29"
   - name: Fandaws-Sentinel
     role: component
     implements: []
     mapping_basis: added by sync_inventory; mapping not yet established
   - name: fanlink
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["Fandaws"]
+    mapping_basis: "description: the instance service of Fandaws; ratified by Aaron 2026-10-29"
   - name: FNSR_ChainVerifier
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["FNSR"]
+    mapping_basis: "description: verifier for FNSR section 11 hash-chained audit logs; covers that section only; ratified by Aaron 2026-10-29"
   - name: FNSRBridgeOntology
     role: component
     implements: []
@@ -88,24 +88,24 @@ repos:
     mapping_basis: added by sync_inventory; mapping not yet established
   - name: HIRI
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["HIRI Protocol Spec"]
+    mapping_basis: "README describes the HIRI protocol; ratified by Aaron 2026-10-29"
   - name: HIRI-Conversation-Protocol
     role: component
     implements: []
     mapping_basis: added by sync_inventory; mapping not yet established
   - name: HIRI-Directory
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["HIRI IPFS Integration"]
+    mapping_basis: "README: reads a HIRI Export Package from IPFS and verifies it locally; ratified by Aaron 2026-10-29"
   - name: HIRI-Passport
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["HIRI Digital Passport Extension"]
+    mapping_basis: "README describes the HIRI Passport; ratified by Aaron 2026-10-29"
   - name: Integral-Ethics-Engine
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["Integral Ethics Agent (IEA = IEE)"]
+    mapping_basis: "README titles it the Integral Ethics Engine (IEE); ratified by Aaron 2026-10-29"
   - name: Ontology-of-Freedom
     role: component
     implements: []
@@ -116,28 +116,28 @@ repos:
     mapping_basis: added by sync_inventory; mapping not yet established
   - name: Sanitization-and-Ingestion-Service
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["SIS Specification"]
+    mapping_basis: "README names SIS; ratified by Aaron 2026-10-29"
   - name: SchemaAlignment
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["SAS (Schema Alignment Service)"]
+    mapping_basis: "name and description only; README and roadmap are unedited template; ratified by Aaron 2026-10-29"
   - name: SchemaService
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["BIBSS (Brain-in-the-Box Schema Service)"]
+    mapping_basis: "contains project/BIBSS-V1.3-SPEC.md; one of four BIBSS implementations, canonical not yet named; ratified by Aaron 2026-10-29"
   - name: SemanticDataDictionary
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["Semantic Data Dictionary"]
+    mapping_basis: "README: Semantic Data Dictionary (SDD); ratified by Aaron 2026-10-29"
   - name: SemanticFunctionSchema
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["SFS"]
+    mapping_basis: "README names SFS; DSFC deliberately not mapped; ratified by Aaron 2026-10-29"
   - name: SemanticNormalization
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["SNP (Semantic Normalization Proxy)"]
+    mapping_basis: "README names SNP; ratified by Aaron 2026-10-29"
   - name: TagTeam.js
     role: component
     implements: ["TagTeam Roadmap", "TagTeam Architecture"]
@@ -152,8 +152,8 @@ repos:
     mapping_basis: value ontology suite cited by the evidence register; no spec-index entry
   - name: worldview-realization-model
     role: component
-    implements: []
-    mapping_basis: added by sync_inventory; mapping not yet established
+    implements: ["Integral Ethics Agent (IEA = IEE)"]
+    mapping_basis: "README: a slice of the Integral Ethics Agent (IEA Architecture v2.1); ratified by Aaron 2026-10-29"
   - name: wrm-e2-independent-library-test
     role: component
     implements: []
