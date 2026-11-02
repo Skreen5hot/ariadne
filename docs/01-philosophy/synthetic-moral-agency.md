@@ -1,5 +1,3 @@
-Please review the new section 0 and if it addresses your concerns. 
-
 # Roadmap to Synthetic Moral Agency (v3.0)
 
 ## Building Conscience Through Accumulated Friction
