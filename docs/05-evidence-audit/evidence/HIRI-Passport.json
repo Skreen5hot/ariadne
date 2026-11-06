@@ -8,7 +8,7 @@
       "pages.yml"
     ]
   },
-  "collected_at": "2026-10-28T11:48:56+00:00",
+  "collected_at": "2026-10-29T12:00:15+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -41,7 +41,23 @@
     }
   ],
   "repo": "HIRI-Passport",
-  "run": null,
+  "run": {
+    "at": "2026-10-29T12:18:16+00:00",
+    "command": "npm run --silent test",
+    "duration_s": 892.5,
+    "exit_code": 1,
+    "note": "$ npm ci -> 0",
+    "outcome": "failed",
+    "sha": "1297b612ba228592346d4d81f63903b550221f63",
+    "summary": [
+      "    171|",
+      "    172|   it(\"preserves well-formed unknown record kinds through unrelated upd\u00e2\u20ac\u00a6",
+      "       |   ^",
+      "    173|     const { coordinator, holder, service } = await fixture();",
+      "    174|     const initial = await service.initialize({ authority: holder.autho\u00e2\u20ac\u00a6",
+      "\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af\u00e2\u017d\u00af[2/2]\u00e2\u017d\u00af"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [

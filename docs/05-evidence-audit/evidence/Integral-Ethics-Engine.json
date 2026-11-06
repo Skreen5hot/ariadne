@@ -7,7 +7,7 @@
       "ci.yml"
     ]
   },
-  "collected_at": "2026-10-28T12:20:51+00:00",
+  "collected_at": "2026-10-29T12:18:17+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -40,7 +40,23 @@
     }
   ],
   "repo": "Integral-Ethics-Engine",
-  "run": null,
+  "run": {
+    "at": "2026-10-29T12:23:06+00:00",
+    "command": "npm run --silent test",
+    "duration_s": 89.5,
+    "exit_code": 1,
+    "note": "$ npm ci -> 0",
+    "outcome": "failed",
+    "sha": "e1c3388ca9271b7e6d826251b9b6a21537949e32",
+    "summary": [
+      "Worldview mathematism not found in worldviewManager, using fallback",
+      "ValueNet files not found, skipping integration test: Should load at least Schwartz 10 basic values",
+      "ValueNet files not found, skipping reset test",
+      "No mapping found for TagTeam value: NonexistentValue",
+      "PhysicalWellbeing mapping not found in loaded mappings",
+      "No mapping found for TagTeam value: UnmappedValue"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [

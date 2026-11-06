@@ -58,6 +58,8 @@ MANIFESTS = {"package.json", "requirements.txt", "pyproject.toml", "setup.py", "
 
 
 def sh(cmd: list[str], cwd: Path | None = None, timeout: int = 600, env: dict | None = None) -> subprocess.CompletedProcess:
+    # On Windows npm is npm.cmd, which CreateProcess will not find from the bare name.
+    cmd = [shutil.which(cmd[0]) or cmd[0], *cmd[1:]]
     return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout,
                           env={**os.environ, **(env or {})}, errors="replace")
 
@@ -126,7 +128,15 @@ def detect_runner(root: Path, tests: list[str]) -> str:
         return "npm"
     if any(t.endswith(".py") for t in tests):
         return "pytest"
+    # Plain Node test files with no package.json script: node --test runs each file and
+    # counts it passed when it exits 0, which is what a hand-rolled assert harness reports.
+    if node_test_files(tests):
+        return "node-test"
     return "none"
+
+
+def node_test_files(tests: list[str]) -> list[str]:
+    return [t for t in tests if re.search(r"[._-]test\.(mjs|cjs|js)$", t)]
 
 
 def ci_facts(root: Path, default_branch: str) -> dict:
@@ -183,7 +193,7 @@ def find_references(root: Path, rels: list[str], self_name: str, others: list[st
     return [{"repo": r, "kind": k, "file": f} for (r, k), f in sorted(found.items())]
 
 
-def run_tests(root: Path, runner: str, sha: str) -> dict | None:
+def run_tests(root: Path, runner: str, sha: str, tests: list[str]) -> dict | None:
     if runner == "none":
         return None
     start = time.time()
@@ -199,6 +209,8 @@ def run_tests(root: Path, runner: str, sha: str) -> dict | None:
                 return finish(["npm", "run", script], r.returncode, start, sha, (r.stdout + r.stderr),
                               "install failed", setup_failure=True)
             cmd = ["npm", "run", "--silent", script]
+        elif runner == "node-test":
+            cmd = ["node", "--test", *node_test_files(tests)]
         else:
             for req in ("requirements.txt", "requirements-dev.txt"):
                 if (root / req).exists():
@@ -270,7 +282,7 @@ def collect(repo: dict, others: list[str], workdir: Path, run: bool) -> dict:
     if evidence_file(name).exists():
         previous = json.loads(evidence_file(name).read_text(encoding="utf-8")).get("run")
     if run:
-        rec["run"] = run_tests(dest, runner, rec["head"]["sha"])
+        rec["run"] = run_tests(dest, runner, rec["head"]["sha"], tests)
     else:
         # Keep an earlier test run only if it is for the same commit; otherwise it no longer
         # describes this code and is dropped rather than carried forward.
@@ -305,7 +317,12 @@ def main(argv: list[str]) -> int:
     try:
         for repo in selected:
             print(f"collecting {repo['name']} ...", flush=True)
-            rec = collect(repo, all_names, workdir, run)
+            try:
+                rec = collect(repo, all_names, workdir, run)
+            except subprocess.TimeoutExpired as e:
+                # A stalled git call says nothing about the repository; keep its earlier record.
+                print(f"  timed out ({' '.join(e.cmd[:2])}); earlier evidence kept", flush=True)
+                continue
             evidence_file(repo["name"]).write_text(json.dumps(rec, indent=2, sort_keys=True) + "\n",
                                                    encoding="utf-8", newline="\n")
             status = "unreachable" if not rec["reachable"] else (

@@ -5,7 +5,7 @@
     "scheduled": false,
     "workflows": []
   },
-  "collected_at": "2026-10-28T11:35:31+00:00",
+  "collected_at": "2026-10-29T11:40:51+00:00",
   "collector_version": "1.0.0",
   "default_branch": "main",
   "files": {
@@ -28,7 +28,23 @@
   "reachable": true,
   "references": [],
   "repo": "BIBSS3",
-  "run": null,
+  "run": {
+    "at": "2026-10-29T11:41:38+00:00",
+    "command": "node --test test/M01.test.mjs test/M02.test.mjs test/M03.test.mjs test/M04.test.mjs test/M05.test.mjs test/M06.test.mjs test/M07.test.mjs test/M08.test.mjs test/M09.test.mjs test/M10.test.mjs test/M11.test.mjs test/M12.test.mjs test/M13.test.mjs test/M14.test.mjs test/M15.test.mjs",
+    "duration_s": 11.7,
+    "exit_code": 0,
+    "note": "",
+    "outcome": "passed",
+    "sha": "d5ce5426a21b740b9cef9f1819ac07e72863fa01",
+    "summary": [
+      "\u00e2\u201e\u00b9 pass 15",
+      "\u00e2\u201e\u00b9 fail 0",
+      "\u00e2\u201e\u00b9 cancelled 0",
+      "\u00e2\u201e\u00b9 skipped 0",
+      "\u00e2\u201e\u00b9 todo 0",
+      "\u00e2\u201e\u00b9 duration_ms 7835.0107"
+    ]
+  },
   "schema": "ariadne-evidence-audit/repo/v1",
   "tests": {
     "examples": [
@@ -39,7 +55,7 @@
       "test/M05.test.mjs"
     ],
     "files": 17,
-    "runner": "none"
+    "runner": "node-test"
   },
   "toolchain": {
     "node_pinned": null,
